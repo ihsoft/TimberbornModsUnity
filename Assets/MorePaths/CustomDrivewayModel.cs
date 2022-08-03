@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Bindito.Core;
-using HarmonyLib;
 using Timberborn.BlockSystem;
 using Timberborn.Buildings;
 using Timberborn.Coordinates;
@@ -10,7 +8,6 @@ using Timberborn.PathSystem;
 using Timberborn.PrefabOptimization;
 using TimberbornAPI.AssetLoaderSystem.AssetSystem;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace MorePaths
 {
@@ -37,16 +34,11 @@ namespace MorePaths
       List<string> drivewayList
     )
     {
-      // drivewayModels.Add(new GameObject());
-      // int index = drivewayModels.Count() - 1;
-      // var model = drivewayModels[index];
       var model = OptimizedPrefabInstantiator.Instantiate(GetModelPrefab(drivewayModel.Driveway, drivewayList), drivewayModel.GetComponent<BuildingModel>().FinishedModel.transform);
       model.transform.localPosition = CoordinateSystem.GridToWorld(BlockCalculations.Pivot(coordinates, direction.ToOrientation()));
       model.transform.localRotation = direction.ToWorldSpaceRotation();
       model.name = drivewayName;
-      Plugin.Log.LogFatal(model.name);
       drivewayModels.Add(model);
-      // Plugin.Log.LogFatal(DrivewayModels.Count().ToString());
     }
 
     public GameObject GetModelPrefab(Driveway driveway, List<string> drivewayList)

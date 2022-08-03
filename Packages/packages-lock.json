@@ -20,7 +20,7 @@
       "dependencies": {
         "com.unity.scriptablebuildpipeline": "1.16.1"
       },
-      "hash": "2a5b139398518048036c3360191d0d8b57ee9aa8"
+      "hash": "b24f1a9beec188c25d02fe31607ef7a4f1a96430"
     },
     "com.unity.collab-proxy": {
       "version": "1.17.1",

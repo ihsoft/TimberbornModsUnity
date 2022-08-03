@@ -1,9 +1,6 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using HarmonyLib;
 using Timberborn.BlockSystem;
 using Timberborn.Coordinates;
 using Timberborn.PathSystem;
@@ -70,39 +67,6 @@ namespace MorePaths
             methodInfo = typeof(DrivewayModel).GetMethod("GetLocalDirection", BindingFlags.NonPublic | BindingFlags.Instance);
             var LocalDirection = (Direction2D)methodInfo.Invoke(instance, parameters);
             
-            
-            // var myCustomDrivewaysGameObjects = _assetLoader.LoadAll<GameObject>(Plugin.PluginGuid, "tobbert_morepaths").Where(obj => obj.GetComponent<CustomDrivewayModel>());
-            // // Plugin.Log.LogInfo(myCustomDriveways.Count());
-            //
-            // foreach (var customDrivewaysGameObject in myCustomDrivewaysGameObjects)
-            // {
-            //     customDrivewaysGameObject.GetComponent<CustomDrivewayModel>().InstantiateModel(instance, LocalCoordinates, LocalDirection);
-            // }
-            
-            
-            
-            // CustomDrivewayModel[] instanceCustomDrivewayModels = instance.GetComponents<CustomDrivewayModel>();
-            //
-            // var i = 0;
-            // foreach (var customDrivewayModel in myCustomDriveways)
-            // {
-            //     Plugin.Log.LogFatal(customDrivewayModel.GetComponent<CustomDrivewayModel>()._longCenterDrivewayPrefab.name);
-            //     instanceCustomDrivewayModels[i].gameObject.AddComponent(customDrivewayModel.GetComponent<CustomDrivewayModel>());
-            //     Plugin.Log.LogFatal(instanceCustomDrivewayModels[i].gameObject.GetComponent<CustomDrivewayModel>()._longCenterDrivewayPrefab.name);
-            //     instanceCustomDrivewayModels[i].GetComponent<CustomDrivewayModel>().InstantiateModel(instance, LocalCoordinates, LocalDirection);
-            //     i += 1;
-            //     // customDrivewayModel.GetComponent<CustomDrivewayModel>().InstantiateModel(instance, LocalCoordinates, LocalDirection);
-            //     // Plugin.Log.LogFatal(customDrivewayModel.GetComponent<CustomDrivewayModel>().InstantiateModel(__));
-            //     // instance.gameObject.AddComponent(customDriveway.GetComponent<CustomDrivewayModel>());
-            // }
-            
-            // var test = instance.GetComponents<CustomDrivewayModel>();
-            // Plugin.Log.LogInfo(instance.name);
-            // foreach (var customDrivewayModel in test)
-            // {
-            //     Plugin.Log.LogFatal(customDrivewayModel.name);
-            // }
-            
             foreach (var customDrivewayPath in _customDrivewayPaths)
             {
                 instance.GetComponent<CustomDrivewayModel>().InstantiateModel(instance, LocalCoordinates, LocalDirection, customDrivewayPath.Name, customDrivewayPath.DrivewayList);
@@ -141,27 +105,16 @@ namespace MorePaths
                             foreach (var tempModel in tempList)
                             {
                                 model.SetActive(false);
-                                Plugin.Log.LogFatal(tempModel.name);
-                                Plugin.Log.LogFatal(path.name.Replace("(Clone)", ""));
                                 tempModel.SetActive(tempModel.name == path.name.Replace("(Clone)", ""));
                             }
-                            
-                            // model.SetActive(false);
-                            
-                            // instanceCustomDrivewayModel.model.SetActive(true);
-                            
-                            // model.SetActive(false);
-                            // instance.GetComponent<CustomDrivewayModel>().model.SetActive(true);
                         }
                     }
                 }
                 else
                 {
-                    Plugin.Log.LogFatal(instance.GetComponent<CustomDrivewayModel>().drivewayModels);
                     var tempList = instance.GetComponent<CustomDrivewayModel>().drivewayModels;
                     foreach (var tempModel in tempList)
                     {
-                        Plugin.Log.LogFatal(tempModel.name);
                         model.SetActive(false);
                         tempModel.SetActive(false);
                     }

@@ -77,8 +77,6 @@ MonoBehaviour:
     assets:
     - {fileID: 5574067095167738340, guid: 8627ba4fd9dd6cc4f89579861273c8a1, type: 3}
     - {fileID: 5574067095167738340, guid: 3367d308abf575945b6138960f67f666, type: 3}
-    - {fileID: 5574067095167738340, guid: 5f1bb229aa1fb6248b673ad548cbae25, type: 3}
-    - {fileID: 5574067095167738340, guid: 11cbab4d0be5260458513c86be627c1b, type: 3}
 --- !u!114 &7276679206402820566
 MonoBehaviour:
   m_ObjectHideFlags: 0

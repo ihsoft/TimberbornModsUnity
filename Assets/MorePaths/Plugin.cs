@@ -4,7 +4,6 @@ using BepInEx.Logging;
 using HarmonyLib;
 using Timberborn.PathSystem;
 using TimberbornAPI;
-using TimberbornAPI.AssetLoaderSystem.AssetSystem;
 using TimberbornAPI.AssetLoaderSystem.ResourceAssetPatch;
 using TimberbornAPI.Common;
 using UnityEngine;
