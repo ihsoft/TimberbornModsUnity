@@ -4,6 +4,7 @@ using BepInEx.Logging;
 using HarmonyLib;
 using Timberborn.PathSystem;
 using TimberbornAPI;
+using TimberbornAPI.AssetLoaderSystem.AssetSystem;
 using TimberbornAPI.AssetLoaderSystem.ResourceAssetPatch;
 using TimberbornAPI.Common;
 using UnityEngine;
@@ -43,7 +44,7 @@ namespace MorePaths
             {
                 if (obj.GetComponent<MeshRenderer>().materials[0])
                 {
-                    if (obj.GetComponent<MeshRenderer>().materials[0].name == "StonePath(Version 3) (Instance)")
+                    if (obj.GetComponent<MeshRenderer>().materials[0].name == "StonePath(Version 3) (Instance)" | obj.GetComponent<MeshRenderer>().materials[0].name == "MetalPath (Instance)")
                     {
                         shader = Resources.Load<GameObject>("Buildings/Paths/Path/DirtDrivewayStraightPath")
                             .GetComponent<MeshRenderer>().materials[0].shader;

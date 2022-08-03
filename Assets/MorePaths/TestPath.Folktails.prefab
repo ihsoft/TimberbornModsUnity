@@ -122,8 +122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _prefabName: TestPath.Folktails
-  _backwardCompatiblePrefabNames:
-  - DirtPath
+  _backwardCompatiblePrefabNames: []
   _requiredFeatureToggle: 
 --- !u!114 &114912531468909497
 MonoBehaviour:
@@ -252,7 +251,7 @@ MonoBehaviour:
   _displayNameLocKey: Building.Path.DisplayName
   _descriptionLocKey: Building.Path.Description
   _flavorDescriptionLocKey: Building.Path.FlavorDescription
-  _image: {fileID: 21300000, guid: b6db52e734e9a4643b3e7b6bcd8d25f3, type: 3}
+  _image: {fileID: 21300000, guid: 3cc64da8d29e708478afed35412bece8, type: 3}
 --- !u!1 &1941941001230807
 GameObject:
   m_ObjectHideFlags: 0

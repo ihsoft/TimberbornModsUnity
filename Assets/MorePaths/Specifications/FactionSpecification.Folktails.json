@@ -20,6 +20,31 @@
     "tobbert.morepaths/tobbert_morepaths/DirtDrivewayShortCenter_0",
     "tobbert.morepaths/tobbert_morepaths/DirtDrivewayStraightPath_0",
     "tobbert.morepaths/tobbert_morepaths/DirtDrivewayWideCenter_0",
-    "tobbert.morepaths/tobbert_morepaths/DirtDrivewayLongCenter_0"
+    "tobbert.morepaths/tobbert_morepaths/DirtDrivewayLongCenter_0",
+    
+    "tobbert.morepaths/tobbert_morepaths/MetalPath",
+    "tobbert.morepaths/tobbert_morepaths/MetalPath0000_0",
+    "tobbert.morepaths/tobbert_morepaths/MetalPath0010_0",
+    "tobbert.morepaths/tobbert_morepaths/MetalPath0011_0",
+    "tobbert.morepaths/tobbert_morepaths/MetalPath0111_0",
+    "tobbert.morepaths/tobbert_morepaths/MetalPath1010_0",
+    "tobbert.morepaths/tobbert_morepaths/MetalPath1111_0",
+    "tobbert.morepaths/tobbert_morepaths/RoofPath0000.Folktails_0",
+    "tobbert.morepaths/tobbert_morepaths/RoofPath0010.Folktails_0",
+    "tobbert.morepaths/tobbert_morepaths/RoofPath0011.Folktails_0",
+    "tobbert.morepaths/tobbert_morepaths/RoofPath0111.Folktails_0",
+    "tobbert.morepaths/tobbert_morepaths/RoofPath1010.Folktails_0",
+    "tobbert.morepaths/tobbert_morepaths/RoofPath1111.Folktails_0",
+    "tobbert.morepaths/tobbert_morepaths/MetalDrivewayLongCenter_0",
+    "tobbert.morepaths/tobbert_morepaths/MetalDrivewayNarrowCenter_0",
+    "tobbert.morepaths/tobbert_morepaths/MetalDrivewayNarrowLeft_0",
+    "tobbert.morepaths/tobbert_morepaths/MetalDrivewayNarrowRight_0",
+    "tobbert.morepaths/tobbert_morepaths/MetalDrivewayShortCenter_0",
+    "tobbert.morepaths/tobbert_morepaths/MetalDrivewayStraightPath_0",
+    "tobbert.morepaths/tobbert_morepaths/MetalDrivewayWideCenter_0",
+    "tobbert.morepaths/tobbert_morepaths/MetalDrivewayLongCenter_0",
+    
+    "tobbert.morepaths/tobbert_morepaths/StoneDrivewayModel",
+    "tobbert.morepaths/tobbert_morepaths/WoodDrivewayModel"
   ]
 }

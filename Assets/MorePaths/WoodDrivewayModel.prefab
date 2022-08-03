@@ -49,5 +49,5 @@ MonoBehaviour:
   _narrowRightDrivewayPrefab: {fileID: 2522204790440090214, guid: d7c5889364589de4aa9a962fe430e700, type: 3}
   _wideCenterDrivewayPrefab: {fileID: 2522204790440090214, guid: d7c5889364589de4aa9a962fe430e700, type: 3}
   _longCenterDrivewayPrefab: {fileID: 2522204790440090214, guid: d7c5889364589de4aa9a962fe430e700, type: 3}
-  _straightPathDrivewayPrefab: {fileID: 2522204790440090214, guid: d7c5889364589de4aa9a962fe430e700, type: 3}
+  _straightPathDrivewayPrefab: tobbert_morepaths/DirtDrivewayLongCenter_0
   model: {fileID: 0}
