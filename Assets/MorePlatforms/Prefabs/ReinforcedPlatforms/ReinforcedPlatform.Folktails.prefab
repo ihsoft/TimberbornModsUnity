@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 114551265243650174}
   - component: {fileID: 114118868377951077}
   - component: {fileID: 114055428378551116}
-  - component: {fileID: 114480823443074065}
+  - component: {fileID: 6954298445378797275}
   - component: {fileID: 114642755434022609}
   - component: {fileID: 114606268315887578}
   - component: {fileID: 114234498366233429}
@@ -97,7 +97,7 @@ MonoBehaviour:
   _prefabName: ReinforcedPlatform.IronTails
   _backwardCompatiblePrefabNames: []
   _requiredFeatureToggle: 
---- !u!114 &114480823443074065
+--- !u!114 &6954298445378797275
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,7 +106,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1048950310093749}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 898950725, guid: 644c1295076bbdbb604b7f96aa6be9c2, type: 3}
+  m_Script: {fileID: -1604455801, guid: fb0076526bca5246b24d6c818d68ce00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114642755434022609
@@ -128,6 +128,7 @@ MonoBehaviour:
       _occupation: 2
       _stackable: 2
       _optionallyUnderground: 0
+      _occupyAllBelow: 0
   _entrance:
     _hasEntrance: 0
     _coordinates: {x: 0, y: 0, z: 0}

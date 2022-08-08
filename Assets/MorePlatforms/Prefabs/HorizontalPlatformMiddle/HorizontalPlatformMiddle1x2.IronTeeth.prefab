@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 2736483864156717587}
   - component: {fileID: 9097392271342064402}
   - component: {fileID: 6713698176795930}
-  - component: {fileID: 668918330476441707}
+  - component: {fileID: 2272686612154165609}
   - component: {fileID: 1488323438444022846}
   - component: {fileID: 2394822167593493712}
   - component: {fileID: 3353309309229693137}
@@ -160,7 +160,7 @@ MonoBehaviour:
   _prefabName: HorizontalPlatformMiddle1x2.Folktails
   _backwardCompatiblePrefabNames: []
   _requiredFeatureToggle: 
---- !u!114 &668918330476441707
+--- !u!114 &2272686612154165609
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -169,7 +169,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6190661508642916098}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 898950725, guid: 644c1295076bbdbb604b7f96aa6be9c2, type: 3}
+  m_Script: {fileID: -1604455801, guid: fb0076526bca5246b24d6c818d68ce00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1488323438444022846
@@ -191,26 +191,32 @@ MonoBehaviour:
       _occupation: 1
       _stackable: 2
       _optionallyUnderground: 1
+      _occupyAllBelow: 0
     - _matterBelow: 3
       _occupation: 0
       _stackable: 2
       _optionallyUnderground: 0
+      _occupyAllBelow: 0
     - _matterBelow: 3
       _occupation: 1
       _stackable: 2
       _optionallyUnderground: 1
+      _occupyAllBelow: 0
     - _matterBelow: 3
       _occupation: 0
       _stackable: 2
       _optionallyUnderground: 0
+      _occupyAllBelow: 0
     - _matterBelow: 3
       _occupation: 1
       _stackable: 2
       _optionallyUnderground: 0
+      _occupyAllBelow: 0
     - _matterBelow: 3
       _occupation: 1
       _stackable: 2
       _optionallyUnderground: 0
+      _occupyAllBelow: 0
   _entrance:
     _hasEntrance: 0
     _coordinates: {x: 0, y: 0, z: 0}

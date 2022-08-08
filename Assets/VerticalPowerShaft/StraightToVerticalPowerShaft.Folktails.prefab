@@ -175,7 +175,6 @@ GameObject:
   - component: {fileID: 9097392271342064402}
   - component: {fileID: 912073379541481980}
   - component: {fileID: 6713698176795930}
-  - component: {fileID: 668918330476441707}
   - component: {fileID: 5574158660608863347}
   - component: {fileID: 2394822167593493712}
   - component: {fileID: 1488323438444022846}
@@ -183,6 +182,7 @@ GameObject:
   - component: {fileID: 5744514069557395283}
   - component: {fileID: 3353309309229693137}
   - component: {fileID: 7119693196506549016}
+  - component: {fileID: 155763399157610513}
   m_Layer: 0
   m_Name: StraightToVerticalPowerShaft.Folktails
   m_TagString: Untagged
@@ -276,18 +276,6 @@ MonoBehaviour:
   _prefabName: StraightToVerticalPowerShaft.Folktails
   _backwardCompatiblePrefabNames: []
   _requiredFeatureToggle: 
---- !u!114 &668918330476441707
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6190661508642916098}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 898950725, guid: 644c1295076bbdbb604b7f96aa6be9c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5574158660608863347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -334,6 +322,7 @@ MonoBehaviour:
       _occupation: 7
       _stackable: 1
       _optionallyUnderground: 0
+      _occupyAllBelow: 0
   _entrance:
     _hasEntrance: 0
     _coordinates: {x: 0, y: 0, z: 0}
@@ -411,6 +400,18 @@ MonoBehaviour:
   _descriptionLocKey: Tobbert.StraightToVerticalPowerShaft.Description
   _flavorDescriptionLocKey: Tobbert.StraightToVerticalPowerShaft.FlavorDiscription
   _image: {fileID: 21300000, guid: b075b21a4f30fdc4086cdceaa3109a56, type: 3}
+--- !u!114 &155763399157610513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6190661508642916098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1604455801, guid: fb0076526bca5246b24d6c818d68ce00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7168431281884234789
 GameObject:
   m_ObjectHideFlags: 0

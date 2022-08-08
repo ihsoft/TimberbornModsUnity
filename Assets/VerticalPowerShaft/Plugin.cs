@@ -11,7 +11,7 @@ namespace VerticalPowerShaft
     {
         public const string PluginGuid = "tobbert.verticalpowershaft";
         public const string PluginName = "Vertical Power Shaft";
-        public const string PluginVersion = "1.0.0";
+        public const string PluginVersion = "1.0.2";
         
         public static ManualLogSource Log;
         

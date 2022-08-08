@@ -300,21 +300,21 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2903549935318728924}
-  - component: {fileID: 1517923032750685226}
   - component: {fileID: 4988155485165522258}
   - component: {fileID: 7666893700891081058}
-  - component: {fileID: 2025762985523264707}
-  - component: {fileID: 4664421367156483436}
-  - component: {fileID: 8945691234874707409}
-  - component: {fileID: 6331125793730149780}
-  - component: {fileID: 3073571275556237791}
-  - component: {fileID: 1390056832932204047}
-  - component: {fileID: 5583521848359494172}
-  - component: {fileID: 8935718534548527812}
   - component: {fileID: 8453096051710749069}
+  - component: {fileID: 1517923032750685226}
+  - component: {fileID: 2025762985523264707}
+  - component: {fileID: 5583521848359494172}
+  - component: {fileID: 1973619423286306593}
+  - component: {fileID: 7926603337161527529}
+  - component: {fileID: 8945691234874707409}
+  - component: {fileID: 1390056832932204047}
+  - component: {fileID: 8935718534548527812}
+  - component: {fileID: 6331125793730149780}
   - component: {fileID: 5106427116597825004}
-  - component: {fileID: 6930780822685564592}
   - component: {fileID: 4490965522773358677}
+  - component: {fileID: 3073571275556237791}
   - component: {fileID: 6596186492954012064}
   m_Layer: 0
   m_Name: Bucket
@@ -340,21 +340,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1517923032750685226
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2522204790440090214}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -788214902, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _prefabName: Bucket
-  _backwardCompatiblePrefabNames: []
-  _requiredFeatureToggle: 
 --- !u!114 &4988155485165522258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -393,6 +378,36 @@ MonoBehaviour:
   _finishedModel: {fileID: 8807385991488461535}
   _unfinishedModel: {fileID: 4741252799394104074}
   _finishedUncoveredModel: {fileID: 0}
+--- !u!114 &8453096051710749069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2522204790440090214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -686023896, guid: bcb85dd25e41826ab5a7dea12cff2430, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _limitedCapacity: 1
+  _capacity: 1
+  _throttledExit: 1
+--- !u!114 &1517923032750685226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2522204790440090214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -788214902, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefabName: Bucket
+  _backwardCompatiblePrefabNames: []
+  _requiredFeatureToggle: 
 --- !u!114 &2025762985523264707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -407,7 +422,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxCapacity: 1
   _whitelistedGoodType: Barrel
---- !u!114 &4664421367156483436
+--- !u!114 &5583521848359494172
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -416,7 +431,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 2522204790440090214}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 898950725, guid: 644c1295076bbdbb604b7f96aa6be9c2, type: 3}
+  m_Script: {fileID: -630110892, guid: 1ae21b0c7c908882e31fedf7e1f7f92c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _inventoryComponentName: Stockpile
+--- !u!114 &1973619423286306593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2522204790440090214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1362434167, guid: 0e822cc0fc83f501e1c55e94dd1f0b21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _target: {fileID: 182493800160071739}
+  _maxHeight: 0.3
+  _good: Water
+  _nonLinearity: 0
+--- !u!114 &7926603337161527529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2522204790440090214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1604455801, guid: fb0076526bca5246b24d6c818d68ce00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &8945691234874707409
@@ -438,11 +482,44 @@ MonoBehaviour:
       _occupation: 0
       _stackable: 0
       _optionallyUnderground: 0
+      _occupyAllBelow: 0
   _entrance:
     _hasEntrance: 1
     _coordinates: {x: 0, y: -1, z: 0}
   _baseZ: 0
   _overridable: 0
+--- !u!114 &1390056832932204047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2522204790440090214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1794062130, guid: 1bd6ccb667024f9c2b77daf7f62a4eed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _localAccess: {x: 0.5, y: 0, z: 0.2}
+  _forceOneFinalAccess: 0
+--- !u!114 &8935718534548527812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2522204790440090214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 9237227, guid: dd1baa4f323651ee41781eb84b2b1960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _slotSpecifications:
+  - _slotKeyword: Seat
+    _animation: Working
+    _inanimate: 0
+    _randomizeYRotation: 0
+    _waterSlot: 0
 --- !u!114 &6331125793730149780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -458,6 +535,35 @@ MonoBehaviour:
   _noAutoWalls: 0
   _generateFloorsOnStackable: 1
   _addedEdges: []
+--- !u!114 &5106427116597825004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2522204790440090214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1066712947, guid: dd1baa4f323651ee41781eb84b2b1960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4490965522773358677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2522204790440090214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1418978883, guid: 4ed0189b1e1d234e361262ab78b6f74b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _driveway: 2
+  _hasCustomCoordinates: 0
+  _customCoordinates: {x: 0, y: 0, z: 0}
+  _customDirection: 0
+  _drivewayMode: 0
 --- !u!114 &3073571275556237791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -477,110 +583,6 @@ MonoBehaviour:
     _hasCustomPivot: 0
     _coordinates: {x: 0, y: 0, z: 0}
   _devModeTool: 0
---- !u!114 &1390056832932204047
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2522204790440090214}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1794062130, guid: 1bd6ccb667024f9c2b77daf7f62a4eed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _localAccess: {x: 0.5, y: 0, z: 0.2}
-  _forceOneFinalAccess: 0
---- !u!114 &5583521848359494172
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2522204790440090214}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -630110892, guid: 1ae21b0c7c908882e31fedf7e1f7f92c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _inventoryComponentName: Stockpile
---- !u!114 &8935718534548527812
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2522204790440090214}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 9237227, guid: dd1baa4f323651ee41781eb84b2b1960, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _slotSpecifications:
-  - _slotKeyword: Seat
-    _animation: Working
-    _inanimate: 0
-    _randomizeYRotation: 0
-    _waterSlot: 0
---- !u!114 &8453096051710749069
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2522204790440090214}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -686023896, guid: bcb85dd25e41826ab5a7dea12cff2430, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _limitedCapacity: 1
-  _capacity: 1
-  _throttledExit: 1
---- !u!114 &5106427116597825004
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2522204790440090214}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1066712947, guid: dd1baa4f323651ee41781eb84b2b1960, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6930780822685564592
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2522204790440090214}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1430682160, guid: 0e822cc0fc83f501e1c55e94dd1f0b21, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _plane: {fileID: 182493800160071739}
-  _maxLevel: 0.3
-  _good: Water
---- !u!114 &4490965522773358677
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2522204790440090214}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1418978883, guid: 4ed0189b1e1d234e361262ab78b6f74b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _driveway: 2
-  _hasCustomCoordinates: 0
-  _customCoordinates: {x: 0, y: 0, z: 0}
-  _customDirection: 0
-  _drivewayMode: 0
 --- !u!114 &6596186492954012064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -596,7 +598,7 @@ MonoBehaviour:
   _displayNameLocKey: Tobbert.Bucket.DisplayName
   _descriptionLocKey: Tobbert.Bucket.Description
   _flavorDescriptionLocKey: Tobbert.Bucket.FlaverDescription
-  _image: {fileID: 21300000, guid: b6db52e734e9a4643b3e7b6bcd8d25f3, type: 3}
+  _image: {fileID: 21300000, guid: 25f6ab55f91e099408aa17f3c9be709e, type: 3}
 --- !u!1 &2631084794782916386
 GameObject:
   m_ObjectHideFlags: 0

@@ -819,8 +819,8 @@ GameObject:
   - component: {fileID: 8822117568416498058}
   - component: {fileID: 3373367071803855519}
   - component: {fileID: -7649065410785155790}
+  - component: {fileID: -7883072406976375245}
   - component: {fileID: 3336333753966047806}
-  - component: {fileID: 4914810747048685916}
   - component: {fileID: 5884080431678456959}
   - component: {fileID: 5829348106573228464}
   - component: {fileID: 5860367570422035011}
@@ -893,6 +893,18 @@ MonoBehaviour:
   _finishedModel: {fileID: 5184050673004077736}
   _unfinishedModel: {fileID: 2498576507983989013}
   _finishedUncoveredModel: {fileID: 983628665446470756}
+--- !u!114 &-7883072406976375245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5574067095167738340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1604455801, guid: fb0076526bca5246b24d6c818d68ce00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3336333753966047806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -908,18 +920,6 @@ MonoBehaviour:
   _prefabName: Ladder
   _backwardCompatiblePrefabNames: []
   _requiredFeatureToggle: 
---- !u!114 &4914810747048685916
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5574067095167738340}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 898950725, guid: 644c1295076bbdbb604b7f96aa6be9c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5884080431678456959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -975,6 +975,7 @@ MonoBehaviour:
       _occupation: 0
       _stackable: 1
       _optionallyUnderground: 0
+      _occupyAllBelow: 0
   _entrance:
     _hasEntrance: 0
     _coordinates: {x: 0, y: 0, z: 0}

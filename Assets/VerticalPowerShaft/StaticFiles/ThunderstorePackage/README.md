@@ -21,6 +21,11 @@ In case you experience problems or have any feedback, message me in the modding 
 
 ## Changelog
 
+### 1.0.2 - 7.8.2022
+
+- Migrated to TimberAPI 0.4.4
+- Fixed buildings not being build. 
+
 ### 1.0.1 - 1.8.2022
 
 - Fixed a bug with entrance not working on top of a vertical power shaft.

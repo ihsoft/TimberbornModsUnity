@@ -11,7 +11,7 @@ namespace Bucket
     {
         public const string PluginGuid = "tobbert.bucket";
         public const string PluginName = "Bucket";
-        public const string PluginVersion = "1.0.1";
+        public const string PluginVersion = "1.0.2";
         
         public static ManualLogSource Log;
         

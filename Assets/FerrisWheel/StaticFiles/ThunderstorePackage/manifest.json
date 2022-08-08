@@ -1,10 +1,10 @@
 {
   "name": "FerrisWheel",
-  "version_number": "1.0.0",
+  "version_number": "1.0.1",
   "website_url": "https://github.com/TobbyTheBobby",
   "description": "A ferris wheel for your beavers to enjoy!",
   "dependencies": [
     "BepInEx-BepInExPack_Timberborn-5.4.19",
-    "Timberborn_Central-TimberAPI-0.4.0"
+    "Timberborn_Central-TimberAPI-0.4.4"
   ]
 }

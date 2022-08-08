@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
 using TimberbornAPI;
 using TimberbornAPI.Common;
-using UnityEngine;
-using Timberborn.Navigation;
 
 namespace Ladder
 {
@@ -32,32 +28,32 @@ namespace Ladder
         }
     }
     
-    [HarmonyPatch(typeof(PathReconstructor), "TiltingOffset", new Type[] {typeof(List<Vector3>), typeof(int), typeof(int)})]
-    public class Patch
-    {
-       
-        static void Postfix(
-            Vector3 __result,
-            List<Vector3> pathCorners,
-            int startIndex,
-            int endIndex)
-        {
-            Plugin.Log.LogFatal(__result);
-        }
-    }
-    
-    [HarmonyPatch(typeof(PathReconstructor), "ReconstructPath", new Type[] {typeof(IFlowField), typeof(Vector3), typeof(Vector3), typeof(List<Vector3>)})]
-    public class Patch2
-    {
-       
-        static void Postfix(
-            Vector3 __result,
-            IFlowField flowField,
-            Vector3 start,
-            Vector3 destination,
-            List<Vector3> pathCorners)
-        {
-            Plugin.Log.LogFatal(__result);
-        }
-    }
+    // [HarmonyPatch(typeof(PathReconstructor), "TiltingOffset", new Type[] {typeof(List<Vector3>), typeof(int), typeof(int)})]
+    // public class Patch
+    // {
+    //    
+    //     static void Postfix(
+    //         Vector3 __result,
+    //         List<Vector3> pathCorners,
+    //         int startIndex,
+    //         int endIndex)
+    //     {
+    //         Plugin.Log.LogFatal(__result);
+    //     }
+    // }
+    //
+    // [HarmonyPatch(typeof(PathReconstructor), "ReconstructPath", new Type[] {typeof(IFlowField), typeof(Vector3), typeof(Vector3), typeof(List<Vector3>)})]
+    // public class Patch2
+    // {
+    //    
+    //     static void Postfix(
+    //         Vector3 __result,
+    //         IFlowField flowField,
+    //         Vector3 start,
+    //         Vector3 destination,
+    //         List<Vector3> pathCorners)
+    //     {
+    //         Plugin.Log.LogFatal(__result);
+    //     }
+    // }
 }
