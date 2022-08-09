@@ -1,10 +1,10 @@
 {
   "name": "MorePaths",
-  "version_number": "1.0.0",
+  "version_number": "0.1.0",
   "website_url": "https://github.com/TobbyTheBobby",
-  "description": "More platforms that you can use to make the ultimate vertical city!",
+  "description": "More paths diversify your city and also speedup your beavers.",
   "dependencies": [
     "BepInEx-BepInExPack_Timberborn-5.4.19",
-    "Timberborn_Central-TimberAPI-0.4.3"
+    "Timberborn_Central-TimberAPI-0.4.4"
   ]
 }

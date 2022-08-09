@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 65916269923088052}
   - component: {fileID: 65885762371579186}
   m_Layer: 0
-  m_Name: RoofPath0000
+  m_Name: MetalRoofPath0000.Folktails_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -149,7 +149,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 67994ecbb9674c54f81c354ecfdc795d, type: 2}
+  - {fileID: 2100000, guid: 233598e57b9834f40a1753137f7b7078, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

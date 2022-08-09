@@ -7,28 +7,26 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: StonePath(Version 3)
-  m_Shader: {fileID: 4800000, guid: 4bfb25c155ffd0446bcc236a480d6a72, type: 3}
+  m_Name: MetalRailing
+  m_Shader: {fileID: 4800000, guid: a565c952dc684e6498f0092e5c6f0087, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords:
-  - _ALPHATEST_ON
-  - _MAINUVFROMCOORDINATES_ON
-  - _SPECULARHIGHLIGHTS_OFF
+  - _NORMALMAP
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2998
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _AmbientOcclusion:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 07185583a0f2e8444ad894d90f453b64, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: bf4f277cdd9b4a244b19cb3c2fad2fd0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _CutoutTex:
@@ -64,11 +62,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 723837041cb1a4b4e81573dc9dc9690d, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8ec7f1813e303ee4f964a9968f5eaa14, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: f3c05e756b4897d4a960f93689035346, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NoiseTex:
@@ -100,7 +98,7 @@ Material:
     - _BaseHeight: 0
     - _BumpScale: 1
     - _Cutoff: 0.5
-    - _CutoutWithAlpha: 0
+    - _CutoutWithAlpha: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
@@ -109,18 +107,18 @@ Material:
     - _Grayscale: 0
     - _LightingHue: 0
     - _LightingStrength: 0
-    - _MainTexScale: 0.15
-    - _MainUVFromCoordinates: 1
-    - _MainUVFromCoordinatesScale: 0.7
+    - _MainTexScale: 1
+    - _MainUVFromCoordinates: 0
+    - _MainUVFromCoordinatesScale: 1
     - _Metallic: 0.5
     - _Mode: 1
-    - _NoiseStrength: 0.5
-    - _NoiseTexScale: 2
+    - _NoiseStrength: 1
+    - _NoiseTexScale: 10
     - _Noise_Scale: 0
     - _Noise_Scale_1: 0
     - _OcclusionStrength: 0.5
     - _Parallax: 0.02
-    - _QueueControl: 1
+    - _QueueControl: 0
     - _QueueOffset: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 0
@@ -129,8 +127,8 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor_1: {r: 1, g: 1, b: 1, a: 0}
-    - _Color: {r: 0.75686276, g: 0.6509804, b: 0.4862745, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DetailColor: {r: 0.4716981, g: 0.4342659, b: 0.3982734, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _MainColor: {r: 1, g: 1, b: 1, a: 1}
+    - _MainColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
   m_BuildTextureStacks: []

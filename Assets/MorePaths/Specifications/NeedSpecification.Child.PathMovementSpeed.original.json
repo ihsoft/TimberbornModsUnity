@@ -1,0 +1,28 @@
+{
+  "Id": "PathMovementSpeed",
+  "BackwardCompatibleIds": [],
+  "Order": 100,
+  "NeedGroupId": "Aesthetics",
+  "CharacterType": "BeaverChild",
+  "DisplayNameLocKey": "Tobbert.PathMovementSpeedNeed.DisplaynameLocKey",
+  "StartingValue": 0.0,
+  "MinimumValue": 0.0,
+  "MaximumValue": 1.0,
+  "DailyDelta": -1000.0,
+  "ImportanceMultiplier": 1.0,
+  "CriticalNeedType": {
+    "Value": "None"
+  },
+  "CriticalSpriteName": "",
+  "CriticalDescriptionLocKey": "",
+  "Bonuses": [{
+    "Id": "WalkingSpeed",
+    "MultiplierDelta": 1
+  }],
+  "DeathOnMinValue": false,
+  "DeathMessageLocKey": "",
+  "Effectiveness": 1.0,
+  "Wastable": false,
+  "PositiveWellbeing": 0,
+  "HideWhenInactive": true
+}

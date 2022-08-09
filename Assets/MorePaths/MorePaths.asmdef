@@ -17,7 +17,17 @@
         "Timberborn.PrefabOptimization.dll",
         "Timberborn.Coordinates.dll",
         "Timberborn.Buildings.dll",
-        "Timberborn.BlockSystem.dll"
+        "Timberborn.BlockSystem.dll",
+        "Timberborn.RangedEffectSystem.dll",
+        "Timberborn.RangedEffectSystemUI.dll",
+        "Timberborn.EntityPanelSystem.dll",
+        "Timberborn.BuildingsUI.dll",
+        "Timberborn.BuildingRange.dll",
+        "Timberborn.Effects.dll",
+        "Timberborn.NeedSpecifications.dll",
+        "Timberborn.BlockObjectTools.dll",
+        "Timberborn.PreviewSystem.dll",
+        "Timberborn.TerrainSystem.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

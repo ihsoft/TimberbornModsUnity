@@ -1,12 +1,24 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
+using Timberborn.BlockObjectTools;
+using Timberborn.BuildingRange;
+using Timberborn.BuildingsUI;
+using Timberborn.Effects;
+using Timberborn.EntityPanelSystem;
+using Timberborn.NeedSpecifications;
 using Timberborn.PathSystem;
+using Timberborn.PreviewSystem;
 using TimberbornAPI;
 using TimberbornAPI.AssetLoaderSystem.ResourceAssetPatch;
 using TimberbornAPI.Common;
 using UnityEngine;
+using Timberborn.RangedEffectSystem;
+using Timberborn.TerrainSystem;
 
 namespace MorePaths
 {
@@ -65,9 +77,69 @@ namespace MorePaths
     [HarmonyPatch(typeof(DrivewayModel), "UpdateModel", new Type[] {})]
     public class ChangeDrivewayModelPatch
     {
-        static void Postfix(DrivewayModel __instance, ref GameObject ____model)
+        static void Postfix(DrivewayModel __instance, ref GameObject ____model, ref ITerrainService ____terrainService)
         {
-            TimberAPI.DependencyContainer.GetInstance<MorePathsService>().UpdateAllDriveways(__instance, ____model);
+            TimberAPI.DependencyContainer.GetInstance<MorePathsService>().UpdateAllDriveways(__instance, ____model, ____terrainService);
+        }
+    }
+    
+    [HarmonyPatch(typeof(EffectDescriber), "DescribeRangeEffects", new Type[] {typeof(IEnumerable<ContinuousEffectSpecification>), typeof(StringBuilder), typeof(StringBuilder), typeof(int)})]
+    public class PreventDescriberPatch
+    {
+        static void Prefix(
+            ref IEnumerable<ContinuousEffectSpecification> effects,
+            StringBuilder description,
+            StringBuilder tooltip,
+            int range)
+        {
+            ;
+            foreach (var continuousEffectSpecification in effects)
+            {
+                if ( continuousEffectSpecification.NeedId == "PathMovementSpeed")
+                {
+                    var effectList = effects.ToList(); 
+                    
+                    effectList.Remove(effectList.First(x => continuousEffectSpecification.NeedId == "PathMovementSpeed"));
+                    
+                    IEnumerable<ContinuousEffectSpecification> test = effectList;
+                
+                    effects = test;
+                    
+                }
+            }
+        }
+    }
+    
+    [HarmonyPatch(typeof(RangedEffectBuilding), "RangeNames", new Type[] {})]
+    public class PreventOrangePatch
+    {
+        static void Postfix(ref IEnumerable<string> __result)
+        {
+            foreach (var rangeName in __result)
+            {
+                if (rangeName == "StonePath" | rangeName == "MetalPath")
+                {
+                    __result = Enumerable.Empty<string>();
+                }
+            }
+        }
+    }
+    
+    [HarmonyPatch(typeof(BlockObjectTool), "Enter", new Type[] {})]
+    public class EnterBlockObjectToolPatch
+    {
+        static void Prefix(BlockObjectTool __instance)
+        {
+            TimberAPI.DependencyContainer.GetInstance<MorePathsService>().previewPrefab = __instance.Prefab;
+        }
+    }
+    
+    [HarmonyPatch(typeof(BlockObjectTool), "Exit", new Type[] {})]
+    public class ExitBlockObjectToolPatch
+    {
+        static void Prefix(BlockObjectTool __instance)
+        {
+            TimberAPI.DependencyContainer.GetInstance<MorePathsService>().previewPrefab = null;
         }
     }
 }

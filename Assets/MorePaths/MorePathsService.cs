@@ -1,9 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Bindito.Core;
 using Timberborn.BlockSystem;
+using Timberborn.Buildings;
 using Timberborn.Coordinates;
 using Timberborn.PathSystem;
+using Timberborn.PreviewSystem;
+using Timberborn.TerrainSystem;
 using TimberbornAPI;
 using TimberbornAPI.AssetLoaderSystem.AssetSystem;
 using UnityEngine;
@@ -17,7 +21,7 @@ namespace MorePaths
         private readonly List<CustomDrivewayPath>  _customDrivewayPaths = new List<CustomDrivewayPath>
         {
             new CustomDrivewayPath { 
-                Name="TestPath.Folktails", 
+                Name="StonePath", 
                 DrivewayList = 
                     new List<string>()
                     {      
@@ -44,12 +48,21 @@ namespace MorePaths
 
         private BlockService _blockService;
         private AssetLoader _assetLoader;
+        private IConnectionService _connectionService;
+        
+        object[] parameters = new object[] { };
+        MethodInfo methodInfo;
+
+        public PlaceableBlockObject previewPrefab;
+
         public MorePathsService(
             BlockService blockService,
-            AssetLoader assetLoader)
+            AssetLoader assetLoader,
+            IConnectionService connectionService)
         {
             _blockService = blockService;
             _assetLoader = assetLoader;
+            _connectionService = connectionService;
         }
         
         public class CustomDrivewayPath {
@@ -59,17 +72,12 @@ namespace MorePaths
         
         public void Awake(DrivewayModel instance)
         {
-            var parameters = new object[] { };
-            MethodInfo methodInfo;
-            
-            methodInfo = typeof(DrivewayModel).GetMethod("GetLocalCoordinates", BindingFlags.NonPublic | BindingFlags.Instance);
-            var LocalCoordinates = (Vector3Int)methodInfo.Invoke(instance, parameters);
-            methodInfo = typeof(DrivewayModel).GetMethod("GetLocalDirection", BindingFlags.NonPublic | BindingFlags.Instance);
-            var LocalDirection = (Direction2D)methodInfo.Invoke(instance, parameters);
+            var localCoordinates = GetLocalCoordinates(instance);
+            var localDirection = GetLocalDirection(instance);
             
             foreach (var customDrivewayPath in _customDrivewayPaths)
             {
-                instance.GetComponent<CustomDrivewayModel>().InstantiateModel(instance, LocalCoordinates, LocalDirection, customDrivewayPath.Name, customDrivewayPath.DrivewayList);
+                instance.GetComponent<CustomDrivewayModel>().InstantiateModel(instance, localCoordinates, localDirection, customDrivewayPath.Name, customDrivewayPath.DrivewayList);
             }
 
             /* This code needs to be moved somewhere else, as it now gets called every time a new driveway is initiated. */
@@ -79,9 +87,17 @@ namespace MorePaths
             _pathObjects = timberbornpathObjects.Concat(mypathObjects);
         }
         
-        public void UpdateAllDriveways(DrivewayModel instance, GameObject model)
+        public void UpdateAllDriveways(DrivewayModel instance, GameObject model, ITerrainService terrainService)
         {
             GameObject path = TimberAPI.DependencyContainer.GetInstance<MorePathsService>().GetPath(instance);
+            
+            var direction = GetPositionedDirection(instance);
+            var coordinates = GetPositionedCoordinates(instance);
+            
+            Vector3Int checkObjectCoordinates =  coordinates + direction.ToOffset();
+            bool onGround = terrainService.OnGround(checkObjectCoordinates);
+            
+            var tempList = instance.GetComponent<CustomDrivewayModel>().drivewayModels;
 
             foreach (var pathObject in _pathObjects)
             {
@@ -91,9 +107,9 @@ namespace MorePaths
                     {
                         if (pathObject.name == "Path.Folktails" | pathObject.name == "Path.IronTeeth")
                         {
-                            model.SetActive(true);
                             
-                            var tempList = instance.GetComponent<CustomDrivewayModel>().drivewayModels;
+                            model.SetActive(true & onGround);
+                            
                             foreach (var tempModel in tempList)
                             {
                                 tempModel.SetActive(false);
@@ -101,21 +117,24 @@ namespace MorePaths
                         }
                         else
                         {
-                            var tempList = instance.GetComponent<CustomDrivewayModel>().drivewayModels;
+                            model.SetActive(false);
+                            
                             foreach (var tempModel in tempList)
                             {
-                                model.SetActive(false);
-                                tempModel.SetActive(tempModel.name == path.name.Replace("(Clone)", ""));
+                                var flag1 = tempModel.name == path.name.Replace("(Clone)", "");
+                                var flag2 = path.GetComponent<BlockObject>().Finished;
+                                var enabled = flag1 & flag2 & onGround;
+                                tempModel.SetActive(enabled);
                             }
                         }
                     }
                 }
                 else
                 {
-                    var tempList = instance.GetComponent<CustomDrivewayModel>().drivewayModels;
+                    model.SetActive(false);
+                    
                     foreach (var tempModel in tempList)
                     {
-                        model.SetActive(false);
                         tempModel.SetActive(false);
                     }
                 }
@@ -124,13 +143,8 @@ namespace MorePaths
 
         public GameObject GetPath(DrivewayModel instance)
         {
-            var parameters = new object[] { };
-            MethodInfo methodInfo;
-            
-            methodInfo = typeof(DrivewayModel).GetMethod("GetPositionedDirection", BindingFlags.NonPublic | BindingFlags.Instance);
-            var direction = (Direction2D)methodInfo.Invoke(instance, parameters);
-            methodInfo = typeof(DrivewayModel).GetMethod("GetPositionedCoordinates", BindingFlags.NonPublic | BindingFlags.Instance);
-            var coordinates = (Vector3Int)methodInfo.Invoke(instance, parameters);
+            var direction = GetPositionedDirection(instance);
+            var coordinates = GetPositionedCoordinates(instance);
             
             Vector3Int checkObjectCoordinates =  coordinates + direction.ToOffset();
             IEnumerable<DynamicPathModel> paths = _blockService.GetObjectsWithComponentAt<DynamicPathModel>(checkObjectCoordinates);
@@ -140,6 +154,30 @@ namespace MorePaths
                 return path.gameObject;
             }
             return null;
+        }
+
+        public Direction2D GetPositionedDirection(DrivewayModel instance)
+        {
+            methodInfo = typeof(DrivewayModel).GetMethod("GetPositionedDirection", BindingFlags.NonPublic | BindingFlags.Instance);
+            return (Direction2D)methodInfo.Invoke(instance, parameters);
+        }
+        
+        public Vector3Int GetPositionedCoordinates(DrivewayModel instance)
+        {
+            methodInfo = typeof(DrivewayModel).GetMethod("GetPositionedCoordinates", BindingFlags.NonPublic | BindingFlags.Instance);
+            return (Vector3Int)methodInfo.Invoke(instance, parameters);
+        }
+        
+        public Vector3Int GetLocalCoordinates(DrivewayModel instance)
+        {
+            methodInfo = typeof(DrivewayModel).GetMethod("GetLocalCoordinates", BindingFlags.NonPublic | BindingFlags.Instance);
+            return (Vector3Int)methodInfo.Invoke(instance, parameters);
+        }
+        
+        public Direction2D GetLocalDirection(DrivewayModel instance)
+        {
+            methodInfo = typeof(DrivewayModel).GetMethod("GetLocalDirection", BindingFlags.NonPublic | BindingFlags.Instance);
+            return (Direction2D)methodInfo.Invoke(instance, parameters);
         }
     }
 }

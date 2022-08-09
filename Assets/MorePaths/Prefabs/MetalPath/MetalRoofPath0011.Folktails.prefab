@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 33252212305060548}
   - component: {fileID: 23975719793745965}
   m_Layer: 0
-  m_Name: RoofPath0011.Folktails
+  m_Name: MetalRoofPath0011
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

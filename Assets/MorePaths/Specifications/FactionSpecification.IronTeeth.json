@@ -1,6 +1,6 @@
 {
   "CommonBuildings": [
-    "tobbert.morepaths/tobbert_morepaths/TestPath.Folktails",
+    "tobbert.morepaths/tobbert_morepaths/StonePath",
     "tobbert.morepaths/tobbert_morepaths/DirtPath0000_0",
     "tobbert.morepaths/tobbert_morepaths/DirtPath0010_0",
     "tobbert.morepaths/tobbert_morepaths/DirtPath0011_0",
@@ -29,12 +29,12 @@
     "tobbert.morepaths/tobbert_morepaths/MetalPath0111_0",
     "tobbert.morepaths/tobbert_morepaths/MetalPath1010_0",
     "tobbert.morepaths/tobbert_morepaths/MetalPath1111_0",
-    "tobbert.morepaths/tobbert_morepaths/RoofPath0000.Folktails_0",
-    "tobbert.morepaths/tobbert_morepaths/RoofPath0010.Folktails_0",
-    "tobbert.morepaths/tobbert_morepaths/RoofPath0011.Folktails_0",
-    "tobbert.morepaths/tobbert_morepaths/RoofPath0111.Folktails_0",
-    "tobbert.morepaths/tobbert_morepaths/RoofPath1010.Folktails_0",
-    "tobbert.morepaths/tobbert_morepaths/RoofPath1111.Folktails_0",
+    "tobbert.morepaths/tobbert_morepaths/MetalRoofPath0000.Folktails_0",
+    "tobbert.morepaths/tobbert_morepaths/MetalRoofPath0010.Folktails_0",
+    "tobbert.morepaths/tobbert_morepaths/MetalRoofPath0011.Folktails_0",
+    "tobbert.morepaths/tobbert_morepaths/MetalRoofPath0111.Folktails_0",
+    "tobbert.morepaths/tobbert_morepaths/MetalRoofPath1010.Folktails_0",
+    "tobbert.morepaths/tobbert_morepaths/MetalRoofPath1111.Folktails_0",
     "tobbert.morepaths/tobbert_morepaths/MetalDrivewayLongCenter_0",
     "tobbert.morepaths/tobbert_morepaths/MetalDrivewayNarrowCenter_0",
     "tobbert.morepaths/tobbert_morepaths/MetalDrivewayNarrowLeft_0",
@@ -44,7 +44,8 @@
     "tobbert.morepaths/tobbert_morepaths/MetalDrivewayWideCenter_0",
     "tobbert.morepaths/tobbert_morepaths/MetalDrivewayLongCenter_0",
 
-    "tobbert.morepaths/tobbert_morepaths/StoneDrivewayModel",
-    "tobbert.morepaths/tobbert_morepaths/WoodDrivewayModel"
+  ],
+  "Needs": [
+    "PathMovementSpeed"
   ]
 }
