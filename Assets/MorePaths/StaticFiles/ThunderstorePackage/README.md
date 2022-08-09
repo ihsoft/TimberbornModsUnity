@@ -46,6 +46,10 @@ In case you experience problems, message me in the modding channel of the the [T
 
 ## Changelog
 
-### 0.1.0 - 27.7.2022
+### 0.1.1 - 9.8.2022
+
+- Hotfix.
+
+### 0.1.0 - 9.8.2022
 
 - Released the plugin.

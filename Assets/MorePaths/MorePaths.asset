@@ -145,7 +145,7 @@ MonoBehaviour:
   StagingPaths:
   - <ThunderstorePackage>
   files:
-  - {fileID: 2800000, guid: da499779d4628ad40948e052b456386c, type: 3}
+  - {fileID: 2800000, guid: 4599d4b7df8159a498c5d449dfd3c5e2, type: 3}
   - {fileID: 4900000, guid: 209f2ca0e80a8fd4195217977ea1dcc5, type: 3}
   - {fileID: 4900000, guid: 79e43886b3dd6454da6221468d580a71, type: 3}
 --- !u!114 &9120418034178625098
