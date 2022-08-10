@@ -125,21 +125,22 @@ namespace MorePaths
         }
     }
     
-    [HarmonyPatch(typeof(BlockObjectTool), "Enter", new Type[] {})]
-    public class EnterBlockObjectToolPatch
-    {
-        static void Prefix(BlockObjectTool __instance)
-        {
-            TimberAPI.DependencyContainer.GetInstance<MorePathsService>().previewPrefab = __instance.Prefab;
-        }
-    }
-    
-    [HarmonyPatch(typeof(BlockObjectTool), "Exit", new Type[] {})]
-    public class ExitBlockObjectToolPatch
-    {
-        static void Prefix(BlockObjectTool __instance)
-        {
-            TimberAPI.DependencyContainer.GetInstance<MorePathsService>().previewPrefab = null;
-        }
-    }
+    // THIS HAS A BIG WITH EDITING MAPS AND PLACING DOWN BUILDINGS IN THE EDITOR
+    // [HarmonyPatch(typeof(BlockObjectTool), "Enter", new Type[] {})]
+    // public class EnterBlockObjectToolPatch
+    // {
+    //     static void Prefix(BlockObjectTool __instance)
+    //     {
+    //         TimberAPI.DependencyContainer.GetInstance<MorePathsService>().previewPrefab = __instance.Prefab;
+    //     }
+    // }
+    //
+    // [HarmonyPatch(typeof(BlockObjectTool), "Exit", new Type[] {})]
+    // public class ExitBlockObjectToolPatch
+    // {
+    //     static void Prefix(BlockObjectTool __instance)
+    //     {
+    //         TimberAPI.DependencyContainer.GetInstance<MorePathsService>().previewPrefab = null;
+    //     }
+    // }
 }

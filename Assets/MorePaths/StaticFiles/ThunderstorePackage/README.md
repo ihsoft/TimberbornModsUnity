@@ -43,8 +43,13 @@ In case you experience problems, message me in the modding channel of the the [T
 
 - More Paths
 - Fixing the know limitations
+- Fix some driveways not using the right shaders. (small water tank)
 
 ## Changelog
+
+### 0.1.2 - 10.8.2022
+
+- Fixed a bug that prevented placing buildings in the editor. 
 
 ### 0.1.1 - 9.8.2022
 
