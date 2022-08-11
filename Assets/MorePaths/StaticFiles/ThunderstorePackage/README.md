@@ -47,6 +47,10 @@ In case you experience problems, message me in the modding channel of the the [T
 
 ## Changelog
 
+### 0.1.3 - 11.8.2022
+
+- Fixed a bug that prevented placing down stone path.
+
 ### 0.1.2 - 10.8.2022
 
 - Fixed a bug that prevented placing buildings in the editor. 

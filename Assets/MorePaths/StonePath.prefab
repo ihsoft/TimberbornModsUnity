@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 114520125465223688}
   - component: {fileID: 114798654530964879}
   - component: {fileID: 114912531468909497}
-  - component: {fileID: 114575355944043081}
+  - component: {fileID: 3371465998023148914}
   - component: {fileID: 114073568048578040}
   - component: {fileID: 114667286228125253}
   - component: {fileID: 114255245154744569}
@@ -154,7 +154,7 @@ MonoBehaviour:
   _modelPrefab1111:
     _groundVariant: {fileID: 1934414974581542, guid: 48015668d65bbc94da1d53c01dc72b62, type: 3}
     _roofVariant: {fileID: 1569650450928017, guid: aa69e632dee0c984bb166b29874ccd4d, type: 3}
---- !u!114 &114575355944043081
+--- !u!114 &3371465998023148914
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -163,7 +163,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1591862065154699}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 898950725, guid: 644c1295076bbdbb604b7f96aa6be9c2, type: 3}
+  m_Script: {fileID: -1604455801, guid: fb0076526bca5246b24d6c818d68ce00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114073568048578040
