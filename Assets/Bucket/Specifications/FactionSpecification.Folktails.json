@@ -1,5 +1,5 @@
 {
   "CommonBuildings": [
-    "tobbert.CliffScaffolding/tobbert_bucket/Bucket"
+    "tobbert.bucket/tobbert_bucket/Bucket"
   ]
 }

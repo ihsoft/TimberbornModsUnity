@@ -13,3 +13,6 @@
 
 #### Possible sprite for bucket
 - https://discord.com/channels/@me/1001158776512065598/1004477183336665278
+
+#### Security issue on mac
+- https://discord.com/channels/558398674389172225/888491376143134760/1007010775887532052
