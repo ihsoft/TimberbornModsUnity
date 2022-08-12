@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using Timberborn.BlockObjectTools;
 using Timberborn.BlockSystem;
@@ -19,204 +21,100 @@ using Button = UnityEngine.UI.Button;
 namespace ToolBarCategories
 {
     public class ToolBarCategoriesService
+
     {
-        private AssetLoader _assetLoader;
-        private VisualElementLoader _visualElementLoader;
-        private BlockObjectToolButtonFactory _blockObjectToolButtonFactory;
-        private BlockObjectToolDescriber _blockObjectToolDescriber;
-        private ToolButtonFactory _toolButtonFactory;
-        private OptimizedPrefabInstantiator _optimizedPrefabInstantiator;
+    private AssetLoader _assetLoader;
+    private VisualElementLoader _visualElementLoader;
+    private BlockObjectToolButtonFactory _blockObjectToolButtonFactory;
+    private BlockObjectToolDescriber _blockObjectToolDescriber;
+    private ToolButtonFactory _toolButtonFactory;
+    private DescriptionPanel _descriptionPanel;
 
-        public List<ToolBarCategoryTool> ToolBarCategoryTools = new ();
+    public List<ToolBarCategoryTool> ToolBarCategoryTools = new();
 
-        public VisualElement VisualElement;
+    ToolBarCategoriesService(
+        AssetLoader assetLoader,
+        VisualElementLoader visualElementLoader,
+        BlockObjectToolButtonFactory blockObjectToolButtonFactory,
+        BlockObjectToolDescriber blockObjectToolDescriber,
+        ToolButtonFactory toolButtonFactory,
+        DescriptionPanel descriptionPanel
+    )
+    {
+        _assetLoader = assetLoader;
+        _visualElementLoader = visualElementLoader;
+        _blockObjectToolButtonFactory = blockObjectToolButtonFactory;
+        _blockObjectToolDescriber = blockObjectToolDescriber;
+        _toolButtonFactory = toolButtonFactory;
+        _descriptionPanel = descriptionPanel;
+    }
 
-        ToolBarCategoriesService(
-            AssetLoader assetLoader, 
-            VisualElementLoader visualElementLoader,
-            BlockObjectToolButtonFactory blockObjectToolButtonFactory,
-            BlockObjectToolDescriber blockObjectToolDescriber,
-            ToolButtonFactory toolButtonFactory,
-            OptimizedPrefabInstantiator optimizedPrefabInstantiator)
-        {
-            _assetLoader = assetLoader;
-            _visualElementLoader = visualElementLoader;
-            _blockObjectToolButtonFactory = blockObjectToolButtonFactory;
-            _blockObjectToolDescriber = blockObjectToolDescriber;
-            _toolButtonFactory = toolButtonFactory;
-            _optimizedPrefabInstantiator = optimizedPrefabInstantiator;
-        }
+    public ToolButton CreateFakeToolButton(PlaceableBlockObject blockObject, ToolGroup toolGroup, VisualElement parent,
+        ToolBarCategory toolBarCategory)
+    {
+        ToolBarCategoryTool toolBarCategoryTool = new ToolBarCategoryTool(_blockObjectToolDescriber);
+        toolBarCategoryTool.Initialize(blockObject);
+
+        var visualElement = _visualElementLoader.LoadVisualElement("Common/BottomBar/ToolGroupButton");
+        visualElement.Q<VisualElement>("ToolButtons").name = "SecondToolButtons";
+
+        parent.Add(visualElement.Q<VisualElement>("SecondToolButtons"));
+        var secondToolButtons = parent.Q<VisualElement>("SecondToolButtons");
+        secondToolButtons.name += blockObject.name;
+        secondToolButtons.style.position = Position.Absolute;
+
+        ToolButton button = _toolButtonFactory.Create(toolBarCategoryTool, blockObject.GetComponent<LabeledPrefab>().Image, parent);
+        toolBarCategoryTool.SetToolButton(button, secondToolButtons, toolGroup, toolBarCategory);
+
+        ToolBarCategoryTools.Add(toolBarCategoryTool);
         
-        public GameObject GetObject()
-        {
-            return _assetLoader.Load<GameObject>("tobbert.toolbarcategories/tobbert_toolbarcategories/Test");
-            
-        }
+        return button;
+    }
 
-        public ToolButton CreateFakeToolButton(PlaceableBlockObject blockObject, ToolGroup toolGroup, VisualElement parent, ToolBarCategory toolBarCategory)
-        {
-            ToolBarCategoryTool toolBarCategoryTool = new ToolBarCategoryTool(_blockObjectToolDescriber);
-            toolBarCategoryTool.Initialize(blockObject);
-
-            var visualElement = _visualElementLoader.LoadVisualElement("Common/BottomBar/ToolGroupButton");
-            visualElement.Q<VisualElement>("ToolButtons").name = "SecondToolButtons";
-
-            parent.Add(visualElement.Q<VisualElement>("SecondToolButtons"));
-            var secondToolButtons = parent.Q<VisualElement>("SecondToolButtons");
-            secondToolButtons.style.position = Position.Absolute;
-
-            ToolButton button = _toolButtonFactory.Create(toolBarCategoryTool, blockObject.GetComponent<LabeledPrefab>().Image, parent);
-            toolBarCategoryTool.SetToolButton(button, secondToolButtons, toolGroup, toolBarCategory);
-            
-            ToolBarCategoryTools.Add(toolBarCategoryTool);
-
-            // blockObject = _optimizedPrefabInstantiator.Instantiate(_assetLoader.Load<GameObject>("tobbert.ladder/tobbert_ladder/Ladder.Folktails"), null).GetComponent<PlaceableBlockObject>();
-            //
-            // toolBarCategoryTool = new ToolBarCategoryTool(_blockObjectToolDescriber);
-            // toolBarCategoryTool.Initialize(blockObject);
-            // var SecondWrapperButton = _toolButtonFactory.Create(toolBarCategoryTool, blockObject.GetComponent<LabeledPrefab>().Image, secondToolButtons);
-            // toolBarCategoryTool.SetToolButton(SecondWrapperButton, secondToolButtons, toolGroup);
-            
-            return button;
-        }
-
-        public void TryToAddButtonToCategory(ToolButton toolButton, PlaceableBlockObject placeableBlockObject)
-        {
-            if (placeableBlockObject.TryGetComponent(out Prefab fPrefab))
-            {
-                foreach (var toolBarCategoryTool in ToolBarCategoryTools)
-                {
-                    if (toolBarCategoryTool.ToolBarCategoryComponent.ToolBarButtonNames.Contains(fPrefab.PrefabName))
-                    {
-                        toolBarCategoryTool.VisualElement.Add(toolButton.Root);
-                        toolBarCategoryTool.ToolButtons.Add(toolButton);
-                    }
-                } 
-            }
-        }
-
-        public bool PreventToolSwitch(
-            ToolManager __instance, 
-            Tool currentTool, 
-            Tool newTool, 
-            Tool ____defaultTool, 
-            InputService ____inputService, 
-            EventBus ____eventBus,
-            WaterOpacityToggle ____waterOpacityToggle)
+    public void AddButtonToCategory(ToolButton toolButton, PlaceableBlockObject placeableBlockObject)
+    {
+        Plugin.Log.LogFatal(placeableBlockObject.name);
+        if (placeableBlockObject.TryGetComponent(out Prefab fPrefab))
         {
             foreach (var toolBarCategoryTool in ToolBarCategoryTools)
             {
-                if (currentTool != toolBarCategoryTool) continue;
-                
-                foreach (var toolButton in toolBarCategoryTool.ToolButtons)
+                if (toolBarCategoryTool.ToolBarCategoryComponent.ToolBarButtonNames.Contains(fPrefab.PrefabName))
                 {
-                    if (newTool == toolButton.Tool)
-                    {
-                        if (newTool.Locked || currentTool == newTool)
-                            return true;
-                    
-                        if (currentTool == null)
-                            return true;
-                        // this.ActiveTool.Exit();
-                        currentTool = (Tool) null;
-                        ____inputService.RemoveInputProcessor((IInputProcessor) __instance);
-                        ____eventBus.Post((object) new ToolExitedEvent());
-                        ____waterOpacityToggle.ShowWater();
-                    
-                    
-                        ____inputService.AddInputProcessor((IInputProcessor) __instance);
-                        currentTool = newTool;
-                        newTool.Enter();
-                        ____eventBus.Post((object) new ToolEnteredEvent(newTool, newTool == ____defaultTool));
-                        if (currentTool == ____defaultTool)
-                            return true;
-                        ____waterOpacityToggle.HideWater();
-
-                        return false;
-                        Plugin.Log.LogFatal(currentTool);
-                        Plugin.Log.LogFatal(newTool);
-                    }
+                    toolBarCategoryTool.ToolButtons.Add(toolButton);
                 }
             }
-
-            return true;
         }
+    }
 
-        public void DisableAllCategoryTools(
-            ToolManager __instance, 
-            Tool currentTool, 
-            Tool newTool, 
-            Tool ____defaultTool, 
-            InputService ____inputService, 
-            EventBus ____eventBus,
-            WaterOpacityToggle ____waterOpacityToggle)
-        {
-            if (currentTool == null)
-                return;
-            currentTool.Exit();
-            currentTool = (Tool) null;
-            ____inputService.RemoveInputProcessor((IInputProcessor) __instance);
-            ____eventBus.Post((object) new ToolExitedEvent());
-            ____waterOpacityToggle.ShowWater();
-            
-            foreach (var toolBarCategoryTool in ToolBarCategoryTools)
-            {
-                toolBarCategoryTool.Exit();
-            }
-        }
-
-        private ToolBarCategoryTool _currentlyOpenCategoryTool;
-        public void SaveOrExitCategoryTool(Tool currenTool, Tool newTool, ToolBarCategoryTool categoryTool)
+    public void AddButtonsToCategory()
+    {
+        foreach (var categoryTool in ToolBarCategoryTools)
         {
             foreach (var toolButton in categoryTool.ToolButtons)
             {
-                bool flag1 = categoryTool.ToolButtons.Select(button => button.Tool).Contains(newTool);
-               
-                if (!flag1)
-                    categoryTool.Exit();
-                
-                // bool flag2 = categoryTool.ToolButtons.Select(button => button.Tool).Contains(currenTool);
-                // bool flag3 = ToolBarCategoryTools.Contains(newTool);
-                //
-                // Plugin.Log.LogFatal("flag1: " + flag2 + " flag2: " + flag3);
-                // if (flag2 && flag3)
-                // {
-                //     // currenTool = categoryTool;
-                //     // doNotSkipNext = true;
-                // }
-                    
-                // categoryTool.Exit();
+                Plugin.Log.LogFatal(toolButton.Tool);
+                categoryTool.VisualElement.Add(toolButton.Root);
             }
-            
-            
-            // if (_currentlyOpenCategoryTool == null)
-            // {
-            //     _currentlyOpenCategoryTool = categoryTool;
-            // }
-            // else
-            // {
-            //     foreach (var toolButton in categoryTool.ToolButtons)
-            //     {
-            //         if (currenTool == toolButton.Tool)
-            //             return;
-            //     }
-            //     
-            // }
         }
+    }
 
-        private bool doNotSkipNext = false;
-        
-        public void SetActiveTool(Tool currentTool, Tool oldTool)
+    public void SaveOrExitCategoryTool(Tool currenTool, Tool newTool, ToolBarCategoryTool categoryTool)
+    {
+        foreach (var toolButton in categoryTool.ToolButtons)
         {
-            currentTool = oldTool;
-        }
+            bool flag1 = categoryTool.ToolButtons.Select(button => button.Tool).Contains(newTool);
 
-        public bool ShouldExitToolBeSkipped()
-        {
-            bool skip = doNotSkipNext;
-            doNotSkipNext = false;
-            
-            return skip;
+            if (!flag1)
+                categoryTool.Exit();
         }
+    }
+
+    public void ChangeDescriptionPanel(int height)
+    {
+        FieldInfo type = typeof(DescriptionPanel).GetField("_root", BindingFlags.NonPublic | BindingFlags.Instance);
+        VisualElement value = type.GetValue(_descriptionPanel) as VisualElement;
+        value.style.bottom = height;
+        type.SetValue(_descriptionPanel, value);
+    }
     }
 }

@@ -8,6 +8,7 @@ using Timberborn.BlockSystem;
 using Timberborn.CoreUI;
 using Timberborn.EntitySystem;
 using Timberborn.InputSystem;
+using Timberborn.BottomBarSystem;
 using Timberborn.SingletonSystem;
 using Timberborn.ToolSystem;
 using Timberborn.WaterSystemRendering;
@@ -50,27 +51,13 @@ namespace ToolBarCategories
             VisualElement buttonParent,
             ToolButton __result)
         {
-            GameObject gameObject = TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().GetObject();
-    
-            List<PlaceableBlockObject> list = new List<PlaceableBlockObject>();
-            list.Add(gameObject.GetComponent<PlaceableBlockObject>());
-            
             if (prefab.TryGetComponent(out ToolBarCategory toolBarCategory))
             {
-                // foreach (var blockObject in list)
-                // {
-                //     if (blockObject.UsableWithCurrentFeatureToggles)
-                //     {
-                //         
-                //     }
-                // }
-                
-                __result = TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().CreateFakeToolButton(prefab, (ToolGroup) toolGroup, buttonParent, toolBarCategory);
+                __result = TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().CreateFakeToolButton(prefab, toolGroup, buttonParent, toolBarCategory);
                 return false;
             }
             
             return true;
-            // TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().Show();
         }
         
         static void Postfix(
@@ -80,95 +67,45 @@ namespace ToolBarCategories
             VisualElement buttonParent,
             ToolButton __result)
         {
-            TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().TryToAddButtonToCategory(__result, prefab);
+            TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().AddButtonToCategory(__result, prefab);
+        }
+    }
+    
+    [HarmonyPatch(typeof(BottomBarPanel), "InitializeSections", new Type[] {})]
+    public class ToolGroupFactoryPatch
+    {
+        static void Postfix()
+        {
+            TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().AddButtonsToCategory();
         }
     }
     
     [HarmonyPatch(typeof(ToolManager), "SwitchTool", new Type[] {typeof(Tool)})]
     public class ToolSwitcherPatch
     {
-        static void Prefix(
-            ref ToolManager __instance, 
-            Tool tool, 
-            InputService ____inputService,
-            Tool ____defaultTool, 
-            EventBus ____eventBus,
-            WaterOpacityToggle ____waterOpacityToggle)
+        static void Prefix(ref ToolManager __instance, Tool tool)
         {
-            foreach (var toolBarCategoryTool in TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>()
-                         .ToolBarCategoryTools)
+            foreach (var toolBarCategoryTool in TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().ToolBarCategoryTools)
             {
-                TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>()
-                    .SaveOrExitCategoryTool(__instance.ActiveTool, tool, toolBarCategoryTool);
+                TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().SaveOrExitCategoryTool(__instance.ActiveTool, tool, toolBarCategoryTool);
             }
         }
-        
-        // static bool Prefix(
-        //     ref ToolManager __instance, 
-        //     Tool tool, 
-        //     InputService ____inputService,
-        //     Tool ____defaultTool, 
-        //     EventBus ____eventBus,
-        //     WaterOpacityToggle ____waterOpacityToggle)
-        // {
-        //     if (__instance.ActiveTool != null && __instance.ActiveTool.ToString() == "ToolBarCategories.ToolBarCategoryTool")
-        //     { 
-        //         bool runOriginal = TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().PreventToolSwitch(
-        //             __instance,
-        //             __instance.ActiveTool, 
-        //             tool, 
-        //             ____defaultTool, 
-        //             ____inputService, 
-        //             ____eventBus,
-        //             ____waterOpacityToggle);
-        //         
-        //         Plugin.Log.LogInfo("Toolbar active");
-        //         Plugin.Log.LogInfo("runOriginal: " + runOriginal);
-        //         
-        //         return runOriginal;
-        //     }
-        //     else
-        //     {
-        //         TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().DisableAllCategoryTools(
-        //             __instance,
-        //             __instance.ActiveTool, 
-        //             tool, 
-        //             ____defaultTool, 
-        //             ____inputService, 
-        //             ____eventBus,
-        //             ____waterOpacityToggle);
-        //         return true;
-        //     }
-        // }
-        
-        [HarmonyPatch(typeof(ToolManager), "ExitTool", new Type[] {})]
-        public class ExitToolPatch
+    }
+    
+    [HarmonyPatch(typeof(ToolManager), "ExitTool", new Type[] {})]
+    public class ExitToolPatch
+    {
+        static bool Prefix(ref ToolManager __instance)
         {
-            static bool Prefix(ref ToolManager __instance, ref Tool __state)
+            foreach (var toolBarCategoryTool in TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().ToolBarCategoryTools)
             {
-                foreach (var toolBarCategoryTool in TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().ToolBarCategoryTools)
+                if (__instance.ActiveTool == toolBarCategoryTool)
                 {
-                    if (__instance.ActiveTool == toolBarCategoryTool)
-                    {
-                        __state = __instance.ActiveTool;
-                        
-                        bool runOriginal = TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().ShouldExitToolBeSkipped();
-                        
-                        
-                        return runOriginal;
-                    }
+                    return false;
                 }
-
-                return true;
             }
+
+            return true;
         }
-        
-        // static void Postfix(ref ToolManager __instance, bool __state)
-        // {
-        //     if (__state)
-        //     {
-        //         TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().SetActiveTool(__instance.ActiveTool); 
-        //     }
-        // }
     }
 }

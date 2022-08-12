@@ -3,7 +3,7 @@ using Timberborn.BlockObjectTools;
 using Timberborn.BlockSystem;
 using Timberborn.CoreUI;
 using Timberborn.ToolSystem;
-using UnityEditor.UIElements;
+using TimberbornAPI;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -12,23 +12,20 @@ namespace ToolBarCategories
   public class ToolBarCategoryTool : Tool
   {
     private readonly BlockObjectToolDescriber _blockObjectToolDescriber;
-    // private readonly InputService _inputService;
-    // private readonly BlockObjectPlacerService _blockObjectPlacerService;
-    // private readonly MapEditorMode _mapEditorMode;
-    private int _previewCount;
 
     public PlaceableBlockObject Prefab { get; private set; }
     public ToolButton ToolButton { get; private set; }
     public VisualElement VisualElement { get; private set; }
     public ToolBarCategory ToolBarCategoryComponent { get; private set; }
 
-    public List<ToolButton> ToolButtons = new List<ToolButton>();
+    public List<ToolButton> ToolButtons = new ();
+    public VisualElement Root { get; set; }
 
     public ToolBarCategoryTool(
       BlockObjectToolDescriber blockObjectToolDescriber
       )
     {
-      this._blockObjectToolDescriber = blockObjectToolDescriber;
+      _blockObjectToolDescriber = blockObjectToolDescriber;
     }
 
     public override bool DevModeTool => Prefab.DevModeTool;
@@ -40,6 +37,7 @@ namespace ToolBarCategories
     
     public void SetToolButton(ToolButton toolButton, VisualElement visualElement, ToolGroup toolGroup, ToolBarCategory toolBarCategory)
     {
+      Root = toolButton.Root;
       ToolButton = toolButton;
       VisualElement = visualElement;
       ToolGroup = toolGroup;
@@ -48,14 +46,18 @@ namespace ToolBarCategories
 
     public override void Enter()
     {
-      Plugin.Log.LogFatal("I got called");
+      TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().ChangeDescriptionPanel(60);
+
       var localCoordinates = ToolButton.Root.worldTransform.GetPosition();
-      
-      Plugin.Log.LogFatal(localCoordinates);
-      var localPosition = ToolButton.Root.WorldToLocal(localCoordinates);
-      Plugin.Log.LogFatal(localPosition);
-      localPosition.x -= 2;
-      localPosition.y += 56;
+      // Plugin.Log.LogFatal(localCoordinates);
+      localCoordinates.x = Screen.width / 2 - 2;
+      localCoordinates.x += ((ToolButtons.Count) * 54) / 2 * -1;
+      // localCoordinates.x -= 2;
+      var localPosition = VisualElement.WorldToLocal(localCoordinates);
+      localPosition.y = 56;
+      // localPosition.x =  ((ToolButtons.Count) * 54) / 2 * -1;
+      // localPosition.x -= ((ToolButtons.Count - 1) * 54) / 2;
+      // Plugin.Log.LogFatal(localPosition);
       VisualElement.style.left = localPosition.x;
       VisualElement.style.bottom = localPosition.y;
       VisualElement.ToggleDisplayStyle(true);
@@ -63,7 +65,8 @@ namespace ToolBarCategories
 
     public override void Exit()
     {
-      Plugin.Log.LogFatal("I'm exiting");
+      TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().ChangeDescriptionPanel(0);
+
       VisualElement.ToggleDisplayStyle(false);
     }
 

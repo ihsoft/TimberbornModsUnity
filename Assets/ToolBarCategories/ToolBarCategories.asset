@@ -93,6 +93,7 @@ MonoBehaviour:
   assetBundles:
   - assetBundleName: Tobbert_ToolBarCategories
     assets:
+    - {fileID: 3800120593857243598, guid: ca51b899392e7f44a9ae5276de0c0c95, type: 3}
     - {fileID: 3800120593857243598, guid: 36b3478fb90b208428639dfbc018f6bb, type: 3}
 --- !u!114 &7276679206402820566
 MonoBehaviour:

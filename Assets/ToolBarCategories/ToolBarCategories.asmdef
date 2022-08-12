@@ -20,7 +20,8 @@
         "Timberborn.SingletonSystem.dll",
         "Timberborn.PrefabOptimization.dll",
         "Timberborn.InputSystem.dll",
-        "Timberborn.WaterSystemRendering.dll"
+        "Timberborn.WaterSystemRendering.dll",
+        "Timberborn.BottomBarSystem.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

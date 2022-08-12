@@ -9,13 +9,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2720923307303773628}
+  - component: {fileID: 4583509741324869291}
+  - component: {fileID: -5160003840029529418}
   - component: {fileID: -1354496570168393068}
   - component: {fileID: 970272787121827717}
-  - component: {fileID: -5160003840029529418}
-  - component: {fileID: 4583509741324869291}
   - component: {fileID: -3579356459621308374}
   m_Layer: 0
-  m_Name: Test
+  m_Name: CategoryBridges
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36,6 +36,46 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4583509741324869291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3800120593857243598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -788214902, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefabName: CategoryBridges
+  _backwardCompatiblePrefabNames: []
+  _requiredFeatureToggle: 
+--- !u!114 &-5160003840029529418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3800120593857243598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c7e2ef50f4d0834bb567e09b2c239e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ToolBarButtonNames:
+  - SuspensionBridge1x1.Folktails
+  - SuspensionBridge1x1.IronTeeth
+  - SuspensionBridge2x1.Folktails
+  - SuspensionBridge2x1.IronTeeth
+  - SuspensionBridge3x1.Folktails
+  - SuspensionBridge3x1.IronTeeth
+  - SuspensionBridge4x1.Folktails
+  - SuspensionBridge4x1.IronTeeth
+  - SuspensionBridge5x1.Folktails
+  - SuspensionBridge5x1.IronTeeth
+  - SuspensionBridge6x1.Folktails
+  - SuspensionBridge6x1.IronTeeth
 --- !u!114 &-1354496570168393068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49,7 +89,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _toolGroupId: Paths
-  _toolOrder: 0
+  _toolOrder: 300
   _layout: 0
   _customPivot:
     _hasCustomPivot: 0
@@ -70,38 +110,7 @@ MonoBehaviour:
   _displayNameLocKey: Building.WoodenStairs.DisplayName
   _descriptionLocKey: 
   _flavorDescriptionLocKey: Building.WoodenStairs.FlavorDescription
-  _image: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
---- !u!114 &-5160003840029529418
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3800120593857243598}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c7e2ef50f4d0834bb567e09b2c239e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ToolBarButtonNames:
-  - Ladder
-  - WoodenStairs.Folktails
-  - WoodenStairs.IronTeeth
---- !u!114 &4583509741324869291
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3800120593857243598}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -788214902, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _prefabName: Test
-  _backwardCompatiblePrefabNames: []
-  _requiredFeatureToggle: 
+  _image: {fileID: 21300000, guid: 4c525a631efff574b818d3ef6fe3f95c, type: 3}
 --- !u!114 &-3579356459621308374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,7 +126,7 @@ MonoBehaviour:
   _blocksSpecification:
     _size: {x: 1, y: 1, z: 1}
     _blockSpecifications:
-    - _matterBelow: 0
+    - _matterBelow: 3
       _occupation: 0
       _stackable: 0
       _optionallyUnderground: 0

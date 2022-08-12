@@ -6,6 +6,5 @@ namespace ToolBarCategories
     public class ToolBarCategory : MonoBehaviour
     {
         public List<string> ToolBarButtonNames;
-        
     }
 }
