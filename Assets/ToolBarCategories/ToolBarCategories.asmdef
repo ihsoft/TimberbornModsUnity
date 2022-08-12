@@ -1,0 +1,29 @@
+{
+    "name": "ToolBarCategories",
+    "rootNamespace": "",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "BepInEx.dll",
+        "TimberAPI.dll",
+        "0Harmony.dll",
+        "Bindito.Core.dll",
+        "Timberborn.ToolSystem.dll",
+        "Timberborn.BlockObjectTools.dll",
+        "Timberborn.BlockSystem.dll",
+        "Timberborn.TemplateSystem.dll",
+        "Timberborn.CoreUI.dll",
+        "Timberborn.EntitySystem.dll",
+        "Timberborn.SingletonSystem.dll",
+        "Timberborn.PrefabOptimization.dll",
+        "Timberborn.InputSystem.dll",
+        "Timberborn.WaterSystemRendering.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
