@@ -1,8 +1,8 @@
 {
-  "name": "Bucket",
-  "version_number": "1.0.2",
+  "name": "CategoryButton",
+  "version_number": "1.0.0",
   "website_url": "https://github.com/TobbyTheBobby",
-  "description": "Bucket",
+  "description": "This mod allows for adding a button that holds multiple buttons.",
   "dependencies": [
     "BepInEx-BepInExPack_Timberborn-5.4.19",
     "Timberborn_Central-TimberAPI-0.4.4"

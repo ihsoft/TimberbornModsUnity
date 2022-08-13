@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2720923307303773628}
   - component: {fileID: 4583509741324869291}
-  - component: {fileID: -5160003840029529418}
+  - component: {fileID: -3958630885121123644}
   - component: {fileID: -1354496570168393068}
   - component: {fileID: 970272787121827717}
   - component: {fileID: -3579356459621308374}
@@ -51,7 +51,7 @@ MonoBehaviour:
   _prefabName: CategoryBridges
   _backwardCompatiblePrefabNames: []
   _requiredFeatureToggle: 
---- !u!114 &-5160003840029529418
+--- !u!114 &-3958630885121123644
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,9 +107,9 @@ MonoBehaviour:
   m_Script: {fileID: -296257353, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _displayNameLocKey: Building.WoodenStairs.DisplayName
+  _displayNameLocKey: Tobbert.CategoryBridges.DisplayName
   _descriptionLocKey: 
-  _flavorDescriptionLocKey: Building.WoodenStairs.FlavorDescription
+  _flavorDescriptionLocKey: 
   _image: {fileID: 21300000, guid: 4c525a631efff574b818d3ef6fe3f95c, type: 3}
 --- !u!114 &-3579356459621308374
 MonoBehaviour:

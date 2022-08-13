@@ -7,7 +7,7 @@ using TimberbornAPI;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace ToolBarCategories
+namespace CategoryButton
 {
   public class ToolBarCategoryTool : Tool
   {
@@ -16,27 +16,23 @@ namespace ToolBarCategories
     public PlaceableBlockObject Prefab { get; private set; }
     public ToolButton ToolButton { get; private set; }
     public VisualElement VisualElement { get; private set; }
-    public ToolBarCategory ToolBarCategoryComponent { get; private set; }
+    public CategoryButtonComponent ToolBarCategoryComponent { get; private set; }
 
     public List<ToolButton> ToolButtons = new ();
     public VisualElement Root { get; set; }
+    
+    public bool active { get; set; }
 
-    public ToolBarCategoryTool(
-      BlockObjectToolDescriber blockObjectToolDescriber
-      )
+    public ToolBarCategoryTool(BlockObjectToolDescriber blockObjectToolDescriber)
     {
       _blockObjectToolDescriber = blockObjectToolDescriber;
     }
 
     public override bool DevModeTool => Prefab.DevModeTool;
-
-    public void Initialize(PlaceableBlockObject prefab)
+    
+    public void SetFields(PlaceableBlockObject prefab, ToolButton toolButton, VisualElement visualElement, ToolGroup toolGroup, CategoryButtonComponent toolBarCategory)
     {
       Prefab = prefab;
-    }
-    
-    public void SetToolButton(ToolButton toolButton, VisualElement visualElement, ToolGroup toolGroup, ToolBarCategory toolBarCategory)
-    {
       Root = toolButton.Root;
       ToolButton = toolButton;
       VisualElement = visualElement;
@@ -46,6 +42,8 @@ namespace ToolBarCategories
 
     public override void Enter()
     {
+      active = true;
+      
       TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().ChangeDescriptionPanel(60);
 
       var localCoordinates = ToolButton.Root.worldTransform.GetPosition();
@@ -54,7 +52,7 @@ namespace ToolBarCategories
       localCoordinates.x += ((ToolButtons.Count) * 54) / 2 * -1;
       // localCoordinates.x -= 2;
       var localPosition = VisualElement.WorldToLocal(localCoordinates);
-      localPosition.y = 56;
+      localPosition.y = 58;
       // localPosition.x =  ((ToolButtons.Count) * 54) / 2 * -1;
       // localPosition.x -= ((ToolButtons.Count - 1) * 54) / 2;
       // Plugin.Log.LogFatal(localPosition);
@@ -65,7 +63,8 @@ namespace ToolBarCategories
 
     public override void Exit()
     {
-      TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().ChangeDescriptionPanel(0);
+      if (active) TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().ChangeDescriptionPanel(0);
+      active = false;
 
       VisualElement.ToggleDisplayStyle(false);
     }
@@ -73,7 +72,7 @@ namespace ToolBarCategories
     public override ToolDescription Description()
     {
       ToolDescription.Builder builder = _blockObjectToolDescriber.DescribePrefab(Prefab.GetComponent<PlaceableBlockObject>());
-      // this._blockObjectPlacer.Describe(this.Prefab, builder);
+      // _blockObjectPlacer.Describe(Prefab, builder);
       // if (this.DevModeTool && !this._mapEditorMode.IsMapEditor)
       // {
       //   string str = "<color=#ff0000><b>This is a DevModeTool</b></color>";

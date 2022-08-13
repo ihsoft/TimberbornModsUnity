@@ -1,30 +1,23 @@
 using System;
-using System.Collections.Generic;
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
 using Timberborn.BlockObjectTools;
 using Timberborn.BlockSystem;
-using Timberborn.CoreUI;
-using Timberborn.EntitySystem;
-using Timberborn.InputSystem;
 using Timberborn.BottomBarSystem;
-using Timberborn.SingletonSystem;
 using Timberborn.ToolSystem;
-using Timberborn.WaterSystemRendering;
 using TimberbornAPI;
 using TimberbornAPI.Common;
-using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace ToolBarCategories
+namespace CategoryButton
 {
     [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
     [BepInDependency("com.timberapi.timberapi")]
     public class Plugin : BaseUnityPlugin
     {
-        public const string PluginGuid = "tobbert.toolbarcategories";
-        public const string PluginName = "ToolBarCategories";
+        public const string PluginGuid = "tobbert.categorybutton";
+        public const string PluginName = "CategoryButton";
         public const string PluginVersion = "1.0.0";
         
         public static ManualLogSource Log;
@@ -51,7 +44,7 @@ namespace ToolBarCategories
             VisualElement buttonParent,
             ToolButton __result)
         {
-            if (prefab.TryGetComponent(out ToolBarCategory toolBarCategory))
+            if (prefab.TryGetComponent(out CategoryButtonComponent toolBarCategory))
             {
                 __result = TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().CreateFakeToolButton(prefab, toolGroup, buttonParent, toolBarCategory);
                 return false;
@@ -74,7 +67,7 @@ namespace ToolBarCategories
     [HarmonyPatch(typeof(BottomBarPanel), "InitializeSections", new Type[] {})]
     public class ToolGroupFactoryPatch
     {
-        static void Postfix()
+        static void Postfix(BottomBarPanel __instance, VisualElement ____mainElements, VisualElement ____subElements)
         {
             TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().AddButtonsToCategory();
         }
@@ -85,10 +78,7 @@ namespace ToolBarCategories
     {
         static void Prefix(ref ToolManager __instance, Tool tool)
         {
-            foreach (var toolBarCategoryTool in TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().ToolBarCategoryTools)
-            {
-                TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().SaveOrExitCategoryTool(__instance.ActiveTool, tool, toolBarCategoryTool);
-            }
+            TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().SaveOrExitCategoryTool(__instance.ActiveTool, tool);
         }
     }
     

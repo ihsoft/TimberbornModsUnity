@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ToolBarCategories
+namespace CategoryButton
 {
-    public class ToolBarCategory : MonoBehaviour
+    public class CategoryButtonComponent : MonoBehaviour
     {
         public List<string> ToolBarButtonNames;
     }

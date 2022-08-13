@@ -1,31 +1,20 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
 using Timberborn.BlockObjectTools;
 using Timberborn.BlockSystem;
 using Timberborn.CoreUI;
 using Timberborn.EntitySystem;
-using Timberborn.InputSystem;
-using Timberborn.PrefabOptimization;
-using Timberborn.SingletonSystem;
 using Timberborn.ToolSystem;
-using Timberborn.WaterSystemRendering;
 using TimberbornAPI;
-using TimberbornAPI.AssetLoaderSystem.AssetSystem;
-using UnityEngine;
 using UnityEngine.UIElements;
-using Button = UnityEngine.UI.Button;
 
-namespace ToolBarCategories
+namespace CategoryButton
 {
     public class ToolBarCategoriesService
 
     {
-    private AssetLoader _assetLoader;
     private VisualElementLoader _visualElementLoader;
-    private BlockObjectToolButtonFactory _blockObjectToolButtonFactory;
     private BlockObjectToolDescriber _blockObjectToolDescriber;
     private ToolButtonFactory _toolButtonFactory;
     private DescriptionPanel _descriptionPanel;
@@ -33,27 +22,21 @@ namespace ToolBarCategories
     public List<ToolBarCategoryTool> ToolBarCategoryTools = new();
 
     ToolBarCategoriesService(
-        AssetLoader assetLoader,
         VisualElementLoader visualElementLoader,
-        BlockObjectToolButtonFactory blockObjectToolButtonFactory,
         BlockObjectToolDescriber blockObjectToolDescriber,
         ToolButtonFactory toolButtonFactory,
         DescriptionPanel descriptionPanel
     )
     {
-        _assetLoader = assetLoader;
         _visualElementLoader = visualElementLoader;
-        _blockObjectToolButtonFactory = blockObjectToolButtonFactory;
         _blockObjectToolDescriber = blockObjectToolDescriber;
         _toolButtonFactory = toolButtonFactory;
         _descriptionPanel = descriptionPanel;
     }
 
-    public ToolButton CreateFakeToolButton(PlaceableBlockObject blockObject, ToolGroup toolGroup, VisualElement parent,
-        ToolBarCategory toolBarCategory)
+    public ToolButton CreateFakeToolButton(PlaceableBlockObject blockObject, ToolGroup toolGroup, VisualElement parent, CategoryButtonComponent toolBarCategory)
     {
         ToolBarCategoryTool toolBarCategoryTool = new ToolBarCategoryTool(_blockObjectToolDescriber);
-        toolBarCategoryTool.Initialize(blockObject);
 
         var visualElement = _visualElementLoader.LoadVisualElement("Common/BottomBar/ToolGroupButton");
         visualElement.Q<VisualElement>("ToolButtons").name = "SecondToolButtons";
@@ -64,7 +47,7 @@ namespace ToolBarCategories
         secondToolButtons.style.position = Position.Absolute;
 
         ToolButton button = _toolButtonFactory.Create(toolBarCategoryTool, blockObject.GetComponent<LabeledPrefab>().Image, parent);
-        toolBarCategoryTool.SetToolButton(button, secondToolButtons, toolGroup, toolBarCategory);
+        toolBarCategoryTool.SetFields(blockObject, button, secondToolButtons, toolGroup, toolBarCategory);
 
         ToolBarCategoryTools.Add(toolBarCategoryTool);
         
@@ -73,7 +56,6 @@ namespace ToolBarCategories
 
     public void AddButtonToCategory(ToolButton toolButton, PlaceableBlockObject placeableBlockObject)
     {
-        Plugin.Log.LogFatal(placeableBlockObject.name);
         if (placeableBlockObject.TryGetComponent(out Prefab fPrefab))
         {
             foreach (var toolBarCategoryTool in ToolBarCategoryTools)
@@ -92,20 +74,22 @@ namespace ToolBarCategories
         {
             foreach (var toolButton in categoryTool.ToolButtons)
             {
-                Plugin.Log.LogFatal(toolButton.Tool);
                 categoryTool.VisualElement.Add(toolButton.Root);
             }
         }
     }
 
-    public void SaveOrExitCategoryTool(Tool currenTool, Tool newTool, ToolBarCategoryTool categoryTool)
+    public void SaveOrExitCategoryTool(Tool currenTool, Tool newTool)
     {
-        foreach (var toolButton in categoryTool.ToolButtons)
+        foreach (var categoryTool in TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().ToolBarCategoryTools)
         {
             bool flag1 = categoryTool.ToolButtons.Select(button => button.Tool).Contains(newTool);
+            bool flag2 = categoryTool == newTool;
 
-            if (!flag1)
+            if (!flag1 || flag2)
+            {
                 categoryTool.Exit();
+            }
         }
     }
 

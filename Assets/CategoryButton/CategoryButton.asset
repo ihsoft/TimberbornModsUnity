@@ -15,8 +15,8 @@ MonoBehaviour:
   StagingPaths:
   - <ManifestPluginStaging>
   Author: Tobbert
-  Name: ToolBarCategories
-  Description: ToolBarCategories
+  Name: CategoryButton
+  Description: CategoryButton
   Version: 1.0.0
   Dependencies: []
 --- !u!114 &-3041366049039997682
@@ -64,7 +64,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e563561e08b6a3642a487177f5cfbb37, type: 3}
-  m_Name: ToolBarCategories
+  m_Name: CategoryButton
   m_EditorClassIdentifier: 
   Data:
   - {fileID: -3931462110823901632}
@@ -91,9 +91,8 @@ MonoBehaviour:
   - <ManifestPluginStaging>/assets
   - <ThunderstorePackage>/<ManifestName>/plugins/assets
   assetBundles:
-  - assetBundleName: Tobbert_ToolBarCategories
+  - assetBundleName: Tobbert_CategoryButton
     assets:
-    - {fileID: 3800120593857243598, guid: ca51b899392e7f44a9ae5276de0c0c95, type: 3}
     - {fileID: 3800120593857243598, guid: 36b3478fb90b208428639dfbc018f6bb, type: 3}
 --- !u!114 &7276679206402820566
 MonoBehaviour:
@@ -110,8 +109,9 @@ MonoBehaviour:
   StagingPaths:
   - <ThunderstorePackage>
   files:
-  - {fileID: 4900000, guid: ae985a5909bde5249bc4cf712674b45a, type: 3}
-  - {fileID: 4900000, guid: 01526c64846aa8448b571d9bb8d78d04, type: 3}
+  - {fileID: 2800000, guid: 5d74ef794380f8d439dd87028611e21b, type: 3}
+  - {fileID: 4900000, guid: 0f87c642760e23c43b5a97954178cea3, type: 3}
+  - {fileID: 4900000, guid: 8b6650e1fb614a749ad8a3967a2af818, type: 3}
 --- !u!114 &9120418034178625098
 MonoBehaviour:
   m_ObjectHideFlags: 0

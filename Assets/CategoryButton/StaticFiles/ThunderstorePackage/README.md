@@ -1,6 +1,6 @@
-# Bucket
+# Category Button
 
-Do you love buckets? NO, don't answer! EVERYONE LOVES BUCKETS. Just bucket bucket bucket. You have to have this bucket mod, so you have buckets all over your game. BUCKEEEEEEEEEEET!!!
+This mod adds the ability for mod makers to add buttons that have multiple buttons. Also groups the bridges in the paths menu. 
 
 ## Disclaimer!
 
@@ -8,7 +8,7 @@ This plugin is currently only supported in the **experimental** version of Timbe
 
 ## How to use
 
-You will find the bucket under the decorations tab. (You WILL notice it)
+You will see what it does in-game!
 
 ## Installing
 
@@ -21,15 +21,6 @@ In case you experience problems, message me in the modding channel of the the [T
 
 ## Changelog
 
-### 1.0.2 - 5.8.2022
-
-- Migrated to TimberAPI 0.4.4
-- Fixed buildings not being build.
-
-### 1.0.1 - 19.7.2022
-
-- Migrated to TimberAPI 0.4.0.
-
-### 1.0.0 - 8.7.2022
+### 1.0.0 - 13.8.2022
 
 - Released the plugin.

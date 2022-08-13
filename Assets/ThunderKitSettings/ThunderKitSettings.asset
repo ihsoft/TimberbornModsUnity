@@ -27,6 +27,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4dd48049486e9ce49bfcb65be4435455, type: 2}
   QuickAccessManifests:
   - {fileID: 11400000, guid: af7eb581fd1b749449e993e98ecc046f, type: 2}
+  - {fileID: 11400000, guid: 34977de843a78df40916ae632b54af0c, type: 2}
   - {fileID: 11400000, guid: a5890e1ec3cc3064bbf76ae9a068cbd3, type: 2}
   - {fileID: 11400000, guid: f060107444b2e2e4ead469094024c0e5, type: 2}
   - {fileID: 11400000, guid: b9b73eebf85f9df488fc243573a756bb, type: 2}
@@ -34,6 +35,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5c529e7d46dfa334fac959bfdcafdc46, type: 2}
   - {fileID: 11400000, guid: 259a651ff690b64479bc0fe58f219530, type: 2}
   - {fileID: 11400000, guid: 4e887fc48136d4f4fa38036beac6da59, type: 2}
-  - {fileID: 11400000, guid: 34977de843a78df40916ae632b54af0c, type: 2}
   - {fileID: 11400000, guid: e43a111cf898e77408e9a61537f2c663, type: 2}
   ImportConfiguration: {fileID: 11400000, guid: 53ed3299b5d399b43a2ab8388582dc61, type: 2}
