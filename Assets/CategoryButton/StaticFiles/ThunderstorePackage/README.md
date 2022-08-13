@@ -21,6 +21,10 @@ In case you experience problems, message me in the modding channel of the the [T
 
 ## Changelog
 
+### 1.0.1 13.8.2022
+
+- Fixed a bug that prevented loading the mod. 
+
 ### 1.0.0 - 13.8.2022
 
 - Released the plugin.

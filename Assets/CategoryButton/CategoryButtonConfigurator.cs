@@ -1,5 +1,4 @@
 using Bindito.Core;
-using TimberbornAPI.AssetLoaderSystem.AssetSystem;
 
 namespace CategoryButton
 {
@@ -8,7 +7,6 @@ namespace CategoryButton
         public void Configure(IContainerDefinition containerDefinition)
         {
             containerDefinition.Bind<ToolBarCategoriesService>().AsSingleton();
-            containerDefinition.Bind<AssetLoader>().AsSingleton();
         }
     }
 }
