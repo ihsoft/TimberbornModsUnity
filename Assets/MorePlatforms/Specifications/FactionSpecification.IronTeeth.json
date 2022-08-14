@@ -8,6 +8,8 @@
     "tobbert.moreplatforms/tobbert_moreplatforms/HorizontalPlatformMiddle1x2.IronTeeth",
     "tobbert.moreplatforms/tobbert_moreplatforms/ReinforcedPlatform.IronTails",
     "tobbert.moreplatforms/tobbert_moreplatforms/DoubleReinforcedPlatform.IronTails",
-    "tobbert.moreplatforms/tobbert_moreplatforms/TripleReinforcedPlatform.IronTails"
+    "tobbert.moreplatforms/tobbert_moreplatforms/TripleReinforcedPlatform.IronTails",
+    "tobbert.moreplatforms/tobbert_moreplatforms/CategorySidePlatforms",
+    "tobbert.moreplatforms/tobbert_moreplatforms/CategoryReinforcedPlatforms"
   ]
 }

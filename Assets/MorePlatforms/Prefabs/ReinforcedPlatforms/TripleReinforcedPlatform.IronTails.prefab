@@ -173,7 +173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _toolGroupId: Paths
   _toolOrder: 712
-  _layout: 2
+  _layout: 1
   _customPivot:
     _hasCustomPivot: 0
     _coordinates: {x: 0, y: 0, z: 0}

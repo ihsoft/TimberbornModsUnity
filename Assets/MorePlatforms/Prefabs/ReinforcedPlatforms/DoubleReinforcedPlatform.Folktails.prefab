@@ -94,8 +94,9 @@ MonoBehaviour:
   m_Script: {fileID: -788214902, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefabName: DoubleReinforcedPlatform.IronTails
-  _backwardCompatiblePrefabNames: []
+  _prefabName: DoubleReinforcedPlatform.Folktails
+  _backwardCompatiblePrefabNames:
+  - DoubleReinforcedPlatform.IronTails
   _requiredFeatureToggle: 
 --- !u!114 &1999542100378686628
 MonoBehaviour:
@@ -168,7 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _toolGroupId: Paths
   _toolOrder: 711
-  _layout: 2
+  _layout: 1
   _customPivot:
     _hasCustomPivot: 0
     _coordinates: {x: 0, y: 0, z: 0}

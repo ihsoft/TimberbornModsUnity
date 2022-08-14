@@ -19,11 +19,12 @@ namespace MorePlatforms
 {
     [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
     [BepInDependency("com.timberapi.timberapi")]
+    [BepInDependency("tobbert.categorybutton")]
     public class Plugin : BaseUnityPlugin
     {
         public const string PluginGuid = "tobbert.moreplatforms";
         public const string PluginName = "More Platforms";
-        public const string PluginVersion = "1.1.2";
+        public const string PluginVersion = "1.2.0";
         
         public static ManualLogSource Log;
         

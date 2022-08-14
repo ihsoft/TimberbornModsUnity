@@ -18,7 +18,8 @@ MonoBehaviour:
   Name: MorePlatforms
   Description: MorePlatforms
   Version: 1.0.0
-  Dependencies: []
+  Dependencies:
+  - {fileID: 11400000, guid: 34977de843a78df40916ae632b54af0c, type: 2}
 --- !u!114 &-3041366049039997682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,6 +112,8 @@ MonoBehaviour:
     - {fileID: 1048950310093749, guid: e7694e2d0cd61794ca2cf3f41891ebf5, type: 3}
     - {fileID: 1048950310093749, guid: e84d3c4838c2a414ebd3cf27efc1cfd0, type: 3}
     - {fileID: 1048950310093749, guid: 778a8e16a46181f4fa0e14c7214b3a95, type: 3}
+    - {fileID: 3800120593857243598, guid: 7c1cb7310be8cf94484a45d31106ab65, type: 3}
+    - {fileID: 3800120593857243598, guid: 042923138dd9693479d0ecf266c0d2f9, type: 3}
 --- !u!114 &7276679206402820566
 MonoBehaviour:
   m_ObjectHideFlags: 0
