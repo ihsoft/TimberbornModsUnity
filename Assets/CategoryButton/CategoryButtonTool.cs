@@ -9,7 +9,7 @@ using UnityEngine.UIElements;
 
 namespace CategoryButton
 {
-  public class ToolBarCategoryTool : Tool
+  public class CategoryButtonTool : Tool
   {
     private readonly BlockObjectToolDescriber _blockObjectToolDescriber;
 
@@ -23,7 +23,7 @@ namespace CategoryButton
     
     public bool active { get; set; }
 
-    public ToolBarCategoryTool(BlockObjectToolDescriber blockObjectToolDescriber)
+    public CategoryButtonTool(BlockObjectToolDescriber blockObjectToolDescriber)
     {
       _blockObjectToolDescriber = blockObjectToolDescriber;
     }
@@ -44,8 +44,9 @@ namespace CategoryButton
     {
       active = true;
       
-      TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().ChangeDescriptionPanel(60);
+      TimberAPI.DependencyContainer.GetInstance<CategoryButtonService>().ChangeDescriptionPanel(60);
 
+      // var localCoordinates = ToolButton.Root.worldTransform.GetPosition();
       var localCoordinates = ToolButton.Root.worldTransform.GetPosition();
       // Plugin.Log.LogFatal(localCoordinates);
       localCoordinates.x = Screen.width / 2 - 2;
@@ -63,7 +64,7 @@ namespace CategoryButton
 
     public override void Exit()
     {
-      if (active) TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().ChangeDescriptionPanel(0);
+      if (active) TimberAPI.DependencyContainer.GetInstance<CategoryButtonService>().ChangeDescriptionPanel(0);
       active = false;
 
       VisualElement.ToggleDisplayStyle(false);

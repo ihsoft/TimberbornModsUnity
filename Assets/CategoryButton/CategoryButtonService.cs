@@ -11,32 +11,31 @@ using UnityEngine.UIElements;
 
 namespace CategoryButton
 {
-    public class ToolBarCategoriesService
+    public class CategoryButtonService
 
     {
-    private VisualElementLoader _visualElementLoader;
-    private BlockObjectToolDescriber _blockObjectToolDescriber;
-    private ToolButtonFactory _toolButtonFactory;
-    private DescriptionPanel _descriptionPanel;
+    private readonly VisualElementLoader _visualElementLoader;
+    private readonly DescriptionPanel _descriptionPanel;
+    public readonly List<CategoryButtonTool> ToolBarCategoryTools = new();
 
-    public List<ToolBarCategoryTool> ToolBarCategoryTools = new();
-
-    ToolBarCategoriesService(
+    CategoryButtonService(
         VisualElementLoader visualElementLoader,
-        BlockObjectToolDescriber blockObjectToolDescriber,
-        ToolButtonFactory toolButtonFactory,
         DescriptionPanel descriptionPanel
     )
     {
         _visualElementLoader = visualElementLoader;
-        _blockObjectToolDescriber = blockObjectToolDescriber;
-        _toolButtonFactory = toolButtonFactory;
         _descriptionPanel = descriptionPanel;
     }
 
-    public ToolButton CreateFakeToolButton(PlaceableBlockObject blockObject, ToolGroup toolGroup, VisualElement parent, CategoryButtonComponent toolBarCategory)
+    public ToolButton CreateFakeToolButton(
+        PlaceableBlockObject blockObject, 
+        ToolGroup toolGroup, 
+        VisualElement parent, 
+        CategoryButtonComponent toolBarCategory, 
+        BlockObjectToolDescriber ____blockObjectToolDescriber, 
+        ToolButtonFactory ____toolButtonFactory)
     {
-        ToolBarCategoryTool toolBarCategoryTool = new ToolBarCategoryTool(_blockObjectToolDescriber);
+        CategoryButtonTool categoryButtonTool = new CategoryButtonTool(____blockObjectToolDescriber);
 
         var visualElement = _visualElementLoader.LoadVisualElement("Common/BottomBar/ToolGroupButton");
         visualElement.Q<VisualElement>("ToolButtons").name = "SecondToolButtons";
@@ -46,10 +45,10 @@ namespace CategoryButton
         secondToolButtons.name += blockObject.name;
         secondToolButtons.style.position = Position.Absolute;
 
-        ToolButton button = _toolButtonFactory.Create(toolBarCategoryTool, blockObject.GetComponent<LabeledPrefab>().Image, parent);
-        toolBarCategoryTool.SetFields(blockObject, button, secondToolButtons, toolGroup, toolBarCategory);
+        ToolButton button = ____toolButtonFactory.Create(categoryButtonTool, blockObject.GetComponent<LabeledPrefab>().Image, parent);
+        categoryButtonTool.SetFields(blockObject, button, secondToolButtons, toolGroup, toolBarCategory);
 
-        ToolBarCategoryTools.Add(toolBarCategoryTool);
+        ToolBarCategoryTools.Add(categoryButtonTool);
         
         return button;
     }
@@ -81,12 +80,13 @@ namespace CategoryButton
 
     public void SaveOrExitCategoryTool(Tool currenTool, Tool newTool)
     {
-        foreach (var categoryTool in TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().ToolBarCategoryTools)
+        foreach (var categoryTool in TimberAPI.DependencyContainer.GetInstance<CategoryButtonService>().ToolBarCategoryTools)
         {
-            bool flag1 = categoryTool.ToolButtons.Select(button => button.Tool).Contains(newTool);
+            bool flag1 = !categoryTool.ToolButtons.Select(button => button.Tool).Contains(newTool);
             bool flag2 = categoryTool == newTool;
+            bool flag3 = currenTool != newTool;
 
-            if (!flag1 || flag2)
+            if ((flag1 || flag2) && flag3)
             {
                 categoryTool.Exit();
             }

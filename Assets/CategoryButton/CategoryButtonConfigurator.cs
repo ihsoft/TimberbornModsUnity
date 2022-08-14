@@ -6,7 +6,7 @@ namespace CategoryButton
     {
         public void Configure(IContainerDefinition containerDefinition)
         {
-            containerDefinition.Bind<ToolBarCategoriesService>().AsSingleton();
+            containerDefinition.Bind<CategoryButtonService>().AsSingleton();
         }
     }
 }

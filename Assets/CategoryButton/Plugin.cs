@@ -18,7 +18,7 @@ namespace CategoryButton
     {
         public const string PluginGuid = "tobbert.categorybutton";
         public const string PluginName = "CategoryButton";
-        public const string PluginVersion = "1.0.0";
+        public const string PluginVersion = "1.0.2";
         
         public static ManualLogSource Log;
         
@@ -30,6 +30,7 @@ namespace CategoryButton
                         
             TimberAPI.AssetRegistry.AddSceneAssets(PluginGuid, SceneEntryPoint.InGame);
             TimberAPI.DependencyRegistry.AddConfigurator(new ToolBarCategoriesConfigurator());
+            TimberAPI.DependencyRegistry.AddConfigurator(new ToolBarCategoriesConfigurator(), SceneEntryPoint.MapEditor);
             new Harmony(PluginGuid).PatchAll();
         }
     }
@@ -42,11 +43,13 @@ namespace CategoryButton
             PlaceableBlockObject prefab,
             ToolGroup toolGroup,
             VisualElement buttonParent,
+            BlockObjectToolDescriber ____blockObjectToolDescriber,
+            ToolButtonFactory ____toolButtonFactory,
             ToolButton __result)
         {
             if (prefab.TryGetComponent(out CategoryButtonComponent toolBarCategory))
             {
-                __result = TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().CreateFakeToolButton(prefab, toolGroup, buttonParent, toolBarCategory);
+                __result = TimberAPI.DependencyContainer.GetInstance<CategoryButtonService>().CreateFakeToolButton(prefab, toolGroup, buttonParent, toolBarCategory, ____blockObjectToolDescriber, ____toolButtonFactory);
                 return false;
             }
             
@@ -60,7 +63,7 @@ namespace CategoryButton
             VisualElement buttonParent,
             ToolButton __result)
         {
-            TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().AddButtonToCategory(__result, prefab);
+            TimberAPI.DependencyContainer.GetInstance<CategoryButtonService>().AddButtonToCategory(__result, prefab);
         }
     }
     
@@ -69,7 +72,7 @@ namespace CategoryButton
     {
         static void Postfix(BottomBarPanel __instance, VisualElement ____mainElements, VisualElement ____subElements)
         {
-            TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().AddButtonsToCategory();
+            TimberAPI.DependencyContainer.GetInstance<CategoryButtonService>().AddButtonsToCategory();
         }
     }
     
@@ -78,7 +81,7 @@ namespace CategoryButton
     {
         static void Prefix(ref ToolManager __instance, Tool tool)
         {
-            TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().SaveOrExitCategoryTool(__instance.ActiveTool, tool);
+            TimberAPI.DependencyContainer.GetInstance<CategoryButtonService>().SaveOrExitCategoryTool(__instance.ActiveTool, tool);
         }
     }
     
@@ -87,7 +90,7 @@ namespace CategoryButton
     {
         static bool Prefix(ref ToolManager __instance)
         {
-            foreach (var toolBarCategoryTool in TimberAPI.DependencyContainer.GetInstance<ToolBarCategoriesService>().ToolBarCategoryTools)
+            foreach (var toolBarCategoryTool in TimberAPI.DependencyContainer.GetInstance<CategoryButtonService>().ToolBarCategoryTools)
             {
                 if (__instance.ActiveTool == toolBarCategoryTool)
                 {
