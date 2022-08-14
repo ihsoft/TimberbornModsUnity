@@ -94,8 +94,9 @@ MonoBehaviour:
   m_Script: {fileID: -788214902, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefabName: ReinforcedPlatform.IronTails
-  _backwardCompatiblePrefabNames: []
+  _prefabName: ReinforcedPlatform.IronTeeth
+  _backwardCompatiblePrefabNames:
+  - ReinforcedPlatform.IronTails
   _requiredFeatureToggle: 
 --- !u!114 &4660768474020973999
 MonoBehaviour:

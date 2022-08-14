@@ -67,7 +67,7 @@ MonoBehaviour:
   - ReinforcedPlatform.Folktails
   - ReinforcedPlatform.IronTeeth
   - DoubleReinforcedPlatform.Folktails
-  - DoubleReinforcedPlatform.IronTails
+  - DoubleReinforcedPlatform.IronTeeth
   - TripleReinforcedPlatform.Folktails
   - TripleReinforcedPlatform.IronTeeth
 --- !u!114 &-1354496570168393068

@@ -44,7 +44,11 @@ In case you experience problems, message me in the modding channel of the the [T
 
 ## Changelog
 
-### 1.2.0 - 13.8.2022
+### 1.2.1 - 14.8.2022
+
+- Fixed a bug that prevented Reinforced Platform buttons to be part of the new Category Button. 
+
+### 1.2.0 - 14.8.2022
 
 - Added a buttons from CategoryButton to optimise the UI. 
 - Updated reinforced platforms to be draggable in a square. 
