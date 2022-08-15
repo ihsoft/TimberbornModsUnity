@@ -33,6 +33,10 @@ In case you experience problems, message me in the modding channel of the the [T
 
 ## Changelog
 
+### 1.0.3 15.8.2022
+
+- Fixed a bug that the place of the group was incorrect on non-native resolutions.
+
 ### 1.0.2 14.8.2022
 
 - Fixed a bug that closed the category window when clicking the category button twice. 

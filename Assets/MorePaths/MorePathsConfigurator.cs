@@ -1,7 +1,6 @@
 using Bindito.Core;
 using Timberborn.PathSystem;
 using Timberborn.TemplateSystem;
-using TimberbornAPI.AssetLoaderSystem.AssetSystem;
 
 namespace MorePaths
 {
@@ -10,7 +9,6 @@ namespace MorePaths
         public void Configure(IContainerDefinition containerDefinition)
         {
             containerDefinition.Bind<MorePathsService>().AsSingleton();
-            containerDefinition.Bind<AssetLoader>().AsSingleton();
             containerDefinition.MultiBind<TemplateModule>().ToProvider(ProvideTemplateModule).AsSingleton();
         }
 

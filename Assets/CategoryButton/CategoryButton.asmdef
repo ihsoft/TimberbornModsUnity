@@ -21,7 +21,10 @@
         "Timberborn.PrefabOptimization.dll",
         "Timberborn.InputSystem.dll",
         "Timberborn.WaterSystemRendering.dll",
-        "Timberborn.BottomBarSystem.dll"
+        "Timberborn.BottomBarSystem.dll",
+        "Timberborn.SettingsSystem.dll",
+        "Timberborn.ScreenSystem.dll",
+        "Timberborn.Core.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

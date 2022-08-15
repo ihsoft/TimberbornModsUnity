@@ -1,6 +1,6 @@
 {
   "name": "CategoryButton",
-  "version_number": "1.0.2",
+  "version_number": "1.0.3",
   "website_url": "https://github.com/TobbyTheBobby",
   "description": "This mod allows for adding a button that holds multiple buttons.",
   "dependencies": [

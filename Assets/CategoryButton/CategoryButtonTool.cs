@@ -4,8 +4,8 @@ using Timberborn.BlockSystem;
 using Timberborn.CoreUI;
 using Timberborn.ToolSystem;
 using TimberbornAPI;
-using UnityEngine;
 using UnityEngine.UIElements;
+using Tool = Timberborn.ToolSystem.Tool;
 
 namespace CategoryButton
 {
@@ -21,7 +21,8 @@ namespace CategoryButton
     public List<ToolButton> ToolButtons = new ();
     public VisualElement Root { get; set; }
     
-    public bool active { get; set; }
+    public bool Active { get; set; }
+    public int ScreenWidth { get; set; }
 
     public CategoryButtonTool(BlockObjectToolDescriber blockObjectToolDescriber)
     {
@@ -42,30 +43,16 @@ namespace CategoryButton
 
     public override void Enter()
     {
-      active = true;
-      
+      Active = true;
       TimberAPI.DependencyContainer.GetInstance<CategoryButtonService>().ChangeDescriptionPanel(60);
-
-      // var localCoordinates = ToolButton.Root.worldTransform.GetPosition();
-      var localCoordinates = ToolButton.Root.worldTransform.GetPosition();
-      // Plugin.Log.LogFatal(localCoordinates);
-      localCoordinates.x = Screen.width / 2 - 2;
-      localCoordinates.x += ((ToolButtons.Count) * 54) / 2 * -1;
-      // localCoordinates.x -= 2;
-      var localPosition = VisualElement.WorldToLocal(localCoordinates);
-      localPosition.y = 58;
-      // localPosition.x =  ((ToolButtons.Count) * 54) / 2 * -1;
-      // localPosition.x -= ((ToolButtons.Count - 1) * 54) / 2;
-      // Plugin.Log.LogFatal(localPosition);
-      VisualElement.style.left = localPosition.x;
-      VisualElement.style.bottom = localPosition.y;
+      TimberAPI.DependencyContainer.GetInstance<CategoryButtonService>().UpdateScreenSize(this);
       VisualElement.ToggleDisplayStyle(true);
     }
 
     public override void Exit()
     {
-      if (active) TimberAPI.DependencyContainer.GetInstance<CategoryButtonService>().ChangeDescriptionPanel(0);
-      active = false;
+      if (Active) TimberAPI.DependencyContainer.GetInstance<CategoryButtonService>().ChangeDescriptionPanel(0);
+      Active = false;
 
       VisualElement.ToggleDisplayStyle(false);
     }

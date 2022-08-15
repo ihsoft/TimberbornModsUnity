@@ -1,10 +1,14 @@
 ID,Text,Comment
+Tobbert.GravelPath.DisplayName,Gravel path,-
+Tobbert.GravelPath.Description,"A different looking path to diversify your city.",-
+Tobbert.GravelPath.FlavorDescription,"Hope my feet won't hurt after walking on this. -- Some beaver",-
+
+Tobbert.StonePath.DisplayName,Stone path,-
+Tobbert.StonePath.Description,"A path that doubles the walking speed of beavers that are on top of it.",-
+Tobbert.StonePath.FlavorDescription,"Fast as ****, boiiiiiii.",-
+
 Tobbert.MetalPath.DisplayName,Metal path,-
 Tobbert.MetalPath.Description,"A path that doubles the walking speed of beavers that are on top of it.",-
 Tobbert.MetalPath.FlavorDescription,"Fast as ****, boiiiiiii.",-
-
-Tobbert.StonePath.DisplayName,Stone path,-
-Tobbert.StonePath.Description,"A different looking path to diversify your city.",-
-Tobbert.StonePath.FlavorDescription,"Hope my feet won't hurt after walking on this. -- Some beaver",-
 
 Tobbert.PathMovementSpeedNeed.DisplaynameLocKey,Metal Path,-

@@ -18,19 +18,43 @@ namespace MorePaths
     public class MorePathsService
     {
         private IEnumerable<Object> _pathObjects;
-        private readonly List<CustomDrivewayPath>  _customDrivewayPaths = new List<CustomDrivewayPath>
+        private readonly List<CustomDrivewayPath>  _customDrivewayPaths = new()
         {
             new CustomDrivewayPath { 
-                Name="StonePath", 
+                Name="BrickPath", 
                 DrivewayList = 
                     new List<string>()
                     {      
-                        "tobbert.morepaths/tobbert_morepaths/DirtDrivewayNarrowLeft_0",
-                        "tobbert.morepaths/tobbert_morepaths/DirtDrivewayNarrowCenter_0",
-                        "tobbert.morepaths/tobbert_morepaths/DirtDrivewayNarrowRight_0",
-                        "tobbert.morepaths/tobbert_morepaths/DirtDrivewayWideCenter_0",
-                        "tobbert.morepaths/tobbert_morepaths/DirtDrivewayLongCenter_0",
-                        "tobbert.morepaths/tobbert_morepaths/DirtDrivewayStraightPath_0"
+                        "tobbert.morepaths/tobbert_morepaths/BrickDrivewayNarrowLeft_0",
+                        "tobbert.morepaths/tobbert_morepaths/BrickDrivewayNarrowCenter_0",
+                        "tobbert.morepaths/tobbert_morepaths/BrickDrivewayNarrowRight_0",
+                        "tobbert.morepaths/tobbert_morepaths/BrickDrivewayWideCenter_0",
+                        "tobbert.morepaths/tobbert_morepaths/BrickDrivewayLongCenter_0",
+                        "tobbert.morepaths/tobbert_morepaths/BrickDrivewayStraightPath_0"
+                    }},
+            new CustomDrivewayPath { 
+                Name="Gravel1Path", 
+                DrivewayList = 
+                    new List<string>()
+                    {      
+                        "tobbert.morepaths/tobbert_morepaths/Gravel1DrivewayNarrowLeft_0",
+                        "tobbert.morepaths/tobbert_morepaths/Gravel1DrivewayNarrowCenter_0",
+                        "tobbert.morepaths/tobbert_morepaths/Gravel1DrivewayNarrowRight_0",
+                        "tobbert.morepaths/tobbert_morepaths/Gravel1DrivewayWideCenter_0",
+                        "tobbert.morepaths/tobbert_morepaths/Gravel1DrivewayLongCenter_0",
+                        "tobbert.morepaths/tobbert_morepaths/Gravel1DrivewayStraightPath_0"
+                    }},
+            new CustomDrivewayPath { 
+                Name="Gravel2Path", 
+                DrivewayList = 
+                    new List<string>()
+                    {      
+                        "tobbert.morepaths/tobbert_morepaths/Gravel2DrivewayNarrowLeft_0",
+                        "tobbert.morepaths/tobbert_morepaths/Gravel2DrivewayNarrowCenter_0",
+                        "tobbert.morepaths/tobbert_morepaths/Gravel2DrivewayNarrowRight_0",
+                        "tobbert.morepaths/tobbert_morepaths/Gravel2DrivewayWideCenter_0",
+                        "tobbert.morepaths/tobbert_morepaths/Gravel2DrivewayLongCenter_0",
+                        "tobbert.morepaths/tobbert_morepaths/Gravel2DrivewayStraightPath_0"
                     }},
             new CustomDrivewayPath { 
                 Name="MetalPath", 
@@ -47,22 +71,15 @@ namespace MorePaths
         };
 
         private BlockService _blockService;
-        private AssetLoader _assetLoader;
-        private IConnectionService _connectionService;
+        private IAssetLoader _assetLoader;
         
-        object[] parameters = new object[] { };
+        object[] parameters = { };
         MethodInfo methodInfo;
 
-        public PlaceableBlockObject previewPrefab;
-
-        public MorePathsService(
-            BlockService blockService,
-            AssetLoader assetLoader,
-            IConnectionService connectionService)
+        public MorePathsService(BlockService blockService, IAssetLoader assetLoader)
         {
             _blockService = blockService;
             _assetLoader = assetLoader;
-            _connectionService = connectionService;
         }
         
         public class CustomDrivewayPath {

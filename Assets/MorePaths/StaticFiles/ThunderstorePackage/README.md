@@ -43,7 +43,6 @@ In case you experience problems, message me in the modding channel of the the [T
 
 - More Paths
 - Fixing the know limitations
-- Fix some driveways not using the right shaders. (small water tank)
 
 ## Changelog
 

@@ -5,14 +5,9 @@ using System.Text;
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
-using Timberborn.BlockObjectTools;
-using Timberborn.BuildingRange;
-using Timberborn.BuildingsUI;
 using Timberborn.Effects;
-using Timberborn.EntityPanelSystem;
 using Timberborn.NeedSpecifications;
 using Timberborn.PathSystem;
-using Timberborn.PreviewSystem;
 using TimberbornAPI;
 using TimberbornAPI.AssetLoaderSystem.ResourceAssetPatch;
 using TimberbornAPI.Common;
@@ -28,7 +23,7 @@ namespace MorePaths
     {
         public const string PluginGuid = "tobbert.morepaths";
         public const string PluginName = "More Paths";
-        public const string PluginVersion = "1.0.0";
+        public const string PluginVersion = "0.1.3";
         
         public static ManualLogSource Log;
 
@@ -55,7 +50,12 @@ namespace MorePaths
             {
                 if (obj.GetComponent<MeshRenderer>().materials[0])
                 {
-                    if (obj.GetComponent<MeshRenderer>().materials[0].name == "StonePath(Version 3) (Instance)" | obj.GetComponent<MeshRenderer>().materials[0].name == "MetalPath (Instance)")
+                    if (
+                        obj.GetComponent<MeshRenderer>().materials[0].name == "Gravel1Path (Instance)" | 
+                        obj.GetComponent<MeshRenderer>().materials[0].name == "Gravel2Path (Instance)" | 
+                        obj.GetComponent<MeshRenderer>().materials[0].name == "MetalPath (Instance)" |
+                        obj.GetComponent<MeshRenderer>().materials[0].name == "BrickPath (Instance)"
+                    )
                     {
                         shader = Resources.Load<GameObject>("Buildings/Paths/Path/DirtDrivewayStraightPath")
                             .GetComponent<MeshRenderer>().materials[0].shader;

@@ -14,13 +14,13 @@ namespace MorePaths
   public class CustomDrivewayModel : MonoBehaviour
   {
     public OptimizedPrefabInstantiator OptimizedPrefabInstantiator;
-    public AssetLoader AssetLoader;
-    public List<GameObject> drivewayModels = new List<GameObject>();
+    public IAssetLoader AssetLoader;
+    public List<GameObject> drivewayModels = new ();
     
     [Inject]
     public void InjectDependencies(
       OptimizedPrefabInstantiator optimizedPrefabInstantiator,
-      AssetLoader assetLoader)
+      IAssetLoader assetLoader)
     {
       OptimizedPrefabInstantiator = optimizedPrefabInstantiator;
       AssetLoader = assetLoader;
@@ -58,7 +58,7 @@ namespace MorePaths
         case Driveway.StraightPath:
           return AssetLoader.Load<GameObject>(drivewayList[5]);
         default:
-          throw new ArgumentOutOfRangeException(nameof (driveway), (object) driveway, (string) null);
+          throw new ArgumentOutOfRangeException(nameof (driveway), driveway, null);
       }
     }
   }

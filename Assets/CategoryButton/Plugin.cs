@@ -101,4 +101,14 @@ namespace CategoryButton
             return true;
         }
     }
+    
+    // [HarmonyPatch(typeof(ScreenSettingsController), "UpdateSettings", new Type[] {})]
+    // public class ScreenSettingsPatch
+    // {
+    //     static void Postfix(ref ScreenSettingsController __instance, ScreenSettings ____screenSettings)
+    //     {
+    //         try { TimberAPI.DependencyContainer.GetInstance<CategoryButtonService>().UpdateScreenSize(); }
+    //         catch (BindingNotFoundException e) {}
+    //     }
+    // }
 }
