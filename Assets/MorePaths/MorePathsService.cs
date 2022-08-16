@@ -33,6 +33,18 @@ namespace MorePaths
                         "tobbert.morepaths/tobbert_morepaths/BrickDrivewayStraightPath_0"
                     }},
             new CustomDrivewayPath { 
+                Name="FrogPath", 
+                DrivewayList = 
+                    new List<string>()
+                    {      
+                        "tobbert.morepaths/tobbert_morepaths/FrogDrivewayNarrowLeft_0",
+                        "tobbert.morepaths/tobbert_morepaths/FrogDrivewayNarrowCenter_0",
+                        "tobbert.morepaths/tobbert_morepaths/FrogDrivewayNarrowRight_0",
+                        "tobbert.morepaths/tobbert_morepaths/FrogDrivewayWideCenter_0",
+                        "tobbert.morepaths/tobbert_morepaths/FrogDrivewayLongCenter_0",
+                        "tobbert.morepaths/tobbert_morepaths/FrogDrivewayStraightPath_0"
+                    }},
+            new CustomDrivewayPath { 
                 Name="Gravel1Path", 
                 DrivewayList = 
                     new List<string>()
@@ -67,14 +79,61 @@ namespace MorePaths
                         "tobbert.morepaths/tobbert_morepaths/MetalDrivewayWideCenter_0",
                         "tobbert.morepaths/tobbert_morepaths/MetalDrivewayLongCenter_0",
                         "tobbert.morepaths/tobbert_morepaths/MetalDrivewayStraightPath_0"
+                    }},
+            new CustomDrivewayPath { 
+                Name="WoodPath.Folktails", 
+                DrivewayList = 
+                    new List<string>()
+                    {      
+                        "tobbert.morepaths/tobbert_morepaths/WoodFolktailsDrivewayNarrowLeft_0",
+                        "tobbert.morepaths/tobbert_morepaths/WoodFolktailsDrivewayNarrowCenter_0",
+                        "tobbert.morepaths/tobbert_morepaths/WoodFolktailsDrivewayNarrowRight_0",
+                        "tobbert.morepaths/tobbert_morepaths/WoodFolktailsDrivewayWideCenter_0",
+                        "tobbert.morepaths/tobbert_morepaths/WoodFolktailsDrivewayLongCenter_0",
+                        "tobbert.morepaths/tobbert_morepaths/WoodFolktailsDrivewayStraightPath_0"
+                    }},
+            new CustomDrivewayPath { 
+                Name="WoodPath.IronTeeth", 
+                DrivewayList = 
+                    new List<string>()
+                    {      
+                        "tobbert.morepaths/tobbert_morepaths/WoodIronTeethDrivewayNarrowLeft_0",
+                        "tobbert.morepaths/tobbert_morepaths/WoodIronTeethDrivewayNarrowCenter_0",
+                        "tobbert.morepaths/tobbert_morepaths/WoodIronTeethDrivewayNarrowRight_0",
+                        "tobbert.morepaths/tobbert_morepaths/WoodIronTeethDrivewayWideCenter_0",
+                        "tobbert.morepaths/tobbert_morepaths/WoodIronTeethDrivewayLongCenter_0",
+                        "tobbert.morepaths/tobbert_morepaths/WoodIronTeethDrivewayStraightPath_0"
+                    }},
+            new CustomDrivewayPath { 
+                Name="StonePath", 
+                DrivewayList = 
+                    new List<string>()
+                    {      
+                        "tobbert.morepaths/tobbert_morepaths/StoneDrivewayNarrowLeft_0",
+                        "tobbert.morepaths/tobbert_morepaths/StoneDrivewayNarrowCenter_0",
+                        "tobbert.morepaths/tobbert_morepaths/StoneDrivewayNarrowRight_0",
+                        "tobbert.morepaths/tobbert_morepaths/StoneDrivewayWideCenter_0",
+                        "tobbert.morepaths/tobbert_morepaths/StoneDrivewayLongCenter_0",
+                        "tobbert.morepaths/tobbert_morepaths/StoneDrivewayStraightPath_0"
                     }}
+        };
+        public List<string> PathMaterials = new()
+        {
+            "BrickPath (Instance)",
+            "FrogPath (Instance)",
+            "Gravel1Path (Instance)",
+            "Gravel2Path (Instance)",
+            "MetalPath (Instance)",
+            "StonePath (Instance)",
+            "WoodPath.Folktails (Instance)",
+            "WoodPath.IronTeeth (Instance)"
         };
 
         private BlockService _blockService;
         private IAssetLoader _assetLoader;
-        
-        object[] parameters = { };
-        MethodInfo methodInfo;
+
+        private readonly object[] _parameters = { };
+        private MethodInfo _methodInfo;
 
         public MorePathsService(BlockService blockService, IAssetLoader assetLoader)
         {
@@ -175,26 +234,26 @@ namespace MorePaths
 
         public Direction2D GetPositionedDirection(DrivewayModel instance)
         {
-            methodInfo = typeof(DrivewayModel).GetMethod("GetPositionedDirection", BindingFlags.NonPublic | BindingFlags.Instance);
-            return (Direction2D)methodInfo.Invoke(instance, parameters);
+            _methodInfo = typeof(DrivewayModel).GetMethod("GetPositionedDirection", BindingFlags.NonPublic | BindingFlags.Instance);
+            return (Direction2D)_methodInfo.Invoke(instance, _parameters);
         }
         
         public Vector3Int GetPositionedCoordinates(DrivewayModel instance)
         {
-            methodInfo = typeof(DrivewayModel).GetMethod("GetPositionedCoordinates", BindingFlags.NonPublic | BindingFlags.Instance);
-            return (Vector3Int)methodInfo.Invoke(instance, parameters);
+            _methodInfo = typeof(DrivewayModel).GetMethod("GetPositionedCoordinates", BindingFlags.NonPublic | BindingFlags.Instance);
+            return (Vector3Int)_methodInfo.Invoke(instance, _parameters);
         }
         
         public Vector3Int GetLocalCoordinates(DrivewayModel instance)
         {
-            methodInfo = typeof(DrivewayModel).GetMethod("GetLocalCoordinates", BindingFlags.NonPublic | BindingFlags.Instance);
-            return (Vector3Int)methodInfo.Invoke(instance, parameters);
+            _methodInfo = typeof(DrivewayModel).GetMethod("GetLocalCoordinates", BindingFlags.NonPublic | BindingFlags.Instance);
+            return (Vector3Int)_methodInfo.Invoke(instance, _parameters);
         }
         
         public Direction2D GetLocalDirection(DrivewayModel instance)
         {
-            methodInfo = typeof(DrivewayModel).GetMethod("GetLocalDirection", BindingFlags.NonPublic | BindingFlags.Instance);
-            return (Direction2D)methodInfo.Invoke(instance, parameters);
+            _methodInfo = typeof(DrivewayModel).GetMethod("GetLocalDirection", BindingFlags.NonPublic | BindingFlags.Instance);
+            return (Direction2D)_methodInfo.Invoke(instance, _parameters);
         }
     }
 }

@@ -17,7 +17,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2998
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -64,7 +64,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: babdbc335c95ecd49b6c21eb6ac5af11, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8fad2596e47bfea4688d224d44832654, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -72,7 +72,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NoiseTex:
-        m_Texture: {fileID: 2800000, guid: 29b6a242237299f46b8aa629c3aa88b4, type: 3}
+        m_Texture: {fileID: 2800000, guid: c7a2af387d730714b9f4129aa6b47467, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -109,13 +109,13 @@ Material:
     - _Grayscale: 0
     - _LightingHue: 0
     - _LightingStrength: 0
-    - _MainTexScale: 0.5
+    - _MainTexScale: 1
     - _MainUVFromCoordinates: 1
     - _MainUVFromCoordinatesScale: 0.7
     - _Metallic: 0.5
     - _Mode: 1
     - _NoiseStrength: 1
-    - _NoiseTexScale: 10
+    - _NoiseTexScale: 0.5
     - _Noise_Scale: 0
     - _Noise_Scale_1: 0
     - _OcclusionStrength: 0.5
@@ -132,5 +132,5 @@ Material:
     - _Color: {r: 0.75686276, g: 0.6509804, b: 0.4862745, a: 1}
     - _DetailColor: {r: 0.4716981, g: 0.4342659, b: 0.3982734, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _MainColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
+    - _MainColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

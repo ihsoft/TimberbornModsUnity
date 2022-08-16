@@ -236,7 +236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _toolGroupId: Paths
-  _toolOrder: 0
+  _toolOrder: 5
   _layout: 2
   _customPivot:
     _hasCustomPivot: 0

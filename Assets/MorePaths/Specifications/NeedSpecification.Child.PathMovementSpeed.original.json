@@ -17,7 +17,7 @@
   "CriticalDescriptionLocKey": "",
   "Bonuses": [{
     "Id": "WalkingSpeed",
-    "MultiplierDelta": 1
+    "MultiplierDelta": 0.5
   }],
   "DeathOnMinValue": false,
   "DeathMessageLocKey": "",

@@ -231,7 +231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _toolGroupId: Paths
-  _toolOrder: 0
+  _toolOrder: 1
   _layout: 2
   _customPivot:
     _hasCustomPivot: 0
@@ -249,10 +249,10 @@ MonoBehaviour:
   m_Script: {fileID: -296257353, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _displayNameLocKey: Tobbert.MetalPath.DisplayName
-  _descriptionLocKey: Tobbert.MetalPath.Description
-  _flavorDescriptionLocKey: Tobbert.MetalPath.FlavorDescription
-  _image: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  _displayNameLocKey: Tobbert.BrickPath.DisplayName
+  _descriptionLocKey: Tobbert.BrickPath.Description
+  _flavorDescriptionLocKey: Tobbert.BrickPath.FlavorDescription
+  _image: {fileID: 21300000, guid: 54bc97fd4df4bd34c8b2f43564c26e50, type: 3}
 --- !u!1 &1941941001230807
 GameObject:
   m_ObjectHideFlags: 0

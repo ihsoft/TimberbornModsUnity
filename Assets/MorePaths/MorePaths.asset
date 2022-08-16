@@ -18,7 +18,8 @@ MonoBehaviour:
   Name: MorePaths
   Description: MorePaths
   Version: 1.0.0
-  Dependencies: []
+  Dependencies:
+  - {fileID: 11400000, guid: 34977de843a78df40916ae632b54af0c, type: 2}
 --- !u!114 &-3041366049039997682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,6 +96,7 @@ MonoBehaviour:
   assetBundles:
   - assetBundleName: Tobbert_MorePaths
     assets:
+    - {fileID: 3800120593857243598, guid: e3dcfd31550275b47a1d8d963ae10eeb, type: 3}
     - {fileID: 1591862065154699, guid: 73438a0dba4b06042bc719ad26c40115, type: 3}
     - {fileID: 1588580708458907, guid: b0936fad15e18664bac1190530c616ce, type: 3}
     - {fileID: 1705540407893954, guid: 2391ee96f06b0ca448c842ec409de259, type: 3}
@@ -158,6 +160,62 @@ MonoBehaviour:
     - {fileID: 1520580621987610, guid: 187c058f9984ebf468390340152df59a, type: 3}
     - {fileID: 1930791501476809, guid: ba02e6d68a5ba1f47ba03b64b7372eb8, type: 3}
     - {fileID: 1934414974581542, guid: cdd8cc86a1f7bbc438b7fbe573489242, type: 3}
+    - {fileID: 1591862065154699, guid: 7b40e3bf5eb070345826b6d6e0fe3e18, type: 3}
+    - {fileID: 1446558786232260, guid: f812befd5c84c09449f2664a8ac352c8, type: 3}
+    - {fileID: 5181973206439326085, guid: 4a9a6a31091bb4e4e9a7e888704cad12, type: 3}
+    - {fileID: 3544688781234416488, guid: 8f4d7b6a3483c31449757cf9e13ddf97, type: 3}
+    - {fileID: 6049970864658347677, guid: 7c48eef512c9a254987a3165ec4cea40, type: 3}
+    - {fileID: 8617191865094238210, guid: 01426e8530fba7a459159894b55ece1b, type: 3}
+    - {fileID: 8439409727892722051, guid: fc6abfe2babc74944850d291dee06a25, type: 3}
+    - {fileID: 4117357653496214469, guid: 6e53227fb4ac7bf4eb7c79897348a4c5, type: 3}
+    - {fileID: 1588580708458907, guid: 7ea66b46806cefd4a8ebf72833c46d86, type: 3}
+    - {fileID: 1705540407893954, guid: 593565e6205996948b81c66f497b1685, type: 3}
+    - {fileID: 1127255307698308, guid: d99477fde813b4247b76b0905d043126, type: 3}
+    - {fileID: 1520580621987610, guid: 24070d3623b8fa94a985dded3a30e78f, type: 3}
+    - {fileID: 1930791501476809, guid: 085f198d76aceba4e9c7d191cf0d501f, type: 3}
+    - {fileID: 1934414974581542, guid: 0e64dfa9529dd4241bec3e638e9fd68f, type: 3}
+    - {fileID: 1591862065154699, guid: 3bb6d2b79afe3d946b44567469f26e51, type: 3}
+    - {fileID: 1446558786232260, guid: 9d76433980fa6a544a37af8a56bffb84, type: 3}
+    - {fileID: 5181973206439326085, guid: ac8b92de51a30934db0f2e833692ed9e, type: 3}
+    - {fileID: 3544688781234416488, guid: 5776d60cf24646744af0f142f9ee5353, type: 3}
+    - {fileID: 6049970864658347677, guid: d418bb1eedf9c794d929c8fb98c06c15, type: 3}
+    - {fileID: 8617191865094238210, guid: ced2ddbf455b680409c2ba2bc328aa39, type: 3}
+    - {fileID: 8439409727892722051, guid: 9b698f08f5ade26459dbe32fcb6f0080, type: 3}
+    - {fileID: 4117357653496214469, guid: ca704659f464bfe4e84618994577e03d, type: 3}
+    - {fileID: 1588580708458907, guid: 60838c892c7c9d742a47f9b77b03582a, type: 3}
+    - {fileID: 1705540407893954, guid: 6f89f6cd39cb07e498f90dc5a9cd185f, type: 3}
+    - {fileID: 1127255307698308, guid: 2b0a2e927f2e16f4297789cefd5082b6, type: 3}
+    - {fileID: 1520580621987610, guid: 05d88d0c9590baf40bb8ead23051f9f1, type: 3}
+    - {fileID: 1930791501476809, guid: cdd7968fa90608543a11d6465823b9c6, type: 3}
+    - {fileID: 1934414974581542, guid: ffa82e905640811448c37e6fe168942c, type: 3}
+    - {fileID: 1591862065154699, guid: eabb62b6f3033c6428daf4d4dd8233ea, type: 3}
+    - {fileID: 1446558786232260, guid: 83ecddc1a3058024a8dbcd3e976ffe81, type: 3}
+    - {fileID: 5181973206439326085, guid: 4b7d294b28ba3054b93a0fd9f238d566, type: 3}
+    - {fileID: 3544688781234416488, guid: c25ad05a2af2b094a884100e3987d4e9, type: 3}
+    - {fileID: 6049970864658347677, guid: 49dbcfc3c6502c24da8355e95a5e195b, type: 3}
+    - {fileID: 8617191865094238210, guid: d44efd5b85498ce41bf89c8d1317ee5d, type: 3}
+    - {fileID: 8439409727892722051, guid: dc82501590e162b4db257f4e1ee566b3, type: 3}
+    - {fileID: 4117357653496214469, guid: 3702d66a51c2aec4dad438059b2cc088, type: 3}
+    - {fileID: 1588580708458907, guid: 6cf3bca31e7575e4cafdba9325133c91, type: 3}
+    - {fileID: 1705540407893954, guid: 6f7057d14d6aa8c469ad3cf2d1096acc, type: 3}
+    - {fileID: 1127255307698308, guid: 7f511732a309a4a4eae34faa0bf1e904, type: 3}
+    - {fileID: 1520580621987610, guid: e4dea7993520c2a4c9e99088d425be43, type: 3}
+    - {fileID: 1930791501476809, guid: 8122a5c49c1d22c4b824d3c4ebc657ce, type: 3}
+    - {fileID: 1934414974581542, guid: 0fc667e6771f77641910477d72026b8e, type: 3}
+    - {fileID: 1591862065154699, guid: 2d0aa46d9c18c4443bd39cccab8b7fba, type: 3}
+    - {fileID: 1446558786232260, guid: e65dfbbe6f1411e4f847acd99482a49a, type: 3}
+    - {fileID: 5181973206439326085, guid: ba4470348c8e37449b9dddfc8389ad82, type: 3}
+    - {fileID: 3544688781234416488, guid: d58c32480e419bb4f8022e6bc9dbcc9b, type: 3}
+    - {fileID: 6049970864658347677, guid: 5eeb25cda171b624a83c3d1db253f4eb, type: 3}
+    - {fileID: 8617191865094238210, guid: 975fccacd1e33e94d98c43a1a257ee8b, type: 3}
+    - {fileID: 8439409727892722051, guid: 2084e1140cffbc94c91394eddc5e20f7, type: 3}
+    - {fileID: 4117357653496214469, guid: ab06c88ffded0cc4c9339bcac95c8cb2, type: 3}
+    - {fileID: 1588580708458907, guid: 945376f4ba21025459ac387767d2a889, type: 3}
+    - {fileID: 1705540407893954, guid: 7d8ec6d48da3e2f45a36ad1280e9e038, type: 3}
+    - {fileID: 1127255307698308, guid: 501c588ae2f94a947a735ec67d1008e3, type: 3}
+    - {fileID: 1520580621987610, guid: 405f391aaba33604f8c71c1f98b3666a, type: 3}
+    - {fileID: 1930791501476809, guid: d36029a13797855448325158980cd18a, type: 3}
+    - {fileID: 1934414974581542, guid: a2f08bb996fdff348b0aa8afb726d9ae, type: 3}
 --- !u!114 &7276679206402820566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,7 +231,7 @@ MonoBehaviour:
   StagingPaths:
   - <ThunderstorePackage>
   files:
-  - {fileID: 2800000, guid: 4599d4b7df8159a498c5d449dfd3c5e2, type: 3}
+  - {fileID: 2800000, guid: 1c2bed0f33a0cd143b0661e64dc5f394, type: 3}
   - {fileID: 4900000, guid: 209f2ca0e80a8fd4195217977ea1dcc5, type: 3}
   - {fileID: 4900000, guid: 79e43886b3dd6454da6221468d580a71, type: 3}
 --- !u!114 &9120418034178625098

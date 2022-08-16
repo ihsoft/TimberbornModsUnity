@@ -115,7 +115,7 @@ Material:
     - _Metallic: 0.5
     - _Mode: 1
     - _NoiseStrength: 1
-    - _NoiseTexScale: 10
+    - _NoiseTexScale: 0.5
     - _Noise_Scale: 0
     - _Noise_Scale_1: 0
     - _OcclusionStrength: 0.5

@@ -231,7 +231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _toolGroupId: Paths
-  _toolOrder: 0
+  _toolOrder: 2
   _layout: 2
   _customPivot:
     _hasCustomPivot: 0
@@ -249,9 +249,9 @@ MonoBehaviour:
   m_Script: {fileID: -296257353, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _displayNameLocKey: Tobbert.StonePath.DisplayName
-  _descriptionLocKey: Tobbert.StonePath.Description
-  _flavorDescriptionLocKey: Tobbert.StonePath.FlavorDescription
+  _displayNameLocKey: Tobbert.Gravel1Path.DisplayName
+  _descriptionLocKey: Tobbert.Gravel1Path.Description
+  _flavorDescriptionLocKey: Tobbert.Gravel1Path.FlavorDescription
   _image: {fileID: 21300000, guid: 3cc64da8d29e708478afed35412bece8, type: 3}
 --- !u!1 &1941941001230807
 GameObject:

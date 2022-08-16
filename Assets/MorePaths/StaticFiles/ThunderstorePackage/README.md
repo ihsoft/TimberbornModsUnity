@@ -14,18 +14,15 @@ Knatte_Anka helped out with making the icons and ironing out the details. So a b
 
 All paths can be found under the paths tab.
 
-### Stone Path
+### Paths
 
-This path can only be used on the ground. Has the same properties as normal path, just looks different.
+These are the paths that are added with this mod. Has the same properties as normal path, just looks different.
 
 ![Example Image](https://media.githubusercontent.com/media/TobbyTheBobby/TimberbornModsUnity/master/Assets/MorePaths/StaticFiles/Images/ExampleImage1.png)
 
-### Metal Path
+### Metal path and wooden paths
 
-This path will double the walking speed of your beavers when they are on it, but it requires one metal per path to be build.
-
-![Example Image](https://media.githubusercontent.com/media/TobbyTheBobby/TimberbornModsUnity/master/Assets/MorePaths/StaticFiles/Images/ExampleImage2.png)
-
+These path will increase the walking speed of your beavers by 50% when they are on it, but it requires one metal/Treated wood per path to be build.
 
 ## Installing
 
@@ -45,6 +42,16 @@ In case you experience problems, message me in the modding channel of the the [T
 - Fixing the know limitations
 
 ## Changelog
+
+### 1.0.0 - 16.8.2022
+
+- Fixed a bug that showed paths in front of water, when build in the water.
+- Decreased the walking speed buff from 100% to 50%.
+- Changed Stone Path name to Gravel Path and this can cause existing paths to disappear. 
+- Added more paths: Brick, Wood Folktails (inc. walking speed buff), Wood IronTeeth (inc. walking speed buff), Stone, Gravel 2.
+- Changed the texture of the Metal Path. 
+- Added category button to group all paths.
+- Paths that boost walking speed now show that they do. 
 
 ### 0.1.3 - 11.8.2022
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using BepInEx;
 using BepInEx.Logging;
@@ -19,11 +20,12 @@ namespace MorePaths
 {
     [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
     [BepInDependency("com.timberapi.timberapi")]
+    [BepInDependency("tobbert.categorybutton")]
     public class Plugin : BaseUnityPlugin
     {
         public const string PluginGuid = "tobbert.morepaths";
         public const string PluginName = "More Paths";
-        public const string PluginVersion = "0.1.3";
+        public const string PluginVersion = "1.0.0";
         
         public static ManualLogSource Log;
 
@@ -39,29 +41,32 @@ namespace MorePaths
         }
     }
 
-    [HarmonyPatch(typeof(TimberApiResourceAssetLoader), "FixMaterialShader", new Type[] {typeof(GameObject), typeof(Shader)})]
+    [HarmonyPatch(typeof(TimberApiResourceAssetLoader), "FixMaterialShader", typeof(GameObject), typeof(Shader))]
     public class ChangeShaderPatch
     {
-        static void Prefix(
-            ref GameObject obj,
-            ref Shader shader)
+        static void Prefix(ref GameObject obj, ref Shader shader)
         {
-            if (obj.GetComponent<MeshRenderer>())
-            {
-                if (obj.GetComponent<MeshRenderer>().materials[0])
-                {
-                    if (
-                        obj.GetComponent<MeshRenderer>().materials[0].name == "Gravel1Path (Instance)" | 
-                        obj.GetComponent<MeshRenderer>().materials[0].name == "Gravel2Path (Instance)" | 
-                        obj.GetComponent<MeshRenderer>().materials[0].name == "MetalPath (Instance)" |
-                        obj.GetComponent<MeshRenderer>().materials[0].name == "BrickPath (Instance)"
-                    )
-                    {
-                        shader = Resources.Load<GameObject>("Buildings/Paths/Path/DirtDrivewayStraightPath")
-                            .GetComponent<MeshRenderer>().materials[0].shader;
-                    }
-                }
-            }
+            var pathMaterials = TimberAPI.DependencyContainer.GetInstance<MorePathsService>().PathMaterials;
+            
+            if (!obj.GetComponent<MeshRenderer>()) return;
+            if (!obj.GetComponent<MeshRenderer>().materials[0]) return;
+            if (!pathMaterials.Contains(obj.GetComponent<MeshRenderer>().materials[0].name)) return;
+            
+            GameObject gameObject = Resources.Load<GameObject>("Buildings/Paths/Path/DirtDrivewayStraightPath");
+            Material material = gameObject.GetComponent<MeshRenderer>().materials[0];
+            shader = material.shader;
+
+            obj.GetComponent<MeshRenderer>().materials[0].renderQueue = 2998;
+        }
+        
+        static void Postfix(ref GameObject obj)
+        {
+            var pathMaterials = TimberAPI.DependencyContainer.GetInstance<MorePathsService>().PathMaterials;
+            if (!obj.GetComponent<MeshRenderer>()) return;
+            if (!obj.GetComponent<MeshRenderer>().materials[0]) return;
+            if (!pathMaterials.Contains(obj.GetComponent<MeshRenderer>().materials[0].name)) return;
+            
+            obj.GetComponent<MeshRenderer>().materials[0].renderQueue = 2998;
         }
     }
     
@@ -83,32 +88,31 @@ namespace MorePaths
         }
     }
     
-    [HarmonyPatch(typeof(EffectDescriber), "DescribeRangeEffects", new Type[] {typeof(IEnumerable<ContinuousEffectSpecification>), typeof(StringBuilder), typeof(StringBuilder), typeof(int)})]
-    public class PreventDescriberPatch
-    {
-        static void Prefix(
-            ref IEnumerable<ContinuousEffectSpecification> effects,
-            StringBuilder description,
-            StringBuilder tooltip,
-            int range)
-        {
-            ;
-            foreach (var continuousEffectSpecification in effects)
-            {
-                if ( continuousEffectSpecification.NeedId == "PathMovementSpeed")
-                {
-                    var effectList = effects.ToList(); 
-                    
-                    effectList.Remove(effectList.First(x => continuousEffectSpecification.NeedId == "PathMovementSpeed"));
-                    
-                    IEnumerable<ContinuousEffectSpecification> test = effectList;
-                
-                    effects = test;
-                    
-                }
-            }
-        }
-    }
+    // [HarmonyPatch(typeof(EffectDescriber), "DescribeRangeEffects", typeof(IEnumerable<ContinuousEffectSpecification>), typeof(StringBuilder), typeof(StringBuilder), typeof(int))]
+    // public class PreventDescriberPatch
+    // {
+    //     static void Prefix(
+    //         ref IEnumerable<ContinuousEffectSpecification> effects,
+    //         StringBuilder description,
+    //         StringBuilder tooltip,
+    //         int range)
+    //     {
+    //         foreach (var continuousEffectSpecification in effects)
+    //         {
+    //             if ( continuousEffectSpecification.NeedId == "PathMovementSpeed")
+    //             {
+    //                 var effectList = effects.ToList(); 
+    //                 
+    //                 effectList.Remove(effectList.First(x => continuousEffectSpecification.NeedId == "PathMovementSpeed"));
+    //                 
+    //                 IEnumerable<ContinuousEffectSpecification> test = effectList;
+    //             
+    //                 effects = test;
+    //                 
+    //             }
+    //         }
+    //     }
+    // }
     
     [HarmonyPatch(typeof(RangedEffectBuilding), "RangeNames", new Type[] {})]
     public class PreventOrangePatch
@@ -117,7 +121,7 @@ namespace MorePaths
         {
             foreach (var rangeName in __result)
             {
-                if (rangeName == "StonePath" | rangeName == "MetalPath")
+                if (rangeName == "MetalPath" | rangeName == "WoodPath.Folktails" | rangeName == "WoodPath.IronTeeth")
                 {
                     __result = Enumerable.Empty<string>();
                 }

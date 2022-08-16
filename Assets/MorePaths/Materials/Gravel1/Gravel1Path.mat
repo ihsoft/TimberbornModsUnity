@@ -114,8 +114,8 @@ Material:
     - _MainUVFromCoordinatesScale: 0.7
     - _Metallic: 0.5
     - _Mode: 1
-    - _NoiseStrength: 0.5
-    - _NoiseTexScale: 2
+    - _NoiseStrength: 1
+    - _NoiseTexScale: 15
     - _Noise_Scale: 0
     - _Noise_Scale_1: 0
     - _OcclusionStrength: 0.5
