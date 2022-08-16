@@ -45,7 +45,7 @@ namespace CategoryButton
             VisualElement buttonParent,
             BlockObjectToolDescriber ____blockObjectToolDescriber,
             ToolButtonFactory ____toolButtonFactory,
-            ToolButton __result)
+            ref ToolButton __result)
         {
             if (prefab.TryGetComponent(out CategoryButtonComponent toolBarCategory))
             {

@@ -33,6 +33,10 @@ In case you experience problems, message me in the modding channel of the the [T
 
 ## Changelog
 
+### 1.0.4 16.8.2022
+
+- Fixed a bug that prevented the button from working if it was first in the row.
+
 ### 1.0.3 15.8.2022
 
 - Fixed a bug that the place of the group was incorrect on non-native resolutions.
