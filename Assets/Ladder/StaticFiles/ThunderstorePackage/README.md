@@ -21,9 +21,13 @@ In case you experience problems, message me in the modding channel of the the [T
 
 ## Changelog
 
+### 1.1.2 - 17.8.2022
+
+- Fixed a bug that showed an unnecessary warning.
+
 ### 1.1.1 - 8.8.2022
 
-- Migrated to TimberAPI 0.4.4
+- Migrated to TimberAPI 0.4.4.
 - Fixed buildings not being build.
 
 ### 1.1.0 - 18.7.2022

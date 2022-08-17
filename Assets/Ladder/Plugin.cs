@@ -1,8 +1,10 @@
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
+using Timberborn.Navigation;
 using TimberbornAPI;
 using TimberbornAPI.Common;
+using UnityEngine;
 
 namespace Ladder
 {
@@ -25,6 +27,23 @@ namespace Ladder
             TimberAPI.AssetRegistry.AddSceneAssets(PluginGuid, SceneEntryPoint.Global);
 
             new Harmony(PluginGuid).PatchAll();
+        }
+    }
+    
+    [HarmonyPatch(typeof(Debug), "LogWarning", typeof(object))]
+    public class LogWarningPatch
+    {
+        static bool Prefix(object message, bool __runOriginal)
+        {
+            if (__runOriginal)
+            {
+                string mess = message as string;
+                if (mess.Contains("path marker mesh at"))
+                {
+                    return false;
+                }
+            }
+            return __runOriginal;
         }
     }
     
