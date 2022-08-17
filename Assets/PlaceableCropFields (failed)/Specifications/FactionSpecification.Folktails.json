@@ -1,0 +1,6 @@
+{
+  "CommonBuildings": [
+    "tobbert.placeablecropfields/tobbert_placeablecropfields/PlaceableCropField",
+    "tobbert.placeablecropfields/tobbert_placeablecropfields/GroundBlock.Test"
+  ]
+}
