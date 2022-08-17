@@ -5,8 +5,10 @@ using Timberborn.BlockObjectTools;
 using Timberborn.BlockSystem;
 using Timberborn.CoreUI;
 using Timberborn.EntitySystem;
+using Timberborn.InputSystem;
 using Timberborn.ToolSystem;
 using TimberbornAPI;
+using UnityEngine.Playables;
 using UnityEngine.UIElements;
 
 namespace CategoryButton
@@ -16,15 +18,21 @@ namespace CategoryButton
     {
         private readonly VisualElementLoader _visualElementLoader;
         private readonly DescriptionPanel _descriptionPanel;
+        private readonly ToolManager _toolManager;
+        private readonly InputService _inputService;
         public readonly List<CategoryButtonTool> ToolBarCategoryTools = new();
 
         CategoryButtonService(
             VisualElementLoader visualElementLoader,
-            DescriptionPanel descriptionPanel
+            DescriptionPanel descriptionPanel,
+            ToolManager toolManager,
+            InputService inputService
         )
         {
             _visualElementLoader = visualElementLoader;
             _descriptionPanel = descriptionPanel;
+            _toolManager = toolManager;
+            _inputService = inputService;
         }
 
         public ToolButton CreateFakeToolButton(
@@ -35,7 +43,7 @@ namespace CategoryButton
             BlockObjectToolDescriber ____blockObjectToolDescriber, 
             ToolButtonFactory ____toolButtonFactory)
         {
-            CategoryButtonTool categoryButtonTool = new CategoryButtonTool(____blockObjectToolDescriber);
+            CategoryButtonTool categoryButtonTool = new CategoryButtonTool(____blockObjectToolDescriber, _toolManager, _inputService);
 
             var visualElement = _visualElementLoader.LoadVisualElement("Common/BottomBar/ToolGroupButton");
             visualElement.Q<VisualElement>("ToolButtons").name = "SecondToolButtons";
@@ -61,6 +69,7 @@ namespace CategoryButton
                     if (toolBarCategoryTool.ToolBarCategoryComponent.ToolBarButtonNames.Contains(fPrefab.PrefabName))
                     {
                         toolBarCategoryTool.ToolButtons.Add(toolButton);
+                        toolBarCategoryTool.SetToolList();
                     }
                 }
             }
@@ -81,7 +90,14 @@ namespace CategoryButton
         {
             foreach (var categoryTool in TimberAPI.DependencyContainer.GetInstance<CategoryButtonService>().ToolBarCategoryTools)
             {
-                bool flag1 = !categoryTool.ToolButtons.Select(button => button.Tool).Contains(newTool);
+                bool ButtonPartOfCategory = categoryTool.ToolButtons.Select(button => button.Tool).Contains(newTool);
+
+                if (ButtonPartOfCategory)
+                {
+                    categoryTool.ActiveTool = newTool;
+                }
+                
+                bool flag1 = !ButtonPartOfCategory;
                 bool flag2 = categoryTool == newTool;
                 bool flag3 = currenTool != newTool;
 

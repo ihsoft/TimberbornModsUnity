@@ -1,17 +1,23 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using Timberborn.BlockObjectTools;
 using Timberborn.BlockSystem;
 using Timberborn.CoreUI;
+using Timberborn.InputSystem;
 using Timberborn.ToolSystem;
 using TimberbornAPI;
+using UnityEngine;
 using UnityEngine.UIElements;
 using Tool = Timberborn.ToolSystem.Tool;
 
 namespace CategoryButton
 {
-  public class CategoryButtonTool : Tool
+  public class CategoryButtonTool : Tool, IInputProcessor
   {
     private readonly BlockObjectToolDescriber _blockObjectToolDescriber;
+    private readonly ToolManager _toolManager;
+    private readonly InputService _inputService;
 
     public PlaceableBlockObject Prefab { get; private set; }
     public ToolButton ToolButton { get; private set; }
@@ -19,14 +25,16 @@ namespace CategoryButton
     public CategoryButtonComponent ToolBarCategoryComponent { get; private set; }
 
     public List<ToolButton> ToolButtons = new ();
+    public List<Tool> ToolList = new();
     public VisualElement Root { get; set; }
-    
+    public Tool ActiveTool = null;
     public bool Active { get; set; }
-    public int ScreenWidth { get; set; }
 
-    public CategoryButtonTool(BlockObjectToolDescriber blockObjectToolDescriber)
+    public CategoryButtonTool(BlockObjectToolDescriber blockObjectToolDescriber, ToolManager toolManager, InputService inputService)
     {
       _blockObjectToolDescriber = blockObjectToolDescriber;
+      _toolManager = toolManager;
+      _inputService = inputService;
     }
 
     public override bool DevModeTool => Prefab.DevModeTool;
@@ -43,18 +51,67 @@ namespace CategoryButton
 
     public override void Enter()
     {
+      
+      _inputService.AddInputProcessor(this);
       Active = true;
       TimberAPI.DependencyContainer.GetInstance<CategoryButtonService>().ChangeDescriptionPanel(60);
       TimberAPI.DependencyContainer.GetInstance<CategoryButtonService>().UpdateScreenSize(this);
       VisualElement.ToggleDisplayStyle(true);
+      
+      if (ActiveTool != null)
+      {
+        _toolManager.SwitchTool(ActiveTool);
+      }
     }
 
     public override void Exit()
     {
+      _inputService.RemoveInputProcessor(this);
+      
       if (Active) TimberAPI.DependencyContainer.GetInstance<CategoryButtonService>().ChangeDescriptionPanel(0);
       Active = false;
 
       VisualElement.ToggleDisplayStyle(false);
+    }
+
+    public bool ProcessInput()
+    {
+      
+      if (_inputService.IsShiftHeld)
+      {
+        FieldInfo type = typeof(InputService).GetField("_mouse", BindingFlags.NonPublic | BindingFlags.Instance);
+        MouseController mouse = type.GetValue(_inputService) as MouseController;
+        Plugin.Log.LogInfo(mouse.ScrollWheelAxis);
+
+        
+        int index = ToolList.IndexOf(ActiveTool);
+
+        if (mouse.ScrollWheelAxis > 0)
+        {
+          while (index + 1 < ToolList.Count() && ToolList[index + 1].Locked)
+          {
+            index += 1;
+          }
+          if (index + 1 < ToolList.Count() && !ToolList[index + 1].Locked)
+          {
+            _toolManager.SwitchTool(ToolList[index + 1]);
+          }
+        }
+        else if (mouse.ScrollWheelAxis < 0)
+        {
+          while (index - 1 >= 0 && ToolList[index - 1].Locked)
+          {
+            index -= 1;
+          }
+          if (index - 1 >= 0 && !ToolList[index - 1].Locked)
+          {
+            _toolManager.SwitchTool(ToolList[index - 1]);
+          }
+          Plugin.Log.LogFatal(index);
+        }
+      }
+
+      return false;
     }
 
     public override ToolDescription Description()
@@ -67,6 +124,11 @@ namespace CategoryButton
       //   builder.AddPrioritizedSection(str.ToUpper());
       // }
       return builder.Build();
+    }
+
+    public void SetToolList()
+    {
+      ToolList = ToolButtons.Select(button => button.Tool).ToList();
     }
   }
 }

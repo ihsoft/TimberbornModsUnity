@@ -8,7 +8,7 @@ This plugin is currently only supported in the **experimental** version of Timbe
 
 ## How to use
 
-You will see what it does in-game!
+The category buttons works as you think it would, it adds another layer of buttons to use. But u can also use SHIFT + MOUSE SCROLL to switch between buttons of the same group. 
 
 ## Modders: how to use
 
@@ -32,6 +32,11 @@ and adding the dll to your bepinex plugins folder. This plugin is dependent on t
 In case you experience problems, message me in the modding channel of the the [Timberborn discord](https://discord.gg/mfbBF4cWpX) or message me directly (Tobbert#1607). I will try to fix it as soon as possible. :D
 
 ## Changelog
+
+### 1.1.0 18.8.2022
+
+- The last used button will now be selected upon reopen.
+- Added the possibility to use shift+scroll to switch between buttons of the same group. 
 
 ### 1.0.4 16.8.2022
 

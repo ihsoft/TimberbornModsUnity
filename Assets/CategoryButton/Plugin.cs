@@ -18,7 +18,7 @@ namespace CategoryButton
     {
         public const string PluginGuid = "tobbert.categorybutton";
         public const string PluginName = "CategoryButton";
-        public const string PluginVersion = "1.0.2";
+        public const string PluginVersion = "1.1.0";
         
         public static ManualLogSource Log;
         
