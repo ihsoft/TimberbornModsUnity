@@ -21,6 +21,10 @@ In case you experience problems, message me in the modding channel of the the [T
 
 ## Changelog
 
+### 1.1.3 - 21.8.2022
+
+- Fixed a bug that prevented the mod from working if the Staircases mod was also installed.
+
 ### 1.1.2 - 17.8.2022
 
 - Fixed a bug that showed an unnecessary warning.

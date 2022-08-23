@@ -38,7 +38,7 @@ namespace Ladder
             if (__runOriginal)
             {
                 string mess = message as string;
-                if (mess.Contains("path marker mesh at"))
+                if (mess != null && mess.Contains("path marker mesh at"))
                 {
                     return false;
                 }
