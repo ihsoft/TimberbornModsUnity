@@ -26,7 +26,7 @@ These path will increase the walking speed of your beavers by 50% when they are 
 
 ## Installing
 
-Recommended way to install this mod is through [Thunderstore](https://timberborn.thunderstore.io/). You can install this plugin manually by cloning the repo, building it and adding the dll to your bepinex plugins folder. This plugin is dependent on the magnificent [TimberAPI](https://github.com/Timberborn-Modding-Central/TimberAPI).
+Recommended way to install this mod is through [Thunderstore](https://timberborn.thunderstore.io/).This plugin is dependent on the magnificent [TimberAPI](https://github.com/Timberborn-Modding-Central/TimberAPI).
 
 ## Problems?
 
