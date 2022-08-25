@@ -25,6 +25,10 @@ In case you experience problems, message me in the modding channel of the the [T
 
 ## Changelog
 
+### 1.2.1 - 25.8.2022
+
+- Fixed a bug that prevent the game from loading a save that had batteries. 
+
 ### 1.2.0 - 25.8.2022
 
 - Added logic that makes the pathing look more realistic.

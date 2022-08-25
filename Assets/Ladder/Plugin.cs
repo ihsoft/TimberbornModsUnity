@@ -15,7 +15,7 @@ namespace Ladder
     {
         public const string PluginGuid = "tobbert.ladder";
         public const string PluginName = "Ladder";
-        public const string PluginVersion = "1.2.0";
+        public const string PluginVersion = "1.2.1";
 
         public static ManualLogSource Log;
 

@@ -58,6 +58,9 @@ namespace Ladder
         [OnEvent]
         public void OnBlockObjectSet(BlockObjectSetEvent blockObjectSetEvent)
         {
+            if (blockObjectSetEvent.BlockObject.GetComponent<Prefab>() == null)
+                return;
+            
             if (blockObjectSetEvent.BlockObject.GetComponent<Prefab>().PrefabName.ToLower().Contains("ladder"))
             {
                 var coordinate = blockObjectSetEvent.BlockObject.Coordinates;
@@ -68,6 +71,9 @@ namespace Ladder
         [OnEvent]
         public void OnBlockObjectUnset(BlockObjectUnsetEvent blockObjectUnsetEvent)
         {
+            if (blockObjectUnsetEvent.BlockObject == null)
+                return;
+            
             var coordinate = blockObjectUnsetEvent.BlockObject.Coordinates;
             _verticalObjectsList.Remove(coordinate);
         }
