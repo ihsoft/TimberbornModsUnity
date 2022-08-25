@@ -6,6 +6,10 @@ This mod will allow you to build ladders. Ladders will make it so your beavers c
 
 This plugin is currently only supported in the **experimental** version of Timberborn.
 
+## Shoutout
+
+A massive shoutout to TheBloodEyes for helping the navigation fix be as optimized as can be!
+
 ## How to use
 
 You will find the ladder under the paths tab. 
@@ -20,6 +24,10 @@ and adding the dll to your bepinex plugins folder. This plugin is dependent on t
 In case you experience problems, message me in the modding channel of the the [Timberborn discord](https://discord.gg/mfbBF4cWpX) or message me directly (Tobbert#1607). I will try to fix it as soon as possible. :D
 
 ## Changelog
+
+### 1.2.0 - 25.8.2022
+
+- Added logic that makes the pathing look more realistic.
 
 ### 1.1.3 - 21.8.2022
 
