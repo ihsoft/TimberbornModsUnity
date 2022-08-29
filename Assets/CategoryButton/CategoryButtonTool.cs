@@ -51,7 +51,6 @@ namespace CategoryButton
 
     public override void Enter()
     {
-      
       _inputService.AddInputProcessor(this);
       Active = true;
       TimberAPI.DependencyContainer.GetInstance<CategoryButtonService>().ChangeDescriptionPanel(60);
@@ -81,9 +80,6 @@ namespace CategoryButton
       {
         FieldInfo type = typeof(InputService).GetField("_mouse", BindingFlags.NonPublic | BindingFlags.Instance);
         MouseController mouse = type.GetValue(_inputService) as MouseController;
-        Plugin.Log.LogInfo(mouse.ScrollWheelAxis);
-
-        
         int index = ToolList.IndexOf(ActiveTool);
 
         if (mouse.ScrollWheelAxis > 0)
@@ -107,7 +103,6 @@ namespace CategoryButton
           {
             _toolManager.SwitchTool(ToolList[index - 1]);
           }
-          Plugin.Log.LogFatal(index);
         }
       }
 

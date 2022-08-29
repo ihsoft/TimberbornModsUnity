@@ -7,6 +7,7 @@ using Timberborn.CoreUI;
 using Timberborn.EntitySystem;
 using Timberborn.InputSystem;
 using Timberborn.ToolSystem;
+using Timberborn.WaterSystemRendering;
 using TimberbornAPI;
 using UnityEngine.Playables;
 using UnityEngine.UIElements;
@@ -86,7 +87,7 @@ namespace CategoryButton
             }
         }
 
-        public void SaveOrExitCategoryTool(Tool currenTool, Tool newTool)
+        public void SaveOrExitCategoryTool(Tool currenTool, Tool newTool, WaterOpacityToggle ____waterOpacityToggle)
         {
             foreach (var categoryTool in TimberAPI.DependencyContainer.GetInstance<CategoryButtonService>().ToolBarCategoryTools)
             {
@@ -104,6 +105,7 @@ namespace CategoryButton
                 if ((flag1 || flag2) && flag3)
                 {
                     categoryTool.Exit();
+                    ____waterOpacityToggle.ShowWater();
                 }
             }
         }

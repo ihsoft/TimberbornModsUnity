@@ -15,9 +15,9 @@ The category buttons works as you think it would, it adds another layer of butto
 1. Add the CategoryButton package to the the project.
 2. Create a new prefab that has the following components: 
    - Prefab (Required: Prefab Name)
-   - Placeable Block Object (Required: ToolGroupID, Tool Order (SHOULD BE LOWER THAN THE BUTTONS THAT ARE IN THE GROUP!))
+   - Placeable Block Object (Required: ToolGroupID, Tool Order)
    - Labeled Prefab (Required: DisplayNameLocKey, Image)
-   - Block Object (Required: a blocksize of atleast 1. The BlockSpecification entries that can be anything)
+   - Block Object (Required: a blocksize of atleast 1. The BlockSpecification entries has to be "any")
    - Category Button Component (Required: List with names of the prefabs of which the buttons need to be in the group)
 3. Add a BepInEx dependency to the plugin: [BepInDependency("tobbert.categorybutton")].
 4. Load the object as usually (Manifest and specification).
@@ -32,6 +32,11 @@ and adding the dll to your bepinex plugins folder. This plugin is dependent on t
 In case you experience problems, message me in the modding channel of the the [Timberborn discord](https://discord.gg/mfbBF4cWpX) or message me directly (Tobbert#1607). I will try to fix it as soon as possible. :D
 
 ## Changelog
+
+### 1.1.1 29.8.2022
+
+- Removed unnecessary console logs. 
+- Fixed a bug that prevented water from appearing when exiting a category button that had no button inside the category selected.
 
 ### 1.1.0 18.8.2022
 

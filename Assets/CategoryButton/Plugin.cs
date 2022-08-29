@@ -6,6 +6,7 @@ using Timberborn.BlockObjectTools;
 using Timberborn.BlockSystem;
 using Timberborn.BottomBarSystem;
 using Timberborn.ToolSystem;
+using Timberborn.WaterSystemRendering;
 using TimberbornAPI;
 using TimberbornAPI.Common;
 using UnityEngine.UIElements;
@@ -79,21 +80,22 @@ namespace CategoryButton
     [HarmonyPatch(typeof(ToolManager), "SwitchTool", new Type[] {typeof(Tool)})]
     public class ToolSwitcherPatch
     {
-        static void Prefix(ref ToolManager __instance, Tool tool)
+        static void Prefix(ref ToolManager __instance, Tool tool, WaterOpacityToggle ____waterOpacityToggle)
         {
-            TimberAPI.DependencyContainer.GetInstance<CategoryButtonService>().SaveOrExitCategoryTool(__instance.ActiveTool, tool);
+            TimberAPI.DependencyContainer.GetInstance<CategoryButtonService>().SaveOrExitCategoryTool(__instance.ActiveTool, tool, ____waterOpacityToggle);
         }
     }
     
     [HarmonyPatch(typeof(ToolManager), "ExitTool", new Type[] {})]
     public class ExitToolPatch
     {
-        static bool Prefix(ref ToolManager __instance)
+        static bool Prefix(ref ToolManager __instance, WaterOpacityToggle ____waterOpacityToggle)
         {
             foreach (var toolBarCategoryTool in TimberAPI.DependencyContainer.GetInstance<CategoryButtonService>().ToolBarCategoryTools)
             {
                 if (__instance.ActiveTool == toolBarCategoryTool)
                 {
+                    ____waterOpacityToggle.ShowWater();
                     return false;
                 }
             }
