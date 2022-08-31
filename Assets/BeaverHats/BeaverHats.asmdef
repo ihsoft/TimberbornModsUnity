@@ -1,0 +1,27 @@
+{
+    "name": "BeaverHats",
+    "rootNamespace": "",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "BepInEx.dll",
+        "TimberAPI.dll",
+        "0Harmony.dll",
+        "Bindito.Core.dll",
+        "Timberborn.Beavers.dll",
+        "Timberborn.PrefabOptimization.dll",
+        "Timberborn.SingletonSystem.dll",
+        "Timberborn.AssetSystem.dll",
+        "Timberborn.LifeSystem.dll",
+        "Timberborn.EntitySystem.dll",
+        "Bindito.Unity.dll",
+        "Timberborn.MasterScene.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
