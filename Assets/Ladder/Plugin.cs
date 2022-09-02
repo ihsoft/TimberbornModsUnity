@@ -48,37 +48,7 @@ namespace Ladder
             return __runOriginal;
         }
     }
-    
-    // [HarmonyPatch(typeof(PathReconstructor), "TiltingOffset", new Type[] {typeof(List<Vector3>), typeof(int), typeof(int)})]
-    // public class Patch
-    // {
-    //    
-    //     static void Postfix(
-    //         Vector3 __result,
-    //         List<Vector3> pathCorners,
-    //         int startIndex,
-    //         int endIndex)
-    //     {
-    //         Plugin.Log.LogFatal(__result);
-    //     }
-    // }
-    //
-    // [HarmonyPatch(typeof(PathReconstructor), "ReconstructPath", new Type[] {typeof(IFlowField), typeof(Vector3), typeof(Vector3), typeof(List<Vector3>)})]
-    // public class Patch2
-    // {
-    //     static void Postfix(
-    //         Vector3 start,
-    //         Vector3 destination,
-    //         List<Vector3> pathCorners)
-    //     {
-    //         Plugin.Log.LogInfo("postfix");
-    //         foreach (var vector3 in pathCorners)
-    //         {
-    //             Plugin.Log.LogFatal(vector3);
-    //         }
-    //     }
-    // }
-    
+
     [HarmonyPatch(typeof(PathReconstructor), "TiltVerticalEdge", typeof(List<Vector3>), typeof(int), typeof(int))]
     public class Patch3
     {

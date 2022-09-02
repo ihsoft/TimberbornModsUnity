@@ -111,13 +111,13 @@ namespace PlaceableCropFields
             }
             return false;
             
-            var buildings = _blockService.GetObjectsWithComponentAt<LabeledPrefab>(coordinates);
-            if (buildings.Any())
-            {
-                return true;
-            }
-
-            return false;
+            // var buildings = _blockService.GetObjectsWithComponentAt<LabeledPrefab>(coordinates);
+            // if (buildings.Any())
+            // {
+            //     return true;
+            // }
+            //
+            // return false;
         }
 
         public bool IsPlaceableCropField(Vector3Int coordinates)

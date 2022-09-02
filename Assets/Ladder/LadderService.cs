@@ -12,17 +12,13 @@ namespace Ladder
 {
     public class LadderService : ILoadableSingleton
     {
-        private readonly VerticalNeighborService _verticalNeighborService;
-        private readonly BlockService _blockService;
 
         private EventBus _eventBus;
 
         private readonly HashSet<Vector3Int> _verticalObjectsList = new ();
 
-        LadderService(VerticalNeighborService verticalNeighborService, BlockService blockService, EventBus eventBus)
+        LadderService(EventBus eventBus)
         {
-            _verticalNeighborService = verticalNeighborService;
-            _blockService = blockService;
             _eventBus = eventBus;
         }
 
@@ -31,13 +27,6 @@ namespace Ladder
             _eventBus.Register( this);
         }
         
-        public enum VerticalObjects
-        {
-            Ladder,
-            Stair
-        }
-
-
         public bool ChangeVertical(PathReconstructor instance, ref List<Vector3> pathCorners, int startIndex, int endIndex)
         { 
             Vector3 pathCorner1 = pathCorners[startIndex];
