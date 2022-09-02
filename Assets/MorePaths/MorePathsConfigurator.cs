@@ -1,4 +1,5 @@
 using Bindito.Core;
+using Timberborn.Beavers;
 using Timberborn.PathSystem;
 using Timberborn.TemplateSystem;
 
@@ -16,6 +17,7 @@ namespace MorePaths
         {
             TemplateModule.Builder builder = new TemplateModule.Builder();
             builder.AddDecorator<DrivewayModel, CustomDrivewayModel>();
+            // builder.AddDecorator<Beaver, PathListener>();
             return builder.Build();
         }
     }

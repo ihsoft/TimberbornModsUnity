@@ -1,7 +1,7 @@
 {
   "CommonBuildings": [
     "tobbert.morepaths/tobbert_morepaths/CategoryPaths",
-    
+
     "tobbert.morepaths/tobbert_morepaths/BrickPath",
     "tobbert.morepaths/tobbert_morepaths/BrickPath0000_0",
     "tobbert.morepaths/tobbert_morepaths/BrickPath0010_0",
@@ -177,8 +177,5 @@
     "tobbert.morepaths/tobbert_morepaths/StoneDrivewayStraightPath_0",
     "tobbert.morepaths/tobbert_morepaths/StoneDrivewayWideCenter_0",
     "tobbert.morepaths/tobbert_morepaths/StoneDrivewayLongCenter_0"
-  ],
-  "Needs": [
-    "PathMovementSpeed"
   ]
 }

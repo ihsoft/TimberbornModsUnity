@@ -55,7 +55,7 @@ namespace MorePaths
             GameObject gameObject = Resources.Load<GameObject>("Buildings/Paths/Path/DirtDrivewayStraightPath");
             Material material = gameObject.GetComponent<MeshRenderer>().materials[0];
             shader = material.shader;
-
+    
             obj.GetComponent<MeshRenderer>().materials[0].renderQueue = 2998;
         }
         
@@ -114,22 +114,22 @@ namespace MorePaths
     //     }
     // }
     
-    [HarmonyPatch(typeof(RangedEffectBuilding), "RangeNames", new Type[] {})]
-    public class PreventOrangePatch
-    {
-        static void Postfix(ref IEnumerable<string> __result)
-        {
-            foreach (var rangeName in __result)
-            {
-                if (rangeName == "MetalPath" | rangeName == "WoodPath.Folktails" | rangeName == "WoodPath.IronTeeth")
-                {
-                    __result = Enumerable.Empty<string>();
-                }
-            }
-        }
-    }
+    // [HarmonyPatch(typeof(RangedEffectBuilding), "RangeNames", new Type[] {})]
+    // public class PreventOrangePatch
+    // {
+    //     static void Postfix(ref IEnumerable<string> __result)
+    //     {
+    //         foreach (var rangeName in __result)
+    //         {
+    //             if (rangeName == "MetalPath" | rangeName == "WoodPath.Folktails" | rangeName == "WoodPath.IronTeeth")
+    //             {
+    //                 __result = Enumerable.Empty<string>();
+    //             }
+    //         }
+    //     }
+    // }
     
-    // THIS HAS A BIG WITH EDITING MAPS AND PLACING DOWN BUILDINGS IN THE EDITOR
+    // THIS HAS ABUG WITH EDITING MAPS AND PLACING DOWN BUILDINGS IN THE EDITOR
     // [HarmonyPatch(typeof(BlockObjectTool), "Enter", new Type[] {})]
     // public class EnterBlockObjectToolPatch
     // {

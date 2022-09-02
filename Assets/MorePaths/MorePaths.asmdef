@@ -27,7 +27,12 @@
         "Timberborn.NeedSpecifications.dll",
         "Timberborn.BlockObjectTools.dll",
         "Timberborn.PreviewSystem.dll",
-        "Timberborn.TerrainSystem.dll"
+        "Timberborn.TerrainSystem.dll",
+        "Timberborn.TickSystem.dll",
+        "Timberborn.Beavers.dll",
+        "Timberborn.BonusSystem.dll",
+        "Timberborn.EntitySystem.dll",
+        "Timberborn.WalkingSystem.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

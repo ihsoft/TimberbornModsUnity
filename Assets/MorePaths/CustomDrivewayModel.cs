@@ -13,8 +13,8 @@ namespace MorePaths
 {
   public class CustomDrivewayModel : MonoBehaviour
   {
-    public OptimizedPrefabInstantiator OptimizedPrefabInstantiator;
-    public IAssetLoader AssetLoader;
+    private OptimizedPrefabInstantiator _optimizedPrefabInstantiator;
+    private IAssetLoader _assetLoader;
     public List<GameObject> drivewayModels = new ();
     
     [Inject]
@@ -22,8 +22,8 @@ namespace MorePaths
       OptimizedPrefabInstantiator optimizedPrefabInstantiator,
       IAssetLoader assetLoader)
     {
-      OptimizedPrefabInstantiator = optimizedPrefabInstantiator;
-      AssetLoader = assetLoader;
+      _optimizedPrefabInstantiator = optimizedPrefabInstantiator;
+      _assetLoader = assetLoader;
     }
     
     public void InstantiateModel(
@@ -34,7 +34,7 @@ namespace MorePaths
       List<string> drivewayList
     )
     {
-      var model = OptimizedPrefabInstantiator.Instantiate(GetModelPrefab(drivewayModel.Driveway, drivewayList), drivewayModel.GetComponent<BuildingModel>().FinishedModel.transform);
+      var model = _optimizedPrefabInstantiator.Instantiate(GetModelPrefab(drivewayModel.Driveway, drivewayList), drivewayModel.GetComponent<BuildingModel>().FinishedModel.transform);
       model.transform.localPosition = CoordinateSystem.GridToWorld(BlockCalculations.Pivot(coordinates, direction.ToOrientation()));
       model.transform.localRotation = direction.ToWorldSpaceRotation();
       model.name = drivewayName;
@@ -46,17 +46,17 @@ namespace MorePaths
       switch (driveway)
       {
         case Driveway.NarrowLeft:
-          return AssetLoader.Load<GameObject>(drivewayList[0]);
+          return _assetLoader.Load<GameObject>(drivewayList[0]);
         case Driveway.NarrowCenter:
-          return AssetLoader.Load<GameObject>(drivewayList[1]);
+          return _assetLoader.Load<GameObject>(drivewayList[1]);
         case Driveway.NarrowRight:
-          return AssetLoader.Load<GameObject>(drivewayList[2]);
+          return _assetLoader.Load<GameObject>(drivewayList[2]);
         case Driveway.WideCenter:
-          return AssetLoader.Load<GameObject>(drivewayList[3]);
+          return _assetLoader.Load<GameObject>(drivewayList[3]);
         case Driveway.LongCenter:
-          return AssetLoader.Load<GameObject>(drivewayList[4]);
+          return _assetLoader.Load<GameObject>(drivewayList[4]);
         case Driveway.StraightPath:
-          return AssetLoader.Load<GameObject>(drivewayList[5]);
+          return _assetLoader.Load<GameObject>(drivewayList[5]);
         default:
           throw new ArgumentOutOfRangeException(nameof (driveway), driveway, null);
       }

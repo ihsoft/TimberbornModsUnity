@@ -43,6 +43,11 @@ In case you experience problems, message me in the modding channel of the the [T
 
 ## Changelog
 
+### 1.1.0 - 2.9.2022
+
+- Updated to work with latest experimental update (v0.2.6.2).
+- Removed the bonus movement speed as the system it used, was removed from the game. As such, the science points were removed from the metal and wood paths.
+
 ### 1.0.0 - 16.8.2022
 
 - Fixed a bug that showed paths in front of water, when build in the water.

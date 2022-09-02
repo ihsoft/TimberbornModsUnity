@@ -20,17 +20,15 @@ Tobbert.StonePath.Description,"A different looking path to diversify your city."
 Tobbert.StonePath.FlavorDescription,"Don't walk on these when it's hot outside.",-
 
 Tobbert.MetalPath.DisplayName,Metal path,-
-Tobbert.MetalPath.Description,"A path that increases the walking speed of beavers by 50%.",-
-Tobbert.MetalPath.FlavorDescription,"Fast as lightning!",-
+Tobbert.MetalPath.Description,"A different looking path to diversify your city.",-
+Tobbert.MetalPath.FlavorDescription,"This feels cold.",-
 
 Tobbert.WoodFolktails.DisplayName,Wood Folktails path,-
-Tobbert.WoodFolktails.Description,"A path that increases the walking speed of beavers by 50%.",-
-Tobbert.WoodFolktails.FlavorDescription,"Fast as lightning!",-
+Tobbert.WoodFolktails.Description,"A different looking path to diversify your city.",-
+Tobbert.WoodFolktails.FlavorDescription,"",-
 
 Tobbert.WoodIronTeeth.DisplayName,Wood Iron Teeth path,-
-Tobbert.WoodIronTeeth.Description,"A path that increases the walking speed of beavers by 50%.",-
-Tobbert.WoodIronTeeth.FlavorDescription,"Fast as lightning!",-
-
-Tobbert.PathMovementSpeedNeed.DisplaynameLocKey,Nice path,-
+Tobbert.WoodIronTeeth.Description,"A different looking path to diversify your city.",-
+Tobbert.WoodIronTeeth.FlavorDescription,"",-
 
 "A.Tobbert.CategoryPaths.DisplayName",Paths,-

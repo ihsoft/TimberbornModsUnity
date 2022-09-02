@@ -50,8 +50,6 @@ GameObject:
   - component: {fileID: 114667286228125253}
   - component: {fileID: 114255245154744569}
   - component: {fileID: 114066584638683164}
-  - component: {fileID: 8899862885308343604}
-  - component: {fileID: 5227301964169297157}
   m_Layer: 0
   m_Name: MetalPath
   m_TagString: Untagged
@@ -90,11 +88,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _soundBaseName: Default
   _hasLoopingSound: 0
-  _buildingCost:
-  - _goodId: MetalBlock
-    _amount: 1
-  _scienceCost: 500
-  _placeFinished: 0
+  _buildingCost: []
+  _scienceCost: 0
+  _placeFinished: 1
   _finishableWithBeaversOnSite: 1
   _path: 1
   _drawRangeBoundsOnIt: 0
@@ -258,35 +254,6 @@ MonoBehaviour:
   _descriptionLocKey: Tobbert.MetalPath.Description
   _flavorDescriptionLocKey: Tobbert.MetalPath.FlavorDescription
   _image: {fileID: 21300000, guid: 586d7a31175abea4f8ad8f1286ef2029, type: 3}
---- !u!114 &8899862885308343604
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1591862065154699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1115272012, guid: 75be7af0b34ada5bff62a949a3c4181d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _effectRadius: 0
---- !u!114 &5227301964169297157
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1591862065154699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1933139831, guid: 75be7af0b34ada5bff62a949a3c4181d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _effectSpecifications:
-  - _needId: PathMovementSpeed
-    _pointsPerHour: 1
-    _satisfyToMaxValue: 1
 --- !u!1 &1941941001230807
 GameObject:
   m_ObjectHideFlags: 0

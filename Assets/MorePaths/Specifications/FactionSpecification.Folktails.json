@@ -177,8 +177,5 @@
     "tobbert.morepaths/tobbert_morepaths/StoneDrivewayStraightPath_0",
     "tobbert.morepaths/tobbert_morepaths/StoneDrivewayWideCenter_0",
     "tobbert.morepaths/tobbert_morepaths/StoneDrivewayLongCenter_0"
-  ],
-  "Needs": [
-    "PathMovementSpeed"
   ]
 }
