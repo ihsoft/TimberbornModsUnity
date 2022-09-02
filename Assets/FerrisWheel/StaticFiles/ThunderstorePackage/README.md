@@ -21,6 +21,11 @@ In case you experience problems, message me in the modding channel of the the Ti
 
 ## Changelog
 
+### 1.0.1 - 2.9.2022
+
+- Updated to work with latest experimental update (v0.2.6.2).
+- Replaced the old need with the new well being need and now gives 4 well being.
+
 ### 1.0.1 - 8.8.2022
 
 - Migrated to TimberAPI 0.4.4

@@ -3,7 +3,7 @@
   "BackwardCompatibleIds": [],
   "Order": 48,
   "NeedGroupId": "Fun",
-  "CharacterType": "BeaverAdult",
+  "CharacterType": "Beaver",
   "DisplayNameLocKey": "Tobbert.FerrisWheelNeed.DisplaynameLocKey",
   "StartingValue": 0.0,
   "MinimumValue": 0.0,
@@ -15,13 +15,9 @@
   },
   "CriticalSpriteName": "",
   "CriticalDescriptionLocKey": "",
-  "Bonuses": [{
-    "Id": "WorkingSpeed",
-    "MultiplierDelta": 0.3
-  }],
   "DeathOnMinValue": false,
   "DeathMessageLocKey": "",
   "Effectiveness": 1.0,
   "Wastable": false,
-  "PositiveWellbeing": 3
+  "FavorableWellbeing": 4
 }
