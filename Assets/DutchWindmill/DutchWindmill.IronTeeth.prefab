@@ -88,7 +88,6 @@ GameObject:
   - component: {fileID: 2537194731171831177}
   - component: {fileID: 5432092140792865758}
   - component: {fileID: 5266777578792242911}
-  - component: {fileID: 3172164507952302775}
   - component: {fileID: 2262424302228336408}
   m_Layer: 0
   m_Name: DutchWindmill.IronTeeth
@@ -184,7 +183,6 @@ MonoBehaviour:
   _defaultWorkers: 1
   _defaultWorkerType: Beaver
   _disallowOtherWorkerTypes: 0
-  _professionBonusId: Cooking
   _workerTypeUnlockCosts:
   - _workerType: Golem
     _scienceCost: 1000
@@ -590,18 +588,6 @@ MonoBehaviour:
   m_Script: {fileID: 760907074, guid: 0fe512d2d979abc43670e729a24e15fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3172164507952302775
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5366692629481669372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 806114083, guid: 0fe512d2d979abc43670e729a24e15fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2262424302228336408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -651,6 +637,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 8781125508983618803}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 04b784754ebe20549ab69bacfd70ceba, type: 3}
@@ -701,8 +688,39 @@ PrefabInstance:
       propertyPath: m_Name
       value: DutchWindmillContructionSite
       objectReference: {fileID: 0}
+    - target: {fileID: 4130244036913734534, guid: 04b784754ebe20549ab69bacfd70ceba, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: fc5430ca44bc3d740817e410c7a38384, type: 2}
+    - target: {fileID: 6350755812540065592, guid: 04b784754ebe20549ab69bacfd70ceba, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b64248bd04e1a004da0e9adbfc99a78a, type: 2}
+    - target: {fileID: 6350755812540065592, guid: 04b784754ebe20549ab69bacfd70ceba, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2b526dc1b8a8e6f48b0dba0b00eb5404, type: 2}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 04b784754ebe20549ab69bacfd70ceba, type: 3}
+--- !u!1 &1411289564324465118 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 04b784754ebe20549ab69bacfd70ceba, type: 3}
+  m_PrefabInstance: {fileID: 2257571907220780175}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &2383479486730971307
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1411289564324465118}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 100, y: 10, z: 100}
+  m_Center: {x: 150, y: 4.9999995, z: 150}
 --- !u!4 &1791932155907461988 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 04b784754ebe20549ab69bacfd70ceba, type: 3}
@@ -713,6 +731,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 755142448440876965}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 22b3d95e2b73e92498b0370208f1a368, type: 3}
@@ -952,6 +971,7 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 67994ecbb9674c54f81c354ecfdc795d, type: 2}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 22b3d95e2b73e92498b0370208f1a368, type: 3}
 --- !u!1 &4946353196067064892 stripped
 GameObject:

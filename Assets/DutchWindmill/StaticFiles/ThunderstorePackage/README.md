@@ -20,6 +20,11 @@ In case you experience problems, message me in the modding channel of the the [T
 
 ## Changelog
 
+### 1.0.1 - 3.9.2022
+
+- Fixed several issues with the construction site.
+- Remove the wind strength component. 
+
 ### 1.0.0 - 23.8.2022
 
 - Released the plugin.
