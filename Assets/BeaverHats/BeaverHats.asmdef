@@ -18,7 +18,10 @@
         "Timberborn.LifeSystem.dll",
         "Timberborn.EntitySystem.dll",
         "Bindito.Unity.dll",
-        "Timberborn.MasterScene.dll"
+        "Timberborn.MasterScene.dll",
+        "Timberborn.TemplateSystem.dll",
+        "Timberborn.WorkSystem.dll",
+        "Timberborn.TickSystem.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

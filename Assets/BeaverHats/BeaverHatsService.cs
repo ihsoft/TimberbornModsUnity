@@ -1,24 +1,50 @@
-using System;
-using Timberborn.AssetSystem;
+using System.Collections.Generic;
 using Timberborn.Beavers;
 using Timberborn.EntitySystem;
-using Timberborn.PrefabOptimization;
-using Timberborn.SingletonSystem;
+using Timberborn.TickSystem;
 using TimberbornAPI.AssetLoaderSystem.AssetSystem;
 using UnityEngine;
 
 namespace BeaverHats
 {
-    public class BeaverHatsService : ILoadableSingleton
+    public class BeaverHatsService
     {
-        private readonly IAssetLoader _iAssetLoader;
+        private readonly IAssetLoader _assetLoader;
         private Shader _shader;
-
-        private GameObject _adultHat;
+        
+        public readonly List<Clothing> Clothings = new()
+        {
+            new Clothing
+            { 
+                Name="FrogHat", 
+                BodyPartName = "DEF-head",
+                WorkPlaces = new List<string>() { "" }
+            },
+            new Clothing() { 
+                Name="ConstructionHat", 
+                BodyPartName = "DEF-head",
+                WorkPlaces = new List<string>() { "DistrictCenter" }
+            },
+            new Clothing() { 
+                Name="StrawHat", 
+                BodyPartName = "DEF-head",
+                WorkPlaces = new List<string>() { "FarmHouse" }
+            },
+            new Clothing() { 
+                 Name="FlowerCrown", 
+                 BodyPartName = "DEF-head",
+                 WorkPlaces = new List<string>() { "GathererFlag" }
+            },
+            new Clothing() { 
+                Name="PithHelmet", 
+                BodyPartName = "DEF-head",
+                WorkPlaces = new List<string>() { "ScavengerFlag" }
+            }
+        };
 
         BeaverHatsService(IAssetLoader assetLoader)
         {
-            _iAssetLoader = assetLoader;
+            _assetLoader = assetLoader;
         }
 
         Shader Shader
@@ -27,45 +53,47 @@ namespace BeaverHats
             {
                 if (_shader != null)
                     return _shader;
-                
-                _shader = Resources.Load<GameObject>("Buildings/Paths/Platform/Platform.Full.Folktails").GetComponent<MeshRenderer>().materials[0].shader;
+
+                _shader = Resources.Load<GameObject>("Buildings/Paths/Platform/Platform.Full.Folktails")
+                    .GetComponent<MeshRenderer>().materials[0].shader;
                 return _shader;
             }
         }
-
-        public void Load()
+        
+        public void InitiateClothings(ref Beaver beaver)
         {
-            _adultHat = _iAssetLoader.Load<GameObject>("tobbert.beaverhats/tobbert_beaverhats/FrogHat");
-            _adultHat.name = "__" + _adultHat.name;
-            
-            ShaderFix(_adultHat.transform);
+            foreach (var clothing in Clothings)
+            {
+                InitiateClothing(clothing, beaver);
+            }
         }
 
-        public void AddHats(ref Beaver beaver)
+        private void InitiateClothing(Clothing clothing, Beaver beaver)
         {
-            var head = FindHead(beaver.transform);
+            var bodyPart = FindBodyPart(beaver.transform, clothing.BodyPartName);
             
-            if (head == null)
+            if (bodyPart == null)
                 return;
 
-            var hat = Prefab.Instantiate(_iAssetLoader.Load<GameObject>("tobbert.beaverhats/tobbert_beaverhats/FrogHat"));
-            hat.name = ("__" + hat.name).Replace("(Clone)", "");
-            ShaderFix(hat.transform);
-            hat.transform.rotation *= head.rotation;
-            hat.transform.position += head.position;
+            var clothingObject = Prefab.Instantiate(_assetLoader.Load<GameObject>("tobbert.beaverhats/tobbert_beaverhats/" + clothing.Name));
+            clothingObject.name = ("__" + clothingObject.name).Replace("(Clone)", "");
+            ShaderFix(clothingObject.transform);
+            clothingObject.transform.rotation *= bodyPart.rotation;
+            clothingObject.transform.position += bodyPart.position;
             if (beaver.transform.name.Contains("Child"))
             {
-                hat.transform.localScale -= new Vector3(0.25f, 0.25f, 0.25f);
-                hat.transform.Rotate(5, 0, 0);
+                clothingObject.transform.localScale -= new Vector3(0.25f, 0.25f, 0.25f);
+                clothingObject.transform.Rotate(5, 0, 0);
             }
                
             
-            if (head.Find("__FrogHat") != null)
-                head.Find("__FrogHat").parent = null;
+            if (bodyPart.Find(clothingObject.name) != null)
+                bodyPart.Find(clothingObject.name).parent = null;
 
-            hat.transform.SetParent(head.transform);
+            clothingObject.transform.SetParent(bodyPart.transform);
+            clothingObject.SetActive(false);
         }
-
+        
         private void ShaderFix(Transform child)
         {
             foreach (var child1 in child)
@@ -80,19 +108,21 @@ namespace BeaverHats
             }
         }
 
-        private Transform FindHead(Transform parent)
+        public Transform FindBodyPart(Transform parent, string bodyPartName)
         {
             foreach (Transform child in parent)
             {
-                if (child.name == "DEF-head")
+                if (child.name == bodyPartName)
                     return child;
                 
-                var result = FindHead(child);
+                var result = FindBodyPart(child, bodyPartName);
                 if (result != null)
                     return result;
             }
 
             return null;
         }
+
+        
     }
 }

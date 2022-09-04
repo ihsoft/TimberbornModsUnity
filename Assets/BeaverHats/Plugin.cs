@@ -36,8 +36,8 @@ namespace BeaverHats
     {
         static void Postfix(ref Beaver ____adultPrefab, ref Beaver ____childPrefab)
         {
-            TimberAPI.DependencyContainer.GetInstance<BeaverHatsService>().AddHats(ref ____adultPrefab);
-            TimberAPI.DependencyContainer.GetInstance<BeaverHatsService>().AddHats(ref ____childPrefab);
+            TimberAPI.DependencyContainer.GetInstance<BeaverHatsService>().InitiateClothings(ref ____adultPrefab);
+            TimberAPI.DependencyContainer.GetInstance<BeaverHatsService>().InitiateClothings(ref ____childPrefab);
         }
     }
 }
