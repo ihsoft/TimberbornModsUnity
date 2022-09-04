@@ -932,7 +932,7 @@ MonoBehaviour:
   m_Script: {fileID: 406104335, guid: 79523a2b71f4fae881a60ad2e723d456, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _noAutoWalls: 0
+  _noAutoWalls: 1
   _generateFloorsOnStackable: 1
   _addedEdges:
   - _start: {x: 0, y: 0, z: 0}

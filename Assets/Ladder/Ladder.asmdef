@@ -27,7 +27,8 @@
         "Timberborn.EntitySystem.dll",
         "Timberborn.Navigation.dll",
         "Timberborn.NavigationUI.dll",
-        "Timberborn.BuildingsNavigation.dll"
+        "Timberborn.BuildingsNavigation.dll",
+        "Timberborn.Buildings.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],
