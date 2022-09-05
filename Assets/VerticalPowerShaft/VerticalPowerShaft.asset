@@ -99,6 +99,8 @@ MonoBehaviour:
     - {fileID: 6190661508642916098, guid: 09cdd294981a49a43b2440434d7d3620, type: 3}
     - {fileID: 6190661508642916098, guid: a35bb34d641d2094e97e2beeab6373c6, type: 3}
     - {fileID: 6190661508642916098, guid: cef3e1443bd38e74484e4d521a215c68, type: 3}
+    - {fileID: 6190661508642916098, guid: e37eae89c18fcfb4b8da0b822521c265, type: 3}
+    - {fileID: 6190661508642916098, guid: d7d2e13db09e0e64bbcd479f5c78a65f, type: 3}
 --- !u!114 &7276679206402820566
 MonoBehaviour:
   m_ObjectHideFlags: 0
