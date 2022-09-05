@@ -22,7 +22,7 @@ MonoBehaviour:
   ShowLogWindow: 1
   MarkdownOpenMode: 1
   SelectedPipeline: {fileID: 11400000, guid: 4dd48049486e9ce49bfcb65be4435455, type: 2}
-  SelectedManifest: {fileID: 11400000, guid: 685e8244600d4934bac7729f6b4a193b, type: 2}
+  SelectedManifest: {fileID: 11400000, guid: 9d8203a1c8464974586f50cb40f42426, type: 2}
   QuickAccessPipelines:
   - {fileID: 11400000, guid: 4dd48049486e9ce49bfcb65be4435455, type: 2}
   QuickAccessManifests:
@@ -35,8 +35,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b9b73eebf85f9df488fc243573a756bb, type: 2}
   - {fileID: 11400000, guid: a6f3717cff2ab2741bfc380918cd7360, type: 2}
   - {fileID: 11400000, guid: 5c529e7d46dfa334fac959bfdcafdc46, type: 2}
+  - {fileID: 11400000, guid: e43a111cf898e77408e9a61537f2c663, type: 2}
   - {fileID: 11400000, guid: 259a651ff690b64479bc0fe58f219530, type: 2}
   - {fileID: 11400000, guid: 97f2d5dbcad9d2945906305b70dd3f23, type: 2}
   - {fileID: 11400000, guid: 4e887fc48136d4f4fa38036beac6da59, type: 2}
-  - {fileID: 11400000, guid: e43a111cf898e77408e9a61537f2c663, type: 2}
   ImportConfiguration: {fileID: 11400000, guid: 53ed3299b5d399b43a2ab8388582dc61, type: 2}

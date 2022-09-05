@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Name: Files
   m_EditorClassIdentifier: 
   StagingPaths:
-  - <ManifestPluginStaging>/lang
-  - <ThunderstorePackage>/<ManifestName>/plugins/lang
+  - <ManifestPluginStaging>
+  - <ThunderstorePackage>/<ManifestName>/plugins
   files:
-  - {fileID: 4900000, guid: dd28329f3fd168945bd583827c56a302, type: 3}
+  - {fileID: 102900000, guid: 73afc86131bb1084caa025eb6eba0bb9, type: 3}
