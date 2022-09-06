@@ -22,7 +22,7 @@ MonoBehaviour:
   ShowLogWindow: 1
   MarkdownOpenMode: 1
   SelectedPipeline: {fileID: 11400000, guid: 4dd48049486e9ce49bfcb65be4435455, type: 2}
-  SelectedManifest: {fileID: 11400000, guid: e43a111cf898e77408e9a61537f2c663, type: 2}
+  SelectedManifest: {fileID: 11400000, guid: 7b1c26add87c7c846ab4762ecbd9a219, type: 2}
   QuickAccessPipelines:
   - {fileID: 11400000, guid: 4dd48049486e9ce49bfcb65be4435455, type: 2}
   QuickAccessManifests:
@@ -35,6 +35,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b9b73eebf85f9df488fc243573a756bb, type: 2}
   - {fileID: 11400000, guid: a6f3717cff2ab2741bfc380918cd7360, type: 2}
   - {fileID: 11400000, guid: 5c529e7d46dfa334fac959bfdcafdc46, type: 2}
+  - {fileID: 11400000, guid: 7b1c26add87c7c846ab4762ecbd9a219, type: 2}
   - {fileID: 11400000, guid: e43a111cf898e77408e9a61537f2c663, type: 2}
   - {fileID: 11400000, guid: 259a651ff690b64479bc0fe58f219530, type: 2}
   - {fileID: 11400000, guid: 97f2d5dbcad9d2945906305b70dd3f23, type: 2}
