@@ -30,7 +30,11 @@
         "Timberborn.Navigation.dll",
         "Timberborn.EnterableSystem.dll",
         "Timberborn.Common.dll",
-        "Timberborn.TickSystem.dll"
+        "Timberborn.TickSystem.dll",
+        "Timberborn.NeedBehaviorSystem.dll",
+        "Timberborn.NeedSystem.dll",
+        "Timberborn.SlotSystem.dll",
+        "Timberborn.CharacterModelSystem.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],
