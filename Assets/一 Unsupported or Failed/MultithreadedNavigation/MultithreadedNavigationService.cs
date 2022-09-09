@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Timers;
+using HarmonyLib;
 using Timberborn.BehaviorSystem;
 using Timberborn.CharacterModelSystem;
 using Timberborn.Common;
@@ -23,28 +24,31 @@ namespace MultithreadedNavigation
 {
     public class MultithreadedNavigationService : ITickableSingleton
     {
+        // public readonly Dictionary<int, MyBehaviorManager> BehaviorManagers = new();
         public readonly List<MyBehaviorManager> BehaviorManagers = new();
 
-
+        Stopwatch stopwatch = Stopwatch.StartNew();
+        
         public void Tick()
         {
             Plugin.Log.LogInfo("Tick");
             
+            
+            stopwatch.Start();
             NativeArray<MyBehaviorManager.Data> behaviorManagers = new(BehaviorManagers.Count, Allocator.TempJob);
-            for (int i = 0; i < this.BehaviorManagers.Count; i++)
+            for (int i = 0; i < BehaviorManagers.Count; i++)
             {
                 // behaviorManagers[i] = new MyBehaviorManager.Data(BehaviorManagers[i], ref BehaviorManagers[i].returnToBehavior, ref BehaviorManagers[i].runningBehavior, ref BehaviorManagers[i].rootBehaviors, ref BehaviorManagers[i].runningExecutor);
                 behaviorManagers[i] = new MyBehaviorManager.Data(BehaviorManagers[i]);
             }
             var job = new MultithreadedNavigationJob { MyBehaviorManagers = behaviorManagers };
-            var jobHandle = job.Schedule(behaviorManagers.Length, behaviorManagers.Length);
-            Stopwatch stopwatch = Stopwatch.StartNew();
+            var jobHandle = job.Schedule(behaviorManagers.Length, behaviorManagers.Length / 10);
             jobHandle.Complete();
+            behaviorManagers.Dispose();
+            BehaviorManagers.Clear();
             stopwatch.Stop();
             Plugin.Log.LogFatal(stopwatch.ElapsedTicks);
             stopwatch.Reset();
-            behaviorManagers.Dispose();
-            BehaviorManagers.Clear();
         }
         
         private static readonly object PickBestActionLock = new object();
@@ -175,7 +179,256 @@ namespace MultithreadedNavigation
             }
         }
         
+        private static readonly object PreReconstructPathLock = new object();
+        private bool _secondCallPreReconstructPath;
         
+        public bool LockedPreReconstructPath(
+            PathReconstructor __instance,
+            IFlowField flowField,
+            Vector3 start,
+            Vector3 destination,
+            List<Vector3> pathCorners)
+        {
+            lock (PreReconstructPathLock)
+            {
+                if (_secondCallPreReconstructPath)
+                {
+                    _secondCallPreReconstructPath = false;
+                    return true;
+                }
+                _secondCallPreReconstructPath = true;
+                
+                MethodInfo methodInfo = typeof(PathReconstructor).GetMethod("PreReconstructPath", BindingFlags.NonPublic | BindingFlags.Instance);
+                methodInfo.Invoke(__instance, new object[] { flowField, start, destination, pathCorners });
+                return false;
+            }
+        }
+        
+        private static readonly object AddFillFlowFieldWithPath = new object();
+        private bool _secondCallFillFlowFieldWithPath1;
+        
+        public bool LockedFillFlowFieldWithPath1(
+            TerrainAStarPathfinder __instance,
+            TerrainNavMeshGraph terrainNavMeshGraph,
+            PathFlowField flowField,
+            float maxDistance,
+            int startNodeId,
+            int destinationNodeId)
+        {
+            lock (AddFillFlowFieldWithPath)
+            {
+                if (_secondCallFillFlowFieldWithPath1)
+                {
+                    _secondCallFillFlowFieldWithPath1 = false;
+                    return true;
+                }
+                _secondCallFillFlowFieldWithPath1 = true;
+
+                // __instance.FillFlowFieldWithPath(terrainNavMeshGraph, flowField, maxDistance, startNodeId, destinationNodeId);
+                Traverse.Create(__instance).Method("FillFlowFieldWithPath", terrainNavMeshGraph, flowField, maxDistance, startNodeId, destinationNodeId);
+                // MethodInfo methodInfo = typeof(TerrainAStarPathfinder).GetMethod("FillFlowFieldWithPath", BindingFlags.Public | BindingFlags.Instance);
+                // methodInfo.Invoke(__instance, new object[] { terrainNavMeshGraph, flowField, maxDistance, startNodeId, destinationNodeId });
+                return false;
+            }
+        }
+        
+        private bool _secondCallFillFlowFieldWithPath2;
+        
+        public bool LockedFillFlowFieldWithPath2(
+            TerrainAStarPathfinder __instance,
+            TerrainNavMeshGraph terrainNavMeshGraph,
+            PathFlowField flowField,
+            float maxDistance,
+            int startNodeId,
+            int destinationNodeId,
+            string test = "FillFlowFieldWithPath")
+        {
+            lock (AddFillFlowFieldWithPath)
+            {
+                if (_secondCallFillFlowFieldWithPath2)
+                {
+                    _secondCallFillFlowFieldWithPath2 = false;
+                    return true;
+                }
+                _secondCallFillFlowFieldWithPath2 = true;
+
+                Traverse.Create(__instance).Method(test, terrainNavMeshGraph, flowField, maxDistance, startNodeId, destinationNodeId);
+                return false;
+            }
+        }
+        
+        
+        private bool _secondCallPushNode;
+        
+        // public bool LockedPushNode(
+        //     TerrainAStarPathfinder __instance,
+        //     int nodeId, 
+        //     int parentNodeId, 
+        //     float gScore)
+        // {
+        //     lock (AddFillFlowFieldWithPath)
+        //     {
+        //         if (_secondCallPushNode)
+        //         {               
+        //             // Plugin.Log.LogInfo("second call");
+        //
+        //             _secondCallPushNode = false;
+        //             return true;
+        //         }
+        //         // Plugin.Log.LogInfo("first call");
+        //         _secondCallPushNode = true;
+        //         
+        //         MethodInfo methodInfo = typeof(TerrainAStarPathfinder).GetMethod("PushNode", BindingFlags.NonPublic | BindingFlags.Instance);
+        //         methodInfo.Invoke(__instance, new object[] { nodeId, parentNodeId, gScore });
+        //         return false;
+        //         
+        //         // return Tuple.Create(__instance.GetRandomDestination(district, coordinates), false);
+        //     }
+        // }
+        
+        
+        private static readonly object FindPathInFlowFieldLock1 = new object();
+        private bool _secondCallFindPathInFlowField1;
+        
+        public Tuple<bool, bool> LockedFindPathInFlowField1(
+            FlowFieldPathFinder __instance,
+            PathFlowField flowField,
+            Vector3 start,
+            Vector3 destination,
+            out float distance,
+            List<Vector3> pathCorners)
+        {
+            lock (FindPathInFlowFieldLock1)
+            {
+                distance = 0;
+                if (_secondCallFindPathInFlowField1)
+                {
+                    _secondCallFindPathInFlowField1 = false;
+                    return Tuple.Create(default(bool), true);
+                }
+                _secondCallFindPathInFlowField1 = true;
+                
+                MethodInfo methodInfo = typeof(FlowFieldPathFinder).GetMethod("FindPathInFlowField", new[]{typeof(PathFlowField), typeof(Vector3), typeof(Vector3), typeof(float).MakeByRefType(), typeof(List<Vector3>)});
+                return Tuple.Create((bool)methodInfo.Invoke(__instance, new object[] {flowField, start,destination, distance, pathCorners}), false);
+
+                // return Tuple.Create((bool)Traverse.Create(__instance).Method("FillFlowFieldWithPath", flowField, start, destination, distance, pathCorners).GetValue(), false);
+                // return Tuple.Create(__instance.GetRandomDestination(district, coordinates), false);
+            }
+        }
+        
+        private static readonly object FindPathInFlowFieldLock2 = new object();
+        private bool _secondCallFindPathInFlowField2;
+        
+        public Tuple<bool, bool> LockedFindPathInFlowField2(
+            FlowFieldPathFinder __instance,
+            PathFlowField pathFlowField,
+            RoadSpillFlowField roadSpillFlowField,
+            Vector3 start,
+            Vector3 destination,
+            out float distance,
+            List<Vector3> pathCorners)
+        {
+            lock (FindPathInFlowFieldLock2)
+            {
+                distance = 0;
+                if (_secondCallFindPathInFlowField2)
+                {
+                    _secondCallFindPathInFlowField2
+                        = false;
+                    return Tuple.Create(default(bool), true);
+                }
+                _secondCallFindPathInFlowField2 = true;
+                
+                MethodInfo methodInfo = typeof(FlowFieldPathFinder).GetMethod("FindPathInFlowField", new[]{typeof(PathFlowField), typeof(RoadSpillFlowField), typeof(Vector3), typeof(Vector3), typeof(float).MakeByRefType(), typeof(List<Vector3>)});
+                return Tuple.Create((bool)methodInfo.Invoke(__instance, new object[] {pathFlowField, roadSpillFlowField, start,destination, distance, pathCorners}), false);
+
+                // return Tuple.Create((bool)Traverse.Create(__instance).Method("FillFlowFieldWithPath", flowField, start, destination, distance, pathCorners).GetValue(), false);
+                // return Tuple.Create(__instance.GetRandomDestination(district, coordinates), false);
+            }
+        }
+        
+        
+        // public readonly object GetParentIdLock = new object();
+        // private bool _secondCallGetParentId;
+        //
+        // public Tuple<int, bool> LockedGetParentId(
+        //     PathFlowField __instance,
+        //     int nodeId)
+        // {
+        //     lock (GetParentIdLock)
+        //     {
+        //         if (_secondCallGetParentId)
+        //         {
+        //             _secondCallGetParentId = false;
+        //             return Tuple.Create(default(int), true);
+        //         }
+        //         _secondCallGetParentId = true;
+        //         
+        //         MethodInfo methodInfo = typeof(PathFlowField).GetMethod("GetParentId", BindingFlags.Public | BindingFlags.Instance);
+        //         return Tuple.Create((int)methodInfo.Invoke(__instance, new object[] {nodeId}), false);
+        //     }
+        // }
+        // private bool _secondCallHasNode;
+        //
+        // public Tuple<bool, bool> LockedHasNode(
+        //     PathFlowField __instance,
+        //     int nodeId)
+        // {
+        //     lock (GetParentIdLock)
+        //     {
+        //         if (_secondCallHasNode)
+        //         {
+        //             _secondCallHasNode = false;
+        //             return Tuple.Create(default(bool), true);
+        //         }
+        //         _secondCallHasNode = true;
+        //         
+        //         MethodInfo methodInfo = typeof(PathFlowField).GetMethod("HasNode", BindingFlags.Public | BindingFlags.Instance);
+        //         return Tuple.Create((bool)methodInfo.Invoke(__instance, new object[] {nodeId}), false);
+        //     }
+        // }
+        // private bool _secondCallClear;
+        //
+        // public bool LockedClear(
+        //     PathFlowField __instance,
+        //     int startNodeId, 
+        //     float maxDistance)
+        // {
+        //     lock (GetParentIdLock)
+        //     {
+        //         if (_secondCallGetParentId)
+        //         {
+        //             _secondCallGetParentId = false;
+        //             return true;
+        //         }
+        //         _secondCallGetParentId = true;
+        //         
+        //         MethodInfo methodInfo = typeof(PathFlowField).GetMethod("Clear", BindingFlags.Public | BindingFlags.Instance);
+        //         methodInfo.Invoke(__instance, new object[] { startNodeId, maxDistance });
+        //         return false;
+        //     }
+        // }
+        
+        // private static readonly object PathFlowFieldSetterLock = new object();
+        // private bool _secondCallPathFlowFieldSetter;
+        //
+        // public Tuple<int, bool> LockedPathFlowFieldSetter(
+        //     PathFlowField __instance,
+        //     int nodeId)
+        // {
+        //     lock (PathFlowFieldSetterLock)
+        //     {
+        //         if (_secondCallPathFlowFieldSetter)
+        //         {
+        //             _secondCallPathFlowFieldSetter = false;
+        //             return Tuple.Create(default(int), true);
+        //         }
+        //         _secondCallPathFlowFieldSetter = true;
+        //         
+        //         MethodInfo methodInfo = typeof(PathFlowField).GetMethod("GetParentId", BindingFlags.Public | BindingFlags.Instance);
+        //         return Tuple.Create((int)methodInfo.Invoke(__instance, new object[] {nodeId}), false);
+        //     }
+        // }
         
         
         
