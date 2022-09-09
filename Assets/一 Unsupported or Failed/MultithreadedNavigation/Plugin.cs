@@ -6,6 +6,7 @@ using System.Reflection.Emit;
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
+using JetBrains.Annotations;
 using Timberborn.BehaviorSystem;
 using Timberborn.BottomBarSystem;
 using Timberborn.CharacterModelSystem;
@@ -157,32 +158,32 @@ namespace MultithreadedNavigation
         }
     }
     
-    [HarmonyPatch(typeof(DistrictDestinationPicker), "GetRandomDestination", typeof(District), typeof(Vector3))]
-    public class DistrictDestinationPickerPatch
-    {
-        static bool Prefix(
-            DistrictDestinationPicker __instance,
-            District district, 
-            Vector3 coordinates,
-            ref Vector3 __result)
-        {
-            var result = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().LockedGetRandomDestination(__instance,  district, coordinates);
-            if (result.Item2)
-            {
-                return true;
-            }
-        
-            __result = result.Item1;
-            return false;
-        }
-        
-        // static void Postfix()
-        // {
-        //     _stopwatch.Stop();
-        //     Plugin.Log.LogFatal(_stopwatch.ElapsedTicks);
-        //     _stopwatch.Reset();
-        // }
-    }
+    // [HarmonyPatch(typeof(DistrictDestinationPicker), "GetRandomDestination", typeof(District), typeof(Vector3))]
+    // public class DistrictDestinationPickerPatch
+    // {
+    //     static bool Prefix(
+    //         DistrictDestinationPicker __instance,
+    //         District district, 
+    //         Vector3 coordinates,
+    //         ref Vector3 __result)
+    //     {
+    //         var result = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().LockedGetRandomDestination(__instance,  district, coordinates);
+    //         if (result.Item2)
+    //         {
+    //             return true;
+    //         }
+    //     
+    //         __result = result.Item1;
+    //         return false;
+    //     }
+    //     
+    //     // static void Postfix()
+    //     // {
+    //     //     _stopwatch.Stop();
+    //     //     Plugin.Log.LogFatal(_stopwatch.ElapsedTicks);
+    //     //     _stopwatch.Reset();
+    //     // }
+    // }
     
     // [HarmonyPatch(typeof(SlotManager), "AddEnterer", typeof(Enterer), typeof(bool))]
     // public class SlotManagerPatch
@@ -220,35 +221,35 @@ namespace MultithreadedNavigation
     }
     
     
-    [HarmonyPatch(typeof(RoadSpillFlowField), "AddNode", typeof(int), typeof(int), typeof(int), typeof(float))]
-    public class RoadSpillFlowFieldPatch
-    {
-        static bool Prefix(RoadSpillFlowField __instance, int nodeId, int parentNodeId, int roadParentNodeId, float distanceToRoad)
-        {
-            var result = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().LockedAddNode(__instance, nodeId, parentNodeId, roadParentNodeId, distanceToRoad);
-            if (result)
-            {
-                return true;
-            }
-        
-            return false;
-        }
-    }
+    // [HarmonyPatch(typeof(RoadSpillFlowField), "AddNode", typeof(int), typeof(int), typeof(int), typeof(float))]
+    // public class RoadSpillFlowFieldPatch
+    // {
+    //     static bool Prefix(RoadSpillFlowField __instance, int nodeId, int parentNodeId, int roadParentNodeId, float distanceToRoad)
+    //     {
+    //         var result = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().LockedAddNode(__instance, nodeId, parentNodeId, roadParentNodeId, distanceToRoad);
+    //         if (result)
+    //         {
+    //             return true;
+    //         }
+    //     
+    //         return false;
+    //     }
+    // }
     
-    [HarmonyPatch(typeof(PathReconstructor), "PreReconstructPath", typeof(IFlowField), typeof(Vector3), typeof(Vector3), typeof(List<Vector3>))]
-    public class PathReconstructorPatch
-    {
-        static bool Prefix(PathReconstructor __instance, IFlowField flowField, Vector3 start, Vector3 destination, List<Vector3> pathCorners)
-        {
-            var result = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().LockedPreReconstructPath(__instance, flowField, start, destination, pathCorners);
-            if (result)
-            {
-                return true;
-            }
-        
-            return false;
-        }
-    }
+    // [HarmonyPatch(typeof(PathReconstructor), "PreReconstructPath", typeof(IFlowField), typeof(Vector3), typeof(Vector3), typeof(List<Vector3>))]
+    // public class PathReconstructorPatch
+    // {
+    //     static bool Prefix(PathReconstructor __instance, IFlowField flowField, Vector3 start, Vector3 destination, List<Vector3> pathCorners)
+    //     {
+    //         var result = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().LockedPreReconstructPath(__instance, flowField, start, destination, pathCorners);
+    //         if (result)
+    //         {
+    //             return true;
+    //         }
+    //     
+    //         return false;
+    //     }
+    // }
     
     
     
@@ -313,55 +314,54 @@ namespace MultithreadedNavigation
     //     }
     // }
     
-    [HarmonyPatch(typeof(TerrainAStarPathfinder), "FillFlowFieldWithPath", typeof(TerrainNavMeshGraph), typeof(PathFlowField), typeof(float), typeof(int), typeof(int))]
-    public class TerrainAStarPathfinderPatch1
-    {
-        static bool Prefix(
-            TerrainAStarPathfinder __instance, 
-            TerrainNavMeshGraph terrainNavMeshGraph,
-            PathFlowField flowField,
-            float maxDistance,
-            int startNodeId,
-            int destinationNodeId)
-        {
-            var result = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().LockedFillFlowFieldWithPath1(__instance, terrainNavMeshGraph, flowField, maxDistance, startNodeId, destinationNodeId);
-            if (result)
-            {
-                return true;
-            }
-        
-            return false;
-        }
-    }
+    // [HarmonyPatch(typeof(TerrainAStarPathfinder), "FillFlowFieldWithPath", typeof(TerrainNavMeshGraph), typeof(PathFlowField), typeof(float), typeof(int), typeof(int))]
+    // public class TerrainAStarPathfinderPatch1
+    // {
+    //     static bool Prefix(
+    //         TerrainAStarPathfinder __instance, 
+    //         TerrainNavMeshGraph terrainNavMeshGraph,
+    //         PathFlowField flowField,
+    //         float maxDistance,
+    //         int startNodeId,
+    //         int destinationNodeId)
+    //     {
+    //         var result = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().LockedFillFlowFieldWithPath1(__instance, terrainNavMeshGraph, flowField, maxDistance, startNodeId, destinationNodeId);
+    //         if (result)
+    //         {
+    //             return true;
+    //         }
+    //     
+    //         return false;
+    //     }
+    // }
     
-    [HarmonyPatch(typeof(TerrainAStarPathfinder), "FillFlowFieldWithPath")]
-    public class TerrainAStarPathfinderPatch2
-    {
-        static MethodInfo TargetMethod()
-        {
-            return AccessTools.Method(typeof(FlowFieldPathFinder), "FindPathInFlowField", new[] { typeof(TerrainNavMeshGraph), typeof(PathFlowField), typeof(float), typeof(IReadOnlyList<int>), typeof(int).MakeByRefType()});
-        }
-        
-        
-        static bool Prefix(
-            TerrainAStarPathfinder __instance, 
-            TerrainNavMeshGraph terrainNavMeshGraph,
-            PathFlowField flowField,
-            float maxDistance,
-            int startNodeId,
-            IReadOnlyList<int> destinationNodeIds,
-            int destinationNodeId,
-            bool __result)
-        {
-            var result = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().LockedFillFlowFieldWithPath2(__instance, terrainNavMeshGraph, flowField, maxDistance, startNodeId, destinationNodeIds, destinationNodeId);
-            if (result)
-            {
-                return true;
-            }
-        
-            return false;
-        }
-    }
+    // [HarmonyPatch(typeof(TerrainAStarPathfinder), "FillFlowFieldWithPath")]
+    // public class TerrainAStarPathfinderPatch2
+    // {
+    //     static MethodInfo TargetMethod()
+    //     {
+    //         return AccessTools.Method(typeof(FlowFieldPathFinder), "FillFlowFieldWithPath", new[] { typeof(TerrainNavMeshGraph), typeof(PathFlowField), typeof(float), typeof(IReadOnlyList<int>), typeof(int).MakeByRefType()});
+    //     }
+    //
+    //     static bool Prefix(
+    //         TerrainAStarPathfinder __instance, 
+    //         TerrainNavMeshGraph terrainNavMeshGraph,
+    //         PathFlowField flowField,
+    //         float maxDistance,
+    //         int startNodeId,
+    //         IReadOnlyList<int> destinationNodeIds,
+    //         int destinationNodeId,
+    //         bool __result)
+    //     {
+    //         var result = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().LockedFillFlowFieldWithPath2(__instance, terrainNavMeshGraph, flowField, maxDistance, startNodeId, destinationNodeIds, destinationNodeId);
+    //         if (result)
+    //         {
+    //             return true;
+    //         }
+    //     
+    //         return false;
+    //     }
+    // }
     
     // [HarmonyPatch(typeof(TerrainAStarPathfinder), "PushNode", typeof(int), typeof(int), typeof(float))]
     // public class TerrainAStarPathfinderPatch2
@@ -378,61 +378,186 @@ namespace MultithreadedNavigation
     //     }
     // }
 
-    [HarmonyPatch(typeof(FlowFieldPathFinder))]
-    public class FlowFieldPathFinderPatch1
-    {
-        static MethodInfo TargetMethod()
-        {
-            return AccessTools.Method(typeof(FlowFieldPathFinder), "FindPathInFlowField", new[] { typeof(PathFlowField), typeof(Vector3), typeof(Vector3), typeof(float).MakeByRefType(), typeof(List<Vector3>)});
-        }
-        
-        static bool Prefix(
-            FlowFieldPathFinder __instance,
-            PathFlowField flowField,
-            Vector3 start,
-            Vector3 destination,
-            out float distance,
-            List<Vector3> pathCorners,
-            ref bool __result)
-        {
-            var result = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().LockedFindPathInFlowField1(__instance, flowField, start, destination, out distance, pathCorners);
-            if (result.Item2)
-            {
-                return true;
-            }
-
-            __result = result.Item1;
-            return false;
-        }
-    }
+    // [HarmonyPatch(typeof(FlowFieldPathFinder))]
+    // public class FlowFieldPathFinderPatch1
+    // {
+    //     static MethodInfo TargetMethod()
+    //     {
+    //         return AccessTools.Method(typeof(FlowFieldPathFinder), "FindPathInFlowField", new[] { typeof(PathFlowField), typeof(Vector3), typeof(Vector3), typeof(float).MakeByRefType(), typeof(List<Vector3>)});
+    //     }
+    //     
+    //     static bool Prefix(
+    //         FlowFieldPathFinder __instance,
+    //         PathFlowField flowField,
+    //         Vector3 start,
+    //         Vector3 destination,
+    //         out float distance,
+    //         List<Vector3> pathCorners,
+    //         ref bool __result)
+    //     {
+    //         var result = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().LockedFindPathInFlowField1(__instance, flowField, start, destination, out distance, pathCorners);
+    //         if (result.Item2)
+    //         {
+    //             return true;
+    //         }
+    //
+    //         __result = result.Item1;
+    //         return false;
+    //     }
+    // }
     
-    [HarmonyPatch(typeof(FlowFieldPathFinder))]
-    public class FlowFieldPathFinderPatch2
+    // [HarmonyPatch(typeof(FlowFieldPathFinder))]
+    // public class FlowFieldPathFinderPatch2
+    // {
+    //     static MethodInfo TargetMethod()
+    //     {
+    //         return AccessTools.Method(typeof(FlowFieldPathFinder), "FindPathInFlowField", new[] { typeof(PathFlowField), typeof(RoadSpillFlowField), typeof(Vector3), typeof(Vector3), typeof(float).MakeByRefType(), typeof(List<Vector3>)});
+    //     }
+    //     
+    //     static bool Prefix(
+    //         FlowFieldPathFinder __instance,
+    //         PathFlowField pathFlowField,
+    //         RoadSpillFlowField roadSpillFlowField,
+    //         Vector3 start,
+    //         Vector3 destination,
+    //         out float distance,
+    //         List<Vector3> pathCorners,
+    //         ref bool __result)
+    //     {
+    //         var result = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().LockedFindPathInFlowField2(__instance, pathFlowField, roadSpillFlowField, start, destination, out distance, pathCorners);
+    //         if (result.Item2)
+    //         {
+    //             return true;
+    //         }
+    //
+    //         __result = result.Item1;
+    //         return false;
+    //     }
+    // }
+    //
+    
+    
+    
+    
+    
+    [HarmonyPatch]
+    public class NonVoidPatches
     {
-        static MethodInfo TargetMethod()
+        public static IEnumerable<MethodBase> TargetMethods()
         {
-            return AccessTools.Method(typeof(FlowFieldPathFinder), "FindPathInFlowField", new[] { typeof(PathFlowField), typeof(RoadSpillFlowField), typeof(Vector3), typeof(Vector3), typeof(float).MakeByRefType(), typeof(List<Vector3>)});
+            IEnumerable<MethodBase> targetMethods = new[]
+            {
+                AccessTools.Method(typeof(TerrainAStarPathfinder), "FillFlowFieldWithPath",
+                    new[]
+                    {
+                        typeof(TerrainNavMeshGraph), typeof(PathFlowField), typeof(float), typeof(int),
+                        typeof(IReadOnlyList<int>),
+                        typeof(int).MakeByRefType()
+                    }),
+                AccessTools.Method(typeof(FlowFieldPathFinder), "FindPathInFlowField",
+                    new[]
+                    {
+                        typeof(PathFlowField), typeof(Vector3), typeof(Vector3), typeof(float).MakeByRefType(),
+                        typeof(List<Vector3>)
+                    }),
+                AccessTools.Method(typeof(FlowFieldPathFinder), "FindPathInFlowField",
+                    new[]
+                    {
+                        typeof(AccessFlowField), typeof(Vector3), typeof(Vector3), typeof(float).MakeByRefType(),
+                        typeof(List<Vector3>)
+                    }),
+                AccessTools.Method(typeof(FlowFieldPathFinder), "FindPathInFlowField",
+                    new[]
+                    {
+                        typeof(AccessFlowField), typeof(RoadSpillFlowField), typeof(Vector3), typeof(Vector3),
+                        typeof(float).MakeByRefType(), typeof(List<Vector3>)
+                    }),
+                AccessTools.Method(typeof(FlowFieldPathFinder), "FindPathInFlowField",
+                    new[]
+                    {
+                        typeof(PathFlowField), typeof(RoadSpillFlowField), typeof(Vector3), typeof(Vector3),
+                        typeof(float).MakeByRefType(), typeof(List<Vector3>)
+                    }),
+                AccessTools.Method(typeof(FlowFieldPathFinder), "FindPathInFlowField",
+                    new[]
+                    {
+                        typeof(Vector3), typeof(IReadOnlyList<Vector3>), typeof(AccessFlowField),
+                        typeof(float).MakeByRefType(), typeof(List<Vector3>)
+                    }),
+                AccessTools.Method(typeof(DistrictDestinationPicker), "GetRandomDestination",
+                    new[]
+                    {
+                        typeof(District), typeof(Vector3)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("NavigationService"), "DestinationIsReachableUnlimitedRange",
+                    new[] { typeof(Vector3), typeof(Vector3) })
+            };
+
+            return targetMethods;
         }
-        
-        static bool Prefix(
-            FlowFieldPathFinder __instance,
-            PathFlowField pathFlowField,
-            RoadSpillFlowField roadSpillFlowField,
-            Vector3 start,
-            Vector3 destination,
-            out float distance,
-            List<Vector3> pathCorners,
-            ref bool __result)
+
+
+        static bool Prefix(object __instance, object[] __args, MethodBase __originalMethod, ref object __result)
         {
-            var result = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().LockedFindPathInFlowField2(__instance, pathFlowField, roadSpillFlowField, start, destination, out distance, pathCorners);
+            var result = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().LockedNonVoidFunction(__instance, __args, __originalMethod);
             if (result.Item2)
             {
                 return true;
             }
-
+        
             __result = result.Item1;
             return false;
         }
+        
+        // public static void Prefix(object[] __args, MethodBase __originalMethod)
+        // {
+        //     // use dynamic code to handle all method calls
+        //     var parameters = __originalMethod.GetParameters();
+        //     Plugin.Log.LogFatal($"Method {__originalMethod.FullDescription()}:");
+        //     for (var i = 0; i < __args.Length; i++)
+        //         Plugin.Log.LogFatal($"{parameters[i].Name} of type {parameters[i].ParameterType} is {__args[i]}");
+        // }
+    }
+
+    
+    [HarmonyPatch]
+    public class VoidPatches
+    {
+        public static IEnumerable<MethodBase> TargetMethods()
+        {
+            IEnumerable<MethodBase> targetMethods = new[]
+            {
+                AccessTools.Method(typeof(TerrainAStarPathfinder), "FillFlowFieldWithPath",
+                    new[]
+                    {
+                        typeof(TerrainNavMeshGraph), typeof(PathFlowField), typeof(float), typeof(int), typeof(int)
+                    }),
+                
+            };
+
+            return targetMethods;
+        }
+
+
+        static bool Prefix(object __instance, object[] __args, MethodBase __originalMethod)
+        {
+            var result = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().LockedVoidFunction(__instance, __args, __originalMethod);
+            if (result)
+            {
+                return true;
+            }
+        
+            return false;
+        }
+        
+        // public static void Prefix(object[] __args, MethodBase __originalMethod)
+        // {
+        //     // use dynamic code to handle all method calls
+        //     var parameters = __originalMethod.GetParameters();
+        //     Plugin.Log.LogFatal($"Method {__originalMethod.FullDescription()}:");
+        //     for (var i = 0; i < __args.Length; i++)
+        //         Plugin.Log.LogFatal($"{parameters[i].Name} of type {parameters[i].ParameterType} is {__args[i]}");
+        // }
     }
 
 

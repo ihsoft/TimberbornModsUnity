@@ -240,8 +240,8 @@ namespace MultithreadedNavigation
             PathFlowField flowField,
             float maxDistance,
             int startNodeId,
-            int destinationNodeId,
-            string test = "FillFlowFieldWithPath")
+            IReadOnlyList<int> destinationNodeIds,
+            int destinationNodeId)
         {
             lock (AddFillFlowFieldWithPath)
             {
@@ -252,7 +252,7 @@ namespace MultithreadedNavigation
                 }
                 _secondCallFillFlowFieldWithPath2 = true;
 
-                Traverse.Create(__instance).Method(test, terrainNavMeshGraph, flowField, maxDistance, startNodeId, destinationNodeId);
+                Traverse.Create(__instance).Method("FillFlowFieldWithPath", terrainNavMeshGraph, flowField, maxDistance, startNodeId, destinationNodeIds, destinationNodeId);
                 return false;
             }
         }
@@ -429,12 +429,57 @@ namespace MultithreadedNavigation
         //         return Tuple.Create((int)methodInfo.Invoke(__instance, new object[] {nodeId}), false);
         //     }
         // }
+
+
+
+
+        private readonly Dictionary<string, bool> _secondCalls = new();
+        private static readonly object FunctionLock = new object();
         
+        public Tuple<object, bool> LockedNonVoidFunction(object __instance, object[] __args, MethodBase __originalMethod)
+        {
+            lock (FunctionLock)
+            {
+                var methodName = __originalMethod.Name;
+                if (!_secondCalls.ContainsKey(methodName))
+                {
+                    _secondCalls.Add(methodName, false);
+                }
+                
+                // Plugin.Log.LogFatal(methodName + "                                  " + _secondCalls[methodName]);
+                
+                if (_secondCalls[methodName])
+                {
+                    _secondCalls[methodName] = false;
+                    return Tuple.Create(default(object), true);
+                }
+                _secondCalls[methodName] = true;
+                // return Tuple.Create((object)Traverse.Create(__instance).Method(methodName, __args), false);
+                return Tuple.Create(__originalMethod.Invoke(__instance, __args), false);
+            }
+        }
         
-        
-        
-        
-        
+        // private static readonly object VoidFunctionLock = new object();
+        public bool LockedVoidFunction(object __instance, object[] __args, MethodBase __originalMethod)
+        {
+            lock (FunctionLock)
+            {
+                var methodName = __originalMethod.Name;
+                if (!_secondCalls.ContainsKey(methodName))
+                {
+                    _secondCalls.Add(methodName, false);
+                }
+
+                if (_secondCalls[methodName])
+                {
+                    _secondCalls[methodName] = false;
+                    return true;
+                }
+                _secondCalls[methodName] = true;
+                __originalMethod.Invoke(__instance, __args);
+                return false;
+            }
+        }
         
         
         
