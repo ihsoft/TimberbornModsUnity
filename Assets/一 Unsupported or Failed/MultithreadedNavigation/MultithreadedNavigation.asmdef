@@ -34,7 +34,12 @@
         "Timberborn.NeedBehaviorSystem.dll",
         "Timberborn.NeedSystem.dll",
         "Timberborn.SlotSystem.dll",
-        "Timberborn.CharacterModelSystem.dll"
+        "Timberborn.CharacterModelSystem.dll",
+        "Timberborn.InventorySystem.dll",
+        "Timberborn.Metrics.dll",
+        "Timberborn.NotificationSystemUI.dll",
+        "Timberborn.YielderFinding.dll",
+        "Timberborn.Planting.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

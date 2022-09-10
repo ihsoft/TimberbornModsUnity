@@ -7,6 +7,7 @@ namespace MultithreadedNavigation
         public void Configure(IContainerDefinition containerDefinition)
         {
             containerDefinition.Bind<MultithreadedNavigationService>().AsSingleton();
+            containerDefinition.Bind<RunMethodsOnMainThread>().AsSingleton();
         }
     }
 }

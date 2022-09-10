@@ -2,25 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
-using System.Reflection.Emit;
+using System.Threading;
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
-using JetBrains.Annotations;
 using Timberborn.BehaviorSystem;
-using Timberborn.BottomBarSystem;
-using Timberborn.CharacterModelSystem;
-using Timberborn.EnterableSystem;
+using Timberborn.InventorySystem;
+using Timberborn.Metrics;
 using Timberborn.Navigation;
 using Timberborn.NeedBehaviorSystem;
 using Timberborn.NeedSystem;
-using Timberborn.SlotSystem;
-using Timberborn.WalkingSystem;
+using Timberborn.Planting;
+using Timberborn.YielderFinding;
 using TimberbornAPI;
 using TimberbornAPI.Common;
 using UnityEngine;
-using UnityEngine.UIElements;
-using Object = UnityEngine.Object;
 
 namespace MultithreadedNavigation
 {
@@ -46,400 +42,107 @@ namespace MultithreadedNavigation
         }
     }
     
-    // [HarmonyPatch(typeof(Walker), "GoTo", typeof(IDestination))]
-    // public class WalkerPatch
-    // {
-    //     static void Postfix(
-    //         Walker __instance,
-    //         IDestination destination,
-    //         IDestination ____currentDestination,
-    //         IDestination ____previousDestination,
-    //         Accessible ____accessibleOccupiedOnGoTo,
-    //         Enterer ____enterer)
-    //     {
-    //         TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>();
-    //     }
-    // }
+    // [HarmonyPatch(typeof(BehaviorManager), "InjectDependencies", typeof(IDayNightCycle), typeof(IDayNightCycle), typeof(TimerMetricCache<RootBehavior>))]
+    [HarmonyPatch]
+    public class Patch
+    {
+        static MethodInfo TargetMethod()
+        {
+            return AccessTools.Method(AccessTools.TypeByName("BehaviorManager"), "InjectDependencies", new Type[] { AccessTools.TypeByName("IDayNightCycle"), AccessTools.TypeByName("IInstantiator"), typeof(TimerMetricCache<RootBehavior>)});
+        }
+
+        static void Postfix(BehaviorManager __instance)
+        {
+            // Plugin.Log.LogInfo(__instance.name);
+            TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().MyBehaviorManagers.Add(new MyBehaviorManager(__instance));
+        }
+    }
     
+
     [HarmonyPatch(typeof(BehaviorManager), "Tick")]
     public class BehaviorManagerPatch
     {
-        private static Stopwatch _stopwatch = new Stopwatch();
+        static Stopwatch stopwatch = Stopwatch.StartNew();
+        public static long Time;
+
+        private static readonly StackTrace StackTrace = new StackTrace();
         
-        private static readonly object LoopLock = new object();
+        // static bool Prefix(BehaviorManager __instance)
+        // {
+        //     stopwatch.Start();
+        //     var test = _stackTrace.GetFrame(2).GetMethod().ReflectedType.Name;
+        //     stopwatch.Stop();
+        //     Plugin.Log.LogInfo(test);
+        //     Plugin.Log.LogFatal(stopwatch.ElapsedTicks);
+        //     stopwatch.Reset();
+        //     return false;
+        // }
         
-        static bool Prefix(
-            BehaviorManager __instance
-            // ref bool ____returnToBehavior,
-            // ref Behavior ____runningBehavior,
-            // ref List<RootBehavior> ____rootBehaviors,
-            // ref IExecutor ____runningExecutor
-            )
+        static bool Prefix()
         {
-            // _stopwatch.Start();
-            
-            
-            // Plugin.Log.LogFatal(Traverse.Create(__instance).Property("gameObject"));
-            // Plugin.Log.LogFatal("reset");
-            // Plugin.Log.LogInfo(____runningBehavior == null);
-            // Plugin.Log.LogFatal((bool)(Object)____runningBehavior);
-            // Stopwatch stopwatch = Stopwatch.StartNew();
-            var methodInfo = new StackTrace().GetFrame(2).GetMethod();
-            var className = methodInfo.ReflectedType.Name;
-            
+            // stopwatch.Start();
+            var className = StackTrace.GetFrame(2).GetMethod().ReflectedType.Name;
             // stopwatch.Stop();
             // Plugin.Log.LogFatal(stopwatch.ElapsedTicks);
             // stopwatch.Reset();
-
-            if (className == "MultithreadedNavigationJob")
-            {
-                return true;
-            }
-            // Plugin.Log.LogFatal(className);
-            // Plugin.Log.LogInfo(className == "MultithreadedNavigationJob");
-            //
-            // var list = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().BehaviorManagers;
-            //
-            // foreach (var myBehaviorManager in list)
-            // {
-            //     // Plugin.Log.LogFatal(Traverse.Create(__instance).Property("gameObject"));
-            //     // Plugin.Log.LogFatal(Traverse.Create(myBehaviorManager.behaviorManager).Property("gameObject").GetValue<GameObject>());
-            //     // Plugin.Log.LogInfo(Traverse.Create(__instance).Property("gameObject").GetValue<GameObject>() == Traverse.Create(myBehaviorManager.behaviorManager).Property("gameObject").GetValue<GameObject>());
-            //     if (Traverse.Create(__instance).Property("gameObject").GetValue<GameObject>() == Traverse.Create(myBehaviorManager.behaviorManager).Property("gameObject").GetValue<GameObject>())
-            //     {
-            //
-            //         // stopwatch.Stop();
-            //         // Plugin.Log.LogInfo(stopwatch.ElapsedTicks);
-            //         // stopwatch.Reset();
-            //
-            //         list.Remove(myBehaviorManager);
-            //
-            //
-            //         // Plugin.Log.LogFatal("prevent");
-            //         return true;
-            //     }
-            // }
-            
-
-            // TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().BehaviorManagers.Add(new MyBehaviorManager(__instance, ref ____returnToBehavior, ref ____runningBehavior, ref ____rootBehaviors, ref ____runningExecutor));
-            TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().BehaviorManagers.Add(new MyBehaviorManager(__instance));
-            // list.Add(list.Count, new MyBehaviorManager(__instance));
-            return false;
-        }
+            return className == "MultithreadedNavigationJob";
         
+            // TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().BehaviorManagers.Add(new MyBehaviorManager(__instance));
+        }
+    
+        // static void Prefix()
+        // {
+        //     stopwatch.Start();
+        //     
+        // }
         
         // static void Postfix()
         // {
-        //     _stopwatch.Stop();
-        //     Plugin.Log.LogFatal(_stopwatch.ElapsedTicks);
+        //     stopwatch.Stop();
+        //     Time += stopwatch.ElapsedTicks;
+        //     Plugin.Log.LogFatal(stopwatch.ElapsedTicks);
+        //     stopwatch.Reset();
         // }
-        
     }
-    
-    [HarmonyPatch(typeof(DistrictNeedBehaviorService), "PickBestAction", typeof(NeedManager), typeof(Vector3), typeof(float), typeof(NeedFilter))]
-    public class DistrictNeedBehaviorServicePatch
-    {
-        static bool Prefix(
-            DistrictNeedBehaviorService __instance,
-            NeedManager needManager,
-            Vector3 essentialActionPosition,
-            float hoursLeftForNonEssentialActions,
-            NeedFilter needFilter,
-            ref AppraisedAction? __result)
+
+    [HarmonyPatch]
+    public class NotMainThreadPatch
+    { 
+        static readonly Thread MainThread = Thread.CurrentThread;
+        private static readonly object InstantiateLock = new object();
+        
+        public static IEnumerable<MethodBase> TargetMethods()
         {
-            var result = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().LockedPickBestAction(__instance,  needManager, essentialActionPosition, hoursLeftForNonEssentialActions, needFilter);
-            if (result.Item2)
+            IEnumerable<MethodBase> targetMethods = new[]
             {
+                AccessTools.Method(AccessTools.TypeByName("CharacterModel"), "UpdateVisibility"),
+                AccessTools.Method(AccessTools.TypeByName("Child"), "GrowUp"),
+                AccessTools.Method(AccessTools.TypeByName("Mortal"), "DieIfItIsTime"),
+            };
+
+            return targetMethods;
+        }
+        
+        static bool Prefix(object __instance, MethodBase __originalMethod)
+        {
+            
+            lock (InstantiateLock)
+            {
+                if (Thread.CurrentThread != MainThread)
+                {
+                    var list = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().RunMethodsOnMainThread.MethodsList;
+                    list.AddItem(new RunMethodsOnMainThread.OriginalMethod(__instance, __originalMethod));
+                    return false;
+                }
+            
                 return true;
             }
-        
-            __result = result.Item1;
-            return false;
+            // var list = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().RunMethodsOnMainThread.MethodsList;
+            // list.AddItem(new RunMethodsOnMainThread.OriginalMethod(__instance, __originalMethod));
+            // return false;
         }
     }
-    
-    // [HarmonyPatch(typeof(DistrictDestinationPicker), "GetRandomDestination", typeof(District), typeof(Vector3))]
-    // public class DistrictDestinationPickerPatch
-    // {
-    //     static bool Prefix(
-    //         DistrictDestinationPicker __instance,
-    //         District district, 
-    //         Vector3 coordinates,
-    //         ref Vector3 __result)
-    //     {
-    //         var result = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().LockedGetRandomDestination(__instance,  district, coordinates);
-    //         if (result.Item2)
-    //         {
-    //             return true;
-    //         }
-    //     
-    //         __result = result.Item1;
-    //         return false;
-    //     }
-    //     
-    //     // static void Postfix()
-    //     // {
-    //     //     _stopwatch.Stop();
-    //     //     Plugin.Log.LogFatal(_stopwatch.ElapsedTicks);
-    //     //     _stopwatch.Reset();
-    //     // }
-    // }
-    
-    // [HarmonyPatch(typeof(SlotManager), "AddEnterer", typeof(Enterer), typeof(bool))]
-    // public class SlotManagerPatch
-    // {
-    //     static bool Prefix(
-    //         SlotManager __instance,
-    //         Enterer enterer, 
-    //         bool assign,
-    //         ref bool __result)
-    //     {
-    //         var result = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().LockedAddEnterer(__instance, enterer, assign);
-    //         if (result.Item2)
-    //         {
-    //             return true;
-    //         }
-    //     
-    //         __result = result.Item1;
-    //         return false;
-    //     }
-    // }
-    
-    [HarmonyPatch(typeof(CharacterModel), "UpdateVisibility")]
-    public class CharacterModelPatch
-    {
-        static bool Prefix(CharacterModel __instance)
-        {
-            // var result = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().LockedUpdateVisibility(__instance);
-            // if (result)
-            // {
-            //     return true;
-            // }
-        
-            return false;
-        }
-    }
-    
-    
-    // [HarmonyPatch(typeof(RoadSpillFlowField), "AddNode", typeof(int), typeof(int), typeof(int), typeof(float))]
-    // public class RoadSpillFlowFieldPatch
-    // {
-    //     static bool Prefix(RoadSpillFlowField __instance, int nodeId, int parentNodeId, int roadParentNodeId, float distanceToRoad)
-    //     {
-    //         var result = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().LockedAddNode(__instance, nodeId, parentNodeId, roadParentNodeId, distanceToRoad);
-    //         if (result)
-    //         {
-    //             return true;
-    //         }
-    //     
-    //         return false;
-    //     }
-    // }
-    
-    // [HarmonyPatch(typeof(PathReconstructor), "PreReconstructPath", typeof(IFlowField), typeof(Vector3), typeof(Vector3), typeof(List<Vector3>))]
-    // public class PathReconstructorPatch
-    // {
-    //     static bool Prefix(PathReconstructor __instance, IFlowField flowField, Vector3 start, Vector3 destination, List<Vector3> pathCorners)
-    //     {
-    //         var result = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().LockedPreReconstructPath(__instance, flowField, start, destination, pathCorners);
-    //         if (result)
-    //         {
-    //             return true;
-    //         }
-    //     
-    //         return false;
-    //     }
-    // }
-    
-    
-    
-    // [HarmonyPatch(typeof(PathFlowField), "GetParentId", typeof(int))]
-    // public class PathFlowFieldPatch1
-    // {
-    //     static bool Prefix(PathFlowField __instance, int nodeId, ref int __result)
-    //     {
-    //         var result = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().LockedGetParentId(__instance,  nodeId);
-    //         if (result.Item2)
-    //         {
-    //             return true;
-    //         }
-    //     
-    //         __result = result.Item1;
-    //         return false;
-    //     }
-    // }
-    //
-    // [HarmonyPatch(typeof(PathFlowField), "HasNode", typeof(int))]
-    // public class PathFlowFieldPatch2
-    // {
-    //     static bool Prefix(PathFlowField __instance, int nodeId, ref bool __result)
-    //     {
-    //         var result = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().LockedHasNode(__instance,  nodeId);
-    //         if (result.Item2)
-    //         {
-    //             return true;
-    //         }
-    //     
-    //         __result = result.Item1;
-    //         return false;
-    //     }
-    // }
-    //
-    // [HarmonyPatch(typeof(PathFlowField), "Clear", typeof(int), typeof(float))]
-    // public class PathFlowFieldPatch3
-    // {
-    //     static bool Prefix(PathFlowField __instance, int startNodeId, float maxDistance)
-    //     {
-    //         var result = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().LockedClear(__instance,  startNodeId, maxDistance);
-    //         if (result)
-    //         {
-    //             return true;
-    //         }
-    //     
-    //         return false;
-    //     }
-    // }
-    
-    
-    // [HarmonyPatch(typeof(PathFlowField), "_nodes", MethodType.Getter)]
-    // public class PathFlowFieldPatch2
-    // {
-    //     static bool Prefix(PathFlowField __instance, Dictionary<int, object> value)
-    //     {
-    //         lock (TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().GetParentIdLock)
-    //         {
-    //             // ____nodes = value;
-    //         }
-    //         return false;
-    //     }
-    // }
-    
-    // [HarmonyPatch(typeof(TerrainAStarPathfinder), "FillFlowFieldWithPath", typeof(TerrainNavMeshGraph), typeof(PathFlowField), typeof(float), typeof(int), typeof(int))]
-    // public class TerrainAStarPathfinderPatch1
-    // {
-    //     static bool Prefix(
-    //         TerrainAStarPathfinder __instance, 
-    //         TerrainNavMeshGraph terrainNavMeshGraph,
-    //         PathFlowField flowField,
-    //         float maxDistance,
-    //         int startNodeId,
-    //         int destinationNodeId)
-    //     {
-    //         var result = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().LockedFillFlowFieldWithPath1(__instance, terrainNavMeshGraph, flowField, maxDistance, startNodeId, destinationNodeId);
-    //         if (result)
-    //         {
-    //             return true;
-    //         }
-    //     
-    //         return false;
-    //     }
-    // }
-    
-    // [HarmonyPatch(typeof(TerrainAStarPathfinder), "FillFlowFieldWithPath")]
-    // public class TerrainAStarPathfinderPatch2
-    // {
-    //     static MethodInfo TargetMethod()
-    //     {
-    //         return AccessTools.Method(typeof(FlowFieldPathFinder), "FillFlowFieldWithPath", new[] { typeof(TerrainNavMeshGraph), typeof(PathFlowField), typeof(float), typeof(IReadOnlyList<int>), typeof(int).MakeByRefType()});
-    //     }
-    //
-    //     static bool Prefix(
-    //         TerrainAStarPathfinder __instance, 
-    //         TerrainNavMeshGraph terrainNavMeshGraph,
-    //         PathFlowField flowField,
-    //         float maxDistance,
-    //         int startNodeId,
-    //         IReadOnlyList<int> destinationNodeIds,
-    //         int destinationNodeId,
-    //         bool __result)
-    //     {
-    //         var result = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().LockedFillFlowFieldWithPath2(__instance, terrainNavMeshGraph, flowField, maxDistance, startNodeId, destinationNodeIds, destinationNodeId);
-    //         if (result)
-    //         {
-    //             return true;
-    //         }
-    //     
-    //         return false;
-    //     }
-    // }
-    
-    // [HarmonyPatch(typeof(TerrainAStarPathfinder), "PushNode", typeof(int), typeof(int), typeof(float))]
-    // public class TerrainAStarPathfinderPatch2
-    // {
-    //     static bool Prefix(TerrainAStarPathfinder __instance, int nodeId, int parentNodeId, float gScore)
-    //     {
-    //         var result = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().LockedPushNode(__instance, nodeId, parentNodeId, gScore);
-    //         if (result)
-    //         {
-    //             return true;
-    //         }
-    //     
-    //         return false;
-    //     }
-    // }
 
-    // [HarmonyPatch(typeof(FlowFieldPathFinder))]
-    // public class FlowFieldPathFinderPatch1
-    // {
-    //     static MethodInfo TargetMethod()
-    //     {
-    //         return AccessTools.Method(typeof(FlowFieldPathFinder), "FindPathInFlowField", new[] { typeof(PathFlowField), typeof(Vector3), typeof(Vector3), typeof(float).MakeByRefType(), typeof(List<Vector3>)});
-    //     }
-    //     
-    //     static bool Prefix(
-    //         FlowFieldPathFinder __instance,
-    //         PathFlowField flowField,
-    //         Vector3 start,
-    //         Vector3 destination,
-    //         out float distance,
-    //         List<Vector3> pathCorners,
-    //         ref bool __result)
-    //     {
-    //         var result = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().LockedFindPathInFlowField1(__instance, flowField, start, destination, out distance, pathCorners);
-    //         if (result.Item2)
-    //         {
-    //             return true;
-    //         }
-    //
-    //         __result = result.Item1;
-    //         return false;
-    //     }
-    // }
-    
-    // [HarmonyPatch(typeof(FlowFieldPathFinder))]
-    // public class FlowFieldPathFinderPatch2
-    // {
-    //     static MethodInfo TargetMethod()
-    //     {
-    //         return AccessTools.Method(typeof(FlowFieldPathFinder), "FindPathInFlowField", new[] { typeof(PathFlowField), typeof(RoadSpillFlowField), typeof(Vector3), typeof(Vector3), typeof(float).MakeByRefType(), typeof(List<Vector3>)});
-    //     }
-    //     
-    //     static bool Prefix(
-    //         FlowFieldPathFinder __instance,
-    //         PathFlowField pathFlowField,
-    //         RoadSpillFlowField roadSpillFlowField,
-    //         Vector3 start,
-    //         Vector3 destination,
-    //         out float distance,
-    //         List<Vector3> pathCorners,
-    //         ref bool __result)
-    //     {
-    //         var result = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().LockedFindPathInFlowField2(__instance, pathFlowField, roadSpillFlowField, start, destination, out distance, pathCorners);
-    //         if (result.Item2)
-    //         {
-    //             return true;
-    //         }
-    //
-    //         __result = result.Item1;
-    //         return false;
-    //     }
-    // }
-    //
-    
-    
-    
-    
-    
     [HarmonyPatch]
     public class NonVoidPatches
     {
@@ -453,6 +156,18 @@ namespace MultithreadedNavigation
                         typeof(TerrainNavMeshGraph), typeof(PathFlowField), typeof(float), typeof(int),
                         typeof(IReadOnlyList<int>),
                         typeof(int).MakeByRefType()
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("PathfindingService"), "FindTerrainPathUncached",
+                    new[]
+                    {
+                        typeof(Vector3), typeof(Vector3), typeof(float), typeof(float).MakeByRefType(),
+                        typeof(List<Vector3>)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("PathfindingService"), "FindTerrainPathUncached",
+                    new[]
+                    {
+                        typeof(Vector3), typeof(IReadOnlyList<int>), typeof(float), typeof(float).MakeByRefType(),
+                        typeof(List<Vector3>)
                     }),
                 AccessTools.Method(typeof(FlowFieldPathFinder), "FindPathInFlowField",
                     new[]
@@ -490,7 +205,50 @@ namespace MultithreadedNavigation
                         typeof(District), typeof(Vector3)
                     }),
                 AccessTools.Method(AccessTools.TypeByName("NavigationService"), "DestinationIsReachableUnlimitedRange",
-                    new[] { typeof(Vector3), typeof(Vector3) })
+                    new[]
+                    {
+                        typeof(Vector3), typeof(Vector3)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("DistrictNeedBehaviorService"), "PickBestAction",
+                    new[]
+                    {
+                        typeof(NeedManager), typeof(Vector3), typeof(float), typeof(NeedFilter)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("InventoryNeedBehavior"), "Decide",
+                    new[]
+                    {
+                        typeof(GameObject)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("ClosestYielderFinder"), "FindYielder",
+                    new[]
+                    {
+                        typeof(Inventory), typeof(int), typeof(IEnumerable<ReachableYielder>)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("ClosestYielderFinder"), "FindYielder",
+                    new[]
+                    {
+                        typeof(Inventory), typeof(int), typeof(IEnumerable<ReachableYielder>), typeof(bool)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("PlantingCoordinatesFinder"), "FindClosest",
+                    new[]
+                    {
+                        typeof(Vector3), typeof(Plantable)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("PlantingCoordinatesFinder"), "GetClosestOrDefault",
+                    new[]
+                    {
+                        typeof(IEnumerable<Vector3Int>)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("PlantingCoordinatesFinder"), "GetNeighboring",
+                    new[]
+                    {
+                        typeof(Vector3), typeof(Plantable)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("PlantingCoordinatesFinder"), "GetReachable",
+                    new[]
+                    {
+                        typeof(Plantable)
+                    }),
             };
 
             return targetMethods;
@@ -529,10 +287,33 @@ namespace MultithreadedNavigation
             {
                 AccessTools.Method(typeof(TerrainAStarPathfinder), "FillFlowFieldWithPath",
                     new[]
+
                     {
                         typeof(TerrainNavMeshGraph), typeof(PathFlowField), typeof(float), typeof(int), typeof(int)
                     }),
-                
+                AccessTools.Method(AccessTools.TypeByName("RoadSpillFlowField"), "AddNode",
+                    new[]
+                    {
+                        typeof(int), typeof(int), typeof(int), typeof(float)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("RegularRoadFlowFieldGenerator"), "FillFlowField",
+                    new[]
+                    {
+                        typeof(RoadNavMeshGraph), typeof(AccessFlowField), typeof(AccessFlowField), typeof(int)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("TerrainFlowFieldGenerator"), "FillFlowFieldUpToDistance",
+                    new[]
+                    {
+                        typeof(TerrainNavMeshGraph), typeof(AccessFlowField), typeof(float), typeof(int)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("PlantBehavior"), "ReserveCoordinates",
+                    new[]
+                    {
+                        typeof(GameObject), typeof(bool)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("GoodReserver"), "UnreserveStock"),
+                AccessTools.Method(AccessTools.TypeByName("NotificationPanel"), "PostLoad"),
+
             };
 
             return targetMethods;
