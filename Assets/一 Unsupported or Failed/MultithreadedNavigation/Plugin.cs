@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
@@ -7,13 +8,18 @@ using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
 using Timberborn.BehaviorSystem;
+using Timberborn.DistributionSystem;
+using Timberborn.DwellingSystem;
+using Timberborn.Goods;
 using Timberborn.InventorySystem;
 using Timberborn.Metrics;
 using Timberborn.Navigation;
 using Timberborn.NeedBehaviorSystem;
 using Timberborn.NeedSystem;
 using Timberborn.Planting;
+using Timberborn.WorkSystem;
 using Timberborn.YielderFinding;
+using Timberborn.Yielding;
 using TimberbornAPI;
 using TimberbornAPI.Common;
 using UnityEngine;
@@ -104,6 +110,48 @@ namespace MultithreadedNavigation
         //     stopwatch.Reset();
         // }
     }
+    
+    [HarmonyPatch]
+    public class TestPatch1
+    { 
+        public static IEnumerable<MethodBase> TargetMethods()
+        {
+            IEnumerable<MethodBase> targetMethods = new[]
+            {
+                AccessTools.Method(AccessTools.TypeByName("HaulingCenter"), "GetWorkplaceBehaviorsOrdered"),
+            };
+
+            return targetMethods;
+        }
+        
+        static bool Prefix(object __instance, MethodBase __originalMethod, ref IEnumerable<WorkplaceBehavior> __result)
+        {
+            __result = new List<WorkplaceBehavior>();
+            
+           return false;
+        }
+    }
+    
+    [HarmonyPatch]
+    public class TestPatch2
+    { 
+        public static IEnumerable<MethodBase> TargetMethods()
+        {
+            IEnumerable<MethodBase> targetMethods = new[]
+            {
+                AccessTools.Method(AccessTools.TypeByName("BringDesiredGoodLaborBehavior"), "Decide"),
+            };
+
+            return targetMethods;
+        }
+        
+        static bool Prefix(object __instance, MethodBase __originalMethod, ref Decision __result)
+        {
+            __result = Decision.ReleaseNow();
+            
+            return false;
+        }
+    }
 
     [HarmonyPatch]
     public class NotMainThreadPatch
@@ -118,6 +166,9 @@ namespace MultithreadedNavigation
                 AccessTools.Method(AccessTools.TypeByName("CharacterModel"), "UpdateVisibility"),
                 AccessTools.Method(AccessTools.TypeByName("Child"), "GrowUp"),
                 AccessTools.Method(AccessTools.TypeByName("Mortal"), "DieIfItIsTime"),
+                AccessTools.Method(AccessTools.TypeByName("AttractionFragment"), "UpdateButtons"),
+                AccessTools.Method(AccessTools.TypeByName("BehaviorManager"), "TickRunningExecutor"),
+                // AccessTools.Method(AccessTools.TypeByName("EntityService"), "Delete"),
             };
 
             return targetMethods;
@@ -125,7 +176,6 @@ namespace MultithreadedNavigation
         
         static bool Prefix(object __instance, MethodBase __originalMethod)
         {
-            
             lock (InstantiateLock)
             {
                 if (Thread.CurrentThread != MainThread)
@@ -137,9 +187,6 @@ namespace MultithreadedNavigation
             
                 return true;
             }
-            // var list = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().RunMethodsOnMainThread.MethodsList;
-            // list.AddItem(new RunMethodsOnMainThread.OriginalMethod(__instance, __originalMethod));
-            // return false;
         }
     }
 
@@ -168,6 +215,28 @@ namespace MultithreadedNavigation
                     {
                         typeof(Vector3), typeof(IReadOnlyList<int>), typeof(float), typeof(float).MakeByRefType(),
                         typeof(List<Vector3>)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("PathfindingService"), "FindRoadPathCached",
+                    new[]
+                    {
+                        typeof(Vector3), typeof(Vector3), typeof(float).MakeByRefType(),
+                        typeof(List<Vector3>)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("PathfindingService"), "FindTerrainPathCached",
+                    new[]
+                    {
+                        typeof(Vector3), typeof(Vector3), typeof(float), typeof(float).MakeByRefType(),
+                        typeof(List<Vector3>)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("NavigationService"), "FindPathUnlimitedRange",
+                    new[]
+                    {
+                        typeof(Vector3), typeof(Vector3), typeof(List<Vector3>), typeof(float).MakeByRefType()
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("NavigationService"), "FindPathUnlimitedRange",
+                    new[]
+                    {
+                        typeof(Vector3), typeof(IReadOnlyList<Vector3>), typeof(List<Vector3>), typeof(float).MakeByRefType()
                     }),
                 AccessTools.Method(typeof(FlowFieldPathFinder), "FindPathInFlowField",
                     new[]
@@ -219,36 +288,90 @@ namespace MultithreadedNavigation
                     {
                         typeof(GameObject)
                     }),
-                AccessTools.Method(AccessTools.TypeByName("ClosestYielderFinder"), "FindYielder",
+                
+                AccessTools.Method(AccessTools.TypeByName("FarmHouseWorkplaceBehavior"), "Decide",
                     new[]
                     {
-                        typeof(Inventory), typeof(int), typeof(IEnumerable<ReachableYielder>)
+                        typeof(GameObject)
                     }),
+                AccessTools.Method(AccessTools.TypeByName("BringNutrientRootBehavior"), "Decide",
+                    new[]
+                    {
+                        typeof(GameObject)
+                    }),
+                // AccessTools.Method(AccessTools.TypeByName("FillInputWorkplaceBehavior"), "Decide",
+                //     new[]
+                //     {
+                //         typeof(GameObject)
+                //     }),
+                AccessTools.Method(AccessTools.TypeByName("WorkerRootBehavior"), "DecideAsWorker"),
                 AccessTools.Method(AccessTools.TypeByName("ClosestYielderFinder"), "FindYielder",
                     new[]
                     {
                         typeof(Inventory), typeof(int), typeof(IEnumerable<ReachableYielder>), typeof(bool)
                     }),
-                AccessTools.Method(AccessTools.TypeByName("PlantingCoordinatesFinder"), "FindClosest",
+                // AccessTools.Method(AccessTools.TypeByName("CarrierInventoryFinder"), "TryCarryFromAnyInventory",
+                //     new[]
+                //     {
+                //         typeof(string), typeof(Inventory)
+                //     }),
+                // AccessTools.Method(AccessTools.TypeByName("CarrierInventoryFinder"), "GetClosestInventoryWithCapacity",
+                //     new[]
+                //     {
+                //         typeof(string), typeof(Accessible)
+                //     }),
+                // AccessTools.Method(AccessTools.TypeByName("CarrierInventoryFinder"), "GetDistrict",
+                //     new[]
+                //     {
+                //         typeof(Accessible)
+                //     }),
+                // AccessTools.Method(AccessTools.TypeByName("HaulingCenter"), "GetWorkplaceBehaviorsOrdered"),
+                AccessTools.Method(AccessTools.TypeByName("FlowFieldCache"), "GetFlowFieldAtNode",
                     new[]
                     {
-                        typeof(Vector3), typeof(Plantable)
+                        typeof(int)
                     }),
-                AccessTools.Method(AccessTools.TypeByName("PlantingCoordinatesFinder"), "GetClosestOrDefault",
+                AccessTools.Method(AccessTools.TypeByName("FlowFieldCache"), "TryGetFlowFieldAtNode",
                     new[]
                     {
-                        typeof(IEnumerable<Vector3Int>)
+                        typeof(int), typeof(AccessFlowField).MakeByRefType()
                     }),
-                AccessTools.Method(AccessTools.TypeByName("PlantingCoordinatesFinder"), "GetNeighboring",
+                // AccessTools.Method(AccessTools.TypeByName("YielderFinder"), "FindLivingYielderWithoutAccessible",
+                //     new[]
+                //     {
+                //         typeof(Inventory), typeof(Accessible), typeof(int), typeof(IEnumerable<Yielder>)
+                //     }),
+                // AccessTools.Method(AccessTools.TypeByName("HarvestStarter"), "FindYielder",
+                //     new[]
+                //     {
+                //         typeof(Inventory), typeof(IEnumerable<Yielder>)
+                //     }),
+                // AccessTools.Method(AccessTools.TypeByName("YielderFinder"), "FindYielderWithAccessible",
+                //     new[]
+                //     {
+                //         typeof(Inventory), typeof(Accessible), typeof(int), typeof(IEnumerable<Yielder>)
+                //     }),
+                AccessTools.Method(AccessTools.TypeByName("TerrainFlowFieldCache"), "GetFlowFieldAtNode",
                     new[]
                     {
-                        typeof(Vector3), typeof(Plantable)
+                        typeof(int)
                     }),
-                AccessTools.Method(AccessTools.TypeByName("PlantingCoordinatesFinder"), "GetReachable",
+                AccessTools.Method(AccessTools.TypeByName("TerrainFlowFieldCache"), "TryGetFlowFieldAtNode",
                     new[]
                     {
-                        typeof(Plantable)
+                        typeof(int), typeof(AccessFlowField).MakeByRefType()
                     }),
+                AccessTools.Method(AccessTools.TypeByName("DistributableGoodBringer"), "BringDistributableGoods",
+                    new[]
+                    {
+                        typeof(DistributionPost)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("ConstructionJob"), "StartConstructionJob",
+                    new[]
+                    {
+                        typeof(GameObject)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("SleepNeedBehavior"), "GetEssentialAction"),
             };
 
             return targetMethods;
@@ -266,15 +389,6 @@ namespace MultithreadedNavigation
             __result = result.Item1;
             return false;
         }
-        
-        // public static void Prefix(object[] __args, MethodBase __originalMethod)
-        // {
-        //     // use dynamic code to handle all method calls
-        //     var parameters = __originalMethod.GetParameters();
-        //     Plugin.Log.LogFatal($"Method {__originalMethod.FullDescription()}:");
-        //     for (var i = 0; i < __args.Length; i++)
-        //         Plugin.Log.LogFatal($"{parameters[i].Name} of type {parameters[i].ParameterType} is {__args[i]}");
-        // }
     }
 
     
@@ -311,9 +425,82 @@ namespace MultithreadedNavigation
                     {
                         typeof(GameObject), typeof(bool)
                     }),
+                AccessTools.Method(AccessTools.TypeByName("PlantingService"), "UnsetPlantingCoordinates",
+                    new[]
+                    {
+                        typeof(Vector3Int)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("PlantingService"), "ReservePlantingCoordinates",
+                    new[]
+                    {
+                        typeof(Vector3Int)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("PlantingService"), "UpdatePlantingSpot",
+                    new[]
+                    {
+                        typeof(Vector3Int)
+                    }),
                 AccessTools.Method(AccessTools.TypeByName("GoodReserver"), "UnreserveStock"),
+                AccessTools.Method(AccessTools.TypeByName("GoodReserver"), "ReserveStock",
+                    new[]
+                    {
+                        typeof(Inventory), typeof(GoodAmount), typeof(bool)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("GoodReserver"), "ReserveExactStockAmount",
+                    new[]
+                    {
+                        typeof(Inventory), typeof(GoodAmount)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("GoodReserver"), "ReserveCapacity",
+                    new[]
+                    {
+                        typeof(Inventory), typeof(GoodAmount)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("GoodReserver"), "UnreserveCapacity"),
                 AccessTools.Method(AccessTools.TypeByName("NotificationPanel"), "PostLoad"),
-
+                AccessTools.Method(AccessTools.TypeByName("BringNutrientHaulBehaviorProvider"), "GetWeightedBehaviors"),
+                AccessTools.Method(AccessTools.TypeByName("HaulingCenter"), "UpdateHaulCandidates"),
+                AccessTools.Method(AccessTools.TypeByName("HaulingCenter"), "AddHaulCandidateInThisDistrict",
+                    new[]
+                    {
+                        typeof(GameObject)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("HaulingCenter"), "RemoveHaulCandidate",
+                    new[]
+                    {
+                        typeof(GameObject)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("FlowFieldCache"), "StartCachingAtNode",
+                    new[]
+                    {
+                        typeof(int)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("FlowFieldCache"), "StopCachingAtNode",
+                    new[]
+                    {
+                        typeof(int)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("FlowFieldCache"), "OnNodesChanged",
+                    new[]
+                    {
+                        typeof(ReadOnlyCollection<int>)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("TerrainFlowFieldCache"), "StartCachingAtNode",
+                    new[]
+                    {
+                        typeof(int)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("TerrainFlowFieldCache"), "StopCachingAtNode",
+                    new[]
+                    {
+                        typeof(int)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("Dweller"), "AssignToHome",
+                    new[]
+                    {
+                        typeof(Dwelling)
+                    }),
+                AccessTools.Method(AccessTools.TypeByName("Dweller"), "UnassignFromHome"),
             };
 
             return targetMethods;
@@ -330,119 +517,5 @@ namespace MultithreadedNavigation
         
             return false;
         }
-        
-        // public static void Prefix(object[] __args, MethodBase __originalMethod)
-        // {
-        //     // use dynamic code to handle all method calls
-        //     var parameters = __originalMethod.GetParameters();
-        //     Plugin.Log.LogFatal($"Method {__originalMethod.FullDescription()}:");
-        //     for (var i = 0; i < __args.Length; i++)
-        //         Plugin.Log.LogFatal($"{parameters[i].Name} of type {parameters[i].ParameterType} is {__args[i]}");
-        // }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // [HarmonyPatch(typeof(DistrictInterestingBuildingPicker), "GetRandom", typeof(Vector3), typeof(float))]
-    // public class DistrictInterestingBuildingPickerPatch
-    // {
-    //     static bool Prefix(DistrictInterestingBuildingPicker __instance, Vector3 startCoordinates, float preferableMaxDistance, ref InterestingBuilding __result)
-    //     {
-    //         var result = TimberAPI.DependencyContainer.GetInstance<MultithreadedNavigationService>().LockedGetRandom(__instance, startCoordinates, preferableMaxDistance);
-    //         if (result.Item2)
-    //         {
-    //             return true;
-    //         }
-    //             
-    //         __result = result.Item1;
-    //         return false;
-    //     }
-    // }
-    
-    
-    // [HarmonyPatch(typeof(RoadSpillFlowField), "AddNode")]
-    // public static class MainMenuSceneConfiguratorPatch
-    // {
-    //     private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
-    //     {
-    //         return TestTranspiler.RemoveSpecificationBind(instructions);
-    //     }
-    // }
-    //
-    // [HarmonyPatch(typeof(RoadSpillFlowField), "AddNode")]
-    // public static class MainMenuSceneConfiguratorPatch
-    // {
-    //     private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
-    //     {
-    //         return TestTranspiler.RemoveSpecificationBind(instructions);
-    //     }
-    // }
-    //
-    // public static class TestTranspiler
-    // {
-    //     public static IEnumerable<CodeInstruction> RemoveSpecificationBind(IEnumerable<CodeInstruction> instructions)
-    //     {
-    //         // IL instructions
-    //         List<CodeInstruction> code = new(instructions);
-    //
-    //         int startIndex = -1;
-    //         int endIndex = -1;
-    //
-    //         for (int i = 0; i < code.Count - 1; i++)
-    //         {
-    //             Plugin.Log.LogFatal(code[i]);
-    //             
-    //             // Search for the ISpecification bind call
-    //             if (code[i].opcode != OpCodes.Ldarg_1 || code[i + 1].opcode != OpCodes.Callvirt ||
-    //                 code[i + 1].operand.ToString() != "Bindito.Core.IBindingBuilder`1[Timberborn.Persistence.ISpecificationService] Bind[ISpecificationService]()")
-    //                 continue;
-    //
-    //             // Loop to end of call to find last index
-    //             for (int j = i; j < code.Count; j++)
-    //             {
-    //                 if (code[j].opcode != OpCodes.Callvirt || code[j].operand.ToString() != "Void AsSingleton()")
-    //                     continue;
-    //
-    //                 endIndex = j;
-    //                 break;
-    //             }
-    //
-    //             startIndex = i;
-    //             break;
-    //         }
-    //
-    //         // If method was not found skip
-    //         if (startIndex == -1 && endIndex == -1)
-    //             return code;
-    //
-    //         // Removes the method out the IL code
-    //         code.RemoveRange(startIndex, endIndex - startIndex + 1);
-    //         return code;
-    //     }
-    // }
 }

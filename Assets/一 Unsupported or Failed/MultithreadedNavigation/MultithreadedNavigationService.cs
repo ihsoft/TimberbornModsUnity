@@ -35,11 +35,10 @@ namespace MultithreadedNavigation
             // {
             //     Plugin.Log.LogFatal(times.GetRange(2, times.Count-3).Average());
             // }
-           
             // BehaviorManagerPatch.Time = 0;
+            
             Plugin.Log.LogInfo("Tick");
-            
-            
+
             stopwatch.Start();
             for (int i = 0; i < MyBehaviorManagers.Count; i++)
             {
@@ -51,7 +50,7 @@ namespace MultithreadedNavigation
             }
             var behaviorManagers = new NativeArray<MyBehaviorManager>(MyBehaviorManagers.ToArray(), Allocator.TempJob);
             var job = new MultithreadedNavigationJob { MyBehaviorManagers = behaviorManagers };
-            var jobHandle = job.Schedule(behaviorManagers.Length, behaviorManagers.Length / 10);
+            var jobHandle = job.Schedule(behaviorManagers.Length, 3);
             jobHandle.Complete();
             behaviorManagers.Dispose();
             
@@ -67,27 +66,47 @@ namespace MultithreadedNavigation
         }
         
         private readonly Dictionary<string, bool> _secondCalls = new();
-        // private readonly Dictionary<string, object> _locks = new();
-        // private static readonly object LocksLock = new object();
-        private static readonly object LockObject = new object();
-        private static readonly object SecondCallsLock = new object();
-        
-        
         static readonly ConcurrentDictionary<string, object> LockObjects = new();
+        private static readonly Dictionary<string, string> MethodGroups = new()
+        {
+            { "HaulingCenter.GetWorkplaceBehaviorsOrdered", "Hauling" },
+            { "HaulingCenter.UpdateHaulCandidates", "Hauling" },
+            { "HaulingCenter.AddHaulCandidateInThisDistrict", "Hauling" },
+            { "HaulingCenter.RemoveHaulCandidate", "Hauling" },
+            
+            { "PlantBehavior.ReserveCoordinates", "Planting" },
+            { "PlantingService.UnsetPlantingCoordinates", "Planting" },
+            { "PlantingService.ReservePlantingCoordinates", "Planting" },
+            { "PlantingService.UpdatePlantingSpot", "Planting" },
+            
+            { "FlowFieldCache.GetFlowFieldAtNode", "FlowFieldCache" },
+            { "FlowFieldCache.TryGetFlowFieldAtNode", "FlowFieldCache" },
+            { "FlowFieldCache.OnNodesChanged", "FlowFieldCache" },
+            
+            { "TerrainFlowFieldCache.GetFlowFieldAtNode", "TerrainFlowFieldCache" },
+            { "TerrainFlowFieldCache.TryGetFlowFieldAtNode", "TerrainFlowFieldCache" },
+            
+            { "GoodReserver.ReserveStock", "Reserver" },
+            { "GoodReserver.ReserveExactStockAmount", "Reserver" },
+            { "InventoryNeedBehavior.Decide", "Reserver" },
+            
+            { "SleepNeedBehavior.GetEssentialAction", "Dwelling" },
+            { "Dweller.AssignToHome", "Dwelling" },
+            { "Dweller.UnassignFromHome", "Dwelling" },
 
-        private static readonly object NonVoidFunctionLock = new object();
-        private static readonly List<string> PlantingMethods = new() {"FindClosest", "GetClosestOrDefault", "GetNeighboring", "GetReachable", "ReserveCoordinates"};
+        };
 
         public Tuple<object, bool> LockedNonVoidFunction(object __instance, object[] __args, MethodBase __originalMethod)
         {
-            var methodName = __originalMethod.Name;
+            var methodName = __originalMethod.ReflectedType.Name + "." + __originalMethod.Name;
             var lockObject = LockObjects.GetOrAdd(methodName, new object());
-
-            if (PlantingMethods.Contains(methodName))
-            {
-                lockObject = LockObjects.GetOrAdd("Planting", new object());
-            }
             
+
+            if (MethodGroups.ContainsKey(methodName))
+            {
+                lockObject = LockObjects.GetOrAdd(MethodGroups[methodName], new object());
+            }
+
             lock (lockObject)
             {
                 if (!_secondCalls.ContainsKey(methodName))
@@ -104,15 +123,14 @@ namespace MultithreadedNavigation
             }
         }
         
-        // private static readonly object VoidFunctionLock = new object();
         public bool LockedVoidFunction(object __instance, object[] __args, MethodBase __originalMethod)
         {
-            var methodName = __originalMethod.Name;
+            var methodName = __originalMethod.ReflectedType.Name + "." + __originalMethod.Name;
             var lockObject = LockObjects.GetOrAdd(methodName, new object());
-            
-            if (PlantingMethods.Contains(methodName))
+
+            if (MethodGroups.ContainsKey(methodName))
             {
-                lockObject = LockObjects.GetOrAdd("Planting", new object());
+                lockObject = LockObjects.GetOrAdd(MethodGroups[methodName], new object());
             }
             
             lock (lockObject)

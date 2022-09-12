@@ -5,7 +5,7 @@ namespace MultithreadedNavigation
 {
     public struct MyBehaviorManager
     {
-        public BehaviorManager BehaviorManager;
+        public readonly BehaviorManager BehaviorManager;
 
         public MyBehaviorManager(BehaviorManager behaviorManager)
         {

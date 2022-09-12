@@ -39,7 +39,12 @@
         "Timberborn.Metrics.dll",
         "Timberborn.NotificationSystemUI.dll",
         "Timberborn.YielderFinding.dll",
-        "Timberborn.Planting.dll"
+        "Timberborn.Planting.dll",
+        "Timberborn.Goods.dll",
+        "Timberborn.WorkSystem.dll",
+        "Timberborn.Yielding.dll",
+        "Timberborn.DistributionSystem.dll",
+        "Timberborn.DwellingSystem.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

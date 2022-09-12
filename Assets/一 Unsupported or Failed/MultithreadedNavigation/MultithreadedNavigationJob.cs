@@ -20,7 +20,11 @@ namespace MultithreadedNavigation
                 // Stopwatch stopwatch = Stopwatch.StartNew();
                 behaviorManager.Tick();
                 // stopwatch.Stop();
-                // Plugin.Log.LogFatal(stopwatch.ElapsedTicks);
+                // var time = stopwatch.ElapsedTicks;
+                // if (time > 1000)
+                // {
+                //     Plugin.Log.LogFatal(time);
+                // }
                 // stopwatch.Reset();
             }
             catch (Exception e)
