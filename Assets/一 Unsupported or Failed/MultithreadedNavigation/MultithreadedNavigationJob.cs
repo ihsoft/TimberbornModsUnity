@@ -12,20 +12,15 @@ namespace MultithreadedNavigation
         
         public void Execute(int index)
         {
+            
+            // Stopwatch stopwatch = Stopwatch.StartNew();
             var data = MyBehaviorManagers[index];
             var behaviorManager = data.BehaviorManager;   
             
             try
             {
-                // Stopwatch stopwatch = Stopwatch.StartNew();
                 behaviorManager.Tick();
-                // stopwatch.Stop();
-                // var time = stopwatch.ElapsedTicks;
-                // if (time > 1000)
-                // {
-                //     Plugin.Log.LogFatal(time);
-                // }
-                // stopwatch.Reset();
+                
             }
             catch (Exception e)
             {
@@ -34,6 +29,16 @@ namespace MultithreadedNavigation
             // Plugin.Log.LogFatal("complete");
             // data.BehaviorManager = BehaviorManager;
             // MyBehaviorManagers[index] = data;
+            
+            // stopwatch.Stop();
+            // var time = stopwatch.ElapsedTicks;
+            // if (time > 20000)
+            // {
+            //     Plugin.Log.LogFatal(time);
+            //     Plugin.Log.LogFatal(behaviorManager.name);
+            //     Plugin.Log.LogFatal(behaviorManager.RunningBehavior.Name);
+            // }
+            // stopwatch.Reset();
         }
     }
 }
