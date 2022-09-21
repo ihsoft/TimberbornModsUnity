@@ -207,7 +207,6 @@ MonoBehaviour:
   _finishableWithBeaversOnSite: 0
   _path: 0
   _drawRangeBoundsOnIt: 0
-  _hasNoRoof: 0
 --- !u!114 &9097392271342064402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,7 +234,7 @@ MonoBehaviour:
   m_Script: {fileID: -788214902, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefabName: HorizontalPlatformEnd1x1.Folktails
+  _prefabName: HorizontalPlatformEnd1x1.IronTeeth
   _backwardCompatiblePrefabNames: []
   _requiredFeatureToggle: 
 --- !u!114 &4203293630516364307
@@ -473,6 +472,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 198882536050809753}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 98fdc1a896bbea3469b5d42f40c60ca6, type: 3}
@@ -528,6 +528,7 @@ PrefabInstance:
       value: HorizontalPlatformEnd1x1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 98fdc1a896bbea3469b5d42f40c60ca6, type: 3}
 --- !u!1 &1562018123692438854 stripped
 GameObject:

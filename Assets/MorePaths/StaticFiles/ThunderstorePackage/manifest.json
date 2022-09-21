@@ -1,8 +1,8 @@
 {
   "name": "MorePaths",
-  "version_number": "1.1.0",
+  "version_number": "1.1.1",
   "website_url": "https://github.com/TobbyTheBobby",
-  "description": "More paths to diversify your city and also speedup your beavers.",
+  "description": "More paths to diversify your city.",
   "dependencies": [
     "BepInEx-BepInExPack_Timberborn-5.4.19",
     "Timberborn_Central-TimberAPI-0.4.4",

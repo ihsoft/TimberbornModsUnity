@@ -38,23 +38,6 @@ MonoBehaviour:
   - {fileID: 4900000, guid: 7a61739bc456a5d44b2869b53d2fb923, type: 3}
   - {fileID: 4900000, guid: 771823335096b904999ea6c75e7177e9, type: 3}
   - {fileID: 4900000, guid: 2ce713de101bcac4087d240e77227c77, type: 3}
---- !u!114 &-1800585617083543040
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b7e13dda513544419a89926bd12ad8a, type: 3}
-  m_Name: AssemblyDefinitions
-  m_EditorClassIdentifier: 
-  StagingPaths:
-  - <ManifestPluginStaging>
-  - <ThunderstorePackage>/<ManifestName>/plugins
-  definitions:
-  - {fileID: 5897886265953266890, guid: fdea6a16707565f4580cc0d4d6c3778f, type: 3}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,11 +52,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data:
   - {fileID: -3931462110823901632}
-  - {fileID: -1800585617083543040}
-  - {fileID: 9120418034178625098}
   - {fileID: 2590189338767857166}
   - {fileID: 7276679206402820566}
   - {fileID: -3041366049039997682}
+  - {fileID: 9120418034178625098}
   identity: {fileID: -3931462110823901632}
   QuickAccess: 1
 --- !u!114 &2590189338767857166
@@ -131,3 +113,4 @@ MonoBehaviour:
   - <ThunderstorePackage>/<ManifestName>/plugins
   files:
   - {fileID: 102900000, guid: 2d4bf56b1f9894a41996e0f3821318a8, type: 3}
+  - {fileID: 4900000, guid: 25dde747ee969424fac170eb1388c3b3, type: 3}

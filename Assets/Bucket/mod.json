@@ -1,0 +1,15 @@
+{
+  "Name": "Bucket",
+  "Version": "1.0.3",
+  "UniqueId": "tobbert.bucket",
+  "MinimumApiVersion": "0.5.0",
+  "MinimumGameVersion": "0.2.8.1",
+  "Assets": [
+    {
+      "Prefix": "tobbert.bucket",
+      "Scenes": [
+        "InGame"
+      ]
+    }
+  ]
+}

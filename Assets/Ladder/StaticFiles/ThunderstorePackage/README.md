@@ -2,10 +2,6 @@
 
 This mod will allow you to build ladders. Ladders will make it so your beavers can go straight up and down without having to build a large stairwell.
 
-## Disclaimer!
-
-This plugin is currently only supported in the **experimental** version of Timberborn.
-
 ## Shoutout
 
 A massive shoutout to TheBloodEyes for helping the navigation fix be as optimized as can be!
@@ -24,6 +20,13 @@ and adding the dll to your bepinex plugins folder. This plugin is dependent on t
 In case you experience problems, message me in the modding channel of the the [Timberborn discord](https://discord.gg/mfbBF4cWpX) or message me directly (Tobbert#1607). I will try to fix it as soon as possible. :D
 
 ## Changelog
+
+### 1.2.2 - 25.8.2022
+
+- Updated to work with TimberAPI (v0.5.0).
+- Added Japanese translation that was provided by Sukunabikona.
+- Added Russian translation that was provided by GinFuyou.
+- Added German translation that was provided by juf0816.
 
 ### 1.2.1 - 25.8.2022
 

@@ -1,10 +1,6 @@
 # Category Button
 
-This mod adds the ability for mod makers to add buttons that have multiple buttons. Also groups the bridges in the paths menu. 
-
-## Disclaimer!
-
-This plugin is currently only supported in the **experimental** version of Timberborn.
+This mod adds the ability for mod makers to add buttons that have multiple buttons. Also groups the bridges in the paths menu.
 
 ## How to use
 
@@ -32,6 +28,13 @@ and adding the dll to your bepinex plugins folder. This plugin is dependent on t
 In case you experience problems, message me in the modding channel of the the [Timberborn discord](https://discord.gg/mfbBF4cWpX) or message me directly (Tobbert#1607). I will try to fix it as soon as possible. :D
 
 ## Changelog
+
+### 1.1.2 
+
+- Updated to work with TimberAPI (v0.5.0).
+- Added Japanese translation that was provided by Sukunabikona.
+- Added Russian translation that was provided by GinFuyou.
+- Added German translation that was provided by juf0816.
 
 ### 1.1.1 29.8.2022
 

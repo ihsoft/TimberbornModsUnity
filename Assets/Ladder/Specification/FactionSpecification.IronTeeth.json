@@ -1,7 +1,5 @@
 {
   "CommonBuildings": [
-    "tobbert.ladder/tobbert_ladder/Ladder.IronTeeth",
-    "tobbert.ladder/tobbert_ladder/QuarterTurnRightStairs",
-    "tobbert.ladder/tobbert_ladder/QuarterTurnLeftStairs"
+    "tobbert.ladder/tobbert_ladder/Ladder.IronTeeth"
   ]
 }

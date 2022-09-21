@@ -7,7 +7,7 @@ AnimationClip:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: DutchWindmill.Rotation
-  serializedVersion: 6
+  serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 0
@@ -72,7 +72,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Top_Animated/Rotor_Animated
+    path: Top_Animated/Angle_Animated/Rotor_Animated
   m_CompressedRotationCurves: []
   m_EulerCurves: []
   m_PositionCurves: []
@@ -87,12 +87,13 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 2447917518
+      path: 2957198235
       attribute: 2
       script: {fileID: 0}
       typeID: 4
       customType: 0
       isPPtrCurve: 0
+      isIntCurve: 0
     pptrCurveMapping: []
   m_AnimationClipSettings:
     serializedVersion: 2
@@ -176,7 +177,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalRotation.x
-    path: Top_Animated/Rotor_Animated
+    path: Top_Animated/Angle_Animated/Rotor_Animated
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -240,7 +241,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalRotation.y
-    path: Top_Animated/Rotor_Animated
+    path: Top_Animated/Angle_Animated/Rotor_Animated
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -304,7 +305,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalRotation.z
-    path: Top_Animated/Rotor_Animated
+    path: Top_Animated/Angle_Animated/Rotor_Animated
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -368,7 +369,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalRotation.w
-    path: Top_Animated/Rotor_Animated
+    path: Top_Animated/Angle_Animated/Rotor_Animated
     classID: 4
     script: {fileID: 0}
   m_EulerEditorCurves:
@@ -433,7 +434,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAngles.x
-    path: Top_Animated/Rotor_Animated
+    path: Top_Animated/Angle_Animated/Rotor_Animated
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -497,7 +498,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAngles.y
-    path: Top_Animated/Rotor_Animated
+    path: Top_Animated/Angle_Animated/Rotor_Animated
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -561,7 +562,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAngles.z
-    path: Top_Animated/Rotor_Animated
+    path: Top_Animated/Angle_Animated/Rotor_Animated
     classID: 4
     script: {fileID: 0}
   m_HasGenericRootTransform: 0

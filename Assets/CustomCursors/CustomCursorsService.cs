@@ -1,24 +1,11 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using HarmonyLib;
-using Timberborn.CameraSystem;
-using Timberborn.InputSystem;
+using TimberApi.UiBuilderSystem;
 using Timberborn.SettingsSystem;
-using Timberborn.SettingsSystemUI;
 using Timberborn.SingletonSystem;
 using Timberborn.ToolSystem;
-using TimberbornAPI.AssetLoaderSystem;
-using TimberbornAPI.PluginSystem;
-using TimberbornAPI.UIBuilderSystem;
-using TimberbornAPI.UIBuilderSystem.CustomElements;
-using UnityEditor;
-using UnityEditorInternal;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 using UnityEngine.UIElements;
 using Cursor = UnityEngine.Cursor;
 
@@ -29,13 +16,11 @@ namespace CustomCursors
     {
         private readonly UIBuilder _builder;
         private readonly ISettings _settings;
-        private readonly PluginLocationService _pluginLocationService;
         private readonly EventBus _eventBus;
 
-        CustomCursorsService(PluginLocationService pluginLocationService, UIBuilder uiBuilder, ISettings settings, EventBus eventBus)
+        CustomCursorsService(UIBuilder uiBuilder, ISettings settings, EventBus eventBus)
         {
             _builder = uiBuilder;
-            _pluginLocationService = pluginLocationService;
             _settings = settings;
             _eventBus = eventBus;
         }
@@ -58,7 +43,8 @@ namespace CustomCursors
 
         public void Load()
         {
-            var path = _pluginLocationService.GetPluginPath(Plugin.PluginGuid);
+            
+            var path = Plugin.myPath;
             path += "\\Cursors";
             foreach (var cursorPackPath in Directory.GetDirectories(path))
             {

@@ -6,40 +6,55 @@ using BepInEx.Configuration;
 using BepInEx.Logging;
 using Bindito.Core;
 using HarmonyLib;
+using TimberApi.ConfiguratorSystem;
+using TimberApi.ConsoleSystem;
+using TimberApi.DependencyContainerSystem;
+using TimberApi.ModSystem;
+using TimberApi.SceneSystem;
 using Timberborn.BlockObjectAccesses;
 using Timberborn.BlockObjectTools;
 using Timberborn.BlockSystem;
 using Timberborn.ToolSystem;
-using TimberbornAPI;
-using TimberbornAPI.Common;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace MorePlatforms
 {
-    [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
-    [BepInDependency("com.timberapi.timberapi")]
-    [BepInDependency("tobbert.categorybutton")]
-    public class Plugin : BaseUnityPlugin
+    // [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
+    // [BepInDependency("com.timberapi.timberapi")]
+    // [BepInDependency("tobbert.categorybutton")]
+    // public class Plugin : BaseUnityPlugin
+    // {
+    //     public const string PluginGuid = "tobbert.moreplatforms";
+    //     public const string PluginName = "More Platforms";
+    //     public const string PluginVersion = "1.2.0";
+    //     
+    //     public static ManualLogSource Log;
+    //     
+    //     public static ConfigEntry<bool> EnablePlatformMiddle;
+    //     
+    //     void Awake()
+    //     {
+    //         EnablePlatformMiddle = Config.Bind("General.Features", "EnablePlatformMiddle", false, "This adds another platform which can be placed anywhere. This will break any game integrity that remains.");
+    //
+    //         Log = Logger;
+    //         
+    //         Log.LogInfo($"Loaded {PluginName} Version: {PluginVersion}!");
+    //         
+    //         TimberAPI.AssetRegistry.AddSceneAssets(PluginGuid, SceneEntryPoint.Global);
+    //         TimberAPI.DependencyRegistry.AddConfigurator(new PluginConfigurator());
+    //         new Harmony(PluginGuid).PatchAll();
+    //     }
+    // }
+    
+    public class Plugin : IModEntrypoint
     {
         public const string PluginGuid = "tobbert.moreplatforms";
         public const string PluginName = "More Platforms";
         public const string PluginVersion = "1.2.0";
         
-        public static ManualLogSource Log;
-        
-        public static ConfigEntry<bool> EnablePlatformMiddle;
-        
-        void Awake()
+        public void Entry(IMod mod, IConsoleWriter consoleWriter)
         {
-            EnablePlatformMiddle = Config.Bind("General.Features", "EnablePlatformMiddle", false, "This adds another platform which can be placed anywhere. This will break any game integrity that remains.");
-
-            Log = Logger;
-            
-            Log.LogInfo($"Loaded {PluginName} Version: {PluginVersion}!");
-            
-            TimberAPI.AssetRegistry.AddSceneAssets(PluginGuid, SceneEntryPoint.Global);
-            TimberAPI.DependencyRegistry.AddConfigurator(new PluginConfigurator());
             new Harmony(PluginGuid).PatchAll();
         }
     }
@@ -60,6 +75,7 @@ namespace MorePlatforms
         }
     }
     
+    [Configurator(SceneEntrypoint.InGame)]
     internal class PluginConfigurator : IConfigurator
     {
         public void Configure(IContainerDefinition containerDefinition)
@@ -84,7 +100,7 @@ namespace MorePlatforms
 
             if ((prefab.name != "HorizontalPlatformMiddle1x1.Folktails" | prefab.name != "HorizontalPlatformMiddle1x1.IronTeeth" | prefab.name != "HorizontalPlatformMiddle1x2.Folktails" | prefab.name != "HorizontalPlatformMiddle1x2.IronTeeth"))
             {
-                if (Plugin.EnablePlatformMiddle.Value)
+                if (true)
                 {
                     return true;
                 }
@@ -135,7 +151,7 @@ namespace MorePlatforms
                 return;
             }
 
-            __result = TimberAPI.DependencyContainer.GetInstance<FakeParentedNeighborCalculator>().FakeGetParentedNeighbors(coordinate);
+            __result = DependencyContainer.GetInstance<FakeParentedNeighborCalculator>().FakeGetParentedNeighbors(coordinate);
         }
     }
 }

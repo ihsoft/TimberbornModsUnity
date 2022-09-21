@@ -1,4 +1,8 @@
 {
   "CommonBuildings": [
+    "tobbert.beaverhats/tobbert_beaverhats/CottonPlant"
+  ],
+  "Goods": [
+    "Cotton"
   ]
 }

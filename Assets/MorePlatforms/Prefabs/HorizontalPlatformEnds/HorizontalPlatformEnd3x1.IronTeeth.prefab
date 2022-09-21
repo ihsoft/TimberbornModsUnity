@@ -230,7 +230,6 @@ MonoBehaviour:
   _finishableWithBeaversOnSite: 0
   _path: 0
   _drawRangeBoundsOnIt: 0
-  _hasNoRoof: 0
 --- !u!114 &9097392271342064402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -513,6 +512,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 198882536050809753}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 3a348b734be826a449660b0fe54b092e, type: 3}
@@ -616,6 +616,7 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: f0673e1fae278014881868c946434506, type: 2}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a348b734be826a449660b0fe54b092e, type: 3}
 --- !u!4 &1055741076192506360 stripped
 Transform:

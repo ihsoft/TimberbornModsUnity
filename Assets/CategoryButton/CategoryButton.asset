@@ -91,7 +91,7 @@ MonoBehaviour:
   - <ManifestPluginStaging>/assets
   - <ThunderstorePackage>/<ManifestName>/plugins/assets
   assetBundles:
-  - assetBundleName: Tobbert_CategoryButton
+  - assetBundleName: Tobbert.CategoryButton.bundle
     assets:
     - {fileID: 3800120593857243598, guid: 36b3478fb90b208428639dfbc018f6bb, type: 3}
 --- !u!114 &7276679206402820566
@@ -129,3 +129,4 @@ MonoBehaviour:
   - <ThunderstorePackage>/<ManifestName>/plugins
   files:
   - {fileID: 102900000, guid: 73afc86131bb1084caa025eb6eba0bb9, type: 3}
+  - {fileID: 4900000, guid: 14e7ac86f838aaf43bea2bdcdc8f76f0, type: 3}

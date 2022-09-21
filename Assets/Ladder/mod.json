@@ -1,0 +1,16 @@
+{
+  "Name": "Ladder",
+  "Version": "1.2.2",
+  "UniqueId": "tobbert.ladder",
+  "MinimumApiVersion": "0.5.0",
+  "MinimumGameVersion": "0.2.8.1",
+  "EntryDll": "Ladder.dll",
+  "Assets": [
+    {
+      "Prefix": "tobbert.ladder",
+      "Scenes": [
+        "InGame"
+      ]
+    }
+  ]
+}

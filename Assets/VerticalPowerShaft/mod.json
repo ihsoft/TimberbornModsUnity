@@ -1,0 +1,16 @@
+{
+  "Name": "Vertical Power Shaft",
+  "Version": "1.1.1",
+  "UniqueId": "tobbert.verticalpowershaft",
+  "MinimumApiVersion": "0.5.0",
+  "MinimumGameVersion": "0.2.8.1",
+  "EntryDll": "VerticalPowerShaft.dll",
+  "Assets": [
+    {
+      "Prefix": "tobbert.verticalpowershaft",
+      "Scenes": [
+        "InGame"
+      ]
+    }
+  ]
+}

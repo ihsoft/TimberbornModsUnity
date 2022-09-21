@@ -1,33 +1,28 @@
 using System.Reflection;
-using BepInEx;
-using BepInEx.Logging;
 using HarmonyLib;
-using TimberbornAPI;
-using TimberbornAPI.Common;
+using TimberApi.ConsoleSystem;
+using TimberApi.DependencyContainerSystem;
+using TimberApi.ModSystem;
 using UnityEngine.UIElements;
 
 namespace CustomCursors
 {
-    [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
-    [BepInDependency("com.timberapi.timberapi")]
-    public class Plugin : BaseUnityPlugin
+    public class Plugin : IModEntrypoint
     {
         public const string PluginGuid = "tobbert.customcursors";
         public const string PluginName = "Custom Cursors";
         public const string PluginVersion = "1.0.0";
-        
-        public static ManualLogSource Log;
 
-        void Awake()
+        public static string myPath;
+
+        public void Entry(IMod mod, IConsoleWriter consoleWriter)
         {
-            Log = Logger;
-            
-            Log.LogInfo($"Loaded {PluginName} Version: {PluginVersion}!");
-                        
-            TimberAPI.DependencyRegistry.AddConfigurator(new CustomCursorsConfigurator(), SceneEntryPoint.Global);
+            myPath = mod.DirectoryPath;
+
             new Harmony(PluginGuid).PatchAll();
         }
     }
+
 
     [HarmonyPatch]
     public class StartGrabbingPatch
@@ -39,7 +34,7 @@ namespace CustomCursors
         
         static void Postfix()
         {
-            TimberAPI.DependencyContainer.GetInstance<CustomCursorsService>().StartGrabbing();
+            DependencyContainer.GetInstance<CustomCursorsService>().StartGrabbing();
         }
     }
     
@@ -53,7 +48,7 @@ namespace CustomCursors
         
         static void Postfix()
         {
-            TimberAPI.DependencyContainer.GetInstance<CustomCursorsService>().StopGrabbing();
+            DependencyContainer.GetInstance<CustomCursorsService>().StopGrabbing();
         }
     }
     
@@ -70,7 +65,7 @@ namespace CustomCursors
         
         static void Postfix(ref VisualElement root)
         {
-            TimberAPI.DependencyContainer.GetInstance<CustomCursorsService>().InitializeSelectorSettings(ref root);
+            DependencyContainer.GetInstance<CustomCursorsService>().InitializeSelectorSettings(ref root);
         }
     }
 }

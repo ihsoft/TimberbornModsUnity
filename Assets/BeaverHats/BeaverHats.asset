@@ -34,9 +34,7 @@ MonoBehaviour:
   StagingPaths:
   - <ManifestPluginStaging>/Specifications
   - <ThunderstorePackage>/<ManifestName>/plugins/Specifications
-  files:
-  - {fileID: 4900000, guid: a1c663d4e6c0540479600786f64cae4c, type: 3}
-  - {fileID: 4900000, guid: 8fa5c90af5663d54d848af591933a09b, type: 3}
+  files: []
 --- !u!114 &-1800585617083543040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,11 +91,14 @@ MonoBehaviour:
   assetBundles:
   - assetBundleName: Tobbert_BeaverHats
     assets:
+    - {fileID: 1871354865836539, guid: 4c8be2b383eed46439b2aea53d942445, type: 3}
     - {fileID: 8889063059504140334, guid: d4012eaf574a888488136659161a5850, type: 3}
     - {fileID: 8889063059504140334, guid: 17ac35b3eb7f6bd4696a2e94f3d13fe8, type: 3}
     - {fileID: 8889063059504140334, guid: cbc83da48fb7b104d9d1755d7a9d1d06, type: 3}
     - {fileID: 8889063059504140334, guid: c6fad9663c9f5ba409334291008c1766, type: 3}
     - {fileID: 8889063059504140334, guid: b33b0638b710af648b23b8e5ea2aa6fa, type: 3}
+    - {fileID: 8889063059504140334, guid: 6f248b3e0bd8cb545a0f2bd3432d0567, type: 3}
+    - {fileID: 2800000, guid: 0c47679fbcb5dcb41ab3752bdcee7202, type: 3}
 --- !u!114 &7276679206402820566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,3 +134,4 @@ MonoBehaviour:
   - <ThunderstorePackage>/<ManifestName>/plugins
   files:
   - {fileID: 102900000, guid: b14343c45e0922c478ad35fe7642be62, type: 3}
+  - {fileID: 4900000, guid: f5f88b3f361cc6e428d99daae75079a6, type: 3}

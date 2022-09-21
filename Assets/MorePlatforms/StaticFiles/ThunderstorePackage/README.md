@@ -1,10 +1,6 @@
 # More Platforms
 
-Think that the current platforms limit your creativity? Then this mod will let you add 4 new platforms to the game which can be build to the side of mountains or stacks of levees, giving more freedom of placing buildings as anything can be below these platforms. There are also reinforced Platforms which you can use instead of levees and will allow your beavers to walk under aswell! There is another platform which is disabled by default as it can be placed nearly anywhere! You can enable it in the configs.
-
-# Disclaimer!
-
-This plugin is currently only supported in the **experimental** version of Timberborn.
+Think that the current platforms limit your creativity? Then this mod will let you add 4 new platforms to the game which can be build to the side of mountains or stacks of levees, giving more freedom of placing buildings as anything can be below these platforms. There are also reinforced Platforms which you can use instead of levees and will allow your beavers to walk under as well! There is another platform which is disabled by default as it can be placed nearly anywhere! You can enable it in the configs.
 
 ## Shoutout
 
@@ -43,6 +39,14 @@ In case you experience problems, message me in the modding channel of the the [T
 - Placing a levee on top of a Reinforced Platform has unexpected behavior. 
 
 ## Changelog
+
+### 1.2.2 -
+
+- Updated to work with TimberAPI (v0.5.0).
+- Added Japanese translation that was provided by Sukunabikona.
+- Added Russian translation that was provided by GinFuyou.
+- Added German translation that was provided by juf0816.
+- Updated images with the new models.
 
 ### 1.2.1 - 14.8.2022
 

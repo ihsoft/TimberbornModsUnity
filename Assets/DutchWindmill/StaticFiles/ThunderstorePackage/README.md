@@ -1,10 +1,6 @@
 # Dutch Windmill
 
-This mods adds a Dutch Windmill which acts as a Gristmill that doesn't need power. As such it can be placed anywhere and it will grind all the wheat you can give it. 
-
-## Disclaimer!
-
-This plugin is currently only supported in the **experimental** version of Timberborn.
+This mods adds a Dutch Windmill which acts as a Gristmill that doesn't need power. As such it can be placed anywhere and it will grind all the wheat you can give it.
 
 ## How to use
 
@@ -20,10 +16,18 @@ In case you experience problems, message me in the modding channel of the the [T
 
 ## Changelog
 
+### 1.0.2 - 
+
+- Updated to work with TimberAPI (v0.5.0).
+- Added a slight angle to the top.
+- Added Japanese translation that was provided by Sukunabikona.
+- Added Russian translation that was provided by GinFuyou.
+- Added German translation that was provided by juf0816.
+
 ### 1.0.1 - 3.9.2022
 
 - Fixed several issues with the construction site.
-- Remove the wind strength component. 
+- Removed the wind strength component. 
 
 ### 1.0.0 - 23.8.2022
 

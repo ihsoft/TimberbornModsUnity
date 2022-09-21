@@ -1,0 +1,15 @@
+using Bindito.Core;
+using TimberApi.ConfiguratorSystem;
+using TimberApi.SceneSystem;
+
+namespace CategoryButton
+{
+    [Configurator(SceneEntrypoint.InGame | SceneEntrypoint.MapEditor)]
+    public class ToolBarCategoriesConfigurator : IConfigurator
+    {
+        public void Configure(IContainerDefinition containerDefinition)
+        {
+            containerDefinition.Bind<CategoryButtonService>().AsSingleton();
+        }
+    }
+}

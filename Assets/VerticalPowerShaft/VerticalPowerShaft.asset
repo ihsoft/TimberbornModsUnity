@@ -136,3 +136,4 @@ MonoBehaviour:
   - <ThunderstorePackage>/<ManifestName>/plugins
   files:
   - {fileID: 102900000, guid: 3120da23c59cf1f46aa752a1ad79af46, type: 3}
+  - {fileID: 4900000, guid: 020b0ef2e31f8dc4aa64b47fc73ff572, type: 3}

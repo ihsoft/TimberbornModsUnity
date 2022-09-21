@@ -1,10 +1,6 @@
 # More Platforms
 
-You know what would be boring? Only having one path! With this mod u can use different paths to diversify your city! Some also have buffs which require to be build, but will double the walking speed of your beavers. 
-
-# Disclaimer!
-
-This plugin is currently only supported in the **experimental** version of Timberborn.
+You know what would be boring? Only having one path! With this mod u can use different paths to diversify your city!
 
 ## Shoutout
 
@@ -16,13 +12,9 @@ All paths can be found under the paths tab.
 
 ### Paths
 
-These are the paths that are added with this mod. Has the same properties as normal path, just looks different.
+These are the paths that are added with this mod. They have the same properties as normal path, but they just look different.
 
 ![Example Image](https://media.githubusercontent.com/media/TobbyTheBobby/TimberbornModsUnity/master/Assets/MorePaths/StaticFiles/Images/ExampleImage1.png)
-
-### Metal path and wooden paths
-
-These path will increase the walking speed of your beavers by 50% when they are on it, but it requires one metal/Treated wood per path to be build.
 
 ## Installing
 
@@ -39,9 +31,17 @@ In case you experience problems, message me in the modding channel of the the [T
 ## Planned features
 
 - More Paths
-- Fixing the know limitations
+- Fixing driveways not showing when a driveway is connected to a stairs.
 
 ## Changelog
+
+### 1.1.1 - 
+
+- Updated to work with TimberAPI (v0.5.0).
+- Removed mentions of speeding up beavers, as this was removed in the previous update.
+- Added Japanese translation that was provided by Sukunabikona.
+- Added Russian translation that was provided by GinFuyou.
+- Added German translation that was provided by juf0816.
 
 ### 1.1.0 - 2.9.2022
 

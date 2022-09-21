@@ -9,6 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: DarkerBaseMetal.IronTeeth
   m_Shader: {fileID: 4800000, guid: a565c952dc684e6498f0092e5c6f0087, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords:
   - _NORMALMAP
@@ -18,15 +20,16 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _AmbientOcclusion:
-        m_Texture: {fileID: 2800000, guid: aff750da9bdfdb4438d6dfce6bd42db7, type: 3}
+        m_Texture: {fileID: 2800000, guid: 3af0033776d00a046b3516d3dd65bcb8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 32948b518368c58439726102539b1082, type: 3}
+        m_Texture: {fileID: 2800000, guid: ec858024229e2524a89fca2af01332da, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _CutoutTex:
@@ -46,11 +49,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 77e37dff2e1da8b42886e0491ba6ef70, type: 3}
+        m_Texture: {fileID: 2800000, guid: 5cde651bb7d14af4086a12c2500f3235, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: 639e0bb5575c9254c8f9a0a9e26907d9, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9712533e48acbcd4299c339889b47889, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:

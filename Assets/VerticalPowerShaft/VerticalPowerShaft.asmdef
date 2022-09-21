@@ -8,7 +8,7 @@
     "overrideReferences": true,
     "precompiledReferences": [
         "BepInEx.dll",
-        "TimberAPI.dll",
+        "TimberApi.dll",
         "Bindito.Core.dll",
         "0Harmony.dll",
         "Timberborn.SingletonSystem.dll",

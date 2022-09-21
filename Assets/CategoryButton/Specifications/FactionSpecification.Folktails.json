@@ -1,6 +1,5 @@
 {
   "CommonBuildings": [
-    "tobbert.categorybutton/tobbert_categorybutton/CategoryBridges",
-    "tobbert.categorybutton/tobbert_categorybutton/CategoryPlatforms"
+    "tobbert.categorybutton/tobbertcategorybutton/CategoryBridges"
   ]
 }
