@@ -5,7 +5,7 @@
   "description": "More platforms that you can use to make the ultimate vertical city!",
   "dependencies": [
     "BepInEx-BepInExPack_Timberborn-5.4.19",
-    "Timberborn_Central-TimberAPI-0.4.4",
-    "Tobbert-CategoryButton-1.0.2"
+    "Timberborn_Central-TimberAPI-0.5.1",
+    "Tobbert-CategoryButton-1.1.2"
   ]
 }

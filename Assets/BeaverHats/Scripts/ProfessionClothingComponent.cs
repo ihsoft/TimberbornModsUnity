@@ -36,7 +36,7 @@ namespace BeaverHats
                 
                 if (worker.Workplace != null)
                 {
-                    Plugin.Log.LogError(worker.Workplace.name);
+                    // Plugin.Log.LogError(worker.Workplace.name);
                     
                     // Removed this so only the frog hat will show un till the mod is finished.
                     // if (clothing.WorkPlaces.Contains(worker.Workplace.name.Split(".")[0]))

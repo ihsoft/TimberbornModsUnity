@@ -43,7 +43,6 @@ namespace CustomCursors
 
         public void Load()
         {
-            
             var path = Plugin.myPath;
             path += "\\Cursors";
             foreach (var cursorPackPath in Directory.GetDirectories(path))

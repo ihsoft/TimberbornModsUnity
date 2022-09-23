@@ -29,37 +29,37 @@ In case you experience problems, message me in the modding channel of the the [T
 
 ## Changelog
 
-### 1.1.2 
+### 1.1.2 - 23.9.2022
 
 - Updated to work with TimberAPI (v0.5.0).
 - Added Japanese translation that was provided by Sukunabikona.
 - Added Russian translation that was provided by GinFuyou.
 - Added German translation that was provided by juf0816.
 
-### 1.1.1 29.8.2022
+### 1.1.1 - 29.8.2022
 
 - Removed unnecessary console logs. 
 - Fixed a bug that prevented water from appearing when exiting a category button that had no button inside the category selected.
 
-### 1.1.0 18.8.2022
+### 1.1.0 - 18.8.2022
 
 - The last used button will now be selected upon reopen.
 - Added the possibility to use shift+scroll to switch between buttons of the same group. 
 
-### 1.0.4 16.8.2022
+### 1.0.4 - 16.8.2022
 
 - Fixed a bug that prevented the button from working if it was first in the row.
 
-### 1.0.3 15.8.2022
+### 1.0.3 - 15.8.2022
 
 - Fixed a bug that the place of the group was incorrect on non-native resolutions.
 
-### 1.0.2 14.8.2022
+### 1.0.2 - 14.8.2022
 
 - Fixed a bug that closed the category window when clicking the category button twice. 
 - Fixed a bug that caused a crash when opening the editor.
 
-### 1.0.1 13.8.2022
+### 1.0.1 - 13.8.2022
 
 - Fixed a bug that prevented loading the mod. 
 

@@ -5,6 +5,6 @@
   "description": "Acts as a Gristmill that doesn't require power.",
   "dependencies": [
     "BepInEx-BepInExPack_Timberborn-5.4.19",
-    "Timberborn_Central-TimberAPI-0.4.4"
+    "Timberborn_Central-TimberAPI-0.5.1"
   ]
 }

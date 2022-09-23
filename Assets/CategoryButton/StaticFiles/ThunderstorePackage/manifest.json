@@ -5,6 +5,6 @@
   "description": "This mod allows for adding a button that holds multiple buttons.",
   "dependencies": [
     "BepInEx-BepInExPack_Timberborn-5.4.19",
-    "Timberborn_Central-TimberAPI-0.4.4"
+    "Timberborn_Central-TimberAPI-0.5.1"
   ]
 }

@@ -16,7 +16,7 @@ In case you experience problems or have any feedback, message me in the modding 
 
 ## Changelog
 
-### 1.1.1 - 
+### 1.1.1 - 23.9.2022
 
 - Updated to work with TimberAPI (v0.5.0).
 - Added German translation that was provided by juf0816.

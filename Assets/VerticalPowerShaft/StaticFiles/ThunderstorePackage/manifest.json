@@ -5,6 +5,6 @@
   "description": "Adds three new power shafts that allow the transfer of power vertically. Also adds a Universal Power shaft that changes shape based on the connections it has.",
   "dependencies": [
     "BepInEx-BepInExPack_Timberborn-5.4.19",
-    "Timberborn_Central-TimberAPI-0.4.4"
+    "Timberborn_Central-TimberAPI-0.5.1"
   ]
 }

@@ -19,7 +19,7 @@ In case you experience problems, message me in the modding channel of the the [T
 
 ## Changelog
 
-### 0.2.0 - 31.8.2022
+### 0.1.1 - 31.8.2022
 
 - Updated to work with TimberAPI (v0.5.0).
 

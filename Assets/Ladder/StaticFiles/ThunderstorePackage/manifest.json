@@ -5,6 +5,6 @@
   "description": "A ladder which allows beavers to go directly up and down.",
   "dependencies": [
     "BepInEx-BepInExPack_Timberborn-5.4.19",
-    "Timberborn_Central-TimberAPI-0.4.4"
+    "Timberborn_Central-TimberAPI-0.5.1"
   ]
 }
