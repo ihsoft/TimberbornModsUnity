@@ -16,7 +16,7 @@ Tobbert.HorizontalPlatformMiddle1x1.DisplayName,Сегмент парящей п
 Tobbert.HorizontalPlatformMiddle1x1.Description,"Платформа, которую можно построить где угодно. Для диких архитектурных фантазий!",-
 Tobbert.HorizontalPlatformMiddle1x1.FlavorDescription,"Давайте воздвигнем город в облаках!",-
 Tobbert.HorizontalPlatformMiddle1x2.DisplayName,Сегмент парящей платформы высотой 1.5,-
-Tobbert.HorizontalPlatformMiddle1x2.Description,"Платформа, которую можно построить где угодно. Для диких архитектурных фантазий!",-
+Tobbert.HorizontalPlatformMiddle1x2.Description,"Платформа, которую можно построить где угодно. Для дичайших архитектурных фантазий!",-
 Tobbert.HorizontalPlatformMiddle1x2.FlavorDescription,"Когда надо ещё выше!",-
 
 Tobbert.ReinforcedPlatform.DisplayName,Усиленная платформа,-
@@ -28,3 +28,6 @@ Tobbert.DoubleReinforcedPlatform.FlavorDescription,"Построим высок�
 Tobbert.TripleReinforcedPlatform.DisplayName,Тройная усиленная платформа,-
 Tobbert.TripleReinforcedPlatform.Description,"Платформа, которую можно использовать с парящими платформами. Выглядит лучше, чем дамба.",-
 Tobbert.TripleReinforcedPlatform.FlavorDescription,"Мои платформы пронзят небеса!!",-
+
+Tobbert.CategoryReinforcedPlatforms.DisplayName,"Усиленные платформы",-
+Tobbert.CategorySidePlatforms.DisplayName,"Парящие платформы",-
