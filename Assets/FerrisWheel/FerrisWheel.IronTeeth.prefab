@@ -2276,7 +2276,6 @@ GameObject:
   - component: {fileID: 1999726201031009703}
   - component: {fileID: 511005710607823574}
   - component: {fileID: 2978571973715371038}
-  - component: {fileID: 4038997740172973932}
   - component: {fileID: 4580440171318085561}
   - component: {fileID: 5960212158131010539}
   - component: {fileID: 3751421272312933886}
@@ -2323,7 +2322,7 @@ MonoBehaviour:
   m_Script: {fileID: -790041461, guid: 1bd6ccb667024f9c2b77daf7f62a4eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _soundBaseName: Default
+  _soundBaseName: Carousel
   _hasLoopingSound: 0
   _buildingCost:
   - _goodId: Plank
@@ -2337,7 +2336,6 @@ MonoBehaviour:
   _finishableWithBeaversOnSite: 0
   _path: 0
   _drawRangeBoundsOnIt: 0
-  _hasNoRoof: 1
 --- !u!114 &2761502755770028099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2441,18 +2439,6 @@ MonoBehaviour:
   _prefabName: FerrisWheel
   _backwardCompatiblePrefabNames: []
   _requiredFeatureToggle: 
---- !u!114 &4038997740172973932
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5366692629481669372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 294790411, guid: b6cb9fb40e6a9dd39b069e7f18c050b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4580440171318085561
 MonoBehaviour:
   m_ObjectHideFlags: 0
