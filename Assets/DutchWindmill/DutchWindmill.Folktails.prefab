@@ -78,7 +78,6 @@ GameObject:
   - component: {fileID: 511005710607823574}
   - component: {fileID: 2978571973715371038}
   - component: {fileID: 8411639657129099024}
-  - component: {fileID: 4038997740172973932}
   - component: {fileID: 7515168943932249482}
   - component: {fileID: 5960212158131010539}
   - component: {fileID: 3751421272312933886}
@@ -260,18 +259,6 @@ MonoBehaviour:
     _inanimate: 0
     _randomizeYRotation: 0
     _waterSlot: 0
---- !u!114 &4038997740172973932
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5366692629481669372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 294790411, guid: b6cb9fb40e6a9dd39b069e7f18c050b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7515168943932249482
 MonoBehaviour:
   m_ObjectHideFlags: 0

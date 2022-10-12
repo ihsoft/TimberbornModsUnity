@@ -1,9 +1,9 @@
 {
   "Name": "Dutch Windmill",
-  "Version": "1.0.2",
+  "Version": "1.0.3",
   "UniqueId": "tobbert.dutchwindmill",
   "MinimumApiVersion": "0.5.0",
-  "MinimumGameVersion": "0.2.8.1",
+  "MinimumGameVersion": "0.2.9.1",
   "Assets": [
     {
       "Prefix": "tobbert.dutchwindmill",
