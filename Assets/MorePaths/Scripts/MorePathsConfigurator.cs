@@ -1,7 +1,6 @@
 using Bindito.Core;
 using TimberApi.ConfiguratorSystem;
 using TimberApi.SceneSystem;
-using Timberborn.Beavers;
 using Timberborn.PathSystem;
 using Timberborn.TemplateSystem;
 
@@ -12,7 +11,10 @@ namespace MorePaths
     {
         public void Configure(IContainerDefinition containerDefinition)
         {
+            containerDefinition.Bind<PathSpecificationObjectDeserializer>().AsSingleton();
+            containerDefinition.Bind<DrivewayFactory>().AsSingleton();
             containerDefinition.Bind<MorePathsService>().AsSingleton();
+            containerDefinition.Bind<PathCornerService>().AsSingleton();
             containerDefinition.MultiBind<TemplateModule>().ToProvider(ProvideTemplateModule).AsSingleton();
         }
 
@@ -20,6 +22,7 @@ namespace MorePaths
         {
             TemplateModule.Builder builder = new TemplateModule.Builder();
             builder.AddDecorator<DrivewayModel, CustomDrivewayModel>();
+            // builder.AddDecorator<DynamicPathModel, DynamicPathCorner>();
             // builder.AddDecorator<Beaver, PathListener>();
             return builder.Build();
         }

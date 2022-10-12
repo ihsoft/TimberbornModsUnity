@@ -2,9 +2,10 @@
 
 You know what would be boring? Only having one path! With this mod u can use different paths to diversify your city!
 
-## Shoutout
+## Shoutouts
 
-Knatte_Anka helped out with making the icons and ironing out the details. So a big shoutout to him for the ideas and all the help!
+A shoutout to Todor Alin on discord for his time testing versions of this mod!
+And a shoutout to Knatte_Anka for helped out with making the icons and ironing out the details. So a big shoutout to him for the ideas and all the help!
 
 ## How to use
 
@@ -16,6 +17,18 @@ These are the paths that are added with this mod. They have the same properties 
 
 ![Example Image](https://media.githubusercontent.com/media/TobbyTheBobby/TimberbornModsUnity/master/Assets/MorePaths/StaticFiles/Images/ExampleImage1.png)
 
+### Adding custom paths
+
+Steps to add your own path:
+1. Add a folder in the "Paths" folder of this mod with the same name as the path that you want to add.
+2. Add an image (jpg or png) and an icon that you would like to use for your custom path.
+3. Make a copy of one of the existing PathSpecifications.
+4. Replace the name of the path to be the same as the folder you created.
+5. Replace the names of the textures with the name of your images in the Specification files.
+6. Add a LocKey to the language file that you are using (probably enUS.txt) using the format: (LocKey),(Name),(comment)
+
+If you have any questions, then send me a PM on discord and I can help or change the text above. 
+
 ## Installing
 
 Recommended way to install this mod is through [Thunderstore](https://timberborn.thunderstore.io/).This plugin is dependent on the magnificent [TimberAPI](https://github.com/Timberborn-Modding-Central/TimberAPI).
@@ -24,18 +37,26 @@ Recommended way to install this mod is through [Thunderstore](https://timberborn
 
 In case you experience problems, message me in the modding channel of the the [Timberborn discord](https://discord.gg/mfbBF4cWpX) or message me directly (Tobbert#1607). I will try to fix it as soon as possible. :D
 
-## Know limitations
+## Known limitations
 
 - Hovering next a driveway doesnt show the driveway.
 
 ## Planned features
 
-- More Paths
 - Fixing driveways not showing when a driveway is connected to a stairs.
+- Enable or disable paths from in-game.
+- Enable or disable the corners between paths. 
 
 ## Changelog
 
-### 1.1.1 - 
+### 2.0.0 - 12.10.2022
+
+- Removed all assets and are now replaced by a 100% code based solution (possibility of paths disappearing when updating to this version).
+- Added the possibility to add custom paths with specifications.
+- Any specific path can now be disabled in the specifications. 
+- Added corners between paths if they are linked in a square. 
+
+### 1.1.1 - 23.9.2022
 
 - Updated to work with TimberAPI (v0.5.0).
 - Removed mentions of speeding up beavers, as this was removed in the previous update.

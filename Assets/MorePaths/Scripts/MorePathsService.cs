@@ -1,172 +1,121 @@
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using TimberApi.AssetSystem;
-using TimberApi.DependencyContainerSystem;
+using HarmonyLib;
+using TimberApi.Common.SingletonSystem;
+using Timberborn.AssetSystem;
+using Timberborn.BlockObjectTools;
 using Timberborn.BlockSystem;
 using Timberborn.Coordinates;
+using Timberborn.EntitySystem;
 using Timberborn.PathSystem;
+using Timberborn.Persistence;
 using Timberborn.TerrainSystem;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace MorePaths
 {
-    public class MorePathsService
+    public class MorePathsService : ITimberApiLoadableSingleton
     {
         private IEnumerable<Object> _pathObjects;
-        private readonly List<CustomDrivewayPath>  _customDrivewayPaths = new()
-        {
-            new CustomDrivewayPath { 
-                Name="BrickPath", 
-                DrivewayList = 
-                    new List<string>()
-                    {      
-                        "tobbert.morepaths/tobbert_morepaths/BrickDrivewayNarrowLeft_0",
-                        "tobbert.morepaths/tobbert_morepaths/BrickDrivewayNarrowCenter_0",
-                        "tobbert.morepaths/tobbert_morepaths/BrickDrivewayNarrowRight_0",
-                        "tobbert.morepaths/tobbert_morepaths/BrickDrivewayWideCenter_0",
-                        "tobbert.morepaths/tobbert_morepaths/BrickDrivewayLongCenter_0",
-                        "tobbert.morepaths/tobbert_morepaths/BrickDrivewayStraightPath_0"
-                    }},
-            new CustomDrivewayPath { 
-                Name="FrogPath", 
-                DrivewayList = 
-                    new List<string>()
-                    {      
-                        "tobbert.morepaths/tobbert_morepaths/FrogDrivewayNarrowLeft_0",
-                        "tobbert.morepaths/tobbert_morepaths/FrogDrivewayNarrowCenter_0",
-                        "tobbert.morepaths/tobbert_morepaths/FrogDrivewayNarrowRight_0",
-                        "tobbert.morepaths/tobbert_morepaths/FrogDrivewayWideCenter_0",
-                        "tobbert.morepaths/tobbert_morepaths/FrogDrivewayLongCenter_0",
-                        "tobbert.morepaths/tobbert_morepaths/FrogDrivewayStraightPath_0"
-                    }},
-            new CustomDrivewayPath { 
-                Name="Gravel1Path", 
-                DrivewayList = 
-                    new List<string>()
-                    {      
-                        "tobbert.morepaths/tobbert_morepaths/Gravel1DrivewayNarrowLeft_0",
-                        "tobbert.morepaths/tobbert_morepaths/Gravel1DrivewayNarrowCenter_0",
-                        "tobbert.morepaths/tobbert_morepaths/Gravel1DrivewayNarrowRight_0",
-                        "tobbert.morepaths/tobbert_morepaths/Gravel1DrivewayWideCenter_0",
-                        "tobbert.morepaths/tobbert_morepaths/Gravel1DrivewayLongCenter_0",
-                        "tobbert.morepaths/tobbert_morepaths/Gravel1DrivewayStraightPath_0"
-                    }},
-            new CustomDrivewayPath { 
-                Name="Gravel2Path", 
-                DrivewayList = 
-                    new List<string>()
-                    {      
-                        "tobbert.morepaths/tobbert_morepaths/Gravel2DrivewayNarrowLeft_0",
-                        "tobbert.morepaths/tobbert_morepaths/Gravel2DrivewayNarrowCenter_0",
-                        "tobbert.morepaths/tobbert_morepaths/Gravel2DrivewayNarrowRight_0",
-                        "tobbert.morepaths/tobbert_morepaths/Gravel2DrivewayWideCenter_0",
-                        "tobbert.morepaths/tobbert_morepaths/Gravel2DrivewayLongCenter_0",
-                        "tobbert.morepaths/tobbert_morepaths/Gravel2DrivewayStraightPath_0"
-                    }},
-            new CustomDrivewayPath { 
-                Name="MetalPath", 
-                DrivewayList = 
-                    new List<string>()
-                    {      
-                        "tobbert.morepaths/tobbert_morepaths/MetalDrivewayNarrowLeft_0",
-                        "tobbert.morepaths/tobbert_morepaths/MetalDrivewayNarrowCenter_0",
-                        "tobbert.morepaths/tobbert_morepaths/MetalDrivewayNarrowRight_0",
-                        "tobbert.morepaths/tobbert_morepaths/MetalDrivewayWideCenter_0",
-                        "tobbert.morepaths/tobbert_morepaths/MetalDrivewayLongCenter_0",
-                        "tobbert.morepaths/tobbert_morepaths/MetalDrivewayStraightPath_0"
-                    }},
-            new CustomDrivewayPath { 
-                Name="WoodPath.Folktails", 
-                DrivewayList = 
-                    new List<string>()
-                    {      
-                        "tobbert.morepaths/tobbert_morepaths/WoodFolktailsDrivewayNarrowLeft_0",
-                        "tobbert.morepaths/tobbert_morepaths/WoodFolktailsDrivewayNarrowCenter_0",
-                        "tobbert.morepaths/tobbert_morepaths/WoodFolktailsDrivewayNarrowRight_0",
-                        "tobbert.morepaths/tobbert_morepaths/WoodFolktailsDrivewayWideCenter_0",
-                        "tobbert.morepaths/tobbert_morepaths/WoodFolktailsDrivewayLongCenter_0",
-                        "tobbert.morepaths/tobbert_morepaths/WoodFolktailsDrivewayStraightPath_0"
-                    }},
-            new CustomDrivewayPath { 
-                Name="WoodPath.IronTeeth", 
-                DrivewayList = 
-                    new List<string>()
-                    {      
-                        "tobbert.morepaths/tobbert_morepaths/WoodIronTeethDrivewayNarrowLeft_0",
-                        "tobbert.morepaths/tobbert_morepaths/WoodIronTeethDrivewayNarrowCenter_0",
-                        "tobbert.morepaths/tobbert_morepaths/WoodIronTeethDrivewayNarrowRight_0",
-                        "tobbert.morepaths/tobbert_morepaths/WoodIronTeethDrivewayWideCenter_0",
-                        "tobbert.morepaths/tobbert_morepaths/WoodIronTeethDrivewayLongCenter_0",
-                        "tobbert.morepaths/tobbert_morepaths/WoodIronTeethDrivewayStraightPath_0"
-                    }},
-            new CustomDrivewayPath { 
-                Name="StonePath", 
-                DrivewayList = 
-                    new List<string>()
-                    {      
-                        "tobbert.morepaths/tobbert_morepaths/StoneDrivewayNarrowLeft_0",
-                        "tobbert.morepaths/tobbert_morepaths/StoneDrivewayNarrowCenter_0",
-                        "tobbert.morepaths/tobbert_morepaths/StoneDrivewayNarrowRight_0",
-                        "tobbert.morepaths/tobbert_morepaths/StoneDrivewayWideCenter_0",
-                        "tobbert.morepaths/tobbert_morepaths/StoneDrivewayLongCenter_0",
-                        "tobbert.morepaths/tobbert_morepaths/StoneDrivewayStraightPath_0"
-                    }}
-        };
-        public List<string> PathMaterials = new()
-        {
-            "BrickPath (Instance)",
-            "FrogPath (Instance)",
-            "Gravel1Path (Instance)",
-            "Gravel2Path (Instance)",
-            "MetalPath (Instance)",
-            "StonePath (Instance)",
-            "WoodPath.Folktails (Instance)",
-            "WoodPath.IronTeeth (Instance)"
-        };
 
-        private BlockService _blockService;
-        private IAssetLoader _assetLoader;
+        private readonly BlockService _blockService;
+        private readonly ISpecificationService _specificationService;
+        private readonly IResourceAssetLoader _resourceAssetLoader;
+        private readonly PathSpecificationObjectDeserializer _pathSpecificationObjectDeserializer;
+        private readonly DrivewayFactory _drivewayFactory;
 
-        private readonly object[] _parameters = { };
         private MethodInfo _methodInfo;
+        private ImmutableArray<PathSpecification> _pathsSpecifications;
+        public List<FakePath> FakePaths = new();
+        private Dictionary<Driveway, List<GameObject>> _driveways;
+        private readonly Dictionary<string, FieldInfo> _fieldInfos = new();
+        private readonly Dictionary<string, MethodInfo> _methodInfos = new();
+        private GameObject OriginalPathGameObject => _resourceAssetLoader.Load<GameObject>("Buildings/Paths/Path/Path.IronTeeth");
+        private GameObject PathCorner => _resourceAssetLoader.Load<GameObject>("tobbert.morepaths/tobbert_morepaths/PathCorner");
 
-        public MorePathsService(BlockService blockService, IAssetLoader assetLoader)
+        public MorePathsService(
+            BlockService blockService, 
+            ISpecificationService specificationService,
+            IResourceAssetLoader resourceAssetLoader,
+            PathSpecificationObjectDeserializer pathSpecificationObjectDeserializer,
+            DrivewayFactory drivewayFactory,
+            EntityService entityService,
+            BlockObjectFactory blockObjectFactory,
+            BlockObjectPlacerService blockObjectPlacerService)
         {
             _blockService = blockService;
-            _assetLoader = assetLoader;
+            _specificationService = specificationService;
+            _resourceAssetLoader = resourceAssetLoader;
+            _pathSpecificationObjectDeserializer = pathSpecificationObjectDeserializer;
+            _drivewayFactory = drivewayFactory;
         }
-        
-        public class CustomDrivewayPath {
-            public string Name { get; set; }
-            public List<string> DrivewayList { get; set; }
-        }
-        
-        public void Awake(DrivewayModel instance)
+
+        public void Load()
         {
-            var localCoordinates = GetLocalCoordinates(instance);
-            var localDirection = GetLocalDirection(instance);
+            LoadPathSpecifications();
+            CreatePathsFromSpecification();
+            LoadAllPathObjects();
+        }
+
+        private void LoadPathSpecifications()
+        {
+            _pathsSpecifications = _specificationService.GetSpecifications(_pathSpecificationObjectDeserializer).Where(specification => specification.Enabled).ToImmutableArray();
+        }
+
+        private void CreatePathsFromSpecification()
+        {
+            // Stopwatch stopwatch = Stopwatch.StartNew();
             
-            foreach (var customDrivewayPath in _customDrivewayPaths)
-            {
-                instance.GetComponent<CustomDrivewayModel>().InstantiateModel(instance, localCoordinates, localDirection, customDrivewayPath.Name, customDrivewayPath.DrivewayList);
-            }
+            PreventInstantiatePatch.RunInstantiate = false;
+            OriginalPathGameObject.AddComponent<DynamicPathCorner>();
+            FakePaths = _pathsSpecifications.Select(specification => new FakePath(this, Object.Instantiate(OriginalPathGameObject), Object.Instantiate(PathCorner), specification)).ToList();
+            FakePaths.ForEach(path => path.Create());
+            _driveways = _drivewayFactory.CreateDriveways(_pathsSpecifications);
+            PreventInstantiatePatch.RunInstantiate = true;
+            
+            
+            // stopwatch.Stop();
+            // Plugin.Log.LogInfo("Total: " + stopwatch.ElapsedMilliseconds);
+        }
 
-            /* This code needs to be moved somewhere else, as it now gets called every time a new driveway is initiated. */
-            var timberbornpathObjects = Resources.LoadAll("", typeof(DynamicPathModel));
-            var mypathObjects = _assetLoader.LoadAll<GameObject>(Plugin.PluginGuid, "tobbert_morepaths").Where(obj => obj.GetComponent<DynamicPathModel>());
+        private void LoadAllPathObjects()
+        {
+            var timberbornPathObjects = Resources.LoadAll("", typeof(DynamicPathModel));
+            _pathObjects = timberbornPathObjects.Concat(FakePaths.Select(path => path.PathGameObject));
+        }
 
-            _pathObjects = timberbornpathObjects.Concat(mypathObjects);
+        public void AddFakePathsToObjectsPatch(ref IEnumerable<Object> result)
+        {
+            var pathGameObject = result.First(o => o.name.Split(".")[0] == "Path");
+            if (pathGameObject == null) return;
+
+            var resultList = result.ToList();
+            resultList.Remove(pathGameObject);
+
+            var newObjectsList = resultList.Concat(FakePaths.Select(path => path.PathGameObject));
+
+            result = newObjectsList;
+        }
+
+        public void InstantiateDriveways(DrivewayModel instance)
+        {
+            var localCoordinates = (Vector3Int)InvokePrivateMethod(instance, "GetLocalCoordinates");
+            var localDirection = (Direction2D)InvokePrivateMethod(instance, "GetLocalDirection");
+            
+            instance.GetComponent<CustomDrivewayModel>().InstantiateModel(instance, localCoordinates, localDirection, _driveways);
         }
         
         public void UpdateAllDriveways(DrivewayModel instance, GameObject model, ITerrainService terrainService)
         {
-            GameObject path = DependencyContainer.GetInstance<MorePathsService>().GetPath(instance);
-            
-            var direction = GetPositionedDirection(instance);
-            var coordinates = GetPositionedCoordinates(instance);
-            
+            GameObject path = GetPath(instance);
+
+            var direction = (Direction2D)InvokePrivateMethod(instance, "GetPositionedDirection");
+            var coordinates = (Vector3Int)InvokePrivateMethod(instance, "GetPositionedCoordinates");
+
             Vector3Int checkObjectCoordinates =  coordinates + direction.ToOffset();
             bool onGround = terrainService.OnGround(checkObjectCoordinates);
             
@@ -180,7 +129,6 @@ namespace MorePaths
                     {
                         if (pathObject.name == "Path.Folktails" | pathObject.name == "Path.IronTeeth")
                         {
-                            
                             model.SetActive(true & onGround);
                             
                             foreach (var tempModel in tempList)
@@ -214,10 +162,10 @@ namespace MorePaths
             }
         }
 
-        public GameObject GetPath(DrivewayModel instance)
+        private GameObject GetPath(DrivewayModel instance)
         {
-            var direction = GetPositionedDirection(instance);
-            var coordinates = GetPositionedCoordinates(instance);
+            var direction = (Direction2D)InvokePrivateMethod(instance, "GetPositionedDirection");
+            var coordinates = (Vector3Int)InvokePrivateMethod(instance, "GetPositionedCoordinates");
             
             Vector3Int checkObjectCoordinates =  coordinates + direction.ToOffset();
             IEnumerable<DynamicPathModel> paths = _blockService.GetObjectsWithComponentAt<DynamicPathModel>(checkObjectCoordinates);
@@ -229,28 +177,34 @@ namespace MorePaths
             return null;
         }
 
-        public Direction2D GetPositionedDirection(DrivewayModel instance)
+        private object InvokePrivateMethod(object instance, string methodName)
         {
-            _methodInfo = typeof(DrivewayModel).GetMethod("GetPositionedDirection", BindingFlags.NonPublic | BindingFlags.Instance);
-            return (Direction2D)_methodInfo.Invoke(instance, _parameters);
+            if (!_methodInfos.ContainsKey(methodName))
+            {
+                _methodInfos.Add(methodName, AccessTools.TypeByName(instance.GetType().Name).GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance));
+            }
+            
+            return _methodInfos[methodName].Invoke(instance, new object[]{});
         }
-        
-        public Vector3Int GetPositionedCoordinates(DrivewayModel instance)
+
+        public void ChangePrivateField(object instance, string fieldName, object newValue)
         {
-            _methodInfo = typeof(DrivewayModel).GetMethod("GetPositionedCoordinates", BindingFlags.NonPublic | BindingFlags.Instance);
-            return (Vector3Int)_methodInfo.Invoke(instance, _parameters);
+            if (!_fieldInfos.ContainsKey(fieldName))
+            {
+                _fieldInfos.Add(fieldName, AccessTools.TypeByName(instance.GetType().Name).GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance));
+            }
+            
+            _fieldInfos[fieldName].SetValue(instance, newValue);
         }
-        
-        public Vector3Int GetLocalCoordinates(DrivewayModel instance)
+
+        public object GetPrivateField(object instance, string fieldName)
         {
-            _methodInfo = typeof(DrivewayModel).GetMethod("GetLocalCoordinates", BindingFlags.NonPublic | BindingFlags.Instance);
-            return (Vector3Int)_methodInfo.Invoke(instance, _parameters);
-        }
-        
-        public Direction2D GetLocalDirection(DrivewayModel instance)
-        {
-            _methodInfo = typeof(DrivewayModel).GetMethod("GetLocalDirection", BindingFlags.NonPublic | BindingFlags.Instance);
-            return (Direction2D)_methodInfo.Invoke(instance, _parameters);
+            if (!_fieldInfos.ContainsKey(fieldName))
+            {
+                _fieldInfos.Add(fieldName, AccessTools.TypeByName(instance.GetType().Name).GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance));
+            }
+            
+            return _fieldInfos[fieldName].GetValue(instance);
         }
     }
 }

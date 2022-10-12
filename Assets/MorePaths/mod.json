@@ -1,9 +1,9 @@
 {
   "Name": "More Paths",
-  "Version": "1.1.1",
+  "Version": "2.0.0",
   "UniqueId": "tobbert.morepaths",
   "MinimumApiVersion": "0.5.0",
-  "MinimumGameVersion": "0.2.8.1",
+  "MinimumGameVersion": "0.2.9.1",
   "EntryDll": "MorePaths.dll",
   "Assets": [
     {
@@ -16,7 +16,7 @@
   "Dependencies": [
       {
           "UniqueId": "tobbert.categorybutton",
-          "MinimumVersion": "1.1.1"
+          "MinimumVersion": "1.1.2"
       }
   ]
 }

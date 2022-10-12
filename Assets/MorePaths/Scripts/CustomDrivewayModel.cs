@@ -1,7 +1,8 @@
-using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using Bindito.Core;
-using TimberApi.AssetSystem;
+using HarmonyLib;
 using Timberborn.BlockSystem;
 using Timberborn.Buildings;
 using Timberborn.Coordinates;
@@ -14,51 +15,28 @@ namespace MorePaths
   public class CustomDrivewayModel : MonoBehaviour
   {
     private OptimizedPrefabInstantiator _optimizedPrefabInstantiator;
-    private IAssetLoader _assetLoader;
     public List<GameObject> drivewayModels = new ();
     
     [Inject]
-    public void InjectDependencies(
-      OptimizedPrefabInstantiator optimizedPrefabInstantiator,
-      IAssetLoader assetLoader)
+    public void InjectDependencies(OptimizedPrefabInstantiator optimizedPrefabInstantiator)
     {
       _optimizedPrefabInstantiator = optimizedPrefabInstantiator;
-      _assetLoader = assetLoader;
     }
     
     public void InstantiateModel(
       DrivewayModel drivewayModel,
       Vector3Int coordinates,
-      Direction2D direction, 
-      string drivewayName,
-      List<string> drivewayList
+      Direction2D direction,
+      Dictionary<Driveway, List<GameObject>> driveways
     )
     {
-      var model = _optimizedPrefabInstantiator.Instantiate(GetModelPrefab(drivewayModel.Driveway, drivewayList), drivewayModel.GetComponent<BuildingModel>().FinishedModel.transform);
-      model.transform.localPosition = CoordinateSystem.GridToWorld(BlockCalculations.Pivot(coordinates, direction.ToOrientation()));
-      model.transform.localRotation = direction.ToWorldSpaceRotation();
-      model.name = drivewayName;
-      drivewayModels.Add(model);
-    }
-
-    public GameObject GetModelPrefab(Driveway driveway, List<string> drivewayList)
-    {
-      switch (driveway)
+      foreach (var prefab in driveways[drivewayModel.Driveway])
       {
-        case Driveway.NarrowLeft:
-          return _assetLoader.Load<GameObject>(drivewayList[0]);
-        case Driveway.NarrowCenter:
-          return _assetLoader.Load<GameObject>(drivewayList[1]);
-        case Driveway.NarrowRight:
-          return _assetLoader.Load<GameObject>(drivewayList[2]);
-        case Driveway.WideCenter:
-          return _assetLoader.Load<GameObject>(drivewayList[3]);
-        case Driveway.LongCenter:
-          return _assetLoader.Load<GameObject>(drivewayList[4]);
-        case Driveway.StraightPath:
-          return _assetLoader.Load<GameObject>(drivewayList[5]);
-        default:
-          throw new ArgumentOutOfRangeException(nameof (driveway), driveway, null);
+        var model = _optimizedPrefabInstantiator.Instantiate(prefab, drivewayModel.GetComponent<BuildingModel>().FinishedModel.transform);
+        model.transform.localPosition = CoordinateSystem.GridToWorld(BlockCalculations.Pivot(coordinates, direction.ToOrientation()));
+        model.transform.localRotation = direction.ToWorldSpaceRotation();
+        model.name = prefab.name;
+        drivewayModels.Add(model);
       }
     }
   }

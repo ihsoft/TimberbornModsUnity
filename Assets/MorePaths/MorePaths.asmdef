@@ -8,10 +8,12 @@
     "overrideReferences": true,
     "precompiledReferences": [
         "BepInEx.dll",
+        "TimberApi.Common.dll",
         "TimberApi.dll",
         "Bindito.Core.dll",
         "Bindito.Unity.dll",
         "0Harmony.dll",
+        "Timberborn.Core.dll",
         "Timberborn.PathSystem.dll",
         "Timberborn.TemplateSystem.dll",
         "Timberborn.PrefabOptimization.dll",
@@ -32,7 +34,11 @@
         "Timberborn.Beavers.dll",
         "Timberborn.BonusSystem.dll",
         "Timberborn.EntitySystem.dll",
-        "Timberborn.WalkingSystem.dll"
+        "Timberborn.WalkingSystem.dll",
+        "Timberborn.SingletonSystem.dll",
+        "Timberborn.Persistence.dll",
+        "System.Collections.Immutable.dll",
+        "Timberborn.AssetSystem.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],
