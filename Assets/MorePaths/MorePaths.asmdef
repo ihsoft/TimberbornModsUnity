@@ -38,7 +38,11 @@
         "Timberborn.SingletonSystem.dll",
         "Timberborn.Persistence.dll",
         "System.Collections.Immutable.dll",
-        "Timberborn.AssetSystem.dll"
+        "Timberborn.AssetSystem.dll",
+        "Timberborn.FactionSystemGame.dll",
+        "Timberborn.FactionSystem.dll",
+        "Timberborn.SceneLoading.dll",
+        "Timberborn.MasterSceneLoading.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

@@ -5,13 +5,17 @@ using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using TimberApi.Common.SingletonSystem;
+using TimberApi.DependencyContainerSystem;
 using Timberborn.AssetSystem;
 using Timberborn.BlockObjectTools;
 using Timberborn.BlockSystem;
 using Timberborn.Coordinates;
 using Timberborn.EntitySystem;
+using Timberborn.FactionSystemGame;
+using Timberborn.MasterSceneLoading;
 using Timberborn.PathSystem;
 using Timberborn.Persistence;
+using Timberborn.SceneLoading;
 using Timberborn.TerrainSystem;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -25,22 +29,46 @@ namespace MorePaths
         private readonly BlockService _blockService;
         private readonly ISpecificationService _specificationService;
         private readonly IResourceAssetLoader _resourceAssetLoader;
+        private readonly FactionService _factionService;
+        private readonly SceneLoader _sceneLoader;
         private readonly PathSpecificationObjectDeserializer _pathSpecificationObjectDeserializer;
         private readonly DrivewayFactory _drivewayFactory;
 
         private MethodInfo _methodInfo;
         private ImmutableArray<PathSpecification> _pathsSpecifications;
-        public List<FakePath> FakePaths = new();
+        public List<FakePath> FakePaths;
         private Dictionary<Driveway, List<GameObject>> _driveways;
         private readonly Dictionary<string, FieldInfo> _fieldInfos = new();
         private readonly Dictionary<string, MethodInfo> _methodInfos = new();
-        private GameObject OriginalPathGameObject => _resourceAssetLoader.Load<GameObject>("Buildings/Paths/Path/Path.IronTeeth");
+        
+        
+        // private static GameObject OriginalPathGameObject {
+        //     get
+        //     {
+        //         var folktails = Resources.Load<GameObject>("Buildings/Paths/Path/Path.Folktails");
+        //         if (folktails != null)
+        //         {
+        //             return folktails;
+        //         }
+        //         
+        //         var ironTeeth = Resources.Load<GameObject>("Buildings/Paths/Path/Path.IronTeeth");
+        //         if (ironTeeth != null)
+        //         {
+        //             return ironTeeth;
+        //         }
+        //         
+        //         return  null;
+        //     }
+        // }
+            
         private GameObject PathCorner => _resourceAssetLoader.Load<GameObject>("tobbert.morepaths/tobbert_morepaths/PathCorner");
 
         public MorePathsService(
             BlockService blockService, 
             ISpecificationService specificationService,
             IResourceAssetLoader resourceAssetLoader,
+            FactionService factionService,
+            SceneLoader sceneLoader,
             PathSpecificationObjectDeserializer pathSpecificationObjectDeserializer,
             DrivewayFactory drivewayFactory,
             EntityService entityService,
@@ -50,6 +78,8 @@ namespace MorePaths
             _blockService = blockService;
             _specificationService = specificationService;
             _resourceAssetLoader = resourceAssetLoader;
+            _factionService = factionService;
+            _sceneLoader = sceneLoader;
             _pathSpecificationObjectDeserializer = pathSpecificationObjectDeserializer;
             _drivewayFactory = drivewayFactory;
         }
@@ -57,8 +87,6 @@ namespace MorePaths
         public void Load()
         {
             LoadPathSpecifications();
-            CreatePathsFromSpecification();
-            LoadAllPathObjects();
         }
 
         private void LoadPathSpecifications()
@@ -71,8 +99,10 @@ namespace MorePaths
             // Stopwatch stopwatch = Stopwatch.StartNew();
             
             PreventInstantiatePatch.RunInstantiate = false;
-            OriginalPathGameObject.AddComponent<DynamicPathCorner>();
-            FakePaths = _pathsSpecifications.Select(specification => new FakePath(this, Object.Instantiate(OriginalPathGameObject), Object.Instantiate(PathCorner), specification)).ToList();
+            
+            var originalPathGameObject = Resources.Load<GameObject>("Buildings/Paths/Path/Path." + _factionService.Current.Id);
+            originalPathGameObject.AddComponent<DynamicPathCorner>();
+            FakePaths = _pathsSpecifications.Select(specification => new FakePath(this, Object.Instantiate(originalPathGameObject), Object.Instantiate(PathCorner), specification)).ToList();
             FakePaths.ForEach(path => path.Create());
             _driveways = _drivewayFactory.CreateDriveways(_pathsSpecifications);
             PreventInstantiatePatch.RunInstantiate = true;
@@ -90,6 +120,13 @@ namespace MorePaths
 
         public void AddFakePathsToObjectsPatch(ref IEnumerable<Object> result)
         {
+            if (FakePaths == null)
+            {
+                CreatePathsFromSpecification();
+                LoadAllPathObjects();
+            }
+
+            
             var pathGameObject = result.First(o => o.name.Split(".")[0] == "Path");
             if (pathGameObject == null) return;
 

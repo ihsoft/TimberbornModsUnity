@@ -49,6 +49,10 @@ In case you experience problems, message me in the modding channel of the the [T
 
 ## Changelog
 
+### 2.0.1 - 12.10.2022
+
+- Fixed MorePaths not working on Folktails.
+
 ### 2.0.0 - 12.10.2022
 
 - Removed all assets and are now replaced by a 100% code based solution (possibility of paths disappearing when updating to this version).
