@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
 using TimberApi.ConsoleSystem;
@@ -12,35 +13,19 @@ using UnityEngine.UIElements;
 
 namespace CategoryButton
 {
-    // [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
-    // [BepInDependency("com.timberapi.timberapi")]
-    // public class Plugin : BaseUnityPlugin
-    // {
-    //     public const string PluginGuid = "tobbert.categorybutton";
-    //     public const string PluginName = "CategoryButton";
-    //     public const string PluginVersion = "1.1.0";
-    //     
-    //     public static ManualLogSource Log;
-    //     
-    //     void Awake()
-    //     {
-    //         Log = Logger;
-    //         
-    //         Log.LogInfo($"Loaded {PluginName} Version: {PluginVersion}!");
-    //                     
-    //         TimberAPI.AssetRegistry.AddSceneAssets(PluginGuid, SceneEntryPoint.InGame);
-    //         DependencyRegistry.AddConfigurator(new ToolBarCategoriesConfigurator());
-    //         TimberAPI.DependencyRegistry.AddConfigurator(new ToolBarCategoriesConfigurator(), SceneEntryPoint.MapEditor);
-    //         // new Harmony(PluginGuid).PatchAll();
-    //     }
-    // }
-
     public class Plugin : IModEntrypoint
     {
         public const string PluginGuid = "tobbert.categorybutton";
+        public static string myPath;
+        
+        public static IConsoleWriter Log;
         
         public void Entry(IMod mod, IConsoleWriter consoleWriter)
         {
+            myPath = mod.DirectoryPath;
+            
+            Log = consoleWriter;
+            
             try
             {
                 new Harmony(PluginGuid).PatchAll();
@@ -50,6 +35,41 @@ namespace CategoryButton
                 Console.WriteLine(e);
                 throw;
             }
+        }
+    }
+    
+    [HarmonyPatch]
+    [HarmonyPriority(399)]
+    public class FactionObjectCollectionPatch
+    {
+        public static MethodInfo TargetMethod()
+        {
+            return AccessTools.Method(AccessTools.TypeByName("FactionObjectCollection"), "GetObjects");
+        }
+        
+        static void Postfix(ref IEnumerable<UnityEngine.Object> __result)
+        {
+            DependencyContainer.GetInstance<CategoryButtonService>().AddCategoryButtonsToObjectsPatch(ref __result);
+        }
+    }
+    
+    [HarmonyPatch]
+    public class PreventInstantiatePatch
+    {
+        public static bool RunInstantiate = true;
+        
+        public static IEnumerable<MethodInfo> TargetMethods()
+        {
+            var methodInfoList = new List<MethodInfo>
+            {
+                AccessTools.Method(AccessTools.TypeByName("BlockObject"), "Awake")
+            };
+
+            return methodInfoList;
+        }
+        static bool Prefix()
+        {
+            return RunInstantiate;
         }
     }
     
@@ -67,21 +87,16 @@ namespace CategoryButton
         {
             if (prefab.TryGetComponent(out CategoryButtonComponent toolBarCategory))
             {
-                __result = DependencyContainer.GetInstance<CategoryButtonService>().CreateFakeToolButton(prefab, toolGroup, buttonParent, toolBarCategory, ____blockObjectToolDescriber, ____toolButtonFactory);
+                __result = DependencyContainer.GetInstance<CategoryButtonService>().CreateCategoryToolButton(prefab, toolGroup, buttonParent, toolBarCategory, ____blockObjectToolDescriber, ____toolButtonFactory);
                 return false;
             }
             
             return true;
         }
         
-        static void Postfix(
-            BlockObjectToolButtonFactory __instance,
-            PlaceableBlockObject prefab,
-            ToolGroup toolGroup,
-            VisualElement buttonParent,
-            ToolButton __result)
+        static void Postfix(PlaceableBlockObject prefab, ToolButton __result)
         {
-            DependencyContainer.GetInstance<CategoryButtonService>().AddButtonToCategory(__result, prefab);
+            DependencyContainer.GetInstance<CategoryButtonService>().AddButtonToCategoryTool(__result, prefab);
         }
     }
     
@@ -99,7 +114,7 @@ namespace CategoryButton
         }
     }
     
-    [HarmonyPatch(typeof(ToolManager), "SwitchTool", new Type[] {typeof(Tool)})]
+    [HarmonyPatch(typeof(ToolManager), "SwitchTool", typeof(Tool))]
     public class ToolSwitcherPatch
     {
         static void Prefix(ref ToolManager __instance, Tool tool, WaterOpacityToggle ____waterOpacityToggle)
@@ -113,7 +128,7 @@ namespace CategoryButton
     {
         static bool Prefix(ref ToolManager __instance, WaterOpacityToggle ____waterOpacityToggle)
         {
-            foreach (var toolBarCategoryTool in DependencyContainer.GetInstance<CategoryButtonService>().ToolBarCategoryTools)
+            foreach (var toolBarCategoryTool in DependencyContainer.GetInstance<CategoryButtonService>().CategoryButtonTools)
             {
                 if (__instance.ActiveTool == toolBarCategoryTool)
                 {

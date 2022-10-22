@@ -9,14 +9,32 @@ The category buttons works as you think it would, it adds another layer of butto
 ## Modders: how to use
 
 1. Add the CategoryButton package to the the project.
-2. Create a new prefab that has the following components: 
-   - Prefab (Required: Prefab Name)
-   - Placeable Block Object (Required: ToolGroupID, Tool Order)
-   - Labeled Prefab (Required: DisplayNameLocKey, Image)
-   - Block Object (Required: a blocksize of atleast 1. The BlockSpecification entries has to be "any")
-   - Category Button Component (Required: List with names of the prefabs of which the buttons need to be in the group)
-3. Add a BepInEx dependency to the plugin: [BepInDependency("tobbert.categorybutton")].
-4. Load the object as usually (Manifest and specification).
+2. Create a specification which looks like the following:
+```json
+{
+  "Name": "CategoryBridges",
+  "ToolGroup": "Paths",
+  "ToolOrder": 300,
+  "ButtonIcon": "Bridges.png",
+  "Buildings": [
+    "SuspensionBridge1x1.Folktails",
+    "SuspensionBridge1x1.IronTeeth",
+    "SuspensionBridge2x1.Folktails",
+    "SuspensionBridge2x1.IronTeeth",
+    "SuspensionBridge3x1.Folktails",
+    "SuspensionBridge3x1.IronTeeth",
+    "SuspensionBridge4x1.Folktails",
+    "SuspensionBridge4x1.IronTeeth",
+    "SuspensionBridge5x1.Folktails",
+    "SuspensionBridge5x1.IronTeeth",
+    "SuspensionBridge6x1.Folktails",
+    "SuspensionBridge6x1.IronTeeth"
+  ],
+  "DisplayNameLocKey": "Tobbert.CategoryBridges.DisplayName"
+}
+```
+3. Change the values based on your category. 
+4. Done!
 
 ## Installing
 
@@ -28,6 +46,10 @@ and adding the dll to your bepinex plugins folder. This plugin is dependent on t
 In case you experience problems, message me in the modding channel of the the [Timberborn discord](https://discord.gg/mfbBF4cWpX) or message me directly (Tobbert#1607). I will try to fix it as soon as possible. :D
 
 ## Changelog
+
+### 1.2.0 - 
+
+- Changed so the buttons are now based on specifications instead of prefabs. 
 
 ### 1.1.2 - 23.9.2022
 

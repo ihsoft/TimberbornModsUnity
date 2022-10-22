@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using TimberApi.DependencyContainerSystem;
 using Timberborn.BlockObjectTools;
 using Timberborn.BlockSystem;
@@ -17,32 +16,30 @@ namespace CategoryButton
     private readonly BlockObjectToolDescriber _blockObjectToolDescriber;
     private readonly ToolManager _toolManager;
     private readonly InputService _inputService;
+    private readonly CategoryButtonService _categoryButtonService;
 
-    public PlaceableBlockObject Prefab { get; private set; }
-    public ToolButton ToolButton { get; private set; }
-    public VisualElement VisualElement { get; private set; }
-    public CategoryButtonComponent ToolBarCategoryComponent { get; private set; }
+    private PlaceableBlockObject _prefab;
+    public VisualElement VisualElement;
+    public CategoryButtonComponent ToolBarCategoryComponent;
 
-    public List<ToolButton> ToolButtons = new ();
-    public List<Tool> ToolList = new();
-    public VisualElement Root { get; set; }
+    public readonly List<ToolButton> ToolButtons = new ();
+    private List<Tool> _toolList = new();
     public Tool ActiveTool = null;
-    public bool Active { get; set; }
+    private bool _active;
 
-    public CategoryButtonTool(BlockObjectToolDescriber blockObjectToolDescriber, ToolManager toolManager, InputService inputService)
+    public CategoryButtonTool(BlockObjectToolDescriber blockObjectToolDescriber, ToolManager toolManager, InputService inputService, CategoryButtonService categoryButtonService)
     {
       _blockObjectToolDescriber = blockObjectToolDescriber;
       _toolManager = toolManager;
       _inputService = inputService;
+      _categoryButtonService = categoryButtonService;
     }
 
-    public override bool DevModeTool => Prefab.DevModeTool;
-    
-    public void SetFields(PlaceableBlockObject prefab, ToolButton toolButton, VisualElement visualElement, ToolGroup toolGroup, CategoryButtonComponent toolBarCategory)
+    public override bool DevModeTool => _prefab.DevModeTool;
+
+    public void SetFields(PlaceableBlockObject prefab, VisualElement visualElement, ToolGroup toolGroup, CategoryButtonComponent toolBarCategory)
     {
-      Prefab = prefab;
-      Root = toolButton.Root;
-      ToolButton = toolButton;
+      _prefab = prefab;
       VisualElement = visualElement;
       ToolGroup = toolGroup;
       ToolBarCategoryComponent = toolBarCategory;
@@ -51,57 +48,57 @@ namespace CategoryButton
     public override void Enter()
     {
       _inputService.AddInputProcessor(this);
-      Active = true;
-      DependencyContainer.GetInstance<CategoryButtonService>().ChangeDescriptionPanel(60);
+      _active = true;
+      var activeToolsCount = _categoryButtonService.CategoryButtonTools.Select(tool => tool._active).Count();
+      var height = 60 * activeToolsCount;
+      DependencyContainer.GetInstance<CategoryButtonService>().ChangeDescriptionPanel(height);
       DependencyContainer.GetInstance<CategoryButtonService>().UpdateScreenSize(this);
       VisualElement.ToggleDisplayStyle(true);
       
       if (ActiveTool != null)
-      {
         _toolManager.SwitchTool(ActiveTool);
-      }
     }
 
     public override void Exit()
     {
       _inputService.RemoveInputProcessor(this);
       
-      if (Active) DependencyContainer.GetInstance<CategoryButtonService>().ChangeDescriptionPanel(0);
-      Active = false;
+      var activeToolsCount = _categoryButtonService.CategoryButtonTools.Select(tool => tool._active).Count();
+      var height = 60 * (activeToolsCount - 1);
+      if (_active) DependencyContainer.GetInstance<CategoryButtonService>().ChangeDescriptionPanel(height);
+      _active = false;
 
       VisualElement.ToggleDisplayStyle(false);
     }
 
     public bool ProcessInput()
     {
+      if (!_inputService.IsShiftHeld) return false;
       
-      if (_inputService.IsShiftHeld)
-      {
-        FieldInfo type = typeof(InputService).GetField("_mouse", BindingFlags.NonPublic | BindingFlags.Instance);
-        MouseController mouse = type.GetValue(_inputService) as MouseController;
-        int index = ToolList.IndexOf(ActiveTool);
+      MouseController mouse = (MouseController)_categoryButtonService.GetPrivateField(_inputService, "_mouse");
+        
+      int index = _toolList.IndexOf(ActiveTool);
 
-        if (mouse.ScrollWheelAxis > 0)
+      if (mouse.ScrollWheelAxis > 0)
+      {
+        while (index + 1 < _toolList.Count() && _toolList[index + 1].Locked)
         {
-          while (index + 1 < ToolList.Count() && ToolList[index + 1].Locked)
-          {
-            index += 1;
-          }
-          if (index + 1 < ToolList.Count() && !ToolList[index + 1].Locked)
-          {
-            _toolManager.SwitchTool(ToolList[index + 1]);
-          }
+          index += 1;
         }
-        else if (mouse.ScrollWheelAxis < 0)
+        if (index + 1 < _toolList.Count() && !_toolList[index + 1].Locked)
         {
-          while (index - 1 >= 0 && ToolList[index - 1].Locked)
-          {
-            index -= 1;
-          }
-          if (index - 1 >= 0 && !ToolList[index - 1].Locked)
-          {
-            _toolManager.SwitchTool(ToolList[index - 1]);
-          }
+          _toolManager.SwitchTool(_toolList[index + 1]);
+        }
+      }
+      else if (mouse.ScrollWheelAxis < 0)
+      {
+        while (index - 1 >= 0 && _toolList[index - 1].Locked)
+        {
+          index -= 1;
+        }
+        if (index - 1 >= 0 && !_toolList[index - 1].Locked)
+        {
+          _toolManager.SwitchTool(_toolList[index - 1]);
         }
       }
 
@@ -110,19 +107,14 @@ namespace CategoryButton
 
     public override ToolDescription Description()
     {
-      ToolDescription.Builder builder = _blockObjectToolDescriber.DescribePrefab(Prefab.GetComponent<PlaceableBlockObject>());
-      // _blockObjectPlacer.Describe(Prefab, builder);
-      // if (this.DevModeTool && !this._mapEditorMode.IsMapEditor)
-      // {
-      //   string str = "<color=#ff0000><b>This is a DevModeTool</b></color>";
-      //   builder.AddPrioritizedSection(str.ToUpper());
-      // }
+      var builder = _blockObjectToolDescriber.DescribePrefab(_prefab);
+      
       return builder.Build();
     }
 
     public void SetToolList()
     {
-      ToolList = ToolButtons.Select(button => button.Tool).ToList();
+      _toolList = ToolButtons.Select(button => button.Tool).ToList();
     }
   }
 }

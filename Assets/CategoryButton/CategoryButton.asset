@@ -35,8 +35,7 @@ MonoBehaviour:
   - <ManifestPluginStaging>/Specifications
   - <ThunderstorePackage>/<ManifestName>/plugins/Specifications
   files:
-  - {fileID: 4900000, guid: 6c51cdb3d429df447a9abe81f58efaff, type: 3}
-  - {fileID: 4900000, guid: 6f512515024c7e04aad5dfdf2b2f7c35, type: 3}
+  - {fileID: 4900000, guid: cabcd32aa3d45d54e959c9b7b999cf02, type: 3}
 --- !u!114 &-1800585617083543040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,7 +92,7 @@ MonoBehaviour:
   assetBundles:
   - assetBundleName: Tobbert_CategoryButton
     assets:
-    - {fileID: 3800120593857243598, guid: 36b3478fb90b208428639dfbc018f6bb, type: 3}
+    - {fileID: 3800120593857243598, guid: 9ea056d29bf8da14fb90878e297f09f8, type: 3}
 --- !u!114 &7276679206402820566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,3 +129,4 @@ MonoBehaviour:
   files:
   - {fileID: 102900000, guid: 73afc86131bb1084caa025eb6eba0bb9, type: 3}
   - {fileID: 4900000, guid: 14e7ac86f838aaf43bea2bdcdc8f76f0, type: 3}
+  - {fileID: 102900000, guid: 8499a3de7079cc3428417974fcb642ca, type: 3}

@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 2720923307303773628}
   - component: {fileID: 4583509741324869291}
-  - component: {fileID: -5160003840029529418}
+  - component: {fileID: -3958630885121123644}
   - component: {fileID: -1354496570168393068}
   - component: {fileID: 970272787121827717}
   - component: {fileID: -3579356459621308374}
   m_Layer: 0
-  m_Name: CategoryPlatforms
+  m_Name: CategoryButtonPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48,10 +48,10 @@ MonoBehaviour:
   m_Script: {fileID: -788214902, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefabName: CategoryPlatforms
+  _prefabName: 
   _backwardCompatiblePrefabNames: []
   _requiredFeatureToggle: 
---- !u!114 &-5160003840029529418
+--- !u!114 &-3958630885121123644
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -63,16 +63,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c7e2ef50f4d0834bb567e09b2c239e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ToolBarButtonNames:
-  - Platform.Folktails
-  - Platform.IronTeeth
-  - DoublePlatform.Folktails
-  - DoublePlatform.IronTeeth
-  - TriplePlatform.Folktails
-  - TriplePlatform.IronTeeth
-  - MetalPlatform.Folktails
-  - MetalPlatform.IronTeeth
-  - LargeMetalPlatform.IronTeeth
+  ToolBarButtonNames: []
 --- !u!114 &-1354496570168393068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,8 +76,8 @@ MonoBehaviour:
   m_Script: {fileID: -871492198, guid: c1ff95bb5ae0e8b420075ec58add6f36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _toolGroupId: Paths
-  _toolOrder: 200
+  _toolGroupId: 
+  _toolOrder: 0
   _layout: 0
   _customPivot:
     _hasCustomPivot: 0
@@ -104,10 +95,10 @@ MonoBehaviour:
   m_Script: {fileID: -296257353, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _displayNameLocKey: Building.WoodenStairs.DisplayName
+  _displayNameLocKey: 
   _descriptionLocKey: 
-  _flavorDescriptionLocKey: Building.WoodenStairs.FlavorDescription
-  _image: {fileID: 21300000, guid: e13490e30080ab547a9188058c626e2e, type: 3}
+  _flavorDescriptionLocKey: 
+  _image: {fileID: 0}
 --- !u!114 &-3579356459621308374
 MonoBehaviour:
   m_ObjectHideFlags: 0

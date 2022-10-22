@@ -9,6 +9,8 @@ namespace CategoryButton
     {
         public void Configure(IContainerDefinition containerDefinition)
         {
+            containerDefinition.Bind<CategoryButtonFactory>().AsSingleton();
+            containerDefinition.Bind<CategoryButtonSpecificationDeserializer>().AsSingleton();
             containerDefinition.Bind<CategoryButtonService>().AsSingleton();
         }
     }

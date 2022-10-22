@@ -9,10 +9,9 @@
     {
       "Prefix": "tobbert.categorybutton",
       "Scenes": [
-        "InGame"
+        "InGame",
+        "MapEditor"
       ]
     }
-  ],
-  "Dependencies": [
   ]
 }

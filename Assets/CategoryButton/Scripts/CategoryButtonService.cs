@@ -1,50 +1,93 @@
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Reflection;
-using TimberApi.DependencyContainerSystem;
+using HarmonyLib;
+using TimberApi.Common.SingletonSystem;
+using Timberborn.AssetSystem;
 using Timberborn.BlockObjectTools;
 using Timberborn.BlockSystem;
+using Timberborn.Common;
 using Timberborn.CoreUI;
 using Timberborn.EntitySystem;
 using Timberborn.InputSystem;
+using Timberborn.Persistence;
 using Timberborn.ToolSystem;
 using Timberborn.WaterSystemRendering;
-using UnityEngine.Playables;
+using UnityEngine;
 using UnityEngine.UIElements;
+using Object = UnityEngine.Object;
 
 namespace CategoryButton
 {
-    public class CategoryButtonService
-
+    public class CategoryButtonService : ITimberApiLoadableSingleton
     {
         private readonly VisualElementLoader _visualElementLoader;
+        private readonly IResourceAssetLoader _assetLoader;
         private readonly DescriptionPanel _descriptionPanel;
         private readonly ToolManager _toolManager;
         private readonly InputService _inputService;
-        public readonly List<CategoryButtonTool> ToolBarCategoryTools = new();
+        private readonly CategoryButtonSpecificationDeserializer _categoryButtonSpecificationDeserializer;
+        private readonly CategoryButtonFactory _categoryButtonFactory;
+        private readonly ISpecificationService _specificationService;
+
+        public readonly List<CategoryButtonTool> CategoryButtonTools = new();
+        private ImmutableArray<CategoryButtonSpecification> _categoryButtonsSpecifications;
+        private GameObject _originalCategoryButtonPrefab;
+        private List<GameObject> _categoryButtonPrefabs;
+        
+        private readonly Dictionary<string, FieldInfo> _fieldInfos = new();
 
         CategoryButtonService(
             VisualElementLoader visualElementLoader,
+            IResourceAssetLoader assetLoader,
             DescriptionPanel descriptionPanel,
             ToolManager toolManager,
-            InputService inputService
-        )
+            InputService inputService,
+            ISpecificationService specificationService,
+            CategoryButtonSpecificationDeserializer categoryButtonSpecificationDeserializer,
+            CategoryButtonFactory categoryButtonFactory)
         {
             _visualElementLoader = visualElementLoader;
+            _assetLoader = assetLoader;
             _descriptionPanel = descriptionPanel;
             _toolManager = toolManager;
             _inputService = inputService;
+            _specificationService = specificationService;
+            _categoryButtonSpecificationDeserializer = categoryButtonSpecificationDeserializer;
+            _categoryButtonFactory = categoryButtonFactory;
+        }
+        
+        public void Load()
+        {
+            _categoryButtonsSpecifications = _specificationService.GetSpecifications(_categoryButtonSpecificationDeserializer).ToImmutableArray();
+            _originalCategoryButtonPrefab = _assetLoader.Load<GameObject>("tobbert.categorybutton/tobbert_categorybutton/CategoryButtonPrefab");
+        }
+        
+        public void AddCategoryButtonsToObjectsPatch(ref IEnumerable<Object> objects)
+        {
+            if (_categoryButtonPrefabs == null)
+                CreateCategoryButtons();
+            var objectList = objects.ToList();
+            objects = objectList.Concat(_categoryButtonPrefabs);
         }
 
-        public ToolButton CreateFakeToolButton(
+        private void CreateCategoryButtons()
+        {
+            PreventInstantiatePatch.RunInstantiate = false;
+            _categoryButtonPrefabs = _categoryButtonFactory.CreateFromSpecifications(this, _categoryButtonsSpecifications, _originalCategoryButtonPrefab);
+            PreventInstantiatePatch.RunInstantiate = true;
+        }
+        
+        public ToolButton CreateCategoryToolButton(
             PlaceableBlockObject blockObject, 
             ToolGroup toolGroup, 
             VisualElement parent, 
             CategoryButtonComponent toolBarCategory, 
-            BlockObjectToolDescriber ____blockObjectToolDescriber, 
-            ToolButtonFactory ____toolButtonFactory)
+            BlockObjectToolDescriber blockObjectToolDescriber, 
+            ToolButtonFactory toolButtonFactory)
         {
-            CategoryButtonTool categoryButtonTool = new CategoryButtonTool(____blockObjectToolDescriber, _toolManager, _inputService);
+            CategoryButtonTool categoryButtonTool = new CategoryButtonTool(blockObjectToolDescriber, _toolManager, _inputService, this);
 
             var visualElement = _visualElementLoader.LoadVisualElement("Common/BottomBar/ToolGroupButton");
             visualElement.Q<VisualElement>("ToolButtons").name = "SecondToolButtons";
@@ -53,32 +96,29 @@ namespace CategoryButton
             secondToolButtons.name += blockObject.name;
             secondToolButtons.style.position = Position.Absolute;
 
-            ToolButton button = ____toolButtonFactory.Create(categoryButtonTool, blockObject.GetComponent<LabeledPrefab>().Image, parent);
-            categoryButtonTool.SetFields(blockObject, button, secondToolButtons, toolGroup, toolBarCategory);
+            ToolButton button = toolButtonFactory.Create(categoryButtonTool, blockObject.GetComponent<LabeledPrefab>().Image, parent);
+            categoryButtonTool.SetFields(blockObject, secondToolButtons, toolGroup, toolBarCategory);
 
-            ToolBarCategoryTools.Add(categoryButtonTool);
+            CategoryButtonTools.Add(categoryButtonTool);
             
             return button;
         }
 
-        public void AddButtonToCategory(ToolButton toolButton, PlaceableBlockObject placeableBlockObject)
+        public void AddButtonToCategoryTool(ToolButton toolButton, PlaceableBlockObject placeableBlockObject)
         {
-            if (placeableBlockObject.TryGetComponent(out Prefab fPrefab))
+            if (!placeableBlockObject.TryGetComponent(out Prefab fPrefab)) return;
+            foreach (var categoryToolButton in CategoryButtonTools)
             {
-                foreach (var toolBarCategoryTool in ToolBarCategoryTools)
-                {
-                    if (toolBarCategoryTool.ToolBarCategoryComponent.ToolBarButtonNames.Contains(fPrefab.PrefabName))
-                    {
-                        toolBarCategoryTool.ToolButtons.Add(toolButton);
-                        toolBarCategoryTool.SetToolList();
-                    }
-                }
+                if (!categoryToolButton.ToolBarCategoryComponent.ToolBarButtonNames.Contains(fPrefab.PrefabName))
+                    continue;
+                categoryToolButton.ToolButtons.Add(toolButton);
+                categoryToolButton.SetToolList();
             }
         }
 
         public void AddButtonsToCategory()
         {
-            foreach (var categoryTool in ToolBarCategoryTools)
+            foreach (var categoryTool in CategoryButtonTools)
             {
                 foreach (var toolButton in categoryTool.ToolButtons)
                 {
@@ -87,46 +127,57 @@ namespace CategoryButton
             }
         }
 
-        public void SaveOrExitCategoryTool(Tool currenTool, Tool newTool, WaterOpacityToggle ____waterOpacityToggle)
+        public void SaveOrExitCategoryTool(Tool currenTool, Tool newTool, WaterOpacityToggle waterOpacityToggle)
         {
-            foreach (var categoryTool in DependencyContainer.GetInstance<CategoryButtonService>().ToolBarCategoryTools)
+            foreach (var categoryTool in CategoryButtonTools)
             {
-                bool ButtonPartOfCategory = categoryTool.ToolButtons.Select(button => button.Tool).Contains(newTool);
+                bool buttonPartOfCategory = categoryTool.ToolButtons.Select(button => button.Tool).Contains(newTool);
 
-                if (ButtonPartOfCategory)
+                if (buttonPartOfCategory)
                 {
                     categoryTool.ActiveTool = newTool;
                 }
                 
-                bool flag1 = !ButtonPartOfCategory;
+                bool flag1 = !buttonPartOfCategory;
                 bool flag2 = categoryTool == newTool;
                 bool flag3 = currenTool != newTool;
 
                 if ((flag1 || flag2) && flag3)
                 {
                     categoryTool.Exit();
-                    ____waterOpacityToggle.ShowWater();
+                    waterOpacityToggle.ShowWater();
                 }
             }
         }
 
         public void ChangeDescriptionPanel(int height)
         {
-            FieldInfo type = typeof(DescriptionPanel).GetField("_root", BindingFlags.NonPublic | BindingFlags.Instance);
-            VisualElement value = type.GetValue(_descriptionPanel) as VisualElement;
+            VisualElement value = (VisualElement)GetPrivateField(_descriptionPanel, "_root");
             value.style.bottom = height;
-            type.SetValue(_descriptionPanel, value);
+            ChangePrivateField(_descriptionPanel, "_root", value);
         }
 
         public void UpdateScreenSize(CategoryButtonTool categoryButtonTool)
         {
             float x = categoryButtonTool.VisualElement.parent.Query<VisualElement>("ToolButtons").First().resolvedStyle.width / 2 - 2;
-            x +=  ((categoryButtonTool.ToolButtons.Count) * 54) / 2 * -1;
+            x +=  categoryButtonTool.ToolButtons.Count * 54 / 2 * -1;
             float y = 58f;
-            categoryButtonTool.VisualElement.style.left = x; categoryButtonTool.VisualElement.style.bottom = y;
+            categoryButtonTool.VisualElement.style.left = x; 
+            categoryButtonTool.VisualElement.style.bottom = y;
+        }
 
-            // VisualElement.style.left = new Length(y, LengthUnit.Pixel);
-            // VisualElement.style.bottom = new Length(x, LengthUnit.Pixel);
+        public void ChangePrivateField(object instance, string fieldName, object newValue)
+        {
+            var fieldInfo = _fieldInfos.GetOrAdd(fieldName, () => AccessTools.TypeByName(instance.GetType().Name).GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance));
+
+            fieldInfo.SetValue(instance, newValue);
+        }
+        
+        public object GetPrivateField(object instance, string fieldName)
+        {
+            var fieldInfo = _fieldInfos.GetOrAdd(fieldName, () => AccessTools.TypeByName(instance.GetType().Name).GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance));
+
+            return fieldInfo.GetValue(instance);
         }
     }
 }

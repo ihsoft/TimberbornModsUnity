@@ -24,7 +24,15 @@
         "Timberborn.BottomBarSystem.dll",
         "Timberborn.SettingsSystem.dll",
         "Timberborn.ScreenSystem.dll",
-        "Timberborn.Core.dll"
+        "Timberborn.Core.dll",
+        "TimberApi.Common.dll",
+        "Timberborn.Persistence.dll",
+        "System.Collections.Immutable.dll",
+        "Timberborn.BlockSystemUI.dll",
+        "Timberborn.Common.dll",
+        "Timberborn.Localization.dll",
+        "Timberborn.EntityPanelSystem.dll",
+        "Timberborn.AssetSystem.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],
