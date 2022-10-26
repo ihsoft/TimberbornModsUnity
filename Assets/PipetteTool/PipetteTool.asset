@@ -92,7 +92,7 @@ MonoBehaviour:
   - assetBundleName: Tobbert_PipetteTool
     assets:
     - {fileID: 2800000, guid: 70cd61b413b5b2e418669db14ca9c260, type: 3}
-    - {fileID: 2800000, guid: 36e5cb93fd693b04a97828d2f922858d, type: 3}
+    - {fileID: 11400000, guid: 998d1ee85e27e3649937359da708a692, type: 2}
 --- !u!114 &7276679206402820566
 MonoBehaviour:
   m_ObjectHideFlags: 0

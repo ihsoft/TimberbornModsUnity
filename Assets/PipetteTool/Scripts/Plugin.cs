@@ -1,8 +1,5 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 using HarmonyLib;
 using TimberApi.ConsoleSystem;
 using TimberApi.DependencyContainerSystem;
@@ -53,7 +50,7 @@ namespace PipetteTool
         {
             if (prefab.TryGetComponent(out BlockObject _))
             {
-                DependencyContainer.GetInstance<PipetteTool>().AddToolButtonToDictionary(prefab.gameObject, __result);
+                DependencyContainer.GetInstance<IPipetteTool>().AddToolButtonToDictionary(prefab.gameObject, __result);
             }
         }
     }
@@ -73,7 +70,7 @@ namespace PipetteTool
         {
             if (plantable.TryGetComponent(out BlockObject _))
             {
-                DependencyContainer.GetInstance<PipetteTool>().AddToolButtonToDictionary(plantable.gameObject, __result);
+                DependencyContainer.GetInstance<IPipetteTool>().AddToolButtonToDictionary(plantable.gameObject, __result);
             }
         }
     }
@@ -88,47 +85,51 @@ namespace PipetteTool
         
         static void Postfix(SelectableObject target)
         {
-            DependencyContainer.GetInstance<PipetteTool>().OnGameObjectSelected(target);
+            DependencyContainer.GetInstance<IPipetteTool>().OnSelectableObjectSelected(target);
         }
     }
     
-    // [HarmonyPatch]
-    // public class CursorServicePatch
-    // {
-    //     public static MethodInfo TargetMethod()
-    //     {
-    //         return AccessTools.Method(AccessTools.TypeByName("CursorService"), "GetCursor", new []{typeof(string)});
-    //     }
-    //     
-    //     static void Prefix(ref string cursorName, ref bool __state)
-    //     {
-    //         __state = cursorName == DependencyContainer.GetInstance<PipetteTool>().CursorKey;
-    //
-    //         cursorName = "GrabbingCursor";
-    //     }
-    //
-    //     static void Postfix(ref string cursorName, bool __state, object __result)
-    //     {
-    //         Plugin.Log.LogError(__state.ToString());
-    //         if (__state)
-    //         {
-    //             Sprite CustomCursorTexture = DependencyContainer.GetInstance<PipetteTool>()._resourceAssetLoader.Load<Sprite>("tobbert.pipettetool/tobbert_pipettetool/PipetteToolCursor");
-    //
-    //             var texture2D = CustomCursorTexture.texture;
-    //
-    //             // var bytes = CustomCursorTexture.GetRawTextureData();
-    //             // Texture2D texture2D = new Texture2D(150, 150);
-    //             // texture2D.LoadImage(bytes);
-    //             
-    //             var fieldInfo1 = AccessTools.TypeByName(__result.GetType().Name).GetField("_smallCursor", BindingFlags.NonPublic | BindingFlags.Instance);
-    //             fieldInfo1.SetValue(__result, texture2D);
-    //             
-    //             var fieldInfo2 = AccessTools.TypeByName(__result.GetType().Name).GetField("_largeCursor", BindingFlags.NonPublic | BindingFlags.Instance);
-    //             fieldInfo2.SetValue(__result, texture2D);
-    //             
-    //             cursorName = DependencyContainer.GetInstance<PipetteTool>().CursorKey;
-    //         }
-    //         Plugin.Log.LogError(__result.ToString());
-    //     }
-    // }
+    [HarmonyPatch]
+    public class CursorServicePatch
+    {
+        public static MethodInfo TargetMethod()
+        {
+            return AccessTools.Method(AccessTools.TypeByName("CursorService"), "GetCursor", new []{typeof(string)});
+        }
+        
+        static bool Prefix(ref string cursorName, IResourceAssetLoader ____resourceAssetLoader, ref object __result)
+        {
+            if (cursorName == DependencyContainer.GetInstance<IPipetteTool>().CursorKey)
+            {
+                __result = ____resourceAssetLoader.Load<Object>("tobbert.pipettetool/tobbert_pipettetool/PipetteToolCursor");
+                return false;
+            }
+
+            return true;
+        }
+    
+        // static void Postfix(ref string cursorName, bool __state, object __result)
+        // {
+        //     Plugin.Log.LogError(__state.ToString());
+        //     if (__state)
+        //     {
+        //         Sprite CustomCursorTexture = DependencyContainer.GetInstance<PipetteTool>()._resourceAssetLoader.Load<Sprite>("tobbert.pipettetool/tobbert_pipettetool/PipetteToolCursor");
+        //
+        //         var texture2D = CustomCursorTexture.texture;
+        //
+        //         // var bytes = CustomCursorTexture.GetRawTextureData();
+        //         // Texture2D texture2D = new Texture2D(150, 150);
+        //         // texture2D.LoadImage(bytes);
+        //         
+        //         var fieldInfo1 = AccessTools.TypeByName(__result.GetType().Name).GetField("_smallCursor", BindingFlags.NonPublic | BindingFlags.Instance);
+        //         fieldInfo1.SetValue(__result, texture2D);
+        //         
+        //         var fieldInfo2 = AccessTools.TypeByName(__result.GetType().Name).GetField("_largeCursor", BindingFlags.NonPublic | BindingFlags.Instance);
+        //         fieldInfo2.SetValue(__result, texture2D);
+        //         
+        //         cursorName = DependencyContainer.GetInstance<PipetteTool>().CursorKey;
+        //     }
+        //     Plugin.Log.LogError(__result.ToString());
+        // }
+    }
 }

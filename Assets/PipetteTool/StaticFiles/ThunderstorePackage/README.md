@@ -4,7 +4,7 @@ Tired of searching for a building that you want to place? Then this mod is for y
 
 ## How to use
 
-The pipette button will be added to the bottom bar. You can also use CTRL + CLICK to activate it without the button. 
+The pipette button will be added to the bottom bar. You can also use CTRL + CLICK on any building or plant to activate it without the button. 
 
 ## Installing
 
@@ -15,6 +15,11 @@ Recommended way to install this mod is through [Thunderstore](https://timberborn
 In case you experience problems, message me in the modding channel of the the [Timberborn discord](https://discord.gg/mfbBF4cWpX) or message me directly (Tobbert#1607). I will try to fix it as soon as possible. :D
 
 ## Changelog
+
+### 1.2.0 - 25.10.2022
+
+- Now correctly goes into construction mode.
+- Added a Custom Cursor for when the Pipette tool is active.
 
 ### 1.1.0 - 24.10.2022
 

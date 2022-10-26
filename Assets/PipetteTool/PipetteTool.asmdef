@@ -37,7 +37,8 @@
         "Timberborn.FactionSystemGame.dll",
         "Timberborn.Debugging.dll",
         "Timberborn.Planting.dll",
-        "Timberborn.Coordinates.dll"
+        "Timberborn.Coordinates.dll",
+        "Timberborn.ConstructionMode.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

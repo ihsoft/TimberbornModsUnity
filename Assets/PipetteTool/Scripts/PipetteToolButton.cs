@@ -27,9 +27,9 @@ namespace PipetteTool
         {
             VisualElement visualElement = _visualElementLoader.LoadVisualElement("Common/BottomBar/GrouplessToolButton");
             visualElement.AddToClassList("bottom-bar-button--blue");
-            Sprite v = _assetLoader.Load<Sprite>("tobbert.pipettetool/tobbert_pipettetool/Bridges");
+            Sprite v = _assetLoader.Load<Sprite>("tobbert.pipettetool/tobbert_pipettetool/PipetteToolIcon");
             visualElement.Q<VisualElement>("ToolImage").style.backgroundImage = new StyleBackground(v);
-            var pipetteTool = DependencyContainer.GetInstance<PipetteTool>();
+            var pipetteTool = (Tool)DependencyContainer.GetInstance<IPipetteTool>();
             visualElement.Q<Button>("ToolButton").clicked += () => _toolManager.SwitchTool(pipetteTool);
             return BottomBarElement.CreateSingleLevel(visualElement);
         }

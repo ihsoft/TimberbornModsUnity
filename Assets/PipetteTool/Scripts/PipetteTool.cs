@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
-using Timberborn.AssetSystem;
 using Timberborn.BlockObjectTools;
 using Timberborn.BlockSystem;
+using Timberborn.ConstructionMode;
 using Timberborn.Coordinates;
 using Timberborn.Core;
 using Timberborn.Debugging;
@@ -18,20 +18,20 @@ using Tool = Timberborn.ToolSystem.Tool;
 
 namespace PipetteTool
 {
-  public class PipetteTool : Tool, IInputProcessor, ILoadableSingleton
+  public class PipetteTool : Tool, IInputProcessor, ILoadableSingleton, IPipetteTool
   {
     private static readonly string TitleLocKey = "Tobbert.PipetteTool.DisplayName";
         
     private static readonly string DescriptionLocKey = "Tobbert.PipetteTool.Description";
-    
-    public readonly string CursorKey = "PipetteCursor";
+
+    public string CursorKey => "PipetteCursor";
 
     private readonly EventBus _eventBus;
     
     private readonly ToolManager _toolManager;
 
     private readonly DevModeManager _devModeManager;
-    
+
     private readonly InputService _inputService;
 
     private readonly MapEditorMode _mapEditorMode;
@@ -42,10 +42,6 @@ namespace PipetteTool
 
     private readonly ILoc _loc;
 
-    public readonly IResourceAssetLoader _resourceAssetLoader;
-    
-    private readonly PipetteToolGroup _pipetteToolGroup;
-    
     private readonly Dictionary<string, ToolButton> _toolButtons = new();
         
     private ToolDescription _toolDescription;
@@ -54,15 +50,13 @@ namespace PipetteTool
 
     private MethodInfo _hideDescriptionPanelMethod;
 
+    protected MethodInfo EnterConstructionModeMethod;
+
+    protected MethodInfo ExitConstructionModeMethod;
+
     private FieldInfo _blockObjectToolOrientationField;
     
-    private Texture2D _pipetteToolCursor = new(150, 150);
-
-    private const CursorMode CursorMode = UnityEngine.CursorMode.Auto;
-    
-    private readonly Vector2 _hotSpot = Vector2.zero;
-    
-    public PipetteTool(EventBus eventBus, ToolManager toolManager, DevModeManager devModeManager, InputService inputService, MapEditorMode mapEditorMode, CursorService cursorService, DescriptionPanel descriptionPanel, ILoc loc, PipetteToolGroup pipetteToolGroup, IResourceAssetLoader resourceAssetLoader)
+    public PipetteTool(EventBus eventBus, ToolManager toolManager, DevModeManager devModeManager, InputService inputService, MapEditorMode mapEditorMode, CursorService cursorService, DescriptionPanel descriptionPanel, ILoc loc)
     {
       _eventBus = eventBus;
       _toolManager = toolManager;
@@ -72,19 +66,14 @@ namespace PipetteTool
       _cursorService = cursorService;
       _descriptionPanel = descriptionPanel;
       _loc = loc;
-      _pipetteToolGroup = pipetteToolGroup;
-      _resourceAssetLoader = resourceAssetLoader;
     }
 
     public void Load()
     {
       _inputService.AddInputProcessor(this);
       _eventBus.Register(this);
-      ToolGroup = _pipetteToolGroup;
-      _hideDescriptionPanelMethod = AccessTools.TypeByName(_descriptionPanel.GetType().Name).GetMethod("Hide", BindingFlags.NonPublic | BindingFlags.Instance);
-      _blockObjectToolOrientationField = typeof(BlockObjectTool).GetField("_orientation", BindingFlags.NonPublic | BindingFlags.Instance);
-      // InitializeCustomCursor();
       InitializeToolDescription();
+      InitializeMethodInfos();
     }
     
     private void InitializeToolDescription()
@@ -95,34 +84,29 @@ namespace PipetteTool
         .Build();
     }
 
-    private void InitializeCustomCursor()
+    private void InitializeMethodInfos()
     {
-      _pipetteToolCursor = _resourceAssetLoader.Load<Sprite>("tobbert.pipettetool/tobbert_pipettetool/PipetteToolCursor").texture;
-      // var bytes = _pipetteToolCursor.GetRawTextureData();
-      
-    
-      // var fieldInfo = AccessTools.TypeByName(_cursorService.GetType().Name).GetField("_cursors", BindingFlags.NonPublic | BindingFlags.Instance);
-      // var cursors =  fieldInfo.GetValue(_cursorService) as Dictionary<string, object>;
-      // Texture2D CustomCursorTexture = 
-    
-      //
-      // _cursorService.SetCursor(CursorKey);
-    
-      // var copy = Helper.CreateDeepCopy(cursors.First().Value);
-      //
-      // // var test = ScriptableObject.CreateInstance<CustomCursor>();
-      // // test.Initialize(CustomCursorTexture, CustomCursorTexture, new Vector2(0, 0));
-      // var test = new CustomCursor(CustomCursorTexture, CustomCursorTexture, new Vector2(0, 0));
-      // cursors.Add(CursorKey, copy);
+      _hideDescriptionPanelMethod = AccessTools.TypeByName(_descriptionPanel.GetType().Name).GetMethod("Hide", BindingFlags.NonPublic | BindingFlags.Instance);
+      EnterConstructionModeMethod = typeof(ConstructionModeService).GetMethod("EnterConstructionMode", BindingFlags.NonPublic | BindingFlags.Instance);
+      ExitConstructionModeMethod = typeof(ConstructionModeService).GetMethod("ExitConstructionMode", BindingFlags.NonPublic | BindingFlags.Instance);
+      _blockObjectToolOrientationField = typeof(BlockObjectTool).GetField("_orientation", BindingFlags.NonPublic | BindingFlags.Instance);
     }
     
+    public void AddToolButtonToDictionary(GameObject gameObject, ToolButton toolButton)
+    {
+      if (gameObject.TryGetComponent(out Prefab prefab))
+      {
+        _toolButtons.Add(prefab.PrefabName, toolButton);
+      }
+    }
+
     public override ToolDescription Description() => _toolDescription;
 
     public override void Enter()
     {
-      // Cursor.SetCursor(_pipetteToolCursor, _hotSpot, CursorMode);
       _shouldPipetNextSelection = true;
       _toolManager.SwitchToDefaultTool();
+      _cursorService.SetTemporaryCursor(CursorKey);
     }
 
     public override void Exit()
@@ -134,22 +118,20 @@ namespace PipetteTool
     {
       if (_inputService.Cancel)
       {
-        _shouldPipetNextSelection = false;
-        _hideDescriptionPanelMethod.Invoke(_descriptionPanel, new object[]{});
+        ExitPipetteTool();
       }
-      
+
       return false;
     }
-    
-     public void AddToolButtonToDictionary(GameObject gameObject, ToolButton toolButton)
-     {
-       if (gameObject.TryGetComponent(out Prefab prefab))
-       {
-         _toolButtons.Add(prefab.PrefabName, toolButton);
-       }
-     }
 
-     public void OnGameObjectSelected(SelectableObject selectableObject)
+    protected virtual void ExitPipetteTool()
+    {
+      _cursorService.ResetTemporaryCursor();
+      _shouldPipetNextSelection = false;
+      _hideDescriptionPanelMethod.Invoke(_descriptionPanel, new object[]{});
+    }
+
+     public void OnSelectableObjectSelected(SelectableObject selectableObject)
      {
        if (!_inputService.IsCtrlHeld && !_shouldPipetNextSelection) 
          return;
@@ -177,12 +159,6 @@ namespace PipetteTool
        return gameObject.TryGetComponent(out BlockObject _);
      }
 
-     private void SwitchToSelectedBuildingTool(Tool tool)
-     {
-       _toolManager.SwitchTool(tool);
-       _shouldPipetNextSelection = false;
-     }
-     
      private void ChangeToolOrientation(Tool tool, Orientation orientation)
      {
        if (tool.GetType() == typeof(BlockObjectTool))
@@ -191,6 +167,13 @@ namespace PipetteTool
 
          _blockObjectToolOrientationField.SetValue(blockObjectTool, orientation);
        }
+     }
+     
+     protected virtual void SwitchToSelectedBuildingTool(Tool tool)
+     {
+       _toolManager.SwitchTool(tool);
+       _shouldPipetNextSelection = false;
+       _cursorService.ResetTemporaryCursor();
      }
      
      private bool IsDevToolEnabled => _devModeManager.Enabled;

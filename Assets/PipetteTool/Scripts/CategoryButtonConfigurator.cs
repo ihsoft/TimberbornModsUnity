@@ -5,31 +5,45 @@ using Timberborn.BottomBarSystem;
 
 namespace PipetteTool
 {
-    [Configurator(SceneEntrypoint.InGame | SceneEntrypoint.MapEditor)]
-    public class PipetteToolConfigurator : IConfigurator
+    [Configurator(SceneEntrypoint.InGame)]
+    public class PipetteToolInGameConfigurator : IConfigurator
     {
         public void Configure(IContainerDefinition containerDefinition)
         {
-            containerDefinition.Bind<PipetteToolGroup>().AsSingleton();
-            containerDefinition.Bind<PipetteTool>().AsSingleton();
+            // containerDefinition.Bind<PipetteToolGroup>().AsSingleton();
+            containerDefinition.Bind<IPipetteTool>().To<PipetteToolInGame>().AsSingleton();
             
             containerDefinition.Bind<PipetteToolButton>().AsSingleton();
 
             containerDefinition.MultiBind<BottomBarModule>().ToProvider<BottomBarModuleProvider>().AsSingleton();
         }
-        
-        private class BottomBarModuleProvider : IProvider<BottomBarModule>
+    }
+    
+    [Configurator(SceneEntrypoint.MapEditor)]
+    public class PipetteToolMapEditorConfigurator : IConfigurator
+    {
+        public void Configure(IContainerDefinition containerDefinition)
         {
-            private readonly PipetteToolButton _pipetteToolButton;
+            // containerDefinition.Bind<PipetteToolGroup>().AsSingleton();
+            containerDefinition.Bind<IPipetteTool>().To<PipetteTool>().AsSingleton();
+            
+            containerDefinition.Bind<PipetteToolButton>().AsSingleton();
+
+            containerDefinition.MultiBind<BottomBarModule>().ToProvider<BottomBarModuleProvider>().AsSingleton();
+        }
+    }
+
+    public class BottomBarModuleProvider : IProvider<BottomBarModule>
+    {
+        private readonly PipetteToolButton _pipetteToolButton;
         
-            public BottomBarModuleProvider(PipetteToolButton pipetteToolButton) => _pipetteToolButton = pipetteToolButton;
+        public BottomBarModuleProvider(PipetteToolButton pipetteToolButton) => _pipetteToolButton = pipetteToolButton;
         
-            public BottomBarModule Get()
-            {
-                BottomBarModule.Builder builder = new BottomBarModule.Builder();
-                builder.AddLeftSectionElement(_pipetteToolButton, 9);
-                return builder.Build();
-            }
+        public BottomBarModule Get()
+        {
+            BottomBarModule.Builder builder = new BottomBarModule.Builder();
+            builder.AddLeftSectionElement(_pipetteToolButton, 9);
+            return builder.Build();
         }
     }
 }
