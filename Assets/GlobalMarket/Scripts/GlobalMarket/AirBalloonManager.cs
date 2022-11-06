@@ -44,9 +44,22 @@ namespace GlobalMarket
             _factionService = factionService;
         }
         
-        public void Save(IEntitySaver entitySaver) => entitySaver.GetComponent(AirBalloonManagerKey).Set(AirBalloonKey, _airBalloon);
+        public void Save(IEntitySaver entitySaver)
+        {
+            if (_airBalloon != null)
+                entitySaver.GetComponent(AirBalloonManagerKey).Set(AirBalloonKey, _airBalloon);
+        }
         
-        public void Load(IEntityLoader entityLoader) => _airBalloon = entityLoader.GetComponent(AirBalloonManagerKey).Get(AirBalloonKey);
+        public void Load(IEntityLoader entityLoader)
+        {
+            if (!entityLoader.HasComponent(AirBalloonManagerKey))
+                return;
+            
+            var component = entityLoader.GetComponent(AirBalloonManagerKey);
+            
+            if (component.Has(AirBalloonKey))
+                _airBalloon = component.Get(AirBalloonKey);
+        }
         
         public void OnEnterFinishedState()
         {
