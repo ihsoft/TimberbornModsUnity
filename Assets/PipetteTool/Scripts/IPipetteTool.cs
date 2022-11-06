@@ -8,6 +8,6 @@ namespace PipetteTool
     {
         string CursorKey { get; }
         void AddToolButtonToDictionary(GameObject gameObject, ToolButton toolButton);
-        void OnSelectableObjectSelected(SelectableObject selectableObject);
+        void OnSelectableObjectSelected(GameObject hitObject);
     }
 }

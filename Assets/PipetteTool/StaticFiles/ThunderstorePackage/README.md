@@ -16,6 +16,11 @@ In case you experience problems, message me in the modding channel of the the [T
 
 ## Changelog
 
+1.2.1 - 6.11.2022
+
+- Fixed an issue where the description didn't disappear after using the button. 
+- Added German translation that was provided by juf0816.
+
 ### 1.2.0 - 25.10.2022
 
 - Now correctly goes into construction mode.

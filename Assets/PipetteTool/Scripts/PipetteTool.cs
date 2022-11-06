@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Reflection;
-using HarmonyLib;
 using Timberborn.BlockObjectTools;
 using Timberborn.BlockSystem;
 using Timberborn.ConstructionMode;
@@ -38,7 +37,9 @@ namespace PipetteTool
     
     private readonly CursorService _cursorService;
 
-    private readonly DescriptionPanel _descriptionPanel;
+    private readonly SelectionManager _selectionManager;
+
+    private readonly SelectableObjectRaycaster _selectableObjectRaycaster;
 
     private readonly ILoc _loc;
 
@@ -48,15 +49,13 @@ namespace PipetteTool
 
     private bool _shouldPipetNextSelection;
 
-    private MethodInfo _hideDescriptionPanelMethod;
-
     protected MethodInfo EnterConstructionModeMethod;
 
     protected MethodInfo ExitConstructionModeMethod;
 
     private FieldInfo _blockObjectToolOrientationField;
     
-    public PipetteTool(EventBus eventBus, ToolManager toolManager, DevModeManager devModeManager, InputService inputService, MapEditorMode mapEditorMode, CursorService cursorService, DescriptionPanel descriptionPanel, ILoc loc)
+    public PipetteTool(EventBus eventBus, ToolManager toolManager, DevModeManager devModeManager, InputService inputService, MapEditorMode mapEditorMode, CursorService cursorService, SelectionManager selectionManager, SelectableObjectRaycaster selectableObjectRaycaster, ILoc loc)
     {
       _eventBus = eventBus;
       _toolManager = toolManager;
@@ -64,7 +63,8 @@ namespace PipetteTool
       _inputService = inputService;
       _mapEditorMode = mapEditorMode;
       _cursorService = cursorService;
-      _descriptionPanel = descriptionPanel;
+      _selectionManager = selectionManager;
+      _selectableObjectRaycaster = selectableObjectRaycaster;
       _loc = loc;
     }
 
@@ -86,7 +86,6 @@ namespace PipetteTool
 
     private void InitializeMethodInfos()
     {
-      _hideDescriptionPanelMethod = AccessTools.TypeByName(_descriptionPanel.GetType().Name).GetMethod("Hide", BindingFlags.NonPublic | BindingFlags.Instance);
       EnterConstructionModeMethod = typeof(ConstructionModeService).GetMethod("EnterConstructionMode", BindingFlags.NonPublic | BindingFlags.Instance);
       ExitConstructionModeMethod = typeof(ConstructionModeService).GetMethod("ExitConstructionMode", BindingFlags.NonPublic | BindingFlags.Instance);
       _blockObjectToolOrientationField = typeof(BlockObjectTool).GetField("_orientation", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -105,45 +104,43 @@ namespace PipetteTool
     public override void Enter()
     {
       _shouldPipetNextSelection = true;
-      _toolManager.SwitchToDefaultTool();
       _cursorService.SetTemporaryCursor(CursorKey);
     }
 
     public override void Exit()
     {
-      //dont need
+      _selectionManager.Unselect();
+      _cursorService.ResetTemporaryCursor();
+      _shouldPipetNextSelection = false;
     }
 
     public bool ProcessInput()
     {
-      if (_inputService.Cancel)
-      {
-        ExitPipetteTool();
-      }
+      if (!_shouldPipetNextSelection) 
+        return false;
+      
+      if (!_inputService.SelectionStart || _inputService.MouseOverUI)
+        return false;
+      
+      if (_selectableObjectRaycaster.TryHitSelectableObject(out var hitObject))
+        OnSelectableObjectSelected(hitObject);
 
       return false;
     }
 
-    protected virtual void ExitPipetteTool()
-    {
-      _cursorService.ResetTemporaryCursor();
-      _shouldPipetNextSelection = false;
-      _hideDescriptionPanelMethod.Invoke(_descriptionPanel, new object[]{});
-    }
-
-     public void OnSelectableObjectSelected(SelectableObject selectableObject)
+    public void OnSelectableObjectSelected(GameObject hitObject)
      {
        if (!_inputService.IsCtrlHeld && !_shouldPipetNextSelection) 
          return;
        
-       if (!IsBlockObject(selectableObject.gameObject)) 
+       if (!IsBlockObject(hitObject.gameObject)) 
          return;
        
-       var selectableObjectName = selectableObject.GetComponent<Prefab>().PrefabName;
+       var selectableObjectName = hitObject.GetComponent<Prefab>().PrefabName;
        
        var tool = _toolButtons[selectableObjectName].Tool;
        
-       ChangeToolOrientation(tool, selectableObject.GetComponent<BlockObject>().Orientation);
+       ChangeToolOrientation(tool, hitObject.GetComponent<BlockObject>().Orientation);
        
        if (_mapEditorMode.IsMapEditor)
          SwitchToSelectedBuildingTool(tool);

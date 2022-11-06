@@ -3,6 +3,7 @@ using Timberborn.Core;
 using Timberborn.Debugging;
 using Timberborn.InputSystem;
 using Timberborn.Localization;
+using Timberborn.SelectionSystem;
 using Timberborn.SingletonSystem;
 using Timberborn.ToolSystem;
 
@@ -14,15 +15,15 @@ namespace PipetteTool
 
         public PipetteToolInGame(EventBus eventBus, ToolManager toolManager, DevModeManager devModeManager,
             InputService inputService, ConstructionModeService constructionModeService, MapEditorMode mapEditorMode,
-            CursorService cursorService, DescriptionPanel descriptionPanel, ILoc loc) : base(eventBus, toolManager, devModeManager, inputService,
-            mapEditorMode, cursorService, descriptionPanel, loc)
+            CursorService cursorService, SelectionManager selectionManager, SelectableObjectRaycaster selectableObjectRaycaster, ILoc loc) : base(eventBus, toolManager, devModeManager, inputService,
+            mapEditorMode, cursorService, selectionManager, selectableObjectRaycaster, loc)
         {
             _constructionModeService = constructionModeService;
         }
 
-        protected override void ExitPipetteTool()
+        public override void Exit()
         {
-            base.ExitPipetteTool();
+            base.Exit();
             ExitConstructionModeMethod.Invoke(_constructionModeService, new object[] { });
         }
 

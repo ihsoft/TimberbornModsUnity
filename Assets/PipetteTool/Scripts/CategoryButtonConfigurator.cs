@@ -10,10 +10,9 @@ namespace PipetteTool
     {
         public void Configure(IContainerDefinition containerDefinition)
         {
-            // containerDefinition.Bind<PipetteToolGroup>().AsSingleton();
             containerDefinition.Bind<IPipetteTool>().To<PipetteToolInGame>().AsSingleton();
             
-            containerDefinition.Bind<PipetteToolButton>().AsSingleton();
+            containerDefinition.Bind<PipetteToolButtonProvider>().AsSingleton();
 
             containerDefinition.MultiBind<BottomBarModule>().ToProvider<BottomBarModuleProvider>().AsSingleton();
         }
@@ -24,10 +23,9 @@ namespace PipetteTool
     {
         public void Configure(IContainerDefinition containerDefinition)
         {
-            // containerDefinition.Bind<PipetteToolGroup>().AsSingleton();
             containerDefinition.Bind<IPipetteTool>().To<PipetteTool>().AsSingleton();
             
-            containerDefinition.Bind<PipetteToolButton>().AsSingleton();
+            containerDefinition.Bind<PipetteToolButtonProvider>().AsSingleton();
 
             containerDefinition.MultiBind<BottomBarModule>().ToProvider<BottomBarModuleProvider>().AsSingleton();
         }
@@ -35,14 +33,14 @@ namespace PipetteTool
 
     public class BottomBarModuleProvider : IProvider<BottomBarModule>
     {
-        private readonly PipetteToolButton _pipetteToolButton;
+        private readonly PipetteToolButtonProvider _pipetteToolButtonProvider;
         
-        public BottomBarModuleProvider(PipetteToolButton pipetteToolButton) => _pipetteToolButton = pipetteToolButton;
+        public BottomBarModuleProvider(PipetteToolButtonProvider pipetteToolButtonProvider) => _pipetteToolButtonProvider = pipetteToolButtonProvider;
         
         public BottomBarModule Get()
         {
             BottomBarModule.Builder builder = new BottomBarModule.Builder();
-            builder.AddLeftSectionElement(_pipetteToolButton, 9);
+            builder.AddLeftSectionElement(_pipetteToolButtonProvider, 91);
             return builder.Build();
         }
     }

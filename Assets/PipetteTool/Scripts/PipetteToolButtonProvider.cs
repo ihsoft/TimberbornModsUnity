@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 
 namespace PipetteTool
 {
-    public class PipetteToolButton : IBottomBarElementProvider
+    public class PipetteToolButtonProvider : IBottomBarElementProvider
     {
         private readonly VisualElementLoader _visualElementLoader;
 
@@ -16,7 +16,7 @@ namespace PipetteTool
 
         private readonly IResourceAssetLoader _assetLoader;
 
-        public PipetteToolButton(VisualElementLoader visualElementLoader, ToolManager toolManager, IResourceAssetLoader assetLoader)
+        public PipetteToolButtonProvider(VisualElementLoader visualElementLoader, ToolManager toolManager, IResourceAssetLoader assetLoader)
         {
             _visualElementLoader = visualElementLoader;
             _toolManager = toolManager;
@@ -25,13 +25,13 @@ namespace PipetteTool
 
         public BottomBarElement GetElement()
         {
-            VisualElement visualElement = _visualElementLoader.LoadVisualElement("Common/BottomBar/GrouplessToolButton");
-            visualElement.AddToClassList("bottom-bar-button--blue");
+            VisualElement buttonVisualElement = _visualElementLoader.LoadVisualElement("Common/BottomBar/GrouplessToolButton");
+            buttonVisualElement.AddToClassList("bottom-bar-button--blue");
             Sprite v = _assetLoader.Load<Sprite>("tobbert.pipettetool/tobbert_pipettetool/PipetteToolIcon");
-            visualElement.Q<VisualElement>("ToolImage").style.backgroundImage = new StyleBackground(v);
+            buttonVisualElement.Q<VisualElement>("ToolImage").style.backgroundImage = new StyleBackground(v);
             var pipetteTool = (Tool)DependencyContainer.GetInstance<IPipetteTool>();
-            visualElement.Q<Button>("ToolButton").clicked += () => _toolManager.SwitchTool(pipetteTool);
-            return BottomBarElement.CreateSingleLevel(visualElement);
+            buttonVisualElement.Q<Button>("ToolButton").clicked += () => _toolManager.SwitchTool(pipetteTool);
+            return BottomBarElement.CreateSingleLevel(buttonVisualElement);
         }
     }
 }

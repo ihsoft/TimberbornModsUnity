@@ -85,7 +85,7 @@ namespace PipetteTool
         
         static void Postfix(SelectableObject target)
         {
-            DependencyContainer.GetInstance<IPipetteTool>().OnSelectableObjectSelected(target);
+            DependencyContainer.GetInstance<IPipetteTool>().OnSelectableObjectSelected(target.gameObject);
         }
     }
     
@@ -107,29 +107,5 @@ namespace PipetteTool
 
             return true;
         }
-    
-        // static void Postfix(ref string cursorName, bool __state, object __result)
-        // {
-        //     Plugin.Log.LogError(__state.ToString());
-        //     if (__state)
-        //     {
-        //         Sprite CustomCursorTexture = DependencyContainer.GetInstance<PipetteTool>()._resourceAssetLoader.Load<Sprite>("tobbert.pipettetool/tobbert_pipettetool/PipetteToolCursor");
-        //
-        //         var texture2D = CustomCursorTexture.texture;
-        //
-        //         // var bytes = CustomCursorTexture.GetRawTextureData();
-        //         // Texture2D texture2D = new Texture2D(150, 150);
-        //         // texture2D.LoadImage(bytes);
-        //         
-        //         var fieldInfo1 = AccessTools.TypeByName(__result.GetType().Name).GetField("_smallCursor", BindingFlags.NonPublic | BindingFlags.Instance);
-        //         fieldInfo1.SetValue(__result, texture2D);
-        //         
-        //         var fieldInfo2 = AccessTools.TypeByName(__result.GetType().Name).GetField("_largeCursor", BindingFlags.NonPublic | BindingFlags.Instance);
-        //         fieldInfo2.SetValue(__result, texture2D);
-        //         
-        //         cursorName = DependencyContainer.GetInstance<PipetteTool>().CursorKey;
-        //     }
-        //     Plugin.Log.LogError(__result.ToString());
-        // }
     }
 }
