@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using TimberApi.Common.SingletonSystem;
+using TimberApi.ModSystem;
 using Timberborn.AssetSystem;
 using Timberborn.BlockObjectTools;
 using Timberborn.BlockSystem;
@@ -24,6 +25,7 @@ namespace CategoryButton
     {
         private readonly VisualElementLoader _visualElementLoader;
         private readonly IResourceAssetLoader _assetLoader;
+        private readonly ImageRepository _imageRepository;
         private readonly DescriptionPanel _descriptionPanel;
         private readonly ToolManager _toolManager;
         private readonly InputService _inputService;
@@ -41,6 +43,7 @@ namespace CategoryButton
         CategoryButtonService(
             VisualElementLoader visualElementLoader,
             IResourceAssetLoader assetLoader,
+            ImageRepository imageRepository,
             DescriptionPanel descriptionPanel,
             ToolManager toolManager,
             InputService inputService,
@@ -50,6 +53,7 @@ namespace CategoryButton
         {
             _visualElementLoader = visualElementLoader;
             _assetLoader = assetLoader;
+            _imageRepository = imageRepository;
             _descriptionPanel = descriptionPanel;
             _toolManager = toolManager;
             _inputService = inputService;
@@ -75,7 +79,7 @@ namespace CategoryButton
         private void CreateCategoryButtons()
         {
             PreventInstantiatePatch.RunInstantiate = false;
-            _categoryButtonPrefabs = _categoryButtonFactory.CreateFromSpecifications(this, _categoryButtonsSpecifications, _originalCategoryButtonPrefab);
+            _categoryButtonPrefabs = _categoryButtonFactory.CreateFromSpecifications(this, _imageRepository, _categoryButtonsSpecifications, _originalCategoryButtonPrefab);
             PreventInstantiatePatch.RunInstantiate = true;
         }
         

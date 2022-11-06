@@ -49,9 +49,9 @@ namespace CategoryButton
     {
       _inputService.AddInputProcessor(this);
       _active = true;
-      var activeToolsCount = _categoryButtonService.CategoryButtonTools.Select(tool => tool._active).Count();
-      var height = 60 * activeToolsCount;
-      DependencyContainer.GetInstance<CategoryButtonService>().ChangeDescriptionPanel(height);
+      // var activeToolsCount = _categoryButtonService.CategoryButtonTools.Select(tool => tool._active).Count();
+      // var height = 60 * activeToolsCount;
+      DependencyContainer.GetInstance<CategoryButtonService>().ChangeDescriptionPanel(60);
       DependencyContainer.GetInstance<CategoryButtonService>().UpdateScreenSize(this);
       VisualElement.ToggleDisplayStyle(true);
       
@@ -63,9 +63,9 @@ namespace CategoryButton
     {
       _inputService.RemoveInputProcessor(this);
       
-      var activeToolsCount = _categoryButtonService.CategoryButtonTools.Select(tool => tool._active).Count();
-      var height = 60 * (activeToolsCount - 1);
-      if (_active) DependencyContainer.GetInstance<CategoryButtonService>().ChangeDescriptionPanel(height);
+      // var activeToolsCount = _categoryButtonService.CategoryButtonTools.Select(tool => tool._active).Count();
+      // var height = 60 * (activeToolsCount - 1);
+      if (_active) DependencyContainer.GetInstance<CategoryButtonService>().ChangeDescriptionPanel(0);
       _active = false;
 
       VisualElement.ToggleDisplayStyle(false);

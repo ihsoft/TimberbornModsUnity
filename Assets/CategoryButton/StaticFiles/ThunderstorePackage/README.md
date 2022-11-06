@@ -47,7 +47,7 @@ In case you experience problems, message me in the modding channel of the the [T
 
 ## Changelog
 
-### 1.2.0 - 
+### 1.2.0 - 29.10.2022
 
 - Changed so the buttons are now based on specifications instead of prefabs. 
 

@@ -10,15 +10,15 @@ namespace CategoryButton
 {
     public class CategoryButtonFactory
     {
-        public List<GameObject> CreateFromSpecifications(CategoryButtonService categoryButtonService, ImmutableArray<CategoryButtonSpecification> categoryButtonsSpecifications, GameObject originalCategoryButtonPrefab)
+        public List<GameObject> CreateFromSpecifications(CategoryButtonService categoryButtonService, ImageRepository imageRepository, ImmutableArray<CategoryButtonSpecification> categoryButtonsSpecifications, GameObject originalCategoryButtonPrefab)
         {
             var categoryButtons = new List<GameObject>();
             foreach (var categoryButtonsSpecification in categoryButtonsSpecifications)
-                categoryButtons.Add(CreateCategoryButton(categoryButtonService, categoryButtonsSpecification, originalCategoryButtonPrefab));
+                categoryButtons.Add(CreateCategoryButton(categoryButtonService, imageRepository, categoryButtonsSpecification, originalCategoryButtonPrefab));
             return categoryButtons;
         }
 
-        private GameObject CreateCategoryButton(CategoryButtonService categoryButtonService, CategoryButtonSpecification categoryButtonSpecification, GameObject prefab)
+        private GameObject CreateCategoryButton(CategoryButtonService categoryButtonService, ImageRepository imageRepository, CategoryButtonSpecification categoryButtonSpecification, GameObject prefab)
         {
             var gameObject = Object.Instantiate(prefab);
             
@@ -33,7 +33,7 @@ namespace CategoryButton
 
             var labeledPrefab = gameObject.GetComponent<LabeledPrefab>();
             Texture2D spriteTexture2D = new Texture2D(112, 112);
-            var spriteBytes = File.ReadAllBytes(Plugin.myPath + "\\CategorySprites\\" + categoryButtonSpecification.ButtonIcon);
+            var spriteBytes = File.ReadAllBytes(imageRepository.Images[categoryButtonSpecification.ButtonIcon]);
             spriteTexture2D.LoadImage(spriteBytes);
             var sprite2D = Sprite.Create(spriteTexture2D, new Rect(0, 0, 112f, 112f), new Vector2(0.5f, 0.5f), 100);
                 

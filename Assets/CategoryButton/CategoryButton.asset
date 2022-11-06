@@ -1,5 +1,23 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7243922084270935270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b243ff405b33b94dbf5b6775dd9aa33, type: 3}
+  m_Name: Files
+  m_EditorClassIdentifier: 
+  StagingPaths:
+  - <ManifestPluginStaging>
+  - <ThunderstorePackage>/<ManifestName>/plugins
+  files:
+  - {fileID: 102900000, guid: 73afc86131bb1084caa025eb6eba0bb9, type: 3}
+  - {fileID: 4900000, guid: 14e7ac86f838aaf43bea2bdcdc8f76f0, type: 3}
 --- !u!114 &-3931462110823901632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68,6 +86,7 @@ MonoBehaviour:
   Data:
   - {fileID: -3931462110823901632}
   - {fileID: -1800585617083543040}
+  - {fileID: -7243922084270935270}
   - {fileID: 9120418034178625098}
   - {fileID: 2590189338767857166}
   - {fileID: 7276679206402820566}
@@ -124,9 +143,7 @@ MonoBehaviour:
   m_Name: Files
   m_EditorClassIdentifier: 
   StagingPaths:
-  - <ManifestPluginStaging>
-  - <ThunderstorePackage>/<ManifestName>/plugins
+  - <ManifestPluginStaging>/assets
+  - <ThunderstorePackage>/<ManifestName>/plugins/assets
   files:
-  - {fileID: 102900000, guid: 73afc86131bb1084caa025eb6eba0bb9, type: 3}
-  - {fileID: 4900000, guid: 14e7ac86f838aaf43bea2bdcdc8f76f0, type: 3}
   - {fileID: 102900000, guid: 8499a3de7079cc3428417974fcb642ca, type: 3}
