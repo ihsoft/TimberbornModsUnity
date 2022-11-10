@@ -20,6 +20,10 @@ In case you experience problems, message me in the modding channel of the the [T
 
 ## Changelog
 
+### 1.0.4 - 10.11.2022
+
+- Another try at fixing the first issue. (Don't know what im doing XD)
+
 ### 1.0.3 - 6.11.2022
 
 - Fixed an issue where the game crashed if the Global Market was placed, but not yet build.

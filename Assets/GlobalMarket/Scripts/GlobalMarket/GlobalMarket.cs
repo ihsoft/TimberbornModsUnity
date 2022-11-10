@@ -53,7 +53,6 @@ namespace GlobalMarket
       
       if (singleton.Has(GlobalMarketReservedCapacityKey))
         GlobalMarketReservedCapacity = singleton.Get(GlobalMarketReservedCapacityKey, _goodRegistryObjectSerializer);
-      
     }
   }
 }

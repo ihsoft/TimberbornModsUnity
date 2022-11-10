@@ -44,6 +44,12 @@ namespace GlobalMarket
                 var fieldInfo = typeof(Inventory).GetField("_storage", BindingFlags.NonPublic | BindingFlags.Instance);
 
                 fieldInfo.SetValue(decorator, GlobalMarket.GlobalMarketStorage);
+                
+                var fieldInfo2 = typeof(Inventory).GetField("_reservedStock", BindingFlags.NonPublic | BindingFlags.Instance);
+                fieldInfo2.SetValue(decorator, GlobalMarket.GlobalMarketReservedStorage);
+            
+                var fieldInfo3 = typeof(Inventory).GetField("_reservedCapacity", BindingFlags.NonPublic | BindingFlags.Instance);
+                fieldInfo3.SetValue(decorator, GlobalMarket.GlobalMarketReservedCapacity);
             }
         }
     }
