@@ -1,4 +1,6 @@
 ﻿using GlobalMarket;
+using Timberborn.BlockSystem;
+using Timberborn.Buildings;
 using Timberborn.CoreUI;
 using Timberborn.EntityPanelSystem;
 using Timberborn.Localization;
@@ -16,6 +18,8 @@ namespace Timberborn.EmptyingUI
     private const string EnableAirBalloonLocKey = "Tobbert.GlobalMarket.EnableAirBalloon";
 
     private AirBalloonManager _airBalloonManager;
+    
+    private BlockObject _blockObject;
     
     private Toggle _airBalloonToggle;
     
@@ -40,18 +44,21 @@ namespace Timberborn.EmptyingUI
     public void ShowFragment(GameObject entity)
     {
       _airBalloonManager = entity.GetComponent<AirBalloonManager>();
+      _blockObject = entity.GetComponent<BlockObject>();
       if (!(bool) (Object) _airBalloonManager)
         return;
+      
       _airBalloonToggle.SetValueWithoutNotify(_airBalloonManager.AirBalloonEnabled);
     }
 
     public void ClearFragment()
     {
       _airBalloonManager = null;
+      _blockObject = null;
       UpdateFragment();
     }
 
-    public void UpdateFragment() => _root.ToggleDisplayStyle((bool) (Object) _airBalloonManager);
+    public void UpdateFragment() => _root.ToggleDisplayStyle((bool) (Object) _airBalloonManager && _blockObject.Finished);
 
     private void EnableAirBalloon(bool newState)
     {
