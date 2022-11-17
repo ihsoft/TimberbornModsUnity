@@ -17,7 +17,9 @@ namespace MorePaths
             float noiseTexScale,
             float mainColorRed,
             float mainColorGreen,
-            float mainColorBlue)
+            float mainColorBlue,
+            
+            bool railingEnabled)
         {
             Enabled = enabled;
             Name = name;
@@ -34,6 +36,8 @@ namespace MorePaths
             MainColorRed = mainColorRed;
             MainColorGreen = mainColorGreen;
             MainColorBlue = mainColorBlue;
+
+            RailingEnabled = railingEnabled;
         }
 
         public bool Enabled { get;  }
@@ -51,5 +55,6 @@ namespace MorePaths
         public float MainColorRed { get; }
         public float MainColorGreen { get; }
         public float MainColorBlue { get; }
+        public bool RailingEnabled { get; }
     }
 }

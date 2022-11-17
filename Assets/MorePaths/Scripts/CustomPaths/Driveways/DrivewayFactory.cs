@@ -54,13 +54,16 @@ namespace MorePaths
 
             driveway.name = pathSpecification.Name;
 
-            var textureBytes = File.ReadAllBytes(Plugin.myPath + "\\Paths\\" + pathSpecification.Name + "\\" +
-                                                 pathSpecification.PathTexture);
-            var texture2D = new Texture2D(1024, 1024);
-            texture2D.LoadImage(textureBytes);
-
+            
             var material = driveway.GetComponentInChildren<MeshRenderer>().material;
-            material.mainTexture = texture2D;
+            
+            if (pathSpecification.PathTexture != null)
+            {
+                var textureBytes = File.ReadAllBytes(Plugin.path + "\\Paths\\" + pathSpecification.Name + "\\" + pathSpecification.PathTexture);
+                var texture2D = new Texture2D(1024, 1024);
+                texture2D.LoadImage(textureBytes);
+                material.mainTexture = texture2D;
+            }
             material.SetFloat("_MainTexScale", pathSpecification.MainTextureScale);
             material.SetFloat("_NoiseTexScale", pathSpecification.NoiseTexScale);
             material.SetVector("_MainColor",

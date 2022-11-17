@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Timberborn.BlockSystem;
 using Timberborn.PathSystem;
+using Timberborn.TerrainSystem;
 using UnityEngine;
 
 namespace MorePaths
@@ -9,6 +10,8 @@ namespace MorePaths
     public class PathCornerService
     {
         private readonly BlockService _blockService;
+
+        private readonly ITerrainService _terrainService;
 
         private readonly List<List<Vector3Int>> _neighboringCoordinates = new()
         {
@@ -38,9 +41,10 @@ namespace MorePaths
             },
         };
 
-        public PathCornerService(BlockService blockService)
+        public PathCornerService(BlockService blockService, ITerrainService terrainService)
         {
             _blockService = blockService;
+            _terrainService = terrainService;
         }
 
         public List<bool> EnableNeighbouringPaths(Vector3Int checkingCoordinates)
@@ -51,44 +55,37 @@ namespace MorePaths
             
             foreach (var (quadrantList, i) in _neighboringCoordinates.Select((value, i) => ( value, i )))
             {
-                var obj1 = _blockService.GetFloorObjectComponentAt<DynamicPathCorner>(newCheckingCoordinates + quadrantList[0]);
-                var obj2 = _blockService.GetFloorObjectComponentAt<DynamicPathCorner>(newCheckingCoordinates + quadrantList[1]);
-                var obj3 = _blockService.GetFloorObjectComponentAt<DynamicPathCorner>(newCheckingCoordinates + quadrantList[2]);
+                var obj1 = _terrainService.OnGround(newCheckingCoordinates + quadrantList[0]) ? _blockService.GetFloorObjectComponentAt<DynamicPathCorner>(newCheckingCoordinates + quadrantList[0]) : null;
+                var obj2 = _terrainService.OnGround(newCheckingCoordinates + quadrantList[1]) ? _blockService.GetFloorObjectComponentAt<DynamicPathCorner>(newCheckingCoordinates + quadrantList[1]) : null;
+                var obj3 = _terrainService.OnGround(newCheckingCoordinates + quadrantList[2]) ? _blockService.GetFloorObjectComponentAt<DynamicPathCorner>(newCheckingCoordinates + quadrantList[2]) : null;
 
                 var flag = obj1 != null && obj2 != null && obj3 != null;
                 
                 flags.Add(flag);
 
                 if (!flag) continue;
-                
-                // Plugin.Log.LogInfo("");
-                //
-                // Plugin.Log.LogInfo(obj1.gameObject.name);
-                // Plugin.Log.LogInfo(obj2.gameObject.name);
-                // Plugin.Log.LogInfo(obj3.gameObject.name);
-                
-                
+
                 switch (i)
                 {
                     case 0:
-                        EnablePathCorner(obj1.cornerUpLeft);
-                        EnablePathCorner(obj2.cornerUpRight);
-                        EnablePathCorner(obj3.cornerDownRight);
+                        EnablePathCorner(obj1.CornerUpLeft);
+                        EnablePathCorner(obj2.CornerUpRight);
+                        EnablePathCorner(obj3.CornerDownRight);
                         break;
                     case 1:
-                        EnablePathCorner(obj1.cornerUpRight);
-                        EnablePathCorner(obj2.cornerDownRight);
-                        EnablePathCorner(obj3.cornerDownLeft);
+                        EnablePathCorner(obj1.CornerUpRight);
+                        EnablePathCorner(obj2.CornerDownRight);
+                        EnablePathCorner(obj3.CornerDownLeft);
                         break;
                     case 2:
-                        EnablePathCorner(obj1.cornerDownRight);
-                        EnablePathCorner(obj2.cornerDownLeft);
-                        EnablePathCorner(obj3.cornerUpLeft);
+                        EnablePathCorner(obj1.CornerDownRight);
+                        EnablePathCorner(obj2.CornerDownLeft);
+                        EnablePathCorner(obj3.CornerUpLeft);
                         break;
                     case 3:
-                        EnablePathCorner(obj1.cornerDownLeft);
-                        EnablePathCorner(obj2.cornerUpLeft);
-                        EnablePathCorner(obj3.cornerUpRight);
+                        EnablePathCorner(obj1.CornerDownLeft);
+                        EnablePathCorner(obj2.CornerUpLeft);
+                        EnablePathCorner(obj3.CornerUpRight);
                         break;
                 }
             }
@@ -111,16 +108,16 @@ namespace MorePaths
                     switch (i)
                     {
                         case 0:
-                            DisablePathCorner(obj.cornerUpRight);
+                            DisablePathCorner(obj.CornerUpRight);
                             break;
                         case 1:
-                            DisablePathCorner(obj.cornerDownRight);
+                            DisablePathCorner(obj.CornerDownRight);
                             break;
                         case 2:
-                            DisablePathCorner(obj.cornerDownLeft);
+                            DisablePathCorner(obj.CornerDownLeft);
                             break;
                         case 3:
-                            DisablePathCorner(obj.cornerUpLeft);
+                            DisablePathCorner(obj.CornerUpLeft);
                             break;
                     }
                 }

@@ -42,7 +42,11 @@
         "Timberborn.FactionSystemGame.dll",
         "Timberborn.FactionSystem.dll",
         "Timberborn.SceneLoading.dll",
-        "Timberborn.MasterSceneLoading.dll"
+        "Timberborn.MasterSceneLoading.dll",
+        "Timberborn.ToolSystem.dll",
+        "Timberborn.SettingsSystem.dll",
+        "Timberborn.CoreUI.dll",
+        "Timberborn.Localization.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

@@ -1,4 +1,3 @@
-using System;
 using TimberApi.Common.Extensions;
 using Timberborn.Persistence;
 
@@ -8,16 +7,13 @@ namespace MorePaths
     {
         private static readonly PropertyKey<bool> EnabledKey = new("Enabled");
         
-        public void Serialize(PathSpecification value, IObjectSaver objectSaver)
-        {
-            
-        }
+        public void Serialize(PathSpecification value, IObjectSaver objectSaver) { }
 
         public Obsoletable<PathSpecification> Deserialize(IObjectLoader objectLoader)
         {
-            return (Obsoletable<PathSpecification>) new PathSpecification(
+            return (Obsoletable<PathSpecification>)new PathSpecification(
                 objectLoader.GetValueOrDefault(EnabledKey, true),
-                objectLoader.Get(new PropertyKey<string>("Name")), 
+                objectLoader.Get(new PropertyKey<string>("Name")),
                 objectLoader.GetValueOrNull(new PropertyKey<string>("PathTexture")),
                 objectLoader.GetValueOrNull(new PropertyKey<string>("RailingTexture")),
                 objectLoader.GetValueOrDefault(new PropertyKey<int>("ToolOrder"), 0),
@@ -25,13 +21,14 @@ namespace MorePaths
                 objectLoader.GetValueOrNull(new PropertyKey<string>("DisplayNameLocKey")),
                 objectLoader.GetValueOrNull(new PropertyKey<string>("DescriptionLocKey")),
                 objectLoader.GetValueOrNull(new PropertyKey<string>("FlavorDescriptionLocKey")),
-                // objectLoader.Get(new ListKey<string>("Driveways")).ToImmutableArray())
-                
+
                 objectLoader.GetValueOrDefault(new PropertyKey<float>("MainTextureScale"), 1f),
                 objectLoader.GetValueOrDefault(new PropertyKey<float>("NoiseTexScale"), 1f),
                 objectLoader.GetValueOrDefault(new PropertyKey<float>("MainColorRed"), 1f),
                 objectLoader.GetValueOrDefault(new PropertyKey<float>("MainColorGreen"), 1f),
-                objectLoader.GetValueOrDefault(new PropertyKey<float>("MainColorBlue"), 1f));
+                objectLoader.GetValueOrDefault(new PropertyKey<float>("MainColorBlue"), 1f),
+
+                objectLoader.GetValueOrDefault(new PropertyKey<bool>("RailingEnabled"), true));
         }
     }
 }

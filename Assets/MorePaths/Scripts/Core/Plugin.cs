@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Bindito.Core;
 using HarmonyLib;
 using TimberApi.ConsoleSystem;
 using TimberApi.DependencyContainerSystem;
@@ -15,19 +16,20 @@ using Timberborn.Core;
 using Timberborn.PathSystem;
 using UnityEngine;
 using Timberborn.TerrainSystem;
+using UnityEngine.UIElements;
 
 namespace MorePaths
 {
     public class Plugin : IModEntrypoint
     {
         public const string PluginGuid = "tobbert.morepaths";
-        public static string myPath;
+        public static string path;
         
         public static IConsoleWriter Log;
         
         public void Entry(IMod mod, IConsoleWriter consoleWriter)
         {
-            myPath = mod.DirectoryPath;
+            path = mod.DirectoryPath;
             
             Log = consoleWriter;
 
@@ -40,7 +42,7 @@ namespace MorePaths
     {
         static void Postfix(DrivewayModel __instance)
         {
-            DependencyContainer.GetInstance<MorePathsService>().InstantiateDriveways(__instance);
+            DependencyContainer.GetInstance<DrivewayService>().InstantiateDriveways(__instance);
         }
     }
     
@@ -49,7 +51,7 @@ namespace MorePaths
     {
         static void Postfix(DrivewayModel __instance, ref GameObject ____model, ref ITerrainService ____terrainService)
         {
-            DependencyContainer.GetInstance<MorePathsService>().UpdateAllDriveways(__instance, ____model, ____terrainService);
+            DependencyContainer.GetInstance<DrivewayService>().UpdateAllDriveways(__instance, ____model, ____terrainService);
         }
     }
     
@@ -64,7 +66,7 @@ namespace MorePaths
         
         static void Postfix(ref IEnumerable<UnityEngine.Object> __result)
         {
-            DependencyContainer.GetInstance<MorePathsService>().AddFakePathsToObjectsPatch(ref __result);
+            DependencyContainer.GetInstance<MorePathsCore>().AddFakePathsToObjectsPatch(ref __result);
         }
     }
     
@@ -120,7 +122,7 @@ namespace MorePaths
         {
             if (!DependencyContainer.GetInstance<MapEditorMode>().IsMapEditor)
             {
-                return !DependencyContainer.GetInstance<MorePathsService>().FakePaths.Select(path => path.PathGameObject).Contains(__instance.gameObject);
+                return !DependencyContainer.GetInstance<MorePathsCore>().CustomPaths.Select(path => path.PathGameObject).Contains(__instance.gameObject);
             }
 
             return true;
@@ -160,6 +162,54 @@ namespace MorePaths
             return !__instance.Prefab.TryGetComponent(out DynamicPathModel dynamicPathModel);
         }
     }
+    
+    [HarmonyPatch]
+    public class SettingsPatch
+    {
+        static MethodInfo TargetMethod()
+        {
+            return AccessTools.Method(AccessTools.TypeByName("GameSavingSettingsController"), "InitializeAutoSavingOnToggle", new []
+            {
+                typeof(VisualElement)
+            });
+        }
+        
+        static void Postfix(ref VisualElement root)
+        {
+            DependencyContainer.GetInstance<MorePathsSettingsUI>().InitializeSelectorSettings(ref root);
+        }
+    }
+    
+    // [HarmonyPatch]
+    // public class MasterSceneConfiguratorPatch
+    // {
+    //     static MethodInfo TargetMethod()
+    //     {
+    //         return AccessTools.Method(AccessTools.TypeByName("MasterSceneConfigurator"), "Configure", new []
+    //         {
+    //             typeof(IContainerDefinition)
+    //         });
+    //     }
+    //     
+    //     static void Postfix()
+    //     {
+    //         MorePathsSettingsController.InGame = true;
+    //     }
+    // }
+    //
+    // [HarmonyPatch]
+    // public class MainMenuSceneLoaderPatch
+    // {
+    //     static MethodInfo TargetMethod()
+    //     {
+    //         return AccessTools.Method(AccessTools.TypeByName("MainMenuSceneLoader"), "StartMainMenu");
+    //     }
+    //     
+    //     static void Prefix()
+    //     {
+    //         MorePathsSettingsController.InGame = false;
+    //     }
+    // }
     
     // THIS HAS ABUG WITH EDITING MAPS AND PLACING DOWN BUILDINGS IN THE EDITOR
     // [HarmonyPatch(typeof(BlockObjectTool), "Enter", new Type[] {})]

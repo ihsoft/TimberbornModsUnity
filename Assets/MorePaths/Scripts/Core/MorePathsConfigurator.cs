@@ -6,15 +6,13 @@ using Timberborn.TemplateSystem;
 
 namespace MorePaths
 {
-    [Configurator(SceneEntrypoint.InGame)]
+    [Configurator(SceneEntrypoint.MainMenu | SceneEntrypoint.InGame)]
     public class MorePathsConfigurator : IConfigurator
     {
         public void Configure(IContainerDefinition containerDefinition)
         {
             containerDefinition.Bind<PathSpecificationObjectDeserializer>().AsSingleton();
-            containerDefinition.Bind<DrivewayFactory>().AsSingleton();
-            containerDefinition.Bind<MorePathsService>().AsSingleton();
-            containerDefinition.Bind<PathCornerService>().AsSingleton();
+            containerDefinition.Bind<MorePathsCore>().AsSingleton();
             containerDefinition.MultiBind<TemplateModule>().ToProvider(ProvideTemplateModule).AsSingleton();
         }
 

@@ -49,6 +49,13 @@ In case you experience problems, message me in the modding channel of the the [T
 
 ## Changelog
 
+### 2.1.0 - 17.11.2022
+
+- Added 2 new paths: Plastered Wood Folktails and Plastered Wood Iron Teeth. 
+- Added settings so you can disable paths that you dont use often. 
+- Fixed a issue where corners were active when a roof variant was active. 
+- Massive code readability improvement.
+
 ### 2.0.1 - 12.10.2022
 
 - Fixed MorePaths not working on Folktails.
