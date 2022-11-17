@@ -39,6 +39,11 @@ In case you experience problems, message me in the modding channel of the the [T
 
 ## Changelog
 
+### 1.0.2 - 17.11.2022
+
+- Changed the panning cursor of the default skin.
+- Added German translation that was provided by juf0816.
+
 ### 1.0.1 - 23.9.2022
 
 - Updated to work with TimberAPI (v0.5.0).
