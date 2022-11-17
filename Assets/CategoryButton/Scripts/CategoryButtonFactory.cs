@@ -32,7 +32,7 @@ namespace CategoryButton
             categoryButtonService.ChangePrivateField(placeableBlockObject, "_devModeTool", false);
 
             var labeledPrefab = gameObject.GetComponent<LabeledPrefab>();
-            Texture2D spriteTexture2D = new Texture2D(112, 112);
+            Texture2D spriteTexture2D = new Texture2D(1, 1);
             var spriteBytes = File.ReadAllBytes(imageRepository.Images[categoryButtonSpecification.ButtonIcon]);
             spriteTexture2D.LoadImage(spriteBytes);
             var sprite2D = Sprite.Create(spriteTexture2D, new Rect(0, 0, 112f, 112f), new Vector2(0.5f, 0.5f), 100);

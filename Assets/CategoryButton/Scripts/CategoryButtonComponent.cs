@@ -5,6 +5,6 @@ namespace CategoryButton
 {
     public class CategoryButtonComponent : MonoBehaviour
     {
-        public List<string> ToolBarButtonNames;
+        public List<string> ToolBarButtonNames { get; set; }
     }
 }

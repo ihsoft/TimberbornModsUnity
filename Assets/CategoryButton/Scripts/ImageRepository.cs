@@ -60,7 +60,7 @@ namespace CategoryButton
 
         private void IndexFile(string filePath)
         {
-            var splitPath = filePath.Split("\\");
+            var splitPath = filePath.Split(Path.DirectorySeparatorChar);
             Images.Add(splitPath.Last(), filePath);
         }
     }

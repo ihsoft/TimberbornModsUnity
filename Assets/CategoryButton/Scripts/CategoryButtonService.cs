@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using TimberApi.Common.SingletonSystem;
-using TimberApi.ModSystem;
 using Timberborn.AssetSystem;
 using Timberborn.BlockObjectTools;
 using Timberborn.BlockSystem;
@@ -126,7 +125,7 @@ namespace CategoryButton
             {
                 foreach (var toolButton in categoryTool.ToolButtons)
                 {
-                    categoryTool.VisualElement.Add(toolButton.Root);
+                    categoryTool.ToolButtonsVisualElement.Add(toolButton.Root);
                 }
             }
         }
@@ -156,18 +155,18 @@ namespace CategoryButton
 
         public void ChangeDescriptionPanel(int height)
         {
-            VisualElement value = (VisualElement)GetPrivateField(_descriptionPanel, "_root");
-            value.style.bottom = height;
-            ChangePrivateField(_descriptionPanel, "_root", value);
+            VisualElement descriptionPanelRoot = (VisualElement)GetPrivateField(_descriptionPanel, "_root");
+            descriptionPanelRoot.style.bottom = height;
+            ChangePrivateField(_descriptionPanel, "_root", descriptionPanelRoot);
         }
 
         public void UpdateScreenSize(CategoryButtonTool categoryButtonTool)
         {
-            float x = categoryButtonTool.VisualElement.parent.Query<VisualElement>("ToolButtons").First().resolvedStyle.width / 2 - 2;
-            x +=  categoryButtonTool.ToolButtons.Count * 54 / 2 * -1;
+            float x = categoryButtonTool.ToolButtonsVisualElement.parent.Query<VisualElement>("ToolButtons").First().resolvedStyle.width / 2 - 2;
+            x +=  categoryButtonTool.ToolButtons.Count(button => button.Root.style.display == DisplayStyle.Flex) * 54 / 2 * -1;
             float y = 58f;
-            categoryButtonTool.VisualElement.style.left = x; 
-            categoryButtonTool.VisualElement.style.bottom = y;
+            categoryButtonTool.ToolButtonsVisualElement.style.left = x; 
+            categoryButtonTool.ToolButtonsVisualElement.style.bottom = y;
         }
 
         public void ChangePrivateField(object instance, string fieldName, object newValue)
