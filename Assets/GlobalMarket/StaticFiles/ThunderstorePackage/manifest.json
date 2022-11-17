@@ -1,6 +1,6 @@
 {
   "name": "Global_Market",
-  "version_number": "1.0.5",
+  "version_number": "1.0.6",
   "website_url": "https://github.com/TobbyTheBobby",
   "description": "Features a building that has a shared inventory. (Cute balloon included ^.^)",
   "dependencies": [

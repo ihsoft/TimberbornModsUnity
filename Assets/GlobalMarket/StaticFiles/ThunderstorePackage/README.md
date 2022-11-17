@@ -20,7 +20,11 @@ In case you experience problems, message me in the modding channel of the the [T
 
 ## Changelog
 
-### 1.0.5 - 10.11.2022
+### 1.0.6 - 17.11.2022
+
+- Added German translation that was provided by juf0816.
+
+### 1.0.5 - 11.11.2022
 
 - Now doesn't show the disable button when Global Market is not yet finished. (Sorry for this many updates :'( )
 

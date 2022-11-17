@@ -5,4 +5,4 @@ Tobbert.GlobalMarket.FlavorDescription,Was ist das da am Himmel?,Hinweis auf den
 
 Tobbert.GlobalMarket.EnableAirBalloon,Ballon Aktiviert,Text für die Schaltfläche zum Aktivieren oder Deaktivieren des Ballons.
 
-Tobbert.AirBalloon.Name,Ballon,Der Name des Ballons, wenn man darauf klickt. 
+Tobbert.AirBalloon.Name,Ballon,"Der Name des Ballons, wenn man darauf klickt."
