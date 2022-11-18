@@ -47,6 +47,10 @@ In case you experience problems, message me in the modding channel of the the [T
 
 ## Changelog
 
+### 1.2.2 - 18.11.2022
+
+- Reverted a change that was incompatible with the old system before 1.2.0
+
 ### 1.2.1 - 17.11.2022
 
 - Fixed a issue where the mod crashed on MacOS.
