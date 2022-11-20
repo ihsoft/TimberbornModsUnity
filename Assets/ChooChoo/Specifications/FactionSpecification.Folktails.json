@@ -1,0 +1,6 @@
+{
+  "CommonBuildings": [
+    "tobbert.choochoo/tobbert_choochoo/TrackStraight",
+    "tobbert.choochoo/tobbert_choochoo/TrackTIntersection"
+  ]
+}

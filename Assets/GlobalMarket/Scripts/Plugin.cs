@@ -7,6 +7,7 @@ using Timberborn.EntitySystem;
 using Timberborn.GameDistricts;
 using Timberborn.InventorySystem;
 using Timberborn.Persistence;
+using Timberborn.StockKeeping;
 using Timberborn.Warehouses;
 using UnityEngine;
 
@@ -42,7 +43,6 @@ namespace GlobalMarket
             if (subject.GetComponent<Prefab>().PrefabName.Contains("GlobalMarket"))
             {
                 var fieldInfo = typeof(Inventory).GetField("_storage", BindingFlags.NonPublic | BindingFlags.Instance);
-
                 fieldInfo.SetValue(decorator, GlobalMarket.GlobalMarketStorage);
                 
                 var fieldInfo2 = typeof(Inventory).GetField("_reservedStock", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -52,6 +52,11 @@ namespace GlobalMarket
                 fieldInfo3.SetValue(decorator, GlobalMarket.GlobalMarketReservedCapacity);
             }
         }
+
+        // static void Postfix(Stockpile subject, Inventory decorator)
+        // {
+        //     Prefab.Destroy(subject.gameObject.GetComponent<GoodDesirer>());
+        // }
     }
     
     [HarmonyPatch]

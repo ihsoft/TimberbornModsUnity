@@ -19,6 +19,7 @@ In case you experience problems, message me in the modding channel of the the [T
 ### 1.0.4 - 12.10.2022
 
 - Updated to work with latest stable update (v0.2.9.1).
+- Added the sound of the carousel.
 
 ### 1.0.3 - 23.9.2022
 

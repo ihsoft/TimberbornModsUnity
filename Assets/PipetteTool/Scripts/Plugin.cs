@@ -108,4 +108,29 @@ namespace PipetteTool
             return true;
         }
     }
+    
+    [HarmonyPatch]
+    public class ConstructionModeServicePatch
+    {
+        public static bool SkipNext;
+        
+        public static MethodInfo TargetMethod()
+        {
+            return AccessTools.Method(AccessTools.TypeByName("ConstructionModeService"), "CanExitConstructionMode");
+        }
+        
+        static bool Prefix(ref bool __result)
+        {
+            Plugin.Log.LogWarning(SkipNext.ToString());
+            
+            if (SkipNext)
+            {
+                SkipNext = false;
+                __result = true;
+                return false;
+            }
+            
+            return true;
+        }
+    }
 }

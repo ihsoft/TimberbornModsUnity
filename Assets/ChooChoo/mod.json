@@ -1,0 +1,16 @@
+{
+  "Name": "ChooChoo",
+  "Version": "1.0.0",
+  "UniqueId": "tobbert.choochoo",
+  "MinimumApiVersion": "0.5.0",
+  "MinimumGameVersion": "0.2.9.1",
+  "EntryDll": "ChooChoo.dll",
+  "Assets": [
+    {
+      "Prefix": "tobbert.choochoo",
+      "Scenes": [
+        "InGame"
+      ]
+    }
+  ]
+}

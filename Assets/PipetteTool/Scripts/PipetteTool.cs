@@ -128,6 +128,11 @@ namespace PipetteTool
       return false;
     }
 
+    public virtual void PostProcessInput()
+    {
+      
+    }
+
     public void OnSelectableObjectSelected(GameObject hitObject)
      {
        if (!_inputService.IsCtrlHeld && !_shouldPipetNextSelection) 
@@ -158,12 +163,12 @@ namespace PipetteTool
 
      private void ChangeToolOrientation(Tool tool, Orientation orientation)
      {
-       if (tool.GetType() == typeof(BlockObjectTool))
-       {
-         BlockObjectTool blockObjectTool = tool as BlockObjectTool;
+       if (tool.GetType() != typeof(BlockObjectTool)) 
+         return;
+       
+       BlockObjectTool blockObjectTool = tool as BlockObjectTool;
 
-         _blockObjectToolOrientationField.SetValue(blockObjectTool, orientation);
-       }
+       _blockObjectToolOrientationField.SetValue(blockObjectTool, orientation);
      }
      
      protected virtual void SwitchToSelectedBuildingTool(Tool tool)

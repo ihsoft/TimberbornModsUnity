@@ -1,6 +1,6 @@
 # Bucket
 
-Do you love buckets? NO, don't answer! EVERYONE LOVES BUCKETS. Just bucket bucket bucket. You have to have this bucket mod, so you have buckets all over your game. BUCKEEEEEEEEEEET!!!
+Do you love buckets? NO, don't answer! EVERYONE LOVES BUCKETS. Just bucket bucket bucket. You have to have this bucket mod! Put buckets everywhere! BUCKEEEEEEEEEEET!!!
 
 ## How to use
 

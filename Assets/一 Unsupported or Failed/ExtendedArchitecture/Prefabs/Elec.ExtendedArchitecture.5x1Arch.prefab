@@ -289,16 +289,16 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4632590852466256109}
-  - component: {fileID: 2946325408629647511}
   - component: {fileID: 3063554438490599828}
   - component: {fileID: 5087420648065816161}
   - component: {fileID: 137710262751146179}
   - component: {fileID: 2667180517449087720}
   - component: {fileID: 6247056543157948910}
+  - component: {fileID: 2946325408629647511}
   - component: {fileID: 8671936481275266310}
   - component: {fileID: -7357970682657894371}
   m_Layer: 0
-  m_Name: Elec.ExtendedArchitecture
+  m_Name: Elec.ExtendedArchitecture.5x1Arch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -322,21 +322,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2946325408629647511
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6439842795115214155}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -788214902, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _prefabName: Elec.ExtendedArchitecture.5x1Arch
-  _backwardCompatiblePrefabNames: []
-  _requiredFeatureToggle: 
 --- !u!114 &3063554438490599828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -457,6 +442,21 @@ MonoBehaviour:
     _hasCustomPivot: 1
     _coordinates: {x: 0, y: 0, z: 0}
   _devModeTool: 0
+--- !u!114 &2946325408629647511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6439842795115214155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -788214902, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefabName: Elec.ExtendedArchitecture.5x1Arch
+  _backwardCompatiblePrefabNames: []
+  _requiredFeatureToggle: 
 --- !u!114 &8671936481275266310
 MonoBehaviour:
   m_ObjectHideFlags: 0

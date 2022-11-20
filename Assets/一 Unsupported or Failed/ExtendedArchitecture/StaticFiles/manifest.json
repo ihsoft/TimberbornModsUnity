@@ -1,0 +1,11 @@
+{
+    "name": "ExtendedArchitecture",
+    "author": "Elec",
+    "version_number": "0.3.2",
+    "website_url": "https://github.com/TheElec",
+    "description": "Adds new structures to the game.",
+    "dependencies": [
+        "BepInEx-BepInExPack_Timberborn-5.4.19",
+        "Timberborn_Central-TimberAPI-0.5.0"
+    ]
+}
