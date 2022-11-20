@@ -116,21 +116,28 @@ namespace PipetteTool
 
     public bool ProcessInput()
     {
-      if (!_shouldPipetNextSelection) 
+      if (!_shouldPipetNextSelection)
+      {
+        PostProcessInput();
         return false;
+      }  
       
       if (!_inputService.SelectionStart || _inputService.MouseOverUI)
+      {
+        PostProcessInput();
         return false;
+      }  
       
       if (_selectableObjectRaycaster.TryHitSelectableObject(out var hitObject))
         OnSelectableObjectSelected(hitObject);
 
+      PostProcessInput();
       return false;
     }
 
     public virtual void PostProcessInput()
     {
-      
+      // only used in PipetteToolInGame
     }
 
     public void OnSelectableObjectSelected(GameObject hitObject)

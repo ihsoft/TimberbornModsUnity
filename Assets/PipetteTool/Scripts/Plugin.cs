@@ -121,16 +121,13 @@ namespace PipetteTool
         
         static bool Prefix(ref bool __result)
         {
-            Plugin.Log.LogWarning(SkipNext.ToString());
+            if (!SkipNext) 
+                return true;
             
-            if (SkipNext)
-            {
-                SkipNext = false;
-                __result = true;
-                return false;
-            }
-            
-            return true;
+            SkipNext = false;
+            __result = true;
+            return false;
+
         }
     }
 }

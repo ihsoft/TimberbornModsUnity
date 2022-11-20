@@ -26,11 +26,14 @@ namespace PipetteTool
 
         public override void PostProcessInput()
         {
-            if (_inputService.Cancel)
-            {
-                // ConstructionModeServicePatch.SkipNext = true;
-                ExitConstructionModeMethod.Invoke(_constructionModeService, new object[] { });
-            }
+            if (!_inputService.Cancel) 
+                return;
+
+            if (!_constructionModeService.InConstructionMode) 
+                return;
+            
+            ConstructionModeServicePatch.SkipNext = true;
+            ExitConstructionModeMethod.Invoke(_constructionModeService, new object[] { });
         }
 
         public override void Exit()
