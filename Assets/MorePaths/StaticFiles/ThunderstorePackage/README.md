@@ -49,6 +49,11 @@ In case you experience problems, message me in the modding channel of the the [T
 
 ## Changelog
 
+### 2.1.1 - 20.11.2022
+
+- Fixed a issue that resulted on crashes on MacOS.
+- Updated German translations.
+
 ### 2.1.0 - 17.11.2022
 
 - Added 2 new paths: Plastered Wood Folktails and Plastered Wood Iron Teeth. 

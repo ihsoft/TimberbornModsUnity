@@ -13,11 +13,13 @@ namespace MorePaths
     public class DrivewayFactory
     {
         private readonly DrivewayModelInstantiator _drivewayModelInstantiator;
+        private readonly MorePathsCore _morePathsCore;
         private readonly MethodInfo _methodInfo = typeof(DrivewayModelInstantiator).GetMethod("GetModelPrefab", BindingFlags.NonPublic | BindingFlags.Instance);
 
-        private DrivewayFactory(DrivewayModelInstantiator drivewayModelInstantiator)
+        private DrivewayFactory(DrivewayModelInstantiator drivewayModelInstantiator, MorePathsCore morePathsCore)
         {
             _drivewayModelInstantiator = drivewayModelInstantiator;
+            _morePathsCore = morePathsCore;
         }
 
         public Dictionary<Driveway, List<GameObject>> CreateDriveways(ImmutableArray<PathSpecification> pathSpecifications)
@@ -58,12 +60,8 @@ namespace MorePaths
             var material = driveway.GetComponentInChildren<MeshRenderer>().material;
             
             if (pathSpecification.PathTexture != null)
-            {
-                var textureBytes = File.ReadAllBytes(Plugin.path + "\\Paths\\" + pathSpecification.Name + "\\" + pathSpecification.PathTexture);
-                var texture2D = new Texture2D(1024, 1024);
-                texture2D.LoadImage(textureBytes);
-                material.mainTexture = texture2D;
-            }
+                material.mainTexture = _morePathsCore.TryLoadTexture(pathSpecification.Name, pathSpecification.PathTexture);
+            
             material.SetFloat("_MainTexScale", pathSpecification.MainTextureScale);
             material.SetFloat("_NoiseTexScale", pathSpecification.NoiseTexScale);
             material.SetVector("_MainColor",
