@@ -70,7 +70,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.rider": {
-      "version": "3.0.15",
+      "version": "3.0.16",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -196,6 +196,12 @@
     },
     "timberborn": {
       "version": "file:Timberborn",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
+    "timberborn_central-timberapi": {
+      "version": "file:TimberAPI",
       "depth": 0,
       "source": "embedded",
       "dependencies": {}
