@@ -48,7 +48,7 @@ sysinfo.txt
 crashlytics-build.properties
 
 #Timberborn Files
-Packages/Timberborn
+Packages
 Assets/Timberborn
 ThunderKit
 UserSettings
