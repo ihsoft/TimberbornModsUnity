@@ -9,14 +9,14 @@ namespace ChooChoo
         {
             Coordinates = coordinate;
             Direction = direction;
-            TrackSection = null;
+            ConnectedTrackPiece = null;
         }
 
         public Vector3Int Coordinates { get; }
 
-        public Direction2D Direction { get; }
+        public Direction2D Direction { get; set; }
         
-        public TrackSection TrackSection { get; set; }
+        public TrackPiece ConnectedTrackPiece { get; set; }
 
         // [OnEvent]
         // public void OnTrackDeleted(OnTrackDeletedEvent onTrackDeletedEvent)

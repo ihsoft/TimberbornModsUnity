@@ -12,21 +12,23 @@ namespace ChooChoo
     {
         private BlockService _blockService;
 
-        private TrackConnectionsArrayProvider _trackConnectionsArrayProvider;
+        private TrackArrayProvider _trackArrayProvider;
 
         private TrackConnectionService _trackConnectionService;
 
         private BlockObject _blockObject;
 
         private TrackConnection[] _trackConnections;
+        
+        private Vector3[] _pathCorners;
 
         public TrackSection TrackSection;
 
         [Inject]
-        public void InjectDependencies(BlockService blockService, TrackConnectionsArrayProvider trackConnectionsArrayProvider, TrackConnectionService trackConnectionService)
+        public void InjectDependencies(BlockService blockService, TrackArrayProvider trackArrayProvider, TrackConnectionService trackConnectionService)
         {
             _blockService = blockService;
-            _trackConnectionsArrayProvider = trackConnectionsArrayProvider;
+            _trackArrayProvider = trackArrayProvider;
             _trackConnectionService = trackConnectionService;
         }
         
@@ -35,8 +37,39 @@ namespace ChooChoo
             get
             {
                 if (_trackConnections == null || !Application.isPlaying)
-                    _trackConnections = _trackConnectionsArrayProvider.GetConnections(gameObject.name);
+                {
+                    var list = _trackArrayProvider.GetConnections(gameObject.name);
+                    foreach (var trackConnection in list)
+                    {
+                        // Plugin.Log.LogInfo("Before: " + trackConnection.Direction);
+                        // trackConnection.Direction = _blockObject.Transform(trackConnection.Direction);
+                        trackConnection.Direction = trackConnection.Direction;
+                        
+                        // Plugin.Log.LogInfo("After: " + trackConnection.Direction);
+                    }
+                    _trackConnections = list;
+
+                    // foreach (var track in _trackConnections)
+                    // {
+                    //     Plugin.Log.LogInfo(track.Direction.ToString());
+                    // }
+                }
                 return _trackConnections;
+            }
+        }
+        
+        public Vector3[] PathCorners
+        {
+            get
+            {
+                if (_pathCorners == null || !Application.isPlaying)
+                {
+                    var list = _trackArrayProvider.GetPathCorners(gameObject.name);
+                    var position = _blockObject.Coordinates;
+                    var coord = new Vector3(position.x, position.z, position.y);
+                    _pathCorners = list.Select(vector3 => vector3 + coord).ToArray();
+                }
+                return _pathCorners;
             }
         }
 
@@ -49,9 +82,16 @@ namespace ChooChoo
         public void OnEnterFinishedState()
         {
             LookForTrackSection();
-            foreach (var trackPiece in TrackSection.TrackPieces)
+            foreach (var trackConnection in _trackConnections)
             {
-                Plugin.Log.LogWarning(trackPiece.transform.position.ToString());
+                if (trackConnection.ConnectedTrackPiece != null)
+                {
+                    Plugin.Log.LogWarning(trackConnection.ConnectedTrackPiece.transform.position.ToString());
+                }
+                else
+                {
+                    Plugin.Log.LogWarning("");
+                }
             }
         }
 
@@ -60,27 +100,60 @@ namespace ChooChoo
             TrackSection.Remove(this);
         }
 
-        private void LookForTrackSection()
+        public TrackConnection CheckAndGetConnection(TrackConnection connection, TrackPiece previousTrackPiece)
         {
             foreach (var trackConnection in TrackConnections)
             {
                 var obj = _blockService.GetFloorObjectAt(_blockObject.Transform(trackConnection.Coordinates - trackConnection.Direction.ToOffset()));
-                if (obj != null && obj.TryGetComponent(out TrackPiece trackPiece))
+                if (obj == null || !obj.TryGetComponent(out TrackPiece trackPiece))
+                    continue;
+                
+                if (trackPiece == previousTrackPiece)
                 {
-                    if (CanConnect(trackPiece, trackConnection.Direction))
-                    {
-                        if (trackPiece.TrackSection != TrackSection)
-                        {
-                            trackPiece.TrackSection.Merge(TrackSection);
-                        } 
-                    }
+                    return trackConnection;
                 }
+            }
+
+            return null;
+        }
+
+        private void LookForTrackSection()
+        {
+            foreach (var trackConnection in TrackConnections)
+            {
+                // _trackConnectionService.CanConnectInDirection(trackConnection.Coordinates, trackConnection.Direction);
+                var obj = _blockService.GetFloorObjectAt(_blockObject.Transform(trackConnection.Coordinates - trackConnection.Direction.ToOffset()));
+                if (obj == null || !obj.TryGetComponent(out TrackPiece trackPiece)) 
+                    continue;
+                
+                // var connection = GetConnection(trackPiece, trackConnection.Direction);
+                var connection = trackPiece.CheckAndGetConnection(trackConnection, this);
+                if (connection != null)
+                    MakeConnection(trackConnection, trackPiece, connection);
             }
         }
 
-        private bool CanConnect(TrackPiece trackPiece, Direction2D direction)
+        private TrackConnection GetConnection(TrackPiece trackPiece, Direction2D direction)
         {
-            return trackPiece.TrackConnections.Any(connection => connection.Direction == Direction2DExtensions.ToOppositeDirection(direction));
+            foreach (var trackConnection in TrackConnections)
+            {
+                // var obj = _blockService.GetFloorObjectAt(_blockObject.Transform(trackConnection.Coordinates - trackConnection.Direction.ToOffset()));
+                // if (obj == null || !obj.TryGetComponent(out TrackPiece trackPiece)) 
+                //     continue;
+            }
+                
+            
+            return trackPiece.TrackConnections.FirstOrDefault(connection => connection.Direction == Direction2DExtensions.ToOppositeDirection(direction));
+        }
+
+        private void MakeConnection(TrackConnection thisTrackConnection, TrackPiece trackPiece, TrackConnection trackConnection)
+        {
+            thisTrackConnection.ConnectedTrackPiece = trackPiece;
+            trackConnection.ConnectedTrackPiece = this;
+            // if (trackPiece.TrackSection != TrackSection)
+            // {
+            //     trackPiece.TrackSection.Merge(TrackSection);
+            // } 
         }
         
         

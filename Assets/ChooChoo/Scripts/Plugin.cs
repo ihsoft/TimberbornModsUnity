@@ -26,6 +26,28 @@ namespace ChooChoo
         }
     }
     
+    [HarmonyPatch]
+    public class MigrationTriggerPatch
+    {
+        public static MethodInfo TargetMethod()
+        {
+            return AccessTools.Method(AccessTools.TypeByName("MigrationTrigger"), "RegisterDistributorToCheck", new []
+            {
+                typeof(Citizen)
+            });
+        }
+        
+        static bool Prefix(Citizen citizen)
+        {
+            if (citizen.GetComponent<Prefab>().PrefabName.Contains("Train"))
+            {
+                return false;
+            }
+
+            return true;
+        }
+    }
+    
     // [HarmonyPatch]
     // public class StockpileInventoryInitializerPatch
     // {

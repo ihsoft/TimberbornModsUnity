@@ -93,8 +93,13 @@ MonoBehaviour:
   assetBundles:
   - assetBundleName: Tobbert_ChooChoo
     assets:
+    - {fileID: 3207032685556258263, guid: 341f4c3fcbb1d144f88b2be0d0a5c27a, type: 3}
     - {fileID: 5338206533014369884, guid: fbfa8c7003731d8408dbb1e424b2c39f, type: 3}
+    - {fileID: 5338206533014369884, guid: 01c99983668c90b49b1172c02eebd9b0, type: 3}
+    - {fileID: 5338206533014369884, guid: fdede7fc8427f6140a73779134ee9359, type: 3}
     - {fileID: 5338206533014369884, guid: d14106bbd873f9f43b16bc520b567096, type: 3}
+    - {fileID: 5338206533014369884, guid: d6d27c584f96d4641812b060a4ea83da, type: 3}
+    - {fileID: 5338206533014369884, guid: 25a6b74703804d34681653690361c9e6, type: 3}
 --- !u!114 &7276679206402820566
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ namespace ChooChoo
     {
         private BlockService _blockService;
 
-        private TrackConnectionsArrayProvider _trackConnectionsArrayProvider;
+        private TrackArrayProvider _trackArrayProvider;
 
         private TrackConnectionService _trackConnectionService;
 
@@ -21,10 +21,10 @@ namespace ChooChoo
 
         [Inject]
         public void InjectDependencies(BlockService blockService,
-            TrackConnectionsArrayProvider trackConnectionsArrayProvider, TrackConnectionService trackConnectionService)
+            TrackArrayProvider trackArrayProvider, TrackConnectionService trackConnectionService)
         {
             _blockService = blockService;
-            _trackConnectionsArrayProvider = trackConnectionsArrayProvider;
+            _trackArrayProvider = trackArrayProvider;
             _trackConnectionService = trackConnectionService;
         }
 
@@ -33,7 +33,7 @@ namespace ChooChoo
             get
             {
                 if (_trackConnections == null || !Application.isPlaying)
-                    _trackConnections = _trackConnectionsArrayProvider.GetConnections(gameObject.name);
+                    _trackConnections = _trackArrayProvider.GetConnections(gameObject.name);
                 return _trackConnections;
             }
         }
@@ -61,7 +61,7 @@ namespace ChooChoo
                 var obj = _blockService.GetFloorObjectAt(_blockObject.Transform(trackConnection.Coordinates - trackConnection.Direction.ToOffset()));
                 if (obj != null && obj.TryGetComponent(out TrackPiece trackPiece))
                 {
-                    trackConnection.TrackSection = trackPiece.TrackSection;
+                    // trackConnection.TrackSection = trackPiece.TrackSection;
                 }
             }
         }
