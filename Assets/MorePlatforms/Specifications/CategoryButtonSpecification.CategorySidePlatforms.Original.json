@@ -1,0 +1,17 @@
+{
+  "Name": "CategorySidePlatforms",
+  "ToolGroup": "Paths",
+  "ToolOrder": 698,
+  "ButtonIcon": "CategorySidePlatformsIcon.png",
+  "Buildings": [
+    "HorizontalPlatformEnd1x1.Folktails",
+    "HorizontalPlatformEnd1x1.IronTeeth",
+    "HorizontalPlatformEnd2x1.Folktails",
+    "HorizontalPlatformEnd2x1.IronTeeth",
+    "HorizontalPlatformEnd3x1.Folktails",
+    "HorizontalPlatformEnd3x1.IronTeeth",
+    "HorizontalPlatformEnd4x1.Folktails",
+    "HorizontalPlatformEnd4x1.IronTeeth"
+  ],
+  "DisplayNameLocKey": "Tobbert.CategorySidePlatforms.DisplayName"
+}

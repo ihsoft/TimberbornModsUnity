@@ -1,0 +1,15 @@
+{
+  "Name": "CategoryReinforcedPlatforms",
+  "ToolGroup": "Paths",
+  "ToolOrder": 699,
+  "ButtonIcon": "CategoryReinforcedPlatformsIcon.png",
+  "Buildings": [
+    "ReinforcedPlatform.Folktails",
+    "ReinforcedPlatform.IronTeeth",
+    "DoubleReinforcedPlatform.Folktails",
+    "DoubleReinforcedPlatform.IronTeeth",
+    "TripleReinforcedPlatform.Folktails",
+    "TripleReinforcedPlatform.IronTeeth"
+  ],
+  "DisplayNameLocKey": "Tobbert.CategoryReinforcedPlatforms.DisplayName"
+}

@@ -40,9 +40,13 @@ In case you experience problems, message me in the modding channel of the the [T
 
 ## Changelog
 
+### 1.2.3 - 28.11.2022
+
+- Updated to work with new CategoryButton (v1.3.0).
+
 ### 1.2.2 - 23.9.2022
 
-- Updated to work with TimberAPI (v0.5.0).
+- Updated to work with new TimberAPI (v0.5.0).
 - Added Japanese translation that was provided by Sukunabikona.
 - Added Russian translation that was provided by GinFuyou.
 - Added German translation that was provided by juf0816.

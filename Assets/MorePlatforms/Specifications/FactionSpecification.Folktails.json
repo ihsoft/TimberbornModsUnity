@@ -8,8 +8,6 @@
     "tobbert.moreplatforms/tobbert_moreplatforms/HorizontalPlatformMiddle1x2.Folktails",
     "tobbert.moreplatforms/tobbert_moreplatforms/ReinforcedPlatform.Folktails",
     "tobbert.moreplatforms/tobbert_moreplatforms/DoubleReinforcedPlatform.Folktails",
-    "tobbert.moreplatforms/tobbert_moreplatforms/TripleReinforcedPlatform.Folktails",
-    "tobbert.moreplatforms/tobbert_moreplatforms/CategorySidePlatforms",
-    "tobbert.moreplatforms/tobbert_moreplatforms/CategoryReinforcedPlatforms"
+    "tobbert.moreplatforms/tobbert_moreplatforms/TripleReinforcedPlatform.Folktails"
   ]
 }
