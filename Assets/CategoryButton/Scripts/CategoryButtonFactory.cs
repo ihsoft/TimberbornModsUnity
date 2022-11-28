@@ -24,7 +24,9 @@ namespace CategoryButton
             
             categoryButtonService.ChangePrivateField(gameObject.GetComponent<Prefab>(), "_prefabName", categoryButtonSpecification.Name);
                 
-            gameObject.GetComponent<CategoryButtonComponent>().ToolBarButtonNames = categoryButtonSpecification.Buildings.ToList();
+            var categoryButtonComponent = gameObject.GetComponent<CategoryButtonComponent>();
+            categoryButtonComponent.ToolBarButtonNames = categoryButtonSpecification.Buildings.ToList();
+            categoryButtonService.CategoryButtonComponents.Add(categoryButtonComponent);
 
             var placeableBlockObject = gameObject.GetComponent<PlaceableBlockObject>();
             categoryButtonService.ChangePrivateField(placeableBlockObject, "_toolGroupId", categoryButtonSpecification.ToolGroup);

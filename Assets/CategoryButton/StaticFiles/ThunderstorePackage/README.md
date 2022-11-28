@@ -47,6 +47,10 @@ In case you experience problems, message me in the modding channel of the the [T
 
 ## Changelog
 
+### 1.3.0 - 26.11.2022
+
+- Added a feature that any button can be added anywhere, regardless of order. 
+
 ### 1.2.2 - 18.11.2022
 
 - Reverted a change that was incompatible with the old system before 1.2.0

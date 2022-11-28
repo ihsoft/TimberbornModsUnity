@@ -33,6 +33,7 @@ namespace CategoryButton
         private readonly ISpecificationService _specificationService;
 
         public readonly List<CategoryButtonTool> CategoryButtonTools = new();
+        public readonly List<CategoryButtonComponent> CategoryButtonComponents = new();
         private ImmutableArray<CategoryButtonSpecification> _categoryButtonsSpecifications;
         private GameObject _originalCategoryButtonPrefab;
         private List<GameObject> _categoryButtonPrefabs;
@@ -110,12 +111,12 @@ namespace CategoryButton
         public void AddButtonToCategoryTool(ToolButton toolButton, PlaceableBlockObject placeableBlockObject)
         {
             if (!placeableBlockObject.TryGetComponent(out Prefab fPrefab)) return;
-            foreach (var categoryToolButton in CategoryButtonTools)
+            foreach (var categoryButtonComponent in CategoryButtonComponents)
             {
-                if (!categoryToolButton.ToolBarCategoryComponent.ToolBarButtonNames.Contains(fPrefab.PrefabName))
+                if (!categoryButtonComponent.ToolBarButtonNames.Contains(fPrefab.PrefabName))
                     continue;
-                categoryToolButton.ToolButtons.Add(toolButton);
-                categoryToolButton.SetToolList();
+                categoryButtonComponent.ToolButtons.Add(toolButton);
+                categoryButtonComponent.SetToolList();
             }
         }
 
@@ -123,7 +124,7 @@ namespace CategoryButton
         {
             foreach (var categoryTool in CategoryButtonTools)
             {
-                foreach (var toolButton in categoryTool.ToolButtons)
+                foreach (var toolButton in categoryTool.ToolBarCategoryComponent.ToolButtons)
                 {
                     categoryTool.ToolButtonsVisualElement.Add(toolButton.Root);
                 }
@@ -134,7 +135,7 @@ namespace CategoryButton
         {
             foreach (var categoryTool in CategoryButtonTools)
             {
-                bool buttonPartOfCategory = categoryTool.ToolButtons.Select(button => button.Tool).Contains(newTool);
+                bool buttonPartOfCategory = categoryTool.ToolBarCategoryComponent.ToolButtons.Select(button => button.Tool).Contains(newTool);
 
                 if (buttonPartOfCategory)
                 {
@@ -153,7 +154,7 @@ namespace CategoryButton
             }
         }
 
-        public void ChangeDescriptionPanel(int height)
+        public void SetDescriptionPanelHeight(int height)
         {
             VisualElement descriptionPanelRoot = (VisualElement)GetPrivateField(_descriptionPanel, "_root");
             descriptionPanelRoot.style.bottom = height;
@@ -163,7 +164,7 @@ namespace CategoryButton
         public void UpdateScreenSize(CategoryButtonTool categoryButtonTool)
         {
             float x = categoryButtonTool.ToolButtonsVisualElement.parent.Query<VisualElement>("ToolButtons").First().resolvedStyle.width / 2 - 2;
-            x +=  categoryButtonTool.ToolButtons.Count(button => button.Root.style.display == DisplayStyle.Flex) * 54 / 2 * -1;
+            x +=  categoryButtonTool.ToolBarCategoryComponent.ToolButtons.Count(button => button.Root.style.display == DisplayStyle.Flex) * 54 / 2 * -1;
             float y = 58f;
             categoryButtonTool.ToolButtonsVisualElement.style.left = x; 
             categoryButtonTool.ToolButtonsVisualElement.style.bottom = y;

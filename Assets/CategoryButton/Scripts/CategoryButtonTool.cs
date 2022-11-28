@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using System.Linq;
-using TimberApi.DependencyContainerSystem;
 using Timberborn.BlockObjectTools;
 using Timberborn.BlockSystem;
 using Timberborn.CoreUI;
@@ -22,8 +20,6 @@ namespace CategoryButton
     public VisualElement ToolButtonsVisualElement;
     public CategoryButtonComponent ToolBarCategoryComponent;
 
-    public readonly List<ToolButton> ToolButtons = new ();
-    private List<Tool> _toolList = new();
     public Tool ActiveTool = null;
     private bool _active;
     private MouseController _mouseController;
@@ -51,8 +47,8 @@ namespace CategoryButton
     {
       _inputService.AddInputProcessor(this);
       _active = true;
-      DependencyContainer.GetInstance<CategoryButtonService>().ChangeDescriptionPanel(60);
-      DependencyContainer.GetInstance<CategoryButtonService>().UpdateScreenSize(this);
+      _categoryButtonService.SetDescriptionPanelHeight(60);
+      _categoryButtonService.UpdateScreenSize(this);
       ToolButtonsVisualElement.ToggleDisplayStyle(true);
       
       if (ActiveTool != null)
@@ -63,7 +59,7 @@ namespace CategoryButton
     {
       _inputService.RemoveInputProcessor(this);
       
-      if (_active) DependencyContainer.GetInstance<CategoryButtonService>().ChangeDescriptionPanel(0);
+      if (_active) _categoryButtonService.SetDescriptionPanelHeight(0);
       _active = false;
 
       ToolButtonsVisualElement.ToggleDisplayStyle(false);
@@ -73,28 +69,28 @@ namespace CategoryButton
     {
       if (!_inputService.IsShiftHeld) return false;
       
-      int index = _toolList.IndexOf(ActiveTool);
+      int index = ToolBarCategoryComponent.ToolList.IndexOf(ActiveTool);
 
       if (_mouseController.ScrollWheelAxis > 0)
       {
-        while (index + 1 < _toolList.Count() && _toolList[index + 1].Locked)
+        while (index + 1 < ToolBarCategoryComponent.ToolList.Count && ToolBarCategoryComponent.ToolList[index + 1].Locked)
         {
           index += 1;
         }
-        if (index + 1 < _toolList.Count() && !_toolList[index + 1].Locked)
+        if (index + 1 < ToolBarCategoryComponent.ToolList.Count() && !ToolBarCategoryComponent.ToolList[index + 1].Locked)
         {
-          _toolManager.SwitchTool(_toolList[index + 1]);
+          _toolManager.SwitchTool(ToolBarCategoryComponent.ToolList[index + 1]);
         }
       }
       else if (_mouseController.ScrollWheelAxis < 0)
       {
-        while (index - 1 >= 0 && _toolList[index - 1].Locked)
+        while (index - 1 >= 0 && ToolBarCategoryComponent.ToolList[index - 1].Locked)
         {
           index -= 1;
         }
-        if (index - 1 >= 0 && !_toolList[index - 1].Locked)
+        if (index - 1 >= 0 && !ToolBarCategoryComponent.ToolList[index - 1].Locked)
         {
-          _toolManager.SwitchTool(_toolList[index - 1]);
+          _toolManager.SwitchTool(ToolBarCategoryComponent.ToolList[index - 1]);
         }
       }
 
@@ -106,11 +102,6 @@ namespace CategoryButton
       var builder = _blockObjectToolDescriber.DescribePrefab(_prefab);
       
       return builder.Build();
-    }
-
-    public void SetToolList()
-    {
-      _toolList = ToolButtons.Select(button => button.Tool).ToList();
     }
   }
 }

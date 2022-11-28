@@ -1,0 +1,11 @@
+{
+  "Name": "Test",
+  "ToolGroup": "Storage",
+  "ToolOrder": 3000,
+  "ButtonIcon": "Bridges.png",
+  "Buildings": [
+    "Path.Folktails",
+    "Path.IronTeeth"
+  ],
+  "DisplayNameLocKey": "Tobbert.CategoryBridges.DisplayName"
+}
