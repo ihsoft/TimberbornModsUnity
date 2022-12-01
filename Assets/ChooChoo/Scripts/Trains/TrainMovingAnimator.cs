@@ -21,6 +21,7 @@ namespace ChooChoo
         void Awake()
         {
             _characterAnimator = GetComponent<CharacterAnimator>();
+            _characterAnimator.SetFloat("MovementSpeed", 1);
             // _flyingRootBehavior = GetComponent<FlyingRootBehavior>();
         }
 

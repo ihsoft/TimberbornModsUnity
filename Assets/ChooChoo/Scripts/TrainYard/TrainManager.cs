@@ -64,7 +64,7 @@ namespace ChooChoo
         {
             if (_train == null)
             {
-                InitializeAirBalloon();
+                InitializeTrain();
             }
         }
 
@@ -73,18 +73,18 @@ namespace ChooChoo
             _entityService.Delete(_train);
         }
 
-        private void InitializeAirBalloon()
+        private void InitializeTrain()
         {
-            // var airBalloonPrefab = _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/Train." + _factionService.Current.Id);
-            var airBalloonPrefab = _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/Train.Folktails");
+            // var train = _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/Train." + _factionService.Current.Id);
+            var train = _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/SmallLogTrain.Folktails");
 
-            _train = _entityService.Instantiate(airBalloonPrefab.gameObject);
+            _train = _entityService.Instantiate(train.gameObject);
 
             Destroy(_train.GetComponent(AccessTools.TypeByName("StrandedStatus")));
 
-            SetAirBalloonPosition();
+            SetInitialTrainPosition();
 
-            SetAirBalloonName();
+            SetTrainName();
 
             var trainYardSubject = _train.GetComponent<TrainYardSubject>();
             var trainYard = gameObject;
@@ -92,7 +92,7 @@ namespace ChooChoo
             trainYardSubject.LinkedGlobalMarketPosition = trainYard.transform.position + GetSpawnOffset();
         }
 
-        private void SetAirBalloonPosition()
+        private void SetInitialTrainPosition()
         {
             var position = _train.transform.position;
             position += GetSpawnOffset();
@@ -117,7 +117,7 @@ namespace ChooChoo
             // }
         }
 
-        private void SetAirBalloonName()
+        private void SetTrainName()
         {
             Character component = _train.GetComponent<Character>();
             component.FirstName = _loc.T(TrainNameLocKey);

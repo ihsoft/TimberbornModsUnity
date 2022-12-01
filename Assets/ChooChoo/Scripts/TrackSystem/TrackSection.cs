@@ -13,12 +13,6 @@ public class TrackSection : ITrackSection
     public override void Add(TrackPiece trackPiece)
     {
         TrackPieces.Add(trackPiece);
-        trackPiece.TrackSection = this;
-    }
-
-    public override void Remove(TrackPiece trackPiece)
-    {
-        TrackPieces.Remove(trackPiece);
     }
 
     public override void Merge(TrackSection trackSection)
@@ -28,5 +22,13 @@ public class TrackSection : ITrackSection
             trackPiece.TrackSection = this;
         }
         TrackPieces.AddRange(trackSection.TrackPieces);
+    }
+    
+    public override void Dissolve()
+    {
+        foreach (var track in TrackPieces)
+            track.ResetSection();
+        foreach (var track in TrackPieces)
+            track.LookForTrackSection();
     }
 }

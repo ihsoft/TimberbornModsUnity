@@ -17,8 +17,6 @@ namespace ChooChoo
 
         private int MaxDistance = 30;
 
-        private int PathLength => _randomNumberGenerator.Range(0, 5);
-        
         TrainNavigationService(RandomTrainDestinationPicker randomTrainDestinationPicker, IRandomNumberGenerator randomNumberGenerator, BlockService blockService)
         {
             _randomTrainDestinationPicker = randomTrainDestinationPicker;
@@ -26,78 +24,60 @@ namespace ChooChoo
             _blockService = blockService;
         }
         
-        public bool FindRailTrackPath(Vector3 start, Vector3 destination, List<Vector3> _tempPathCorners)
+        public bool FindRailTrackPath(Vector3 start, Vector3 destination, List<TrackConnection> _tempPathTrackConnections)
         {
-            var distance = 0;
             var startTrackPiece = _blockService.GetFloorObjectComponentAt<TrackPiece>(Vector3Int.FloorToInt(new Vector3(start.x, start.z, start.y)));
             var endCoordinate = Vector3Int.FloorToInt(new Vector3(destination.x, destination.z, destination.y));
             var endTrackPiece = _blockService.GetFloorObjectComponentAt<TrackPiece>(endCoordinate);
             // Plugin.Log.LogError((startTrackPiece != null) + "   " + (endTrackPiece != null));
-            if (startTrackPiece != null && endTrackPiece != null && startTrackPiece != endTrackPiece)
-            {
-                var tracks = new List<TrackPiece>();
-                foreach (var trackConnection in startTrackPiece.TrackConnections)
-                {
-                    if (FindNextRailTrack(startTrackPiece, trackConnection, endTrackPiece, distance, tracks))
-                    {
-                        foreach (var trackPiece in tracks)
-                        {
-                            Plugin.Log.LogWarning(trackPiece.transform.position.ToString());
-                        }
-
-                        foreach (var trackPiece in tracks)
-                            _tempPathCorners.AddRange(trackPiece.PathCorners);
-                        
-
-                        _tempPathCorners.AddRange(endTrackPiece.PathCorners);
-                    
-                        
-
-                        return true;
-                    }
-                }
-            }
-
+            if (startTrackPiece == null || endTrackPiece == null || startTrackPiece == endTrackPiece) 
+                return false;
             
+            var checkedTracks = new List<TrackPiece>();
+            var trackConnections = new List<TrackConnection>();
+            if (!FindNextRailTrack(startTrackPiece, endTrackPiece, checkedTracks, trackConnections)) 
+                return false;
+            // foreach (var trackPiece in tracks)
+            // {
+            //     Plugin.Log.LogWarning(trackPiece.transform.position.ToString());
+            // }
+            trackConnections.Reverse();
+            _tempPathTrackConnections.AddRange(trackConnections);
+            _tempPathTrackConnections.Add(endTrackPiece.TrackConnections[0]);
             // _tempPathCorners.Add(start);
             // _tempPathCorners.Add(destination);
-            return false;
+            return true;
+
         }
 
-        private bool FindNextRailTrack(TrackPiece previousTrackPiece, TrackConnection previousTrackConnection, TrackPiece destinationTrackPiece, int distance, List<TrackPiece> tracks)
+        private bool FindNextRailTrack(TrackPiece previousTrackPiece, TrackPiece destinationTrackPiece, List<TrackPiece> checkedTracks, List<TrackConnection> trackConnections)
         {
-            distance += 1;
-            tracks.Add(previousTrackPiece);
+            checkedTracks.Add(previousTrackPiece);
             foreach (var trackConnection in previousTrackPiece.TrackConnections)
             {
-                Plugin.Log.LogError(distance + "    " + trackConnection.Direction + "   " + trackConnection.ConnectedTrackPiece + "   " + previousTrackPiece.PathCorners[0]);
+
+                // Plugin.Log.LogError(trackConnection.Direction + "   " + trackConnection.ConnectedTrackPiece + "   " + previousTrackPiece.PathCorners[0]);
                 
-                // if (distance >= MaxDistance)
-                //     return false;
-
-                // if (trackConnection.Direction == Direction2DExtensions.ToOppositeDirection(previousTrackConnection.Direction))
-                //  continue;
-
-                if (tracks.Contains(trackConnection.ConnectedTrackPiece))
+                if (trackConnection.ConnectedTrackPiece == null)
+                    continue;
+                
+                if (checkedTracks.Contains(trackConnection.ConnectedTrackPiece))
                     continue;
 
                 if (trackConnection.ConnectedTrackPiece == destinationTrackPiece)
                 {
-                    // _tempPathCorners.AddRange(previousTrackPiece.PathCorners);
+                    trackConnections.Add(trackConnection);
                     return true;
                 }
-                
-                if (trackConnection.ConnectedTrackPiece == null)
-                    continue;
 
-                if (FindNextRailTrack(trackConnection.ConnectedTrackPiece, trackConnection, destinationTrackPiece, distance, tracks))
+                if (FindNextRailTrack(trackConnection.ConnectedTrackPiece, destinationTrackPiece, checkedTracks, trackConnections))
                 {
-                    // _tempPathCorners.AddRange(previousTrackPiece.PathCorners);
+                    trackConnections.Add(trackConnection);
                     return true;
                 }
             }
 
-            tracks.Remove(previousTrackPiece);
+            checkedTracks.Remove(previousTrackPiece);
             return false;
         }
     }

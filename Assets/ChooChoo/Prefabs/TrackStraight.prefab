@@ -135,7 +135,7 @@ MonoBehaviour:
   _buildingCost: []
   _scienceCost: 0
   _placeFinished: 1
-  _finishableWithBeaversOnSite: 0
+  _finishableWithBeaversOnSite: 1
   _path: 0
   _drawRangeBoundsOnIt: 0
 --- !u!114 &7560474341834773086
@@ -195,7 +195,7 @@ MonoBehaviour:
   _blocksSpecification:
     _size: {x: 1, y: 1, z: 1}
     _blockSpecifications:
-    - _matterBelow: 0
+    - _matterBelow: 1
       _occupation: 0
       _stackable: 0
       _optionallyUnderground: 0

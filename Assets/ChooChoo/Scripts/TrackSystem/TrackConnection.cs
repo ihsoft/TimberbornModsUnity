@@ -5,10 +5,11 @@ namespace ChooChoo
 {
     public class TrackConnection
     {
-        public TrackConnection(Vector3Int coordinate, Direction2D direction)
+        public TrackConnection(Vector3Int coordinate, Direction2D direction, Vector3[] pathCorners)
         {
             Coordinates = coordinate;
             Direction = direction;
+            PathCorners = pathCorners;
             ConnectedTrackPiece = null;
         }
 
@@ -17,6 +18,8 @@ namespace ChooChoo
         public Direction2D Direction { get; set; }
         
         public TrackPiece ConnectedTrackPiece { get; set; }
+        
+        public Vector3[] PathCorners { get; set; }
 
         // [OnEvent]
         // public void OnTrackDeleted(OnTrackDeletedEvent onTrackDeletedEvent)

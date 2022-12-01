@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Timberborn.BehaviorSystem;
-using Timberborn.CharacterMovementSystem;
 using Timberborn.Common;
 using Timberborn.Navigation;
 using Timberborn.Persistence;
@@ -19,14 +18,13 @@ namespace ChooChoo
     private static readonly ComponentKey PilotKey = new(nameof (Machinist));
     private static readonly PropertyKey<ITrainDestination> CurrentDestinationKey = new("CurrentDestination");
     private static readonly float SecondsPerDistanceUnit = 1f;
-    private TrainNavigationService _trainNavigationService;
     private IDayNightCycle _dayNightCycle;
-    private PathFollowerFactory _pathFollowerFactory;
+    private TrackFollowerFactory _trackFollowerFactory;
     private TrainDestinationObjectSerializer _trainDestinationObjectSerializer;
     private WalkerSpeedManager _walkerSpeedManager;
-    private PathFollower _pathFollower;
-    private readonly List<Vector3> _pathCorners = new(100);
-    private readonly List<Vector3> _tempPathCorners = new(100);
+    private TrackFollower _trackFollower;
+    private readonly List<TrackConnection> _pathTracks = new(100);
+    private readonly List<TrackConnection> _tempPathCorners = new(100);
     private ITrainDestination _currentTrainDestination;
     private ITrainDestination _previousTrainDestination;
 
@@ -34,36 +32,34 @@ namespace ChooChoo
 
     public bool CurrentDestinationReachable { get; private set; }
 
-    public IReadOnlyList<Vector3> PathCorners { get; private set; }
+    public IReadOnlyList<TrackConnection> PathCorners { get; private set; }
 
     public BoundingBox CurrentPathBounds { get; private set; }
 
     [Inject]
     public void InjectDependencies(
-      TrainNavigationService trainNavigationService,
       IDayNightCycle dayNightCycle,
-      PathFollowerFactory pathFollowerFactory,
+      TrackFollowerFactory trackFollowerFactory,
       TrainDestinationObjectSerializer trainDestinationObjectSerializer
       )
     {
-      _trainNavigationService = trainNavigationService;
       _dayNightCycle = dayNightCycle;
-      _pathFollowerFactory = pathFollowerFactory;
+      _trackFollowerFactory = trackFollowerFactory;
       _trainDestinationObjectSerializer = trainDestinationObjectSerializer;
     }
 
     public void Awake()
     {
       _walkerSpeedManager = GetComponent<WalkerSpeedManager>();
-      _pathFollower = _pathFollowerFactory.Create(gameObject);
-      PathCorners = _pathCorners.AsReadOnly();
+      _trackFollower = _trackFollowerFactory.Create(gameObject);
+      PathCorners = _pathTracks.AsReadOnly();
     }
 
     public override void Tick()
     {
       if (Stopped())
         return;
-      if (_pathFollower.ReachedLastPathCorner())
+      if (_trackFollower.ReachedLastPathCorner())
         Stop();
       else
         Move();
@@ -82,11 +78,19 @@ namespace ChooChoo
     {
       _previousTrainDestination = _currentTrainDestination;
       _currentTrainDestination = null;
-      _pathFollower.StopMoving();
+      _trackFollower.StopMoving();
     }
     
     public bool Stopped() => _currentTrainDestination == null;
 
+    public void RefreshPath()
+    {
+      _previousTrainDestination = null;
+      if (_currentTrainDestination == null)
+        return;
+      FindPath(_currentTrainDestination);
+    }
+    
     public void Save(IEntitySaver entitySaver)
     {
       IObjectSaver component = entitySaver.GetComponent(PilotKey);
@@ -109,18 +113,18 @@ namespace ChooChoo
       if (!HasSavedPathToDestination(trainDestination))
       {
         Vector3 start = transform.position;
-        _pathCorners.Clear();
+        _pathTracks.Clear();
         CurrentDestinationReachable = trainDestination.GeneratePath(start, _tempPathCorners);
         if (CurrentDestinationReachable)
         {
-          if (!_pathCorners.IsEmpty())
-            _pathCorners.RemoveLast();
-          _pathCorners.AddRange(_tempPathCorners);
+          if (!_pathTracks.IsEmpty())
+            _pathTracks.RemoveLast();
+          _pathTracks.AddRange(_tempPathCorners);
           _tempPathCorners.Clear();
         }
         else
-          _pathCorners.Clear();
-        _pathFollower.StartMovingAlongPath(_pathCorners);
+          _pathTracks.Clear();
+        _trackFollower.StartMovingAlongPath(_pathTracks);
         EventHandler<StartedNewPathEventArgs> startedNewPath = StartedNewPath;
         if (startedNewPath != null)
           startedNewPath(this, new StartedNewPathEventArgs(100));
@@ -129,7 +133,7 @@ namespace ChooChoo
       {
         _currentTrainDestination = trainDestination;
         RecalculatePathBounds();
-        return !_pathFollower.ReachedLastPathCorner() ? ExecutorStatus.Running : ExecutorStatus.Success;
+        return !_trackFollower.ReachedLastPathCorner() ? ExecutorStatus.Running : ExecutorStatus.Success;
       }
       Stop();
       return ExecutorStatus.Failure;
@@ -138,8 +142,8 @@ namespace ChooChoo
     private void RecalculatePathBounds()
     {
       BoundingBox.Builder builder = new BoundingBox.Builder();
-      for (int index = 0; index < _pathCorners.Count; ++index)
-        builder.Expand(NavigationCoordinateSystem.WorldToGridInt(_pathCorners[index]));
+      for (int index = 0; index < _pathTracks.Count; ++index)
+        builder.Expand(NavigationCoordinateSystem.WorldToGridInt(_pathTracks[index].PathCorners[0]));
       CurrentPathBounds = builder.Build();
     }
     
@@ -148,7 +152,7 @@ namespace ChooChoo
     private void Move()
     {
       var speed = _walkerSpeedManager.Speed * CalculateSpeedReductionAtStartAndEnd();
-      _pathFollower.MoveAlongPath(Time.fixedDeltaTime, "Walking", speed);
+      _trackFollower.MoveAlongPath(Time.fixedDeltaTime, "Walking", speed);
     }
     
     private float CalculateSpeedReductionAtStartAndEnd()
@@ -161,23 +165,19 @@ namespace ChooChoo
     
     private float SlowdownStart()
     {
-      var distanceFromStart = Vector3.Distance(_pathCorners[0], transform.position);
+      var distanceFromStart = Vector3.Distance(_pathTracks[0].PathCorners[0], transform.position);
       if (distanceFromStart > 3)
-      {
         return 1;
-      }
-    
+
       return distanceFromStart / 3 + 0.2f;
     }
     
     private float SlowdownEnd()
     {
-      var distanceToEnd = Vector3.Distance(transform.position, _pathCorners.Last());
+      var distanceToEnd = Vector3.Distance(transform.position, _pathTracks.Last().PathCorners[0]);
       if (distanceToEnd > 3)
-      {
         return 1;
-      }
-    
+
       return distanceToEnd / 3 + 0.2f;
     }
   }

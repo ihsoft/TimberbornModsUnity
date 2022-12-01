@@ -5,6 +5,6 @@ namespace ChooChoo
 {
   public interface ITrainDestination
   {
-    bool GeneratePath(Vector3 start, List<Vector3> pathCorners);
+    bool GeneratePath(Vector3 start, List<TrackConnection> pathCorners);
   }
 }

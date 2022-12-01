@@ -12,6 +12,7 @@ namespace ChooChoo
     {
       containerDefinition.MultiBind<IObjectCollection>().To<TrainObjectCollector>().AsSingleton();
       containerDefinition.Bind<MachinistCharacterFactory>().AsSingleton();
+      containerDefinition.Bind<TrackFollowerFactory>().AsSingleton();
     }
   }
 }

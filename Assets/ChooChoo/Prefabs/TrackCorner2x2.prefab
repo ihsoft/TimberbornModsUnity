@@ -135,7 +135,7 @@ MonoBehaviour:
   _buildingCost: []
   _scienceCost: 0
   _placeFinished: 1
-  _finishableWithBeaversOnSite: 0
+  _finishableWithBeaversOnSite: 1
   _path: 0
   _drawRangeBoundsOnIt: 0
 --- !u!114 &7560474341834773086
@@ -193,9 +193,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _blocksSpecification:
-    _size: {x: 1, y: 1, z: 1}
+    _size: {x: 2, y: 2, z: 1}
     _blockSpecifications:
-    - _matterBelow: 0
+    - _matterBelow: 1
+      _occupation: 0
+      _stackable: 0
+      _optionallyUnderground: 0
+      _occupyAllBelow: 0
+    - _matterBelow: 1
+      _occupation: 0
+      _stackable: 0
+      _optionallyUnderground: 0
+      _occupyAllBelow: 0
+    - _matterBelow: 1
+      _occupation: 0
+      _stackable: 0
+      _optionallyUnderground: 0
+      _occupyAllBelow: 0
+    - _matterBelow: 1
       _occupation: 0
       _stackable: 0
       _optionallyUnderground: 0
@@ -248,9 +263,9 @@ MonoBehaviour:
   m_Script: {fileID: -296257353, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _displayNameLocKey: 
-  _descriptionLocKey: 
-  _flavorDescriptionLocKey: 
+  _displayNameLocKey: Tobbert.TrackCorner2x2.DisplayName
+  _descriptionLocKey: Tobbert.TrackCorner2x2.Description
+  _flavorDescriptionLocKey: Tobbert.TrackCorner2x2.FlavorDescription
   _image: {fileID: 21300000, guid: 70cd61b413b5b2e418669db14ca9c260, type: 3}
 --- !u!1001 &678080216475503666
 PrefabInstance:
