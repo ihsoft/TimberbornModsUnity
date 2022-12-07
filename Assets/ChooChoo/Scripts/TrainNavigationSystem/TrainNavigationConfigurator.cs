@@ -5,7 +5,7 @@ using TimberApi.SceneSystem;
 namespace ChooChoo
 {
     [Configurator(SceneEntrypoint.InGame)]
-    public class AirNavigationConfigurator : IConfigurator
+    public class TrainNavigationConfigurator : IConfigurator
     {
         public void Configure(IContainerDefinition containerDefinition)
         {

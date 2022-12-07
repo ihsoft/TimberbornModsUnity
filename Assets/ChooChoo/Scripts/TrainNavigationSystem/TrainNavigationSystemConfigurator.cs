@@ -10,6 +10,9 @@ namespace ChooChoo
         public void Configure(IContainerDefinition containerDefinition)
         {
             containerDefinition.Bind<TrainDestinationsRepository>().AsSingleton();
+            containerDefinition.Bind<TrainDestinationConnectedRepository>().AsSingleton();
+            containerDefinition.Bind<TrainDestinationService>().AsSingleton();
+            containerDefinition.Bind<WagonsObjectSerializer>().AsSingleton();
         }
     }
 }

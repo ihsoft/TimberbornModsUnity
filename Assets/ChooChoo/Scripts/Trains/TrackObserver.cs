@@ -27,6 +27,11 @@ namespace ChooChoo
             _machinist = GetComponent<Machinist>();
         }
 
+        public override void StartTickable() 
+        {
+            _machinist.RefreshPath();
+        }
+        
         public override void Tick()
         {
             if (!_tracksUpdated) 

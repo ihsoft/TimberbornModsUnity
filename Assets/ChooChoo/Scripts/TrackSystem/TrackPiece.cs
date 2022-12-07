@@ -24,10 +24,10 @@ namespace ChooChoo
         private BlockObjectCenter _blockObjectCenter;
 
         private TrackConnection[] _trackConnections;
-        
-        // private Vector3[] _pathCorners;
 
         public TrackSection TrackSection;
+
+        public Vector3 CenterCoordinates { get; private set; }
 
         [Inject]
         public void InjectDependencies(BlockService blockService, EventBus eventBus, TrackArrayProvider trackArrayProvider, TrackConnectionService trackConnectionService)
@@ -74,11 +74,6 @@ namespace ChooChoo
                                 default:
                                     throw new ArgumentException($"Unexpected Orientation: {_blockObject.Orientation}");
                             }
-                            // if (_blockObject.Orientation != Orientation.Cw0)
-                            //     coord1 -= new Vector3(-1, 0, -1);
-                            // var coord2 = new Vector3(vector3.x, vector3.z, vector3.y);
-                            // var vector = _blockObject.Orientation.TransformInWorldSpace(vector3);
-                            // return vector3 + position;
                         }).ToArray();
                     }
                     _trackConnections = list;
@@ -91,55 +86,6 @@ namespace ChooChoo
                 return _trackConnections;
             }
         }
-        
-        // public Vector3[] PathCorners
-        // {
-        //     get
-        //     {
-        //         if (_pathCorners == null || !Application.isPlaying)
-        //         {
-        //             var list = _trackArrayProvider.GetPathCorners(gameObject.name);
-        //             var position = _blockObjectCenter.WorldCenterGrounded;
-        //             
-        //             Plugin.Log.LogWarning("position " + position);
-        //             // var coord1 = new Vector3(position.x, position.z, position.y);
-        //             // _pathCorners = list.Select(vector3 => vector3 + coord).ToArray();
-        //             _pathCorners = list.Select(vector3 =>
-        //             {
-        //                 switch (_blockObject.Orientation)
-        //                 {
-        //                     case Orientation.Cw0:
-        //                         return vector3 + position;
-        //                     case Orientation.Cw90:
-        //                         return new Vector3(vector3.z, vector3.y, -vector3.x) + position;
-        //                     case Orientation.Cw180:
-        //                         return new Vector3(-vector3.x, vector3.y, -vector3.z) + position;
-        //                     case Orientation.Cw270:
-        //                         return new Vector3(-vector3.z, vector3.y, vector3.x) + position;
-        //                    default:
-        //                        throw new ArgumentException($"Unexpected Orientation: {_blockObject.Orientation}");
-        //                 }
-        //                 // if (_blockObject.Orientation != Orientation.Cw0)
-        //                 //     coord1 -= new Vector3(-1, 0, -1);
-        //                 // var coord2 = new Vector3(vector3.x, vector3.z, vector3.y);
-        //                 // var vector = _blockObject.Orientation.TransformInWorldSpace(vector3);
-        //                 // return vector3 + position;
-        //             }).ToArray();
-        //             // 0
-        //             // new(0, 0, -1),
-        //             //
-        //             // 90
-        //             // new(0.5f, 0, -1.5f),
-        //             //
-        //             // 180
-        //             // new(-1.5f, 0, -0.5f),
-        //             //
-        //             // 270
-        //             // new(-0.5f, 0, 1.5f),
-        //         }
-        //         return _pathCorners;
-        //     }
-        // }
 
         void Awake()
         {
@@ -151,6 +97,7 @@ namespace ChooChoo
         public void OnEnterFinishedState()
         {
             LookForTrackSection();
+            CenterCoordinates = GetComponent<BlockObjectCenter>().WorldCenterGrounded;
             _eventBus.Post(new OnTracksUpdatedEvent());
             foreach (var track in TrackSection.TrackPieces)
             {
@@ -228,7 +175,9 @@ namespace ChooChoo
         private void MakeConnection(TrackConnection thisTrackConnection, TrackPiece trackPiece, TrackConnection trackConnection)
         {
             thisTrackConnection.ConnectedTrackPiece = trackPiece;
+            thisTrackConnection.ConnectedTrackConnection = trackConnection;
             trackConnection.ConnectedTrackPiece = this;
+            trackConnection.ConnectedTrackConnection = thisTrackConnection;
             
             if (TryGetComponent(out TrainStation _))
                 return;

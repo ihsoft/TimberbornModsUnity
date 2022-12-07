@@ -23,7 +23,7 @@ namespace ChooChoo
 
         private void Awake()
         {
-            _pilot = _machinistCharacterFactory.CreatePilot(transform.GetChild(0).GetChild(0).GetChild(0));
+            _pilot = _machinistCharacterFactory.CreatePilot(transform.GetChild(0).GetChild(0).GetChild(2));
             // _flyingRootBehavior = GetComponent<FlyingRootBehavior>();
         }
 

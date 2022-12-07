@@ -20,6 +20,7 @@ namespace ChooChoo
             {
                 _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/Train.Folktails"),
                 _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/SmallLogTrain.Folktails"),
+                _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/SmallMetalCart.Folktails"),
                 // _resourceAssetLoader.Load<GameObject>("tobbert.globalmarket/tobbert_globalmarket/AirBalloon.IronTeeth")
             };
             return list;

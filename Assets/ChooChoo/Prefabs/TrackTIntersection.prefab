@@ -261,9 +261,9 @@ MonoBehaviour:
   m_Script: {fileID: -296257353, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _displayNameLocKey: 
-  _descriptionLocKey: 
-  _flavorDescriptionLocKey: 
+  _displayNameLocKey: Tobbert.TrackTIntersection.DisplayName
+  _descriptionLocKey: Tobbert.TrackTIntersection.Description
+  _flavorDescriptionLocKey: Tobbert.TrackTIntersection.FlavorDescription
   _image: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!1001 &3942441557621461074
 PrefabInstance:

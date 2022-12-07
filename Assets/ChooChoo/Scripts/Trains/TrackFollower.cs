@@ -14,9 +14,12 @@ namespace ChooChoo
     private readonly List<PathCorner> _animatedPathCorners = new(100);
     private IReadOnlyList<TrackConnection> _pathCorners;
     private int _pathCornersCount;
-    private int _currentCornerIndex;
-    private int _nextSubCornerIndex = 0;
+    private int _currentCornerIndex = 1;
+    private int _nextSubCornerIndex;
     private TrackSection _trackSection;
+    private static readonly float ExtraPathCornersMultiplier = 2.5f;
+
+    public List<Vector3> PreviouslyAnimatedPathCorners;
 
     public TrackFollower(
       INavigationService navigationService,
@@ -35,10 +38,8 @@ namespace ChooChoo
       _currentCornerIndex = 1;
     }
 
-    public void MoveAlongPath(float deltaTime, string animationName, float movementSpeed)
+    public bool MoveAlongPath(float deltaTime, string animationName, float movementSpeed)
     {
-      // Plugin.Log.LogError("MoveAlongPath");
-      
       _animatedPathCorners.Clear();
       float time = Time.time;
       _animatedPathCorners.Add(new PathCorner(_transform.position, time));
@@ -48,13 +49,12 @@ namespace ChooChoo
         if (!CanEnterNextSection())
         {
           _animatedPathCorners.Clear();
-          return;
+          return false;
         }
         
         _nextSubCornerIndex = PeekNextSubCornerIndex();
         Vector3 position;
         (position, num) = MoveInDirection(_transform.position, _pathCorners[_currentCornerIndex].PathCorners[_nextSubCornerIndex], movementSpeed, num);
-        // Plugin.Log.LogWarning(_currentCornerIndex + "  " + _pathCorners[_currentCornerIndex].PathCorners[_nextSubCornerIndex]);
         _transform.position = position;
         float timeInSeconds = time + deltaTime - num;
         _animatedPathCorners.Add(new PathCorner(position, timeInSeconds));
@@ -62,6 +62,8 @@ namespace ChooChoo
       if (!ReachedLastPathCorner())
         _animatedPathCorners.Add(new PathCorner(_pathCorners[_currentCornerIndex].PathCorners[_nextSubCornerIndex], (float) ((double) time + deltaTime + 1.0)));
       _movementAnimator.AnimateMovementAlongPath(_animatedPathCorners, animationName, movementSpeed);
+      PreviouslyAnimatedPathCorners = _animatedPathCorners.Select(corner => corner.Position).ToList();
+      return true;
     }
 
     public void StopMoving()
@@ -81,6 +83,7 @@ namespace ChooChoo
       _trackSection = null;
     }
 
+    // Move this function to TrackSectionService
     private bool CanEnterNextSection()
     {
       TrackPiece trackPiece = _pathCorners[_currentCornerIndex - 1].ConnectedTrackPiece;
@@ -159,7 +162,7 @@ namespace ChooChoo
       return (destination, num1);
     }
 
-    private static Vector3 ClampMovement(Vector3 movement, float movementMagnitude) => movementMagnitude <= 0.100000001490116 ? movement : movement.normalized * 0.1f;
+    private static Vector3 ClampMovement(Vector3 movement, float movementMagnitude) => movementMagnitude <= 0.100000001490116 / ExtraPathCornersMultiplier ? movement : movement.normalized * 0.1f / ExtraPathCornersMultiplier;
 
     private static float LeftTime(float deltaTime, float actualDistance, float maxDistance) => deltaTime * (float) (1.0 - (double) actualDistance / (double) maxDistance);
   }

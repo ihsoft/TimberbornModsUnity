@@ -43,6 +43,10 @@ namespace ChooChoo
             {
                 return false;
             }
+            if (citizen.GetComponent<Prefab>().PrefabName.Contains("Cart"))
+            {
+                return false;
+            }
 
             return true;
         }

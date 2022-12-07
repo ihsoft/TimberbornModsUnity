@@ -95,6 +95,7 @@ MonoBehaviour:
     assets:
     - {fileID: 3207032685556258263, guid: 341f4c3fcbb1d144f88b2be0d0a5c27a, type: 3}
     - {fileID: 3207032685556258263, guid: 7689dfed3c1d1a14e8e2bcd568265c5e, type: 3}
+    - {fileID: 3207032685556258263, guid: dbc15bbc430a32449a2ee18fbfa2e60e, type: 3}
     - {fileID: 5338206533014369884, guid: fbfa8c7003731d8408dbb1e424b2c39f, type: 3}
     - {fileID: 5338206533014369884, guid: 01c99983668c90b49b1172c02eebd9b0, type: 3}
     - {fileID: 5338206533014369884, guid: fdede7fc8427f6140a73779134ee9359, type: 3}

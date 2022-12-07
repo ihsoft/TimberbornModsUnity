@@ -3,13 +3,17 @@ Tobbert.TrackStraight.DisplayName,Straight Train Track,-
 Tobbert.TrackStraight.Description,A Track Piece that goes straight.,-
 Tobbert.TrackStraight.FlavorDescription,Choo! Choo!,-
 
-Tobbert.TrackCorner1x1.DisplayName,Corner 1x1 Track,-
+Tobbert.TrackCorner1x1.DisplayName,Corner 1x1 Train Track,-
 Tobbert.TrackCorner1x1.Description,A Track Piece that around a corner.,-
 Tobbert.TrackCorner1x1.FlavorDescription,Might be a little tight.,-
 
-Tobbert.TrackCorner2x2.DisplayName,Corner 2x2 Track,-
+Tobbert.TrackCorner2x2.DisplayName,Corner 2x2 Train Track,-
 Tobbert.TrackCorner2x2.Description,A Track Piece that around a larger corner.,-
 Tobbert.TrackCorner2x2.FlavorDescription,Might be a little tight.,-
+
+Tobbert.TrackTIntersection.DisplayName,T intersection Train Track,-
+Tobbert.TrackTIntersection.Description,A intersection in the form of a T for trains.,-
+Tobbert.TrackTIntersection.FlavorDescription,Choo! Choo!,-
 
 Tobbert.TrainStation.DisplayName,Train Station,-
 Tobbert.TrainStation.Description,A destination for trains.,-
