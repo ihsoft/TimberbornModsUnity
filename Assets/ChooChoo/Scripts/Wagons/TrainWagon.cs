@@ -15,9 +15,7 @@ namespace ChooChoo
 
     private string _animationName = "Walking";
 
-    public Transform objectToFollow;
-    
-    public List<Vector3> PreviousPathCorners { get; set; }
+    public float wagonLength;
 
     [Inject]
     public void InjectDependencies(ObjectFollowerFactory objectFollowerFactory)
@@ -30,9 +28,14 @@ namespace ChooChoo
       _objectFollower = _objectFollowerFactory.Create(gameObject);
     }
 
-    public void SetObjectToFollow(Transform objectToFollow)
+    public void SetObjectToFollow(Transform objectToFollow, float distanceFromObject)
     {
-      _objectFollower.SetObjectToFollow(objectToFollow);
+      _objectFollower.SetObjectToFollow(objectToFollow, distanceFromObject + wagonLength / 2);
+    }
+    
+    public void SetPathCorners(TrackFollower trackFollower)
+    {
+      _objectFollower.SetTrackFollower(trackFollower);
     }
 
     public void Stop()
@@ -40,11 +43,9 @@ namespace ChooChoo
       _objectFollower.StopMoving();
     }
 
-    public void Move(List<Vector3> pathCorners, float time, float speed)
+    public void Move(float time, float speed)
     {
-      if (pathCorners != null && pathCorners.Count > 0)
-        _objectFollower.MoveTowardsObject(pathCorners, time, _animationName, speed);
-      PreviousPathCorners = pathCorners;
+      _objectFollower.MoveTowardsObject(time, _animationName, speed);
     }
   }
 }

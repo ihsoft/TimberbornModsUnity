@@ -23,12 +23,5 @@ namespace ChooChoo
         public TrackPiece ConnectedTrackPiece { get; set; }
         
         public TrackConnection ConnectedTrackConnection { get; set; }
-
-        // [OnEvent]
-        // public void OnTrackDeleted(OnTrackDeletedEvent onTrackDeletedEvent)
-        // {
-        //     if (onTrackDeletedEvent.TrackSection == TrackSection)
-        //         TrackSection = null;
-        // }
     }
 }

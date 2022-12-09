@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using HarmonyLib;
+using System.Linq;
 using Timberborn.CharacterMovementSystem;
 using Timberborn.Navigation;
 using UnityEngine;
@@ -12,9 +12,11 @@ namespace ChooChoo
     private readonly MovementAnimator _movementAnimator;
     private readonly Transform _transform;
     private readonly List<PathCorner> _animatedPathCorners = new(100);
-    private IReadOnlyList<Vector3> _pathCorners;
-    private int _nextCornerIndex;
+    private TrackFollower _trackFollower;
+    private int _currentCornerIndex;
+    private int _nextSubCornerIndex;
     private Transform _objectToFollow;
+    private float _minDistanceFromObject;
 
     public ObjectFollower(
       INavigationService navigationService,
@@ -26,44 +28,64 @@ namespace ChooChoo
       _transform = transform;
     }
 
-    public void SetObjectToFollow(Transform objectToFollow)
+    public void SetObjectToFollow(Transform objectToFollow, float minDistanceFromObject)
     {
       _objectToFollow = objectToFollow;
+      _minDistanceFromObject = minDistanceFromObject;
+    }
+    public void SetTrackFollower(TrackFollower trackFollower)
+    {
+      _trackFollower = trackFollower;
     }
 
-    public void MoveTowardsObject(List<Vector3> animatedPathCorners, float deltaTime, string animationName, float movementSpeed)
+    public void MoveTowardsObject(float deltaTime, string animationName, float movementSpeed)
     {
-      _pathCorners = animatedPathCorners;
-      _pathCorners.AddItem(_objectToFollow.position);
-      _nextCornerIndex = 0;
       _animatedPathCorners.Clear();
       float time = Time.time;
       _animatedPathCorners.Add(new PathCorner(_transform.position, time));
       float num = deltaTime;
-      // Plugin.Log.LogWarning(Vector3.Distance(_transform.position, _objectToFollow.position) + "");
-      while ((Vector3.Distance(_transform.position, _objectToFollow.position) > 0 && _pathCorners[_nextCornerIndex] != _objectToFollow.position)
-             && num > 0) 
+      while (num > 0.0 
+             && Vector3.Distance(_transform.position, _objectToFollow.position) > _minDistanceFromObject
+             && !ReachedLastPathCorner()
+             && _trackFollower._currentCornerIndex >= _currentCornerIndex)
       {
-        _nextCornerIndex = PeekNextCornerIndex();
+        _nextSubCornerIndex = PeekNextSubCornerIndex();
         Vector3 position;
-        (position, num) = MoveInDirection(_transform.position, _pathCorners[_nextCornerIndex], movementSpeed, num);
+        (position, num) = MoveInDirection(_transform.position, _trackFollower._pathCorners[_currentCornerIndex].PathCorners[_nextSubCornerIndex], movementSpeed, num);
         _transform.position = position;
         float timeInSeconds = time + deltaTime - num;
         _animatedPathCorners.Add(new PathCorner(position, timeInSeconds));
-        // Plugin.Log.LogInfo(Vector3.Distance(_transform.position, _objectToFollow.position) + "" + _transform.position);
       }
-      
       _movementAnimator.AnimateMovementAlongPath(_animatedPathCorners, animationName, movementSpeed);
     }
 
     public void StopMoving()
     {
-      _pathCorners = null;
       _movementAnimator.StopAnimatingMovement();
+      _currentCornerIndex = 0;
+      _nextSubCornerIndex = 0;
     }
 
-    private int PeekNextCornerIndex() => _nextCornerIndex + 1 >= _pathCorners.Count || !_navigationService.InStoppingProximity(_transform.position, _pathCorners[_nextCornerIndex]) ? _nextCornerIndex : _nextCornerIndex + 1;
-   
+    private bool ReachedLastPathCorner() => _navigationService.InStoppingProximity(_trackFollower._pathCorners.Last().PathCorners.Last(), _transform.position);
+
+    private bool LastOfSubCorners() => _nextSubCornerIndex >= _trackFollower._pathCorners[_currentCornerIndex].PathCorners.Length - 1;
+
+    private int PeekNextSubCornerIndex()
+    {
+      if (_currentCornerIndex + 1 >= _trackFollower._pathCorners.Count || !_navigationService.InStoppingProximity(_transform.position, _trackFollower._pathCorners[_currentCornerIndex].PathCorners[_nextSubCornerIndex]))
+      {
+        return _nextSubCornerIndex;
+      }
+      else
+      {
+        if (LastOfSubCorners())
+        {
+          _currentCornerIndex += 1;
+          _nextSubCornerIndex = -1;
+        }
+        return _nextSubCornerIndex + 1;
+      }
+    }
 
     private static (Vector3 position, float leftTime) MoveInDirection(
       Vector3 position,

@@ -52,13 +52,20 @@ namespace ChooChoo
             case "TrainYard":
                return new TrackConnection[]
                {
-                  new(new Vector3Int(0, 0, 0), Direction2D.Down, new[] {Vector3.zero}),
+                  new(new Vector3Int(0, 0, 0), Direction2D.Up, new Vector3[] { new(0, 0, 1.1f) }),
+                  new(new Vector3Int(0, 2, 0), Direction2D.Down, new[] { Vector3.zero }),
                };
             case "TrainStation":
                return new TrackConnection[]
                {
                   new(new Vector3Int(0, 0, 0), Direction2D.Right, new Vector3[] { new(1.2f, 0, -1f) }),
                   new(new Vector3Int(2, 0, 0), Direction2D.Left, new Vector3[] { new(1.2f, 0, -1f) }),
+               };
+            case "GoodsStation":
+               return new TrackConnection[]
+               {
+                  new(new Vector3Int(0, 0, 0), Direction2D.Up, new Vector3[] { Vector3.zero,  }),
+                  new(new Vector3Int(0, 0, 0), Direction2D.Down, new Vector3[] { Vector3.zero, }),
                };
             default:
                throw new ArgumentOutOfRangeException($"Unexpected Track object: {prefabName}");

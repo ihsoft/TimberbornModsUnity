@@ -22,10 +22,10 @@ namespace ChooChoo
             _blockService = blockService;
         }
         
-        public bool FindRailTrackPath(Vector3 start, Vector3 destination, ref TrackConnection previousLastTrackConnection, List<TrackConnection> tempPathTrackConnections)
+        public bool FindRailTrackPath(Vector3 start, Vector3 destination, ref TrackConnection previouslyLastTrackConnection, List<TrackConnection> tempPathTrackConnections)
         {
             _stopwatch.Restart();
-            
+
             var startTrackPiece = _blockService.GetFloorObjectComponentAt<TrackPiece>(Vector3Int.FloorToInt(new Vector3(start.x, start.z, start.y)));
             var endCoordinate = Vector3Int.FloorToInt(new Vector3(destination.x, destination.z, destination.y));
             var endTrackPiece = _blockService.GetFloorObjectComponentAt<TrackPiece>(endCoordinate);
@@ -39,17 +39,17 @@ namespace ChooChoo
                 if (!_trainDestinationService.DestinationReachable(startTrackPiece, endTrainDestination))
                     return false;
 
-            previousLastTrackConnection ??= startTrackPiece.TrackConnections[0];
-            
             var trackConnections = new List<TrackConnection>();
-            FindNextRailTrack(previousLastTrackConnection, startTrackPiece, endTrackPiece, trackConnections);
-            
+            if (!FindNextRailTrack(previouslyLastTrackConnection, startTrackPiece, endTrackPiece, trackConnections))
+                return false;
+
             // foreach (var trackPiece in tracks)
             // {
             //     Plugin.Log.LogWarning(trackPiece.transform.position.ToString());
             // }
             // trackConnections.Reverse();
-            previousLastTrackConnection = trackConnections.Last();
+            previouslyLastTrackConnection = GetNextTrackConnection(trackConnections[^2], trackConnections[^3].ConnectedTrackPiece,
+                endTrackPiece);
             tempPathTrackConnections.AddRange(trackConnections);
             // tempPathTrackConnections.Add(endTrackPiece.TrackConnections[0]);
             // _tempPathCorners.Add(start);
@@ -85,6 +85,10 @@ namespace ChooChoo
                 {
                     trackConnections.Add(trackConnection);
                     trackConnections.Add(trackConnection.ConnectedTrackConnection);
+                    // foreach (var VARIABLE in trackConnection.ConnectedTrackConnection.PathCorners)
+                    // {
+                    //     Plugin.Log.LogWarning(VARIABLE.ToString());
+                    // }
                     return true;
                 }
 
@@ -96,6 +100,21 @@ namespace ChooChoo
 
             trackConnections.Remove(previousTrackConnection);
             return false;
+        }
+
+        private TrackConnection GetNextTrackConnection(TrackConnection previousTrackConnection, TrackPiece previousTrackPiece, TrackPiece destinationTrackPiece)
+        {
+            foreach (var trackConnection in previousTrackConnection.ConnectedTrackPiece.TrackConnections)
+            {
+                if (trackConnection.ConnectedTrackPiece == previousTrackPiece)
+                {
+                    continue;
+                }
+                
+                return trackConnection;
+            }
+
+            return null;
         }
     }
 }

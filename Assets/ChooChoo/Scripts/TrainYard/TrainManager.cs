@@ -1,3 +1,4 @@
+using System.Linq;
 using Bindito.Core;
 using HarmonyLib;
 using Timberborn.AssetSystem;
@@ -82,7 +83,7 @@ namespace ChooChoo
 
             Destroy(_train.GetComponent(AccessTools.TypeByName("StrandedStatus")));
 
-            SetInitialTrainPosition();
+            SetInitialTrainLocation();
 
             SetTrainName();
 
@@ -90,10 +91,14 @@ namespace ChooChoo
             var trainYard = gameObject;
             trainYardSubject.LinkedGlobalMarket = trainYard;
             trainYardSubject.LinkedGlobalMarketPosition = trainYard.transform.position + GetSpawnOffset();
+
+            _train.GetComponent<Machinist>().LastTrackConnection = GetComponent<TrackPiece>().TrackConnections
+                .First(connection => connection.Direction == Direction2D.Up);
         }
 
-        private void SetInitialTrainPosition()
+        private void SetInitialTrainLocation()
         {
+            _train.transform.rotation = GetComponent<BlockObject>().Orientation.ToWorldSpaceRotation();
             var position = _train.transform.position;
             position += GetSpawnOffset();
             position += transform.position;
@@ -102,7 +107,7 @@ namespace ChooChoo
 
         private Vector3 GetSpawnOffset()
         {
-            return new Vector3(0.5f, 0f, 0.5f);
+            return GetComponent<BlockObject>().Orientation.TransformInWorldSpace(new Vector3(0.5f, 0f, 2.8f));
             // var orientation = GetComponent<BlockObject>().Orientation;
             // switch (orientation)
             // {

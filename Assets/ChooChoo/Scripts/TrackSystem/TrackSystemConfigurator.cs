@@ -1,6 +1,8 @@
 using Bindito.Core;
 using TimberApi.ConfiguratorSystem;
 using TimberApi.SceneSystem;
+using Timberborn.Coordinates;
+using Timberborn.Persistence;
 
 namespace ChooChoo
 {
@@ -14,6 +16,8 @@ namespace ChooChoo
             containerDefinition.Bind<TracksService>().AsSingleton();
             containerDefinition.Bind<TrackConnectionService>().AsSingleton();
             containerDefinition.Bind<TrackSectionService>().AsSingleton();
+            containerDefinition.Bind<EnumObjectSerializer<Direction2D>>().AsSingleton();
+            containerDefinition.Bind<TrackConnectionObjectSerializer>().AsSingleton();
 
             // containerDefinition.MultiBind<TemplateModule>().ToProvider(ProvideTemplateModule).AsSingleton();
         }

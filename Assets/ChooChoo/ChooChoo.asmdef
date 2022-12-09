@@ -58,7 +58,10 @@
         "Timberborn.CharacterModelSystem.dll",
         "Timberborn.SelectionSystem.dll",
         "Timberborn.FactionSystemGame.dll",
-        "Timberborn.FactionSystem.dll"
+        "Timberborn.FactionSystem.dll",
+        "Timberborn.DistributionSystem.dll",
+        "Timberborn.Carrying.dll",
+        "Timberborn.SimpleOutputBuildings.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

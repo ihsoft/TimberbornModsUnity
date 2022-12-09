@@ -17,7 +17,7 @@ namespace ChooChoo
     {
         private static readonly ComponentKey TrainManagerKey = new(nameof(TrainManager));
 
-        private static readonly ListKey<TrainWagon> TrainKey = new(nameof(_trainWagonsReversed));
+        private static readonly ListKey<TrainWagon> TrainKey = new(nameof(_trainWagons));
 
         private const string TrainNameLocKey = "Tobbert.Train.Name";
 
@@ -31,13 +31,13 @@ namespace ChooChoo
         
         private WagonsObjectSerializer _wagonsObjectSerializer;
 
-        private List<TrainWagon> _trainWagonsReversed;
+        private List<TrainWagon> _trainWagons;
 
         private readonly List<List<Vector3>> _previousPathCorners = new();
 
         private int NumberOfCarts = 4;
 
-        public Transform objectToFollow;
+        public float minDistanceFromTrain;
 
         [Inject]
         public void InjectDependencies(ILoc loc, EntityService entityService, IResourceAssetLoader resourceAssetLoader, FactionService factionService, WagonsObjectSerializer wagonsObjectSerializer)
@@ -51,7 +51,7 @@ namespace ChooChoo
 
         private void Start()
         {
-            if (_trainWagonsReversed != null) 
+            if (_trainWagons != null) 
                 return;
             InitializeCarts();
             SetObjectToFollow();
@@ -59,7 +59,7 @@ namespace ChooChoo
 
         private void OnDestroy()
         {
-            foreach (var cart in _trainWagonsReversed)
+            foreach (var cart in _trainWagons)
             {
                 _entityService.Delete(cart.gameObject);
             }
@@ -67,8 +67,8 @@ namespace ChooChoo
 
         public void Save(IEntitySaver entitySaver)
         {
-            if (_trainWagonsReversed != null)
-                entitySaver.GetComponent(TrainManagerKey).Set(TrainKey, _trainWagonsReversed, _wagonsObjectSerializer);
+            if (_trainWagons != null)
+                entitySaver.GetComponent(TrainManagerKey).Set(TrainKey, _trainWagons, _wagonsObjectSerializer);
         }
 
         public void Load(IEntityLoader entityLoader)
@@ -81,45 +81,59 @@ namespace ChooChoo
             if (!component.Has(TrainKey)) 
                 return;
             
-            _trainWagonsReversed = component.Get(TrainKey, _wagonsObjectSerializer);
+            _trainWagons = component.Get(TrainKey, _wagonsObjectSerializer);
             SetObjectToFollow();
         }
 
         private void SetObjectToFollow()
         {
-            for (int i = 0; i < _trainWagonsReversed.Count - 1; i++)
+            for (int i = _trainWagons.Count - 1; i > 0; i--)
             {
-                _trainWagonsReversed[i].SetObjectToFollow(_trainWagonsReversed[i + 1].transform);
+                _trainWagons[i].SetObjectToFollow(_trainWagons[i - 1].transform, _trainWagons[i - 1].wagonLength);
             }
             
-            _trainWagonsReversed.Last().SetObjectToFollow(transform);
+            _trainWagons[0].SetObjectToFollow(transform, minDistanceFromTrain);
+            // for (int i = 0; i < _trainWagonsReversed.Count - 1; i++)
+            // {
+            //     _trainWagonsReversed[i].SetObjectToFollow(_trainWagonsReversed[i + 1].transform);
+            // }
+            //
+            // _trainWagonsReversed.Last().SetObjectToFollow(transform);
+        }
+
+        public void SetTrackFollower(TrackFollower trackFollower)
+        {
+            foreach (var trainWagon in _trainWagons)
+            {
+                trainWagon.SetPathCorners(trackFollower);
+            }
         }
 
         public void MoveWagons(List<Vector3> pathCorners, float time, float speed)
         {
-            // _previousPathCorners.Add(pathCorners);
-            
-            for (int i = 0; i < _trainWagonsReversed.Count - 1; i++)
+            foreach (var trainWagon in _trainWagons)
             {
-                _trainWagonsReversed[i].Move(_trainWagonsReversed[i + 1].PreviousPathCorners, time, speed);
+                trainWagon.Move(time, speed);
             }
-
-            // if (_previousPathCorners.Count < 2)
-            if(pathCorners == null)
-            {
-                var newPathCorners = new List<Vector3>() { _trainWagonsReversed.Last().transform.position };
-                _trainWagonsReversed.Last().Move(newPathCorners, time, speed);
-            }
-            else
-            {
-                _trainWagonsReversed.Last().Move(pathCorners, time, speed);
-            }
-            // _previousPathCorners.RemoveAt(0);
+            //
+            // // _previousPathCorners.Add(pathCorners);
+            //
+            // for (int i = 0; i < _trainWagons.Count - 1; i++)
+            // {
+            //     _trainWagons[i].Move(time, speed);
+            // }
+            //
+            // if (pathCorners != null)
+            // // if (_previousPathCorners.Count >= 2)
+            // {
+            //     // _trainWagonsReversed.Last().Move(_previousPathCorners.SelectMany(list => list.Select(vector => vector)).ToList(), time, speed);
+            //     _trainWagons.Last().Move(time, speed);
+            // }
         }
         
         public void StopWagons()
         {
-            foreach (var trainWagon in _trainWagonsReversed)
+            foreach (var trainWagon in _trainWagons)
             {
                 trainWagon.GetComponent<TrainWagon>().Stop();
             }
@@ -143,13 +157,13 @@ namespace ChooChoo
                 component.FirstName = _loc.T(TrainNameLocKey);
             }
 
-            trainWagons.Reverse();
-            _trainWagonsReversed = trainWagons;
+            // trainWagons.Reverse();
+            _trainWagons = trainWagons;
         }
 
         private void SetInitialCartPosition(GameObject cart,int cartNumber)
         {
-            var spawnLocation = transform.position + new Vector3(-0.6f * cartNumber - 1, 0f, 0);
+            var spawnLocation = transform.position + new Vector3(0, 0f, -0.6f * cartNumber - 1);
             Plugin.Log.LogInfo("Spawning wagon " + cartNumber + " at: " + spawnLocation);
             cart.transform.position = spawnLocation;
         }

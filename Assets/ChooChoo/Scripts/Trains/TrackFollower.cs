@@ -12,9 +12,9 @@ namespace ChooChoo
     private readonly MovementAnimator _movementAnimator;
     private readonly Transform _transform;
     private readonly List<PathCorner> _animatedPathCorners = new(100);
-    private IReadOnlyList<TrackConnection> _pathCorners;
+    public IReadOnlyList<TrackConnection> _pathCorners;
     private int _pathCornersCount;
-    private int _currentCornerIndex = 1;
+    public int _currentCornerIndex;
     private int _nextSubCornerIndex;
     private TrackSection _trackSection;
     private static readonly float ExtraPathCornersMultiplier = 2.5f;
@@ -36,6 +36,7 @@ namespace ChooChoo
       ResetTrackSection();
       _pathCorners = pathCorners;
       _currentCornerIndex = 1;
+      _nextSubCornerIndex = 0;
     }
 
     public bool MoveAlongPath(float deltaTime, string animationName, float movementSpeed)

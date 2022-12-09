@@ -13,18 +13,22 @@ namespace ChooChoo
 {
   public class Machinist : TickableComponent, IPersistentEntity
   {
-    private static readonly ComponentKey MachinistKey = new(nameof (Machinist));
+    private static readonly ComponentKey MachinistKey = new(nameof(Machinist));
     private static readonly PropertyKey<ITrainDestination> CurrentDestinationKey = new("CurrentDestination");
+    private static readonly PropertyKey<TrackConnection> LastTrackConnectionKey = new("LastTrackConnection");
     private TrackFollowerFactory _trackFollowerFactory;
     private TrainDestinationObjectSerializer _trainDestinationObjectSerializer;
+    private TrackConnectionObjectSerializer _trackConnectionObjectSerializer;
     private WalkerSpeedManager _walkerSpeedManager;
     private TrainWagonManager _trainWagonManager;
+    private SlowdownCalculator _slowdownCalculator;
     private TrackFollower _trackFollower;
     private readonly List<TrackConnection> _pathConnections = new(100);
     private readonly List<TrackConnection> _tempPathCorners = new(100);
     private ITrainDestination _currentTrainDestination;
     private ITrainDestination _previousTrainDestination;
-    private TrackConnection _lastTrackConnection;
+    public TrackConnection LastTrackConnection;
+    private float _slowDownDistance = 1.5f;
 
     public event EventHandler<StartedNewPathEventArgs> StartedNewPath;
 
@@ -35,17 +39,20 @@ namespace ChooChoo
     [Inject]
     public void InjectDependencies(
       TrackFollowerFactory trackFollowerFactory,
-      TrainDestinationObjectSerializer trainDestinationObjectSerializer
-      )
+      TrainDestinationObjectSerializer trainDestinationObjectSerializer,
+      TrackConnectionObjectSerializer trackConnectionObjectSerializer
+    )
     {
       _trackFollowerFactory = trackFollowerFactory;
       _trainDestinationObjectSerializer = trainDestinationObjectSerializer;
+      _trackConnectionObjectSerializer = trackConnectionObjectSerializer;
     }
 
     public void Awake()
     {
       _walkerSpeedManager = GetComponent<WalkerSpeedManager>();
       _trainWagonManager = GetComponent<TrainWagonManager>();
+      _slowdownCalculator = GetComponent<SlowdownCalculator>();
       _trackFollower = _trackFollowerFactory.Create(gameObject);
       PathCorners = _pathConnections.AsReadOnly();
     }
@@ -63,10 +70,10 @@ namespace ChooChoo
     public ExecutorStatus GoTo(ITrainDestination trainDestination)
     {
       _previousTrainDestination = _currentTrainDestination;
-      int path = (int) FindPath(trainDestination);
+      int path = (int)FindPath(trainDestination);
       if (path != 2)
-        return (ExecutorStatus) path;
-      return (ExecutorStatus) path;
+        return (ExecutorStatus)path;
+      return (ExecutorStatus)path;
     }
 
     public void Stop()
@@ -75,24 +82,27 @@ namespace ChooChoo
       _currentTrainDestination = null;
       _trackFollower.StopMoving();
       _trainWagonManager.StopWagons();
-      _lastTrackConnection = null;
+      // _lastTrackConnection = null;
     }
-    
+
     public bool Stopped() => _currentTrainDestination == null;
 
     public void RefreshPath()
     {
       _previousTrainDestination = null;
+      // _lastTrackConnection = null;
       if (_currentTrainDestination == null)
         return;
       FindPath(_currentTrainDestination);
     }
-    
+
     public void Save(IEntitySaver entitySaver)
     {
       IObjectSaver component = entitySaver.GetComponent(MachinistKey);
       if (_currentTrainDestination != null)
         component.Set(CurrentDestinationKey, _currentTrainDestination, _trainDestinationObjectSerializer);
+      if (LastTrackConnection != null)
+        component.Set(LastTrackConnectionKey, LastTrackConnection, _trackConnectionObjectSerializer);
     }
 
     public void Load(IEntityLoader entityLoader)
@@ -100,6 +110,8 @@ namespace ChooChoo
       IObjectLoader component = entityLoader.GetComponent(MachinistKey);
       if (component.Has(CurrentDestinationKey))
         _currentTrainDestination = component.Get(CurrentDestinationKey, _trainDestinationObjectSerializer);
+      if (component.Has(LastTrackConnectionKey))
+        LastTrackConnection = component.Get(LastTrackConnectionKey, (_trackConnectionObjectSerializer));
     }
 
     private ExecutorStatus FindPath(ITrainDestination trainDestination)
@@ -108,56 +120,44 @@ namespace ChooChoo
       {
         Vector3 start = transform.position;
         _pathConnections.Clear();
-        CurrentDestinationReachable = trainDestination.GeneratePath(start, ref _lastTrackConnection, _tempPathCorners);
+        CurrentDestinationReachable = trainDestination.GeneratePath(start, ref LastTrackConnection, _tempPathCorners);
         if (CurrentDestinationReachable)
         {
           if (!_pathConnections.IsEmpty())
             _pathConnections.RemoveLast();
           _pathConnections.AddRange(_tempPathCorners);
           _tempPathCorners.Clear();
-          _lastTrackConnection = _pathConnections.Last();
+          _trainWagonManager.SetTrackFollower(_trackFollower);
+          _slowdownCalculator.SetPositions(_pathConnections[0].PathCorners[0], _pathConnections.Last().PathCorners[0]);
         }
         else
           _pathConnections.Clear();
+
         _trackFollower.StartMovingAlongPath(_pathConnections);
         EventHandler<StartedNewPathEventArgs> startedNewPath = StartedNewPath;
         if (startedNewPath != null)
           startedNewPath(this, new StartedNewPathEventArgs(100));
       }
+
       if (CurrentDestinationReachable)
       {
         _currentTrainDestination = trainDestination;
         return !_trackFollower.ReachedLastPathCorner() ? ExecutorStatus.Running : ExecutorStatus.Success;
       }
+
       Stop();
       return ExecutorStatus.Failure;
     }
 
-    private bool HasSavedPathToDestination(ITrainDestination trainDestination) => Equals(_previousTrainDestination, trainDestination);
-    
+    private bool HasSavedPathToDestination(ITrainDestination trainDestination) =>
+      Equals(_previousTrainDestination, trainDestination);
+
     private void Move()
     {
-      var speed = _walkerSpeedManager.Speed * CalculateSpeedReductionAtStartAndEnd();
+      var speed = _walkerSpeedManager.Speed * _slowdownCalculator.CalculateSlowdown();
       var time = Time.fixedDeltaTime;
       if (_trackFollower.MoveAlongPath(time, "Walking", speed))
-        _trainWagonManager.MoveWagons(_trackFollower.PreviouslyAnimatedPathCorners, time, speed + 0.06f);
-    }
-    
-    private float CalculateSpeedReductionAtStartAndEnd()
-    {
-      var start = CalculateSlowdown(_pathConnections[0].PathCorners[0]);
-      var end = CalculateSlowdown(_pathConnections.Last().PathCorners[0]);
-    
-      return start * end;
-    }
-    
-    private float CalculateSlowdown(Vector3 position)
-    {
-      var distanceFromStart = Vector3.Distance(transform.position, position);
-      if (distanceFromStart > 1.5f)
-        return 1;
-
-      return distanceFromStart / 1.5f + 0.1f;
+        _trainWagonManager.MoveWagons(_trackFollower.PreviouslyAnimatedPathCorners, time, speed * 1.08f);
     }
   }
 }

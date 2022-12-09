@@ -47,41 +47,26 @@ namespace ChooChoo
                     var list = _trackArrayProvider.GetConnections(gameObject.name);
                     foreach (var trackConnection in list)
                     {
-                        // Plugin.Log.LogInfo("Before: " + trackConnection.Direction);
-                        // trackConnection.Direction = _blockObject.Transform(trackConnection.Direction);
-                        // trackConnection.Direction = trackConnection.Direction;
-                        
-                        // Plugin.Log.LogInfo("After: " + trackConnection.Direction);
-                        
-                        
-                        
                         var position = _blockObjectCenter.WorldCenterGrounded;
-                        // Plugin.Log.LogWarning("position " + position);
-                        // var coord1 = new Vector3(position.x, position.z, position.y);
-                        // _pathCorners = list.Select(vector3 => vector3 + coord).ToArray();
                         trackConnection.PathCorners = trackConnection.PathCorners.Select(vector3 =>
                         {
-                            switch (_blockObject.Orientation)
-                            {
-                                case Orientation.Cw0:
-                                    return vector3 + position;
-                                case Orientation.Cw90:
-                                    return new Vector3(vector3.z, vector3.y, -vector3.x) + position;
-                                case Orientation.Cw180:
-                                    return new Vector3(-vector3.x, vector3.y, -vector3.z) + position;
-                                case Orientation.Cw270:
-                                    return new Vector3(-vector3.z, vector3.y, vector3.x) + position;
-                                default:
-                                    throw new ArgumentException($"Unexpected Orientation: {_blockObject.Orientation}");
-                            }
+                            return _blockObject.Orientation.TransformInWorldSpace(vector3) + position;
+                            // switch (_blockObject.Orientation)
+                            // {
+                            //     case Orientation.Cw0:
+                            //         return vector3 + position;
+                            //     case Orientation.Cw90:
+                            //         return new Vector3(vector3.z, vector3.y, -vector3.x) + position;
+                            //     case Orientation.Cw180:
+                            //         return new Vector3(-vector3.x, vector3.y, -vector3.z) + position;
+                            //     case Orientation.Cw270:
+                            //         return new Vector3(-vector3.z, vector3.y, vector3.x) + position;
+                            //     default:
+                            //         throw new ArgumentException($"Unexpected Orientation: {_blockObject.Orientation}");
+                            // }
                         }).ToArray();
                     }
                     _trackConnections = list;
-
-                    // foreach (var track in _trackConnections)
-                    // {
-                    //     Plugin.Log.LogInfo(track.Direction.ToString());
-                    // }
                 }
                 return _trackConnections;
             }
