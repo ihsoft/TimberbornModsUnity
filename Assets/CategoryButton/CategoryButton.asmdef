@@ -32,7 +32,10 @@
         "Timberborn.Common.dll",
         "Timberborn.Localization.dll",
         "Timberborn.EntityPanelSystem.dll",
-        "Timberborn.AssetSystem.dll"
+        "Timberborn.AssetSystem.dll",
+        "Timberborn.PlantingUI.dll",
+        "Timberborn.Planting.dll",
+        "Timberborn.PrefabSystem.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

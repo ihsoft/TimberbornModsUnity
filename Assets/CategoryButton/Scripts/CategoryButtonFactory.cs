@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Timberborn.BlockSystem;
 using Timberborn.EntitySystem;
+using Timberborn.PrefabSystem;
 using UnityEngine;
 
 namespace CategoryButton
@@ -22,16 +23,16 @@ namespace CategoryButton
         {
             var gameObject = Object.Instantiate(prefab);
             
-            categoryButtonService.ChangePrivateField(gameObject.GetComponent<Prefab>(), "_prefabName", categoryButtonSpecification.Name);
+            categoryButtonService.SetPrivateField(gameObject.GetComponent<Prefab>(), "_prefabName", categoryButtonSpecification.Name);
                 
             var categoryButtonComponent = gameObject.GetComponent<CategoryButtonComponent>();
             categoryButtonComponent.ToolBarButtonNames = categoryButtonSpecification.Buildings.ToList();
             categoryButtonService.CategoryButtonComponents.Add(categoryButtonComponent);
 
             var placeableBlockObject = gameObject.GetComponent<PlaceableBlockObject>();
-            categoryButtonService.ChangePrivateField(placeableBlockObject, "_toolGroupId", categoryButtonSpecification.ToolGroup);
-            categoryButtonService.ChangePrivateField(placeableBlockObject, "_toolOrder", categoryButtonSpecification.ToolOrder);
-            categoryButtonService.ChangePrivateField(placeableBlockObject, "_devModeTool", false);
+            categoryButtonService.SetPrivateField(placeableBlockObject, "_toolGroupId", categoryButtonSpecification.ToolGroup);
+            categoryButtonService.SetPrivateField(placeableBlockObject, "_toolOrder", categoryButtonSpecification.ToolOrder);
+            categoryButtonService.SetPrivateField(placeableBlockObject, "_devModeTool", false);
 
             var labeledPrefab = gameObject.GetComponent<LabeledPrefab>();
             Texture2D spriteTexture2D = new Texture2D(1, 1);
@@ -39,10 +40,10 @@ namespace CategoryButton
             spriteTexture2D.LoadImage(spriteBytes);
             var sprite2D = Sprite.Create(spriteTexture2D, new Rect(0, 0, 112f, 112f), new Vector2(0.5f, 0.5f), 100);
                 
-            categoryButtonService.ChangePrivateField(labeledPrefab, "_displayNameLocKey", categoryButtonSpecification.DisplayNameLocKey);
-            categoryButtonService.ChangePrivateField(labeledPrefab, "_descriptionLocKey", "");
-            categoryButtonService.ChangePrivateField(labeledPrefab, "_flavorDescriptionLocKey", "");
-            categoryButtonService.ChangePrivateField(labeledPrefab, "_image", sprite2D);
+            categoryButtonService.SetPrivateField(labeledPrefab, "_displayNameLocKey", categoryButtonSpecification.DisplayNameLocKey);
+            categoryButtonService.SetPrivateField(labeledPrefab, "_descriptionLocKey", "");
+            categoryButtonService.SetPrivateField(labeledPrefab, "_flavorDescriptionLocKey", "");
+            categoryButtonService.SetPrivateField(labeledPrefab, "_image", sprite2D);
 
             return gameObject;
         }

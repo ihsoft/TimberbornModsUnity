@@ -12,6 +12,9 @@ using Timberborn.CoreUI;
 using Timberborn.EntitySystem;
 using Timberborn.InputSystem;
 using Timberborn.Persistence;
+using Timberborn.PlantingUI;
+using Timberborn.PrefabSystem;
+using Timberborn.SingletonSystem;
 using Timberborn.ToolSystem;
 using Timberborn.WaterSystemRendering;
 using UnityEngine;
@@ -20,11 +23,12 @@ using Object = UnityEngine.Object;
 
 namespace CategoryButton
 {
-    public class CategoryButtonService : ITimberApiLoadableSingleton
+    public class CategoryButtonService : ITimberApiLoadableSingleton, IPostLoadableSingleton
     {
         private readonly VisualElementLoader _visualElementLoader;
         private readonly IResourceAssetLoader _assetLoader;
         private readonly ImageRepository _imageRepository;
+        private readonly ToolButtonService _toolButtonService;
         private readonly DescriptionPanel _descriptionPanel;
         private readonly ToolManager _toolManager;
         private readonly InputService _inputService;
@@ -39,11 +43,13 @@ namespace CategoryButton
         private List<GameObject> _categoryButtonPrefabs;
         
         private readonly Dictionary<string, FieldInfo> _fieldInfos = new();
+        private readonly Dictionary<string, PropertyInfo> _propertyInfos = new();
 
         CategoryButtonService(
             VisualElementLoader visualElementLoader,
             IResourceAssetLoader assetLoader,
             ImageRepository imageRepository,
+            ToolButtonService toolButtonService,
             DescriptionPanel descriptionPanel,
             ToolManager toolManager,
             InputService inputService,
@@ -54,6 +60,7 @@ namespace CategoryButton
             _visualElementLoader = visualElementLoader;
             _assetLoader = assetLoader;
             _imageRepository = imageRepository;
+            _toolButtonService = toolButtonService;
             _descriptionPanel = descriptionPanel;
             _toolManager = toolManager;
             _inputService = inputService;
@@ -66,6 +73,12 @@ namespace CategoryButton
         {
             _categoryButtonsSpecifications = _specificationService.GetSpecifications(_categoryButtonSpecificationDeserializer).ToImmutableArray();
             _originalCategoryButtonPrefab = _assetLoader.Load<GameObject>("tobbert.categorybutton/tobbert_categorybutton/CategoryButtonPrefab");
+        }
+        
+        public void PostLoad()
+        {
+            AddButtonsToCategory();
+            UpdateGroupButtons();
         }
         
         public void AddCategoryButtonsToObjectsPatch(ref IEnumerable<Object> objects)
@@ -108,15 +121,31 @@ namespace CategoryButton
             return button;
         }
 
-        public void AddButtonToCategoryTool(ToolButton toolButton, PlaceableBlockObject placeableBlockObject)
+        public void AddButtonToCategoryTool(ToolButton toolButton)
         {
-            if (!placeableBlockObject.TryGetComponent(out Prefab fPrefab)) return;
-            foreach (var categoryButtonComponent in CategoryButtonComponents)
+            if (toolButton.Tool.GetType() == typeof(BlockObjectTool))
             {
-                if (!categoryButtonComponent.ToolBarButtonNames.Contains(fPrefab.PrefabName))
-                    continue;
-                categoryButtonComponent.ToolButtons.Add(toolButton);
-                categoryButtonComponent.SetToolList();
+                var tool = toolButton.Tool as BlockObjectTool;
+                if (!tool.Prefab.TryGetComponent(out Prefab fPrefab)) 
+                    return;
+                foreach (var categoryButtonComponent in CategoryButtonComponents)
+                {
+                    if (!categoryButtonComponent.ToolBarButtonNames.Contains(fPrefab.PrefabName))
+                        continue;
+                    categoryButtonComponent.ToolButtons.Add(toolButton);
+                    categoryButtonComponent.SetToolList();
+                }
+            }
+            else if (toolButton.Tool.GetType() == typeof(PlantingTool))
+            {
+                var tool = toolButton.Tool as PlantingTool;
+                foreach (var categoryButtonComponent in CategoryButtonComponents)
+                {
+                    if (!categoryButtonComponent.ToolBarButtonNames.Contains(tool.Plantable.PrefabName))
+                        continue;
+                    categoryButtonComponent.ToolButtons.Add(toolButton);
+                    categoryButtonComponent.SetToolList();
+                }
             }
         }
 
@@ -126,6 +155,7 @@ namespace CategoryButton
             {
                 foreach (var toolButton in categoryTool.ToolBarCategoryComponent.ToolButtons)
                 {
+                    SetPrivateProperty(toolButton.Tool, "ToolGroup", categoryTool.ToolGroup);
                     categoryTool.ToolButtonsVisualElement.Add(toolButton.Root);
                 }
             }
@@ -138,9 +168,8 @@ namespace CategoryButton
                 bool buttonPartOfCategory = categoryTool.ToolBarCategoryComponent.ToolButtons.Select(button => button.Tool).Contains(newTool);
 
                 if (buttonPartOfCategory)
-                {
                     categoryTool.ActiveTool = newTool;
-                }
+                
                 
                 bool flag1 = !buttonPartOfCategory;
                 bool flag2 = categoryTool == newTool;
@@ -158,7 +187,7 @@ namespace CategoryButton
         {
             VisualElement descriptionPanelRoot = (VisualElement)GetPrivateField(_descriptionPanel, "_root");
             descriptionPanelRoot.style.bottom = height;
-            ChangePrivateField(_descriptionPanel, "_root", descriptionPanelRoot);
+            SetPrivateField(_descriptionPanel, "_root", descriptionPanelRoot);
         }
 
         public void UpdateScreenSize(CategoryButtonTool categoryButtonTool)
@@ -170,7 +199,7 @@ namespace CategoryButton
             categoryButtonTool.ToolButtonsVisualElement.style.bottom = y;
         }
 
-        public void ChangePrivateField(object instance, string fieldName, object newValue)
+        public void SetPrivateField(object instance, string fieldName, object newValue)
         {
             var fieldInfo = _fieldInfos.GetOrAdd(fieldName, () => AccessTools.TypeByName(instance.GetType().Name).GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance));
 
@@ -182,6 +211,26 @@ namespace CategoryButton
             var fieldInfo = _fieldInfos.GetOrAdd(fieldName, () => AccessTools.TypeByName(instance.GetType().Name).GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance));
 
             return fieldInfo.GetValue(instance);
+        }
+
+        private void SetPrivateProperty(object instance, string fieldName, object newValue)
+        {
+            var propertyInfo = _propertyInfos.GetOrAdd(fieldName, () => AccessTools.TypeByName(instance.GetType().Name).GetProperty(fieldName,BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance));
+
+            propertyInfo.SetValue(instance, newValue);
+        }
+
+        private void UpdateGroupButtons()
+        {
+            var test =(List<ToolGroupButton>)GetPrivateField(_toolButtonService, "_toolGroupButtons");
+
+            foreach (var toolGroupButton in test)
+            {
+                if (toolGroupButton.ToolButtonsElement.childCount == 0)
+                {
+                    toolGroupButton.Root.ToggleDisplayStyle(false);
+                }
+            }
         }
     }
 }

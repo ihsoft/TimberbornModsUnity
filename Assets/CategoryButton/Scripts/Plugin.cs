@@ -7,6 +7,7 @@ using TimberApi.DependencyContainerSystem;
 using TimberApi.ModSystem;
 using Timberborn.BlockObjectTools;
 using Timberborn.BlockSystem;
+using Timberborn.Planting;
 using Timberborn.ToolSystem;
 using Timberborn.WaterSystemRendering;
 using UnityEngine.UIElements;
@@ -16,14 +17,11 @@ namespace CategoryButton
     public class Plugin : IModEntrypoint
     {
         public const string PluginGuid = "tobbert.categorybutton";
-        public static string myPath;
         
         public static IConsoleWriter Log;
         
         public void Entry(IMod mod, IConsoleWriter consoleWriter)
         {
-            myPath = mod.DirectoryPath;
-            
             Log = consoleWriter;
             
             try
@@ -73,11 +71,23 @@ namespace CategoryButton
         }
     }
     
-    [HarmonyPatch(typeof(BlockObjectToolButtonFactory), "Create", new Type[] {typeof(PlaceableBlockObject), typeof(ToolGroup), typeof(VisualElement)})]
+    [HarmonyPatch]
     public class BlockObjectToolPatch
     {
+        public static IEnumerable<MethodInfo> TargetMethods()
+        {
+            var methodInfoList = new List<MethodInfo>
+            {
+                AccessTools.Method(AccessTools.TypeByName("BlockObjectToolButtonFactory"), "Create", new Type[]
+                    {
+                        typeof(PlaceableBlockObject), typeof(ToolGroup), typeof(VisualElement)
+                    })
+            };
+
+            return methodInfoList;
+        }
+        
         static bool Prefix(
-            BlockObjectToolButtonFactory __instance,
             PlaceableBlockObject prefab,
             ToolGroup toolGroup,
             VisualElement buttonParent,
@@ -93,27 +103,34 @@ namespace CategoryButton
             
             return true;
         }
-        
-        static void Postfix(PlaceableBlockObject prefab, ToolButton __result)
-        {
-            DependencyContainer.GetInstance<CategoryButtonService>().AddButtonToCategoryTool(__result, prefab);
-        }
     }
     
     [HarmonyPatch]
-    public class ToolGroupFactoryPatch
+    public class ToolButtonFactoryPatch
     {
-        public static MethodInfo TargetMethod()
+        public static IEnumerable<MethodInfo> TargetMethods()
         {
-            return AccessTools.Method(AccessTools.TypeByName("BottomBarPanel"), "InitializeSections");
+            var methodInfoList = new List<MethodInfo>
+            {
+                AccessTools.Method(AccessTools.TypeByName("PlantingToolButtonFactory"), "CreatePlantingTool", new[]
+                {
+                    typeof(Plantable), typeof(VisualElement), typeof(ToolGroup)
+                }),
+                AccessTools.Method(AccessTools.TypeByName("BlockObjectToolButtonFactory"), "Create", new Type[]
+                {
+                    typeof(PlaceableBlockObject), typeof(ToolGroup), typeof(VisualElement)
+                })
+            };
+
+            return methodInfoList;
         }
-        
-        static void Postfix()
+
+        static void Postfix(ToolButton __result)
         {
-            DependencyContainer.GetInstance<CategoryButtonService>().AddButtonsToCategory();
+            DependencyContainer.GetInstance<CategoryButtonService>().AddButtonToCategoryTool(__result);
         }
     }
-    
+
     [HarmonyPatch(typeof(ToolManager), "SwitchTool", typeof(Tool))]
     public class ToolSwitcherPatch
     {

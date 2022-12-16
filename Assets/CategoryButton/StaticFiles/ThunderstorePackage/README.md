@@ -34,7 +34,8 @@ The category buttons works as you think it would, it adds another layer of butto
 }
 ```
 3. Change the values based on your category. 
-4. Done!
+4. Add an image with the name that you filled in under "ButtonIcon" and place it in "assets\CategorySprites\".
+5. Done!
 
 ## Installing
 
@@ -46,6 +47,16 @@ and adding the dll to your bepinex plugins folder. This plugin is dependent on t
 In case you experience problems, message me in the modding channel of the the [Timberborn discord](https://discord.gg/mfbBF4cWpX) or message me directly (Tobbert#1607). I will try to fix it as soon as possible. :D
 
 ## Changelog
+
+### 1.4.1 - 16.12.2022
+
+- Fixed to now work with Game version v0.3.4.3.
+
+### 1.4.0 - 2.12.2022
+
+- Added the ability to add Planting buttons as part of a CategoryButton.
+- Now disables any Group Button that doesn't have any buttons anymore.
+- Fixed a bug that prevented the Bridge Category to be overwritten.
 
 ### 1.3.0 - 26.11.2022
 

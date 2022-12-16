@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2720923307303773628}
-  - component: {fileID: 4583509741324869291}
-  - component: {fileID: -3958630885121123644}
+  - component: {fileID: 6450546552345135223}
+  - component: {fileID: 521274245259284604}
   - component: {fileID: -1354496570168393068}
-  - component: {fileID: 970272787121827717}
   - component: {fileID: -3579356459621308374}
+  - component: {fileID: 6288456046900975098}
   m_Layer: 0
   m_Name: CategoryButtonPrefab
   m_TagString: Untagged
@@ -36,7 +36,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4583509741324869291
+--- !u!114 &6450546552345135223
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,13 +45,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 3800120593857243598}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -788214902, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
+  m_Script: {fileID: -731835049, guid: b5f268a4cb31a93ed707a95d3a502b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefabName: 
+  _prefabName: CategoryButtonPrefab
   _backwardCompatiblePrefabNames: []
   _requiredFeatureToggle: 
---- !u!114 &-3958630885121123644
+--- !u!114 &521274245259284604
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -83,22 +83,6 @@ MonoBehaviour:
     _hasCustomPivot: 0
     _coordinates: {x: 0, y: 0, z: 0}
   _devModeTool: 0
---- !u!114 &970272787121827717
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3800120593857243598}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -296257353, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _displayNameLocKey: 
-  _descriptionLocKey: 
-  _flavorDescriptionLocKey: 
-  _image: {fileID: 0}
 --- !u!114 &-3579356459621308374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,3 +108,19 @@ MonoBehaviour:
     _coordinates: {x: 0, y: 0, z: 0}
   _baseZ: 0
   _overridable: 0
+--- !u!114 &6288456046900975098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3800120593857243598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1115175677, guid: b5f268a4cb31a93ed707a95d3a502b0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _displayNameLocKey: 
+  _descriptionLocKey: 
+  _flavorDescriptionLocKey: 
+  _image: {fileID: 0}
