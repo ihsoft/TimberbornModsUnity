@@ -3,6 +3,7 @@ using System.IO;
 using Timberborn.BlockSystem;
 using Timberborn.EntitySystem;
 using Timberborn.PathSystem;
+using Timberborn.PrefabSystem;
 using UnityEngine;
 
 namespace MorePaths

@@ -49,6 +49,10 @@ In case you experience problems, message me in the modding channel of the the [T
 
 ## Changelog
 
+### 2.1.2 - 17.12.2022
+
+- Fixed to now work with Game version v0.3.4.3.
+
 ### 2.1.1 - 20.11.2022
 
 - Fixed a issue that resulted on crashes on MacOS.

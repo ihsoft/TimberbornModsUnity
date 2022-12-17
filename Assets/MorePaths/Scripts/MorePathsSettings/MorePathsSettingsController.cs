@@ -4,6 +4,7 @@ using Timberborn.BlockObjectTools;
 using Timberborn.CoreUI;
 using Timberborn.EntitySystem;
 using Timberborn.PathSystem;
+using Timberborn.PrefabSystem;
 using Timberborn.SingletonSystem;
 using Timberborn.ToolSystem;
 
@@ -16,8 +17,6 @@ namespace MorePaths
         private readonly MorePathsSettings _morePathsSettings;
 
         private readonly EventBus _eventBus;
-
-        public static bool InGame;
 
         private List<ToolButton> _pathToolButtons;
 

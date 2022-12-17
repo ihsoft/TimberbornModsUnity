@@ -4,6 +4,7 @@ using Timberborn.Beavers;
 using Timberborn.BlockSystem;
 using Timberborn.BonusSystem;
 using Timberborn.EntitySystem;
+using Timberborn.PrefabSystem;
 using Timberborn.TickSystem;
 using Timberborn.WalkingSystem;
 using UnityEngine;

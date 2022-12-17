@@ -21,7 +21,6 @@
         "Timberborn.Buildings.dll",
         "Timberborn.BlockSystem.dll",
         "Timberborn.RangedEffectSystem.dll",
-        "Timberborn.RangedEffectSystemUI.dll",
         "Timberborn.EntityPanelSystem.dll",
         "Timberborn.BuildingsUI.dll",
         "Timberborn.BuildingRange.dll",
@@ -46,7 +45,8 @@
         "Timberborn.ToolSystem.dll",
         "Timberborn.SettingsSystem.dll",
         "Timberborn.CoreUI.dll",
-        "Timberborn.Localization.dll"
+        "Timberborn.Localization.dll",
+        "Timberborn.PrefabSystem.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],
