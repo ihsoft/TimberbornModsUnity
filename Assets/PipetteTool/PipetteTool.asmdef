@@ -39,7 +39,8 @@
         "Timberborn.Planting.dll",
         "Timberborn.Coordinates.dll",
         "Timberborn.ConstructionMode.dll",
-        "Timberborn.TickSystem.dll"
+        "Timberborn.TickSystem.dll",
+        "Timberborn.PrefabSystem.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

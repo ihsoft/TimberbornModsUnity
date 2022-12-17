@@ -6,9 +6,9 @@ using Timberborn.ConstructionMode;
 using Timberborn.Coordinates;
 using Timberborn.Core;
 using Timberborn.Debugging;
-using Timberborn.EntitySystem;
 using Timberborn.InputSystem;
 using Timberborn.Localization;
+using Timberborn.PrefabSystem;
 using Timberborn.SelectionSystem;
 using Timberborn.SingletonSystem;
 using Timberborn.ToolSystem;
@@ -49,11 +49,11 @@ namespace PipetteTool
 
     private bool _shouldPipetNextSelection;
 
-    protected MethodInfo EnterConstructionModeMethod;
+    protected readonly MethodInfo EnterConstructionModeMethod;
 
-    protected MethodInfo ExitConstructionModeMethod;
+    protected readonly MethodInfo ExitConstructionModeMethod;
 
-    private FieldInfo _blockObjectToolOrientationField;
+    private readonly FieldInfo _blockObjectToolOrientationField;
     
     public PipetteTool(EventBus eventBus, ToolManager toolManager, DevModeManager devModeManager, InputService inputService, MapEditorMode mapEditorMode, CursorService cursorService, SelectionManager selectionManager, SelectableObjectRaycaster selectableObjectRaycaster, ILoc loc)
     {
@@ -66,37 +66,32 @@ namespace PipetteTool
       _selectionManager = selectionManager;
       _selectableObjectRaycaster = selectableObjectRaycaster;
       _loc = loc;
+      
+      EnterConstructionModeMethod = typeof(ConstructionModeService).GetMethod("EnterConstructionMode", BindingFlags.NonPublic | BindingFlags.Instance);
+      ExitConstructionModeMethod = typeof(ConstructionModeService).GetMethod("ExitConstructionMode", BindingFlags.NonPublic | BindingFlags.Instance);
+      _blockObjectToolOrientationField = typeof(BlockObjectTool).GetField("_orientation", BindingFlags.NonPublic | BindingFlags.Instance);
     }
 
     public void Load()
     {
       _inputService.AddInputProcessor(this);
       _eventBus.Register(this);
-      InitializeToolDescription();
+      
+      _toolDescription = new ToolDescription.Builder(_loc.T(TitleLocKey)).AddSection(_loc.T(DescriptionLocKey)).Build();
+      
       InitializeMethodInfos();
-    }
-    
-    private void InitializeToolDescription()
-    {
-      _toolDescription = new ToolDescription.Builder(
-          _loc.T(TitleLocKey))
-        .AddSection(_loc.T(DescriptionLocKey))
-        .Build();
     }
 
     private void InitializeMethodInfos()
     {
-      EnterConstructionModeMethod = typeof(ConstructionModeService).GetMethod("EnterConstructionMode", BindingFlags.NonPublic | BindingFlags.Instance);
-      ExitConstructionModeMethod = typeof(ConstructionModeService).GetMethod("ExitConstructionMode", BindingFlags.NonPublic | BindingFlags.Instance);
-      _blockObjectToolOrientationField = typeof(BlockObjectTool).GetField("_orientation", BindingFlags.NonPublic | BindingFlags.Instance);
+      
     }
     
     public void AddToolButtonToDictionary(GameObject gameObject, ToolButton toolButton)
     {
-      if (gameObject.TryGetComponent(out Prefab prefab))
-      {
-        _toolButtons.Add(prefab.PrefabName, toolButton);
-      }
+      if (!gameObject.TryGetComponent(out Prefab prefab)) 
+        return;
+      _toolButtons.Add(prefab.PrefabName, toolButton);
     }
 
     public override ToolDescription Description() => _toolDescription;

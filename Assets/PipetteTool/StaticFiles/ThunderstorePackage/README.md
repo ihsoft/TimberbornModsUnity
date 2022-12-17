@@ -16,6 +16,10 @@ In case you experience problems, message me in the modding channel of the the [T
 
 ## Changelog
 
+### 1.2.3 - 17.12.2022
+
+- Fixed to now work with Game version v0.3.4.3.
+
 ### 1.2.2 - 20.11.2022
 
 - Fixed an issue that prevented exiting construction mode when using the shortcut. 
