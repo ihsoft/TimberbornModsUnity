@@ -16,6 +16,10 @@ In case you experience problems, message me in the modding channel of the the [T
 
 ## Changelog
 
+### 1.0.5 - 17.12.2022
+
+- Fixed to now work with Game version v0.3.4.3.
+
 ### 1.0.4 - 12.10.2022
 
 - Updated to work with latest stable update (v0.2.9.1).

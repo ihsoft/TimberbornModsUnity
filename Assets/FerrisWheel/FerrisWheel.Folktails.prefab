@@ -2275,7 +2275,7 @@ GameObject:
   - component: {fileID: 3894484864637120054}
   - component: {fileID: 1999726201031009703}
   - component: {fileID: 511005710607823574}
-  - component: {fileID: 2978571973715371038}
+  - component: {fileID: 731045712185009455}
   - component: {fileID: 4580440171318085561}
   - component: {fileID: 5960212158131010539}
   - component: {fileID: 3751421272312933886}
@@ -2284,8 +2284,8 @@ GameObject:
   - component: {fileID: 8341198088368987087}
   - component: {fileID: 2007257374567447739}
   - component: {fileID: 4660163596125685240}
-  - component: {fileID: 1371242524519304738}
   - component: {fileID: 8751375484455764984}
+  - component: {fileID: 3420634174848918029}
   m_Layer: 0
   m_Name: FerrisWheel.Folktails
   m_TagString: Untagged
@@ -2424,7 +2424,7 @@ MonoBehaviour:
   _limitedCapacity: 1
   _capacity: 16
   _throttledExit: 1
---- !u!114 &2978571973715371038
+--- !u!114 &731045712185009455
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2433,10 +2433,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5366692629481669372}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -788214902, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
+  m_Script: {fileID: -731835049, guid: b5f268a4cb31a93ed707a95d3a502b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefabName: FerrisWheel
+  _prefabName: FerrisWheel.Folktails
   _backwardCompatiblePrefabNames: []
   _requiredFeatureToggle: 
 --- !u!114 &4580440171318085561
@@ -3192,22 +3192,6 @@ MonoBehaviour:
   _customCoordinates: {x: 0, y: 0, z: 0}
   _customDirection: 0
   _drivewayMode: 0
---- !u!114 &1371242524519304738
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5366692629481669372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -296257353, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _displayNameLocKey: Tobbert.FerrisWheel.DisplayName
-  _descriptionLocKey: Tobbert.FerrisWheel.Description
-  _flavorDescriptionLocKey: Tobbert.FerrisWheel.FlavorDiscription
-  _image: {fileID: 21300000, guid: 374ff10aeadb1f640ac3b173a3ac81c0, type: 3}
 --- !u!114 &8751375484455764984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3222,7 +3206,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _noAutoWalls: 0
   _generateFloorsOnStackable: 1
+  _blockAllEdges: 0
   _addedEdges: []
+--- !u!114 &3420634174848918029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5366692629481669372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1115175677, guid: b5f268a4cb31a93ed707a95d3a502b0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _displayNameLocKey: Tobbert.FerrisWheel.DisplayName
+  _descriptionLocKey: Tobbert.FerrisWheel.Description
+  _flavorDescriptionLocKey: Tobbert.FerrisWheel.FlavorDiscription
+  _image: {fileID: 21300000, guid: 374ff10aeadb1f640ac3b173a3ac81c0, type: 3}
 --- !u!1 &5639855344003251834
 GameObject:
   m_ObjectHideFlags: 0
