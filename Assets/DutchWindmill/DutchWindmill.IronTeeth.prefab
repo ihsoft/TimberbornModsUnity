@@ -76,14 +76,14 @@ GameObject:
   - component: {fileID: 641840617487748393}
   - component: {fileID: 4553917712623642093}
   - component: {fileID: 511005710607823574}
-  - component: {fileID: 2978571973715371038}
+  - component: {fileID: 8071302615273841728}
   - component: {fileID: 8411639657129099024}
   - component: {fileID: 7515168943932249482}
   - component: {fileID: 5960212158131010539}
   - component: {fileID: 3751421272312933886}
   - component: {fileID: 2007257374567447739}
   - component: {fileID: 4660163596125685240}
-  - component: {fileID: 1371242524519304738}
+  - component: {fileID: 4109360291474235869}
   - component: {fileID: 2537194731171831177}
   - component: {fileID: 5432092140792865758}
   - component: {fileID: 5266777578792242911}
@@ -226,7 +226,7 @@ MonoBehaviour:
   _limitedCapacity: 0
   _capacity: 0
   _throttledExit: 0
---- !u!114 &2978571973715371038
+--- !u!114 &8071302615273841728
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -235,7 +235,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5366692629481669372}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -788214902, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
+  m_Script: {fileID: -731835049, guid: b5f268a4cb31a93ed707a95d3a502b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _prefabName: DutchWindmill.IronTeeth
@@ -521,7 +521,7 @@ MonoBehaviour:
   _customCoordinates: {x: 0, y: 0, z: 0}
   _customDirection: 0
   _drivewayMode: 0
---- !u!114 &1371242524519304738
+--- !u!114 &4109360291474235869
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -530,7 +530,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5366692629481669372}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -296257353, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
+  m_Script: {fileID: -1115175677, guid: b5f268a4cb31a93ed707a95d3a502b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _displayNameLocKey: Tobbert.DutchWindmill.DisplayName
