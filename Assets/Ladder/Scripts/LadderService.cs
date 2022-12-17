@@ -4,6 +4,7 @@ using System.Diagnostics;
 using Timberborn.BlockSystem;
 using Timberborn.EntitySystem;
 using Timberborn.Navigation;
+using Timberborn.PrefabSystem;
 using Timberborn.SingletonSystem;
 using UnityEngine;
 using Object = UnityEngine.Object;

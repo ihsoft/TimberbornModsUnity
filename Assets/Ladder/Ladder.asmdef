@@ -28,7 +28,8 @@
         "Timberborn.Navigation.dll",
         "Timberborn.NavigationUI.dll",
         "Timberborn.BuildingsNavigation.dll",
-        "Timberborn.Buildings.dll"
+        "Timberborn.Buildings.dll",
+        "Timberborn.PrefabSystem.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

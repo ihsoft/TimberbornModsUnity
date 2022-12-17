@@ -1,6 +1,6 @@
 {
   "name": "Ladder",
-  "version_number": "1.2.2",
+  "version_number": "1.2.3",
   "website_url": "https://github.com/TobbyTheBobby",
   "description": "A ladder which allows beavers to go directly up and down.",
   "dependencies": [
