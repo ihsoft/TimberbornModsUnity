@@ -91,22 +91,22 @@ namespace BeaverHats
             if (bodyPart == null)
                 return;
 
-            var clothingObject = Prefab.Instantiate(_assetLoader.Load<GameObject>("tobbert.beaverhats", "tobbert_beaverhats", clothing.Name));
-            clothingObject.name = ("__" + clothingObject.name).Replace("(Clone)", "");
-            ShaderFix(clothingObject.transform);
-            clothingObject.transform.rotation *= bodyPart.rotation;
-            clothingObject.transform.position += bodyPart.position;
-            if (beaver.transform.name.Contains("Child"))
-            {
-                clothingObject.transform.localScale -= new Vector3(0.25f, 0.25f, 0.25f);
-                clothingObject.transform.Rotate(5, 0, 0);
-            }
-
-            if (bodyPart.Find(clothingObject.name) != null)
-                bodyPart.Find(clothingObject.name).parent = null;
-
-            clothingObject.transform.SetParent(bodyPart.transform);
-            clothingObject.SetActive(false);
+            // var clothingObject = Prefab.Instantiate(_assetLoader.Load<GameObject>("tobbert.beaverhats", "tobbert_beaverhats", clothing.Name));
+            // clothingObject.name = ("__" + clothingObject.name).Replace("(Clone)", "");
+            // ShaderFix(clothingObject.transform);
+            // clothingObject.transform.rotation *= bodyPart.rotation;
+            // clothingObject.transform.position += bodyPart.position;
+            // if (beaver.transform.name.Contains("Child"))
+            // {
+            //     clothingObject.transform.localScale -= new Vector3(0.25f, 0.25f, 0.25f);
+            //     clothingObject.transform.Rotate(5, 0, 0);
+            // }
+            //
+            // if (bodyPart.Find(clothingObject.name) != null)
+            //     bodyPart.Find(clothingObject.name).parent = null;
+            //
+            // clothingObject.transform.SetParent(bodyPart.transform);
+            // clothingObject.SetActive(false);
         }
         
         private void ShaderFix(Transform child)

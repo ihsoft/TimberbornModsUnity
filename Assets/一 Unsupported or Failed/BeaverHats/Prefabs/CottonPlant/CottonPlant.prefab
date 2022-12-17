@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4490730396875682}
   - component: {fileID: 114990384776481898}
-  - component: {fileID: 114664424675076452}
+  - component: {fileID: 1649168192817647398}
   - component: {fileID: 114977560864301894}
   - component: {fileID: 3355663619158352377}
   - component: {fileID: 114957186545713068}
@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 114616386332351898}
   - component: {fileID: 114642274480570617}
   - component: {fileID: 114745347847094704}
-  - component: {fileID: 114086269569883842}
+  - component: {fileID: 7902024872860213780}
   - component: {fileID: 114843350723843167}
   - component: {fileID: 9004681951365050260}
   m_Layer: 0
@@ -75,7 +75,7 @@ MonoBehaviour:
     _coordinates: {x: 0, y: 0, z: 0}
   _baseZ: 0
   _overridable: 0
---- !u!114 &114664424675076452
+--- !u!114 &1649168192817647398
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -84,7 +84,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1871354865836539}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -788214902, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
+  m_Script: {fileID: -731835049, guid: b5f268a4cb31a93ed707a95d3a502b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _prefabName: CottonPlant
@@ -103,7 +103,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _orderId: 4
-  _disableInMapEditor: 1
 --- !u!114 &3355663619158352377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,7 +240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _daysToDieDry: 5
---- !u!114 &114086269569883842
+--- !u!114 &7902024872860213780
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -250,10 +249,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1871354865836539}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -296257353, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
+  m_Script: {fileID: -1115175677, guid: b5f268a4cb31a93ed707a95d3a502b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _displayNameLocKey: Tobbert.CottonPlant.DisplayName
+  _displayNameLocKey: 
   _descriptionLocKey: 
   _flavorDescriptionLocKey: 
   _image: {fileID: 21300000, guid: 16c87c647ca5eb44aa9d3f7e05280ee2, type: 3}
