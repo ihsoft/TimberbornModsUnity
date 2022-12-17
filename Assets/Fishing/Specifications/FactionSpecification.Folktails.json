@@ -1,7 +1,0 @@
-{
-  "CommonBuildings": [
-    "tobbert.verticalpowershaft/tobbert_verticalpowershaft/VerticalPowerShaft.Folktails",
-    "tobbert.verticalpowershaft/tobbert_verticalpowershaft/VerticalToStraightPowerShaft.Folktails",
-    "tobbert.verticalpowershaft/tobbert_verticalpowershaft/StraightToVerticalPowerShaft.Folktails"
-  ]
-}
