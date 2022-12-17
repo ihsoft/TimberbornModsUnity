@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9057f7f601990a4883b2cb295c4f43e, type: 3}
   m_Name: ThunderKitSettings
   m_EditorClassIdentifier: 
-  FirstLoad: 1
-  ShowOnStartup: 0
+  FirstLoad: 0
+  ShowOnStartup: 1
   GameExecutable: Timberborn.exe
   GamePath: C:\Program Files (x86)\Steam\steamapps\common\Timberborn
   Is64Bit: 1
@@ -22,7 +22,7 @@ MonoBehaviour:
   ShowLogWindow: 1
   MarkdownOpenMode: 1
   SelectedPipeline: {fileID: 11400000, guid: 4dd48049486e9ce49bfcb65be4435455, type: 2}
-  SelectedManifest: {fileID: 11400000, guid: b67f55c646d99214f99f86e2955e0e5d, type: 2}
+  SelectedManifest: {fileID: 11400000, guid: af7eb581fd1b749449e993e98ecc046f, type: 2}
   QuickAccessPipelines:
   - {fileID: 11400000, guid: 23854ca4c760612448f5c69bae1449d7, type: 2}
   - {fileID: 11400000, guid: 4dd48049486e9ce49bfcb65be4435455, type: 2}
@@ -34,7 +34,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 07fe8d9796a3f8049bd821b812f80ff2, type: 2}
   - {fileID: 11400000, guid: 9d8203a1c8464974586f50cb40f42426, type: 2}
   - {fileID: 11400000, guid: a5890e1ec3cc3064bbf76ae9a068cbd3, type: 2}
-  - {fileID: 11400000, guid: f060107444b2e2e4ead469094024c0e5, type: 2}
   - {fileID: 11400000, guid: 7dd71bf3a056d484086c00bc923a49cb, type: 2}
   - {fileID: 11400000, guid: b9b73eebf85f9df488fc243573a756bb, type: 2}
   - {fileID: 11400000, guid: a6f3717cff2ab2741bfc380918cd7360, type: 2}
