@@ -1,6 +1,6 @@
 {
   "name": "VerticalPowerShafts",
-  "version_number": "1.1.1",
+  "version_number": "1.1.2",
   "website_url": "https://github.com/TobbyTheBobby",
   "description": "Adds three new power shafts that allow the transfer of power vertically. Also adds a Universal Power shaft that changes shape based on the connections it has.",
   "dependencies": [

@@ -16,6 +16,10 @@ In case you experience problems or have any feedback, message me in the modding 
 
 ## Changelog
 
+### 1.1.2 - 17.12.2022
+
+- Fixed to now work with Game version v0.3.4.3.
+
 ### 1.1.1 - 23.9.2022
 
 - Updated to work with TimberAPI (v0.5.0).
