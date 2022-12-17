@@ -254,7 +254,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6190661508642916098}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -788214902, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
+  m_Script: {fileID: -731835049, guid: b5f268a4cb31a93ed707a95d3a502b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _prefabName: HorizontalPlatformEnd3x1.Folktails
@@ -405,7 +405,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6190661508642916098}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -296257353, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
+  m_Script: {fileID: -1115175677, guid: b5f268a4cb31a93ed707a95d3a502b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _displayNameLocKey: Tobbert.HorizontalPlatformEnd3x1.DisplayName
