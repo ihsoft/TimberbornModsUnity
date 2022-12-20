@@ -1,7 +1,7 @@
 {
     "name": "ExtendedArchitecture",
     "author": "Elec",
-    "version_number": "0.3.2",
+    "version_number": "0.3.3",
     "website_url": "https://github.com/TheElec",
     "description": "Adds new structures to the game.",
     "dependencies": [

@@ -58,7 +58,9 @@ MonoBehaviour:
   - assetBundleName: elec_extendedarchitexture
     assets:
     - {fileID: 668602528646462413, guid: 70a0102b04085714fae81cae6bc7544a, type: 3}
+    - {fileID: 668602528646462413, guid: e8140bf87ebad8946ad1e11b5d00a0d9, type: 3}
     - {fileID: 6439842795115214155, guid: facceb0bac57e7444ab7e093efaf2c4a, type: 3}
+    - {fileID: 6439842795115214155, guid: a1b3eaadcc76a884c9494aed6ed07686, type: 3}
 --- !u!114 &7276679206402820566
 MonoBehaviour:
   m_ObjectHideFlags: 0
