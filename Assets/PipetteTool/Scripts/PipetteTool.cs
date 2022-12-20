@@ -76,17 +76,9 @@ namespace PipetteTool
     {
       _inputService.AddInputProcessor(this);
       _eventBus.Register(this);
-      
       _toolDescription = new ToolDescription.Builder(_loc.T(TitleLocKey)).AddSection(_loc.T(DescriptionLocKey)).Build();
-      
-      InitializeMethodInfos();
     }
 
-    private void InitializeMethodInfos()
-    {
-      
-    }
-    
     public void AddToolButtonToDictionary(GameObject gameObject, ToolButton toolButton)
     {
       if (!gameObject.TryGetComponent(out Prefab prefab)) 
@@ -139,28 +131,21 @@ namespace PipetteTool
      {
        if (!_inputService.IsCtrlHeld && !_shouldPipetNextSelection) 
          return;
-       
-       if (!IsBlockObject(hitObject.gameObject)) 
-         return;
-       
+
        var selectableObjectName = hitObject.GetComponent<Prefab>().PrefabName;
+
+       if (!_toolButtons.ContainsKey(selectableObjectName))
+         return;
        
        var tool = _toolButtons[selectableObjectName].Tool;
        
-       ChangeToolOrientation(tool, hitObject.GetComponent<BlockObject>().Orientation);
-       
        if (_mapEditorMode.IsMapEditor)
-         SwitchToSelectedBuildingTool(tool);
+         SwitchToSelectedBuildingTool(tool, hitObject);
        
        if (tool.DevModeTool && !IsDevToolEnabled) 
          return;
        
-       SwitchToSelectedBuildingTool(tool);
-     }
-
-     private bool IsBlockObject(GameObject gameObject)
-     {
-       return gameObject.TryGetComponent(out BlockObject _);
+       SwitchToSelectedBuildingTool(tool, hitObject);
      }
 
      private void ChangeToolOrientation(Tool tool, Orientation orientation)
@@ -173,8 +158,9 @@ namespace PipetteTool
        _blockObjectToolOrientationField.SetValue(blockObjectTool, orientation);
      }
      
-     protected virtual void SwitchToSelectedBuildingTool(Tool tool)
+     protected virtual void SwitchToSelectedBuildingTool(Tool tool, GameObject hitObject)
      {
+       ChangeToolOrientation(tool, hitObject.GetComponent<BlockObject>().Orientation);
        _toolManager.SwitchTool(tool);
        _shouldPipetNextSelection = false;
        _cursorService.ResetTemporaryCursor();

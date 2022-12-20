@@ -6,6 +6,7 @@ using Timberborn.Localization;
 using Timberborn.SelectionSystem;
 using Timberborn.SingletonSystem;
 using Timberborn.ToolSystem;
+using UnityEngine;
 
 namespace PipetteTool
 {
@@ -39,13 +40,12 @@ namespace PipetteTool
         public override void Exit()
         {
             base.Exit();
-            // ConstructionModeServicePatch.SkipNext = true;
             ExitConstructionModeMethod.Invoke(_constructionModeService, new object[] { });
         }
 
-        protected override void SwitchToSelectedBuildingTool(Tool tool)
+        protected override void SwitchToSelectedBuildingTool(Tool tool, GameObject hitObject)
         {
-            base.SwitchToSelectedBuildingTool(tool);
+            base.SwitchToSelectedBuildingTool(tool, hitObject);
             EnterConstructionModeMethod.Invoke(_constructionModeService, new object[] { });
         }
     }
