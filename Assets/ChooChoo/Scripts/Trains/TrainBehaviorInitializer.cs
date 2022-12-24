@@ -1,6 +1,7 @@
 ﻿using Bindito.Core;
 using Bindito.Unity;
 using Timberborn.BehaviorSystem;
+using Timberborn.WorkSystem;
 using UnityEngine;
 
 namespace ChooChoo
@@ -20,7 +21,8 @@ namespace ChooChoo
 
     private void InitializeExecutors()
     {
-      AddExecutor<MoveToPositionExecutor>();
+      AddExecutor<TrainDistributeGoodsExecutor>();
+      AddExecutor<MoveToStationExecutor>();
       AddExecutor<WaitExecutor>();
     }
 
@@ -29,7 +31,9 @@ namespace ChooChoo
     private void InitializeBehaviors()
     {
       BehaviorManager component = GetComponent<BehaviorManager>();
-      component.AddRootBehavior<TrainMovingRootBehavior>();
+      // component.AddRootBehavior<WorkerRootBehavior>();
+      component.AddRootBehavior<TrainDistributorBehavior>();
+      // component.AddRootBehavior<TrainScheduleBehavior>();
     }
   }
 }

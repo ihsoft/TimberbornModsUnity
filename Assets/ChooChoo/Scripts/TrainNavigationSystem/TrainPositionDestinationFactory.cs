@@ -11,6 +11,6 @@ namespace ChooChoo
       _trainNavigationService = trainNavigationService;
     }
 
-    public TrainPositionDestination Create(Vector3 position) => new(_trainNavigationService, position);
+    public TrainPositionDestination Create(TrainDestination trainDestination) => new(_trainNavigationService, trainDestination);
   }
 }

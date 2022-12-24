@@ -9,7 +9,6 @@ using Timberborn.FactionSystemGame;
 using Timberborn.Localization;
 using Timberborn.Persistence;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace ChooChoo
 {
@@ -35,7 +34,7 @@ namespace ChooChoo
 
         private readonly List<List<Vector3>> _previousPathCorners = new();
 
-        private int NumberOfCarts = 4;
+        public int NumberOfCarts = 4;
 
         public float minDistanceFromTrain;
 
@@ -149,7 +148,7 @@ namespace ChooChoo
                 var wagon = _entityService.Instantiate(cartPrefab.gameObject);
                 trainWagons.Add(wagon.GetComponent<TrainWagon>());
 
-                Destroy(wagon.GetComponent(AccessTools.TypeByName("StrandedStatus")));
+                // Destroy(wagon.GetComponent(AccessTools.TypeByName("StrandedStatus")));
 
                 SetInitialCartPosition(wagon, cartNumber);
                 

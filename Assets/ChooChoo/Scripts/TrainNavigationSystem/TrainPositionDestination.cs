@@ -8,9 +8,9 @@ namespace ChooChoo
   {
     private readonly TrainNavigationService _trainNavigationService;
 
-    public Vector3 Destination { get; }
+    public TrainDestination Destination { get; }
 
-    public TrainPositionDestination(TrainNavigationService trainNavigationService, Vector3 destination)
+    public TrainPositionDestination(TrainNavigationService trainNavigationService, TrainDestination destination)
     {
       _trainNavigationService = trainNavigationService;
       Destination = destination;

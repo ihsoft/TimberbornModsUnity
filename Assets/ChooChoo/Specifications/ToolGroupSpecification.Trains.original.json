@@ -1,0 +1,8 @@
+{
+  "Id": "TobbertTrains",
+  "Order": "150",
+  "NameLocKey": "Tobbert.ToolGroup.Trains",
+  "Icon": "tobbert.choochoo/tobbert_choochoo/ToolGroupIcon",
+  "FallbackGroup": false
+}
+

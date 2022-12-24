@@ -191,7 +191,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5338206533014369884}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -788214902, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
+  m_Script: {fileID: -731835049, guid: b5f268a4cb31a93ed707a95d3a502b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _prefabName: TrainStation.Folktails
@@ -236,7 +236,7 @@ MonoBehaviour:
       _occupyAllBelow: 0
     - _matterBelow: 1
       _occupation: 7
-      _stackable: 1
+      _stackable: 0
       _optionallyUnderground: 0
       _occupyAllBelow: 0
     - _matterBelow: 1
@@ -326,7 +326,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5338206533014369884}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -296257353, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
+  m_Script: {fileID: -1115175677, guid: b5f268a4cb31a93ed707a95d3a502b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _displayNameLocKey: Tobbert.TrainStation.DisplayName
@@ -338,7 +338,6 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    serializedVersion: 2
     m_TransformParent: {fileID: 3336589163391838871}
     m_Modifications:
     - target: {fileID: -8930099117310585392, guid: 0f81992ef8eaf3b418216ae39f86b8b7, type: 3}
@@ -474,7 +473,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 6ac96165fbdc3c340b51ca271cd0cfbc, type: 2}
     m_RemovedComponents: []
-    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f81992ef8eaf3b418216ae39f86b8b7, type: 3}
 --- !u!4 &7534512883940343776 stripped
 Transform:

@@ -1,10 +1,11 @@
 using Bindito.Core;
 using Timberborn.ConstructibleSystem;
+using Timberborn.EntitySystem;
 using UnityEngine;
 
 namespace ChooChoo
 {
-    public class TrainDestination : MonoBehaviour, IFinishedStateListener
+    public class TrainDestination : MonoBehaviour, IFinishedStateListener, IRegisteredComponent
     {
         private TrainDestinationsRepository _trainDestinationsRepository;
 

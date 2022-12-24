@@ -62,7 +62,7 @@ namespace ChooChoo
     public void StopMoving()
     {
       _movementAnimator.StopAnimatingMovement();
-      _currentCornerIndex = 0;
+      _currentCornerIndex = 1;
       _nextSubCornerIndex = 0;
     }
 

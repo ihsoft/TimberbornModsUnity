@@ -32,8 +32,6 @@ namespace ChooChoo
 
         private GameObject _train;
 
-        // private GlobalMarketServant _globalMarketServant;
-
         [Inject]
         public void InjectDependencies(ILoc loc, EntityService entityService, IResourceAssetLoader resourceAssetLoader,
             FactionService factionService)
@@ -81,16 +79,13 @@ namespace ChooChoo
 
             _train = _entityService.Instantiate(train.gameObject);
 
-            Destroy(_train.GetComponent(AccessTools.TypeByName("StrandedStatus")));
+            // Destroy(_train.GetComponent(AccessTools.TypeByName("StrandedStatus")));
+            //
+            // Destroy(_train.GetComponent(AccessTools.TypeByName("CharacterTint")));
 
             SetInitialTrainLocation();
 
             SetTrainName();
-
-            var trainYardSubject = _train.GetComponent<TrainYardSubject>();
-            var trainYard = gameObject;
-            trainYardSubject.LinkedGlobalMarket = trainYard;
-            trainYardSubject.LinkedGlobalMarketPosition = trainYard.transform.position + GetSpawnOffset();
 
             _train.GetComponent<Machinist>().LastTrackConnection = GetComponent<TrackPiece>().TrackConnections
                 .First(connection => connection.Direction == Direction2D.Up);

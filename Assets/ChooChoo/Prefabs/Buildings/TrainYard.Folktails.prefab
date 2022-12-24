@@ -164,7 +164,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5338206533014369884}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -788214902, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
+  m_Script: {fileID: -731835049, guid: b5f268a4cb31a93ed707a95d3a502b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _prefabName: TrainYard.Folktails
@@ -281,12 +281,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5338206533014369884}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -296257353, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
+  m_Script: {fileID: -1115175677, guid: b5f268a4cb31a93ed707a95d3a502b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _displayNameLocKey: 
-  _descriptionLocKey: 
-  _flavorDescriptionLocKey: 
+  _displayNameLocKey: Tobbert.TrainYard.DisplayName
+  _descriptionLocKey: Tobbert.TrainYard.Description
+  _flavorDescriptionLocKey: Tobbert.TrainYard.FlavorDescription
   _image: {fileID: 21300000, guid: 37fe282da26712e46ab2e943bcf96dba, type: 3}
 --- !u!1001 &537134680322877547
 PrefabInstance:

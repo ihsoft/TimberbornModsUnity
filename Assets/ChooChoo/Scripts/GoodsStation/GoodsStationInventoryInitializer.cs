@@ -7,13 +7,11 @@ namespace ChooChoo
 {
   internal class GoodsStationInventoryInitializer : IDedicatedDecoratorInitializer<GoodsStation, Inventory>
   {
-    private static readonly string InventoryComponentName = "GoodsStationInventory";
+    private static readonly string InventoryComponentName = "GoodsStation";
     private readonly IGoodService _goodService;
     private readonly IInstantiator _instantiator;
 
-    public GoodsStationInventoryInitializer(
-      IGoodService goodService,
-      IInstantiator instantiator)
+    public GoodsStationInventoryInitializer(IGoodService goodService, IInstantiator instantiator)
     {
       _goodService = goodService;
       _instantiator = instantiator;
@@ -21,24 +19,24 @@ namespace ChooChoo
 
     public void Initialize(GoodsStation subject, Inventory decorator)
     {
-      int maxValue = int.MaxValue;
-      InventoryInitializer inventoryInitializer = new InventoryInitializer(_goodService, decorator, maxValue, InventoryComponentName);
+      InventoryInitializer inventoryInitializer = new InventoryInitializer(_goodService, decorator, CalculateTotalCapacity(subject), InventoryComponentName);
       inventoryInitializer.HasPublicInput();
-      AllowEveryGoodAsGivableAndTakeable(inventoryInitializer, maxValue);
+      inventoryInitializer.HasPublicOutput();
+      AllowEveryGoodAsGiveAndTabeable(inventoryInitializer, subject.MaxCapacity);
       LimitableGoodDisallower limitableGoodDisallower = _instantiator.AddComponent<LimitableGoodDisallower>(subject.gameObject);
       inventoryInitializer.AddGoodDisallower(limitableGoodDisallower);
       inventoryInitializer.Initialize();
       subject.InitializeInventory(decorator);
     }
 
-    private void AllowEveryGoodAsGivableAndTakeable(
-      InventoryInitializer inventoryInitializer,
-      int inventoryCapacity)
+    private int CalculateTotalCapacity(GoodsStation simpleOutputInventory) => simpleOutputInventory.MaxCapacity * _goodService.Goods.Count;
+
+    private void AllowEveryGoodAsGiveAndTabeable(InventoryInitializer inventoryInitializer, int inventoryCapacity)
     {
-      foreach (string good1 in _goodService.Goods)
+      foreach (string goodId in _goodService.Goods)
       {
-        StorableGoodAmount good2 = new StorableGoodAmount(StorableGood.CreateGiveableAndTakeable(good1), inventoryCapacity);
-        inventoryInitializer.AddAllowedGood(good2);
+        StorableGoodAmount storableGoodAmount = new StorableGoodAmount(StorableGood.CreateGiveableAndTakeable(goodId), inventoryCapacity);
+        inventoryInitializer.AddAllowedGood(storableGoodAmount);
       }
     }
   }

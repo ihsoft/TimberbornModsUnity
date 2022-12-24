@@ -1,13 +1,12 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using TimberApi.ConsoleSystem;
 using TimberApi.ModSystem;
-using Timberborn.EntitySystem;
+using Timberborn.Characters;
 using Timberborn.GameDistricts;
-using Timberborn.InventorySystem;
-using Timberborn.Persistence;
-using Timberborn.Warehouses;
+using Timberborn.PrefabSystem;
 using UnityEngine;
 
 namespace ChooChoo
@@ -48,6 +47,51 @@ namespace ChooChoo
                 return false;
             }
 
+            return true;
+        }
+    }
+    
+    [HarmonyPatch]
+    public class InstantiatorPatch
+    {
+        private static readonly List<string> PreventDecorators = new()
+        {
+            nameof(Citizen),
+            nameof(CharacterTint),
+            "StrandedStatus"
+        };
+
+        private static readonly List<string> GameObjectsToCheck = new()
+        {
+            "Train",
+            "Cart"
+        };
+
+        public static MethodInfo TargetMethod()
+        {
+            return AccessTools.Method(AccessTools.TypeByName("Instantiator"), "AddComponent", new []
+            {
+                typeof(GameObject), typeof(System.Type)
+            });
+        }
+        
+        static bool Prefix(GameObject gameObject, System.Type componentType, ref Component __result)
+        {
+            var prefabName = gameObject.GetComponent<Prefab>().PrefabName;
+            foreach (var nameToCheck in GameObjectsToCheck)
+            {
+                if (prefabName.Contains(nameToCheck))
+                {
+                    // Plugin.Log.LogWarning(gameObject + "      " + componentType.Name);
+                    if (PreventDecorators.Contains(componentType.Name))
+                    {
+                        // Plugin.Log.LogError("Preventing");
+                        __result = new Component();
+                        return false;
+                    }
+                }
+            }
+            
             return true;
         }
     }

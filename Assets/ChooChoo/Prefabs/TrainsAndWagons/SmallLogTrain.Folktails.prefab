@@ -24,12 +24,13 @@ GameObject:
   - component: {fileID: 499880859668066832}
   - component: {fileID: 835374262739727047}
   - component: {fileID: 1931021591444630866}
-  - component: {fileID: 5730570834822436876}
   - component: {fileID: 3470631646242554145}
   - component: {fileID: 6479493708352514342}
   - component: {fileID: 7474011753605398053}
   - component: {fileID: 2126802968284837227}
   - component: {fileID: -7546484517251830069}
+  - component: {fileID: 8095146922966365799}
+  - component: {fileID: 2293147786423119748}
   m_Layer: 0
   m_Name: SmallLogTrain.Folktails
   m_TagString: Untagged
@@ -125,7 +126,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3207032685556258263}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -788214902, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
+  m_Script: {fileID: -731835049, guid: b5f268a4cb31a93ed707a95d3a502b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _prefabName: SmallLogTrain.Folktails
@@ -189,7 +190,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3207032685556258263}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1907271204, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
+  m_Script: {fileID: -1907271204, guid: 5472a64f9e8ebdd4bb05a6bc0fa7cde5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _prefabNameLocKey: SmallLogTrain.Folktails
@@ -243,18 +244,6 @@ MonoBehaviour:
   m_Script: {fileID: 347321138, guid: 7f34c67d5913b607a3bac2ffb807ccf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5730570834822436876
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3207032685556258263}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 403069c743924e02a443f56a45ca8c4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3470631646242554145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,6 +292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c717f995a9748d59c6173dfd19bf65c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NumberOfCarts: 4
   minDistanceFromTrain: 0.6
 --- !u!114 &-7546484517251830069
 MonoBehaviour:
@@ -318,17 +308,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slowDownDistance: 1.5
   baseSlowDownSpeed: 0.1
+--- !u!114 &8095146922966365799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3207032685556258263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b367064195764009a11917aa87b4f2f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2293147786423119748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3207032685556258263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cac9d6b20d6426f8e71f560ac949827, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7541596489420871558
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    serializedVersion: 2
     m_TransformParent: {fileID: 9076212369666711656}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 5ee9b33eab1f9d143b02744d95633212, type: 3}
       propertyPath: m_RootOrder
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5ee9b33eab1f9d143b02744d95633212, type: 3}
       propertyPath: m_LocalPosition.x
@@ -399,7 +412,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 67994ecbb9674c54f81c354ecfdc795d, type: 2}
     m_RemovedComponents: []
-    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ee9b33eab1f9d143b02744d95633212, type: 3}
 --- !u!1 &7235116214657133271 stripped
 GameObject:

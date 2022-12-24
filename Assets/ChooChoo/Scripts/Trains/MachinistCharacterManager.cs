@@ -7,7 +7,7 @@ namespace ChooChoo
     public class MachinistCharacterManager : TickableComponent
     {
         private MachinistCharacterFactory _machinistCharacterFactory;
-        private TrainMovingRootBehavior _trainMovingRootBehavior;
+        private TrainScheduleBehavior _trainScheduleBehavior;
 
         private GameObject _pilot;
 

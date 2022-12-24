@@ -52,56 +52,25 @@ namespace ChooChoo
             case "TrainYard":
                return new TrackConnection[]
                {
-                  new(new Vector3Int(0, 0, 0), Direction2D.Up, new Vector3[] { new(0, 0, 1.1f) }),
                   new(new Vector3Int(0, 2, 0), Direction2D.Down, new[] { Vector3.zero }),
+                  new(new Vector3Int(0, 0, 0), Direction2D.Up, new Vector3[] { new(0, 0, 1.1f) }),
                };
             case "TrainStation":
                return new TrackConnection[]
                {
-                  new(new Vector3Int(0, 0, 0), Direction2D.Right, new Vector3[] { new(1.2f, 0, -1f) }),
+                  new(new Vector3Int(0, 0, 0), Direction2D.Right, new Vector3[] { new(-1.2f, 0, -1f) }),
                   new(new Vector3Int(2, 0, 0), Direction2D.Left, new Vector3[] { new(1.2f, 0, -1f) }),
                };
             case "GoodsStation":
                return new TrackConnection[]
                {
-                  new(new Vector3Int(0, 0, 0), Direction2D.Up, new Vector3[] { Vector3.zero,  }),
-                  new(new Vector3Int(0, 0, 0), Direction2D.Down, new Vector3[] { Vector3.zero, }),
+                  new(new Vector3Int(0, 2, 0), Direction2D.Right, new Vector3[] { new(1.2f, 0, 1f) }),
+                  new(new Vector3Int(2, 2, 0), Direction2D.Left, new Vector3[] { new(-1.2f, 0, 1f) }),
                };
             default:
                throw new ArgumentOutOfRangeException($"Unexpected Track object: {prefabName}");
          }
       }
-      
-      // public Vector3[] GetPathCorners(string prefabName)
-      // {
-      //    prefabName = FixPrefabName(prefabName);
-      //    Plugin.Log.LogWarning("Providing Path Corners: " + prefabName);
-      //    switch (prefabName)
-      //    {
-      //       case "TrackStraight":
-      //          return new[] { Vector3.zero };
-      //       case "TrackCorner1x1":
-      //          return new[] { Vector3.zero };
-      //       case "TrackCorner2x2":
-      //          return new Vector3[]
-      //          {
-      //             // new(1.4f, 0, 0.65f),
-      //             new(0.1f, 0, 0.1f),
-      //             // new(0.65f, 0, 1.4f),
-      //          };
-      //       case "TrackTIntersection":
-      //          return new[] { Vector3.zero };
-      //       case "TrainYard":
-      //          return new[] { Vector3.zero };
-      //       case "TrainStation":
-      //          return new Vector3[]
-      //          {
-      //             new(-1, 0, -1)
-      //          };
-      //       default:
-      //          throw new ArgumentOutOfRangeException($"Unexpected Track object: {prefabName}");
-      //    }
-      // }
 
       private string FixPrefabName(string prefabName)
       {

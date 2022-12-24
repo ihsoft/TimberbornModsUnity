@@ -19,4 +19,25 @@ Tobbert.TrainStation.DisplayName,Train Station,-
 Tobbert.TrainStation.Description,A destination for trains.,-
 Tobbert.TrainStation.FlavorDescription,Choo! Choo!,-
 
+Tobbert.TrainYard.DisplayName,Train Yard,-
+Tobbert.TrainYard.Description,A place where trains are born.,-
+Tobbert.TrainYard.FlavorDescription,Choo! Choo!,-
+
 Tobbert.Train.Name,Train,-
+
+Tobbert.BatchControl.Trains,Trains,-
+Tobbert.Train.Length,Train Length: ,-
+
+Tobbert.TrainSchedule.AddNewStation,New Station,-
+Tobbert.TrainSchedule.AddNewTrainAction,New Action,-
+
+Tobbert.TrainAction.Wait,Wait,-
+Tobbert.TrainAction.Wait.WaitingInMinutes,Hours to wait: ,-
+
+Tobbert.TrainAction.TakeGoods,Take Goods,-
+Tobbert.TrainAction.TakeGoods.TakeGoodAmount,Take goods: ,-
+
+Tobbert.GoodsStation.Loading,Load: ,-
+Tobbert.GoodsStation.Unloading,Unload: ,-
+
+Tobbert.ToolGroup.Trains,Trains,-

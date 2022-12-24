@@ -22,21 +22,18 @@ namespace ChooChoo
             _blockService = blockService;
         }
         
-        public bool FindRailTrackPath(Vector3 start, Vector3 destination, ref TrackConnection previouslyLastTrackConnection, List<TrackConnection> tempPathTrackConnections)
+        public bool FindRailTrackPath(Vector3 start, TrainDestination destination, ref TrackConnection previouslyLastTrackConnection, List<TrackConnection> tempPathTrackConnections)
         {
             _stopwatch.Restart();
 
             var startTrackPiece = _blockService.GetFloorObjectComponentAt<TrackPiece>(Vector3Int.FloorToInt(new Vector3(start.x, start.z, start.y)));
-            var endCoordinate = Vector3Int.FloorToInt(new Vector3(destination.x, destination.z, destination.y));
-            var endTrackPiece = _blockService.GetFloorObjectComponentAt<TrackPiece>(endCoordinate);
-            // Plugin.Log.LogError((startTrackPiece != null) + "   " + (endTrackPiece != null));
+            var endTrackPiece = destination.GetComponent<TrackPiece>();
             if (startTrackPiece == null || endTrackPiece == null || startTrackPiece == endTrackPiece) 
                 return false;
 
             var startTrainDestination = startTrackPiece.GetComponent<TrainDestination>();
-            var endTrainDestination = endTrackPiece.GetComponent<TrainDestination>();
-            if (!_trainDestinationService.TrainDestinationsConnected(startTrainDestination, endTrainDestination))
-                if (!_trainDestinationService.DestinationReachable(startTrackPiece, endTrainDestination))
+            if (!_trainDestinationService.TrainDestinationsConnected(startTrainDestination, destination))
+                if (!_trainDestinationService.DestinationReachable(startTrackPiece, destination))
                     return false;
 
             var trackConnections = new List<TrackConnection>();
