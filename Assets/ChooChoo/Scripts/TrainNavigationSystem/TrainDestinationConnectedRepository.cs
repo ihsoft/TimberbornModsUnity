@@ -56,7 +56,7 @@ namespace ChooChoo
                 CheckNextTrackPiece(checkingDestination.GetComponent<TrackPiece>(), checkedTrackPieces, trainDestinationsConnected);
                 list.Add(trainDestinationsConnected);
             }
-            // Plugin.Log.LogInfo("Destinations: " + _trainDestinationsRepository.TrainDestinations.Count + " lists: " + list.Count + " Total Indexed: " + list.Select(destinations => destinations.Count).Sum());
+            
             _trainDestinationConnections = list.ToArray();
         }
         

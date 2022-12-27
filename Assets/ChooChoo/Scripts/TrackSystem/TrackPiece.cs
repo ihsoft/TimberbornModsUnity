@@ -28,6 +28,8 @@ namespace ChooChoo
         public TrackSection TrackSection;
 
         public Vector3 CenterCoordinates { get; private set; }
+        
+        public bool CanPathFindOverIt { get; set; }
 
         [Inject]
         public void InjectDependencies(BlockService blockService, EventBus eventBus, TrackArrayProvider trackArrayProvider, TrackConnectionService trackConnectionService)
@@ -77,6 +79,7 @@ namespace ChooChoo
             TrackSection = new TrackSection(this);
             _blockObject = GetComponent<BlockObject>();
             _blockObjectCenter = GetComponent<BlockObjectCenter>();
+            CanPathFindOverIt = !TryGetComponent(out TrainWaitingLocation _);
         }
 
         public void OnEnterFinishedState()
@@ -84,6 +87,7 @@ namespace ChooChoo
             LookForTrackSection();
             CenterCoordinates = GetComponent<BlockObjectCenter>().WorldCenterGrounded;
             _eventBus.Post(new OnTracksUpdatedEvent());
+            
             foreach (var track in TrackSection.TrackPieces)
             {
                 if (track != null)
@@ -164,13 +168,19 @@ namespace ChooChoo
             trackConnection.ConnectedTrackPiece = this;
             trackConnection.ConnectedTrackConnection = thisTrackConnection;
             
-            if (TryGetComponent(out TrainStation _))
-                return;
+            // if (TryGetComponent(out TrainDestination _) || trackPiece.TryGetComponent(out TrainDestination _))
+            //     return;
             
 
             if (TryGetComponent(out TrackIntersection _))
             {
                 trackPiece.TrackSection.Add(this);
+                return;
+            }
+
+            if (trackPiece.TryGetComponent(out TrackIntersection _))
+            {
+                TrackSection.Add(trackPiece);
                 return;
             }
 

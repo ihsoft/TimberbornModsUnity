@@ -10,10 +10,7 @@ namespace ChooChoo
         {
             _trackMap = trackMap;
         }
-        
-        public void FindTrackSection()
-        {
-            
-        }
+
+        public bool CanEnterSection(TrackSection trackSection) => !trackSection.Occupied;
     }
 }

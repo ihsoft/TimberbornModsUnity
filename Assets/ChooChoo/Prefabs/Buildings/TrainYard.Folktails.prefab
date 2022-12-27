@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 5232831697191421784}
   - component: {fileID: 2091962270582669992}
   - component: {fileID: 4610783407842143319}
-  - component: {fileID: 2315639431823274679}
+  - component: {fileID: 8904621390359654100}
   - component: {fileID: 2620474729558111792}
   m_Layer: 0
   m_Name: TrainYard.Folktails
@@ -230,7 +230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _toolGroupId: TobbertTrains
-  _toolOrder: 0
+  _toolOrder: 50
   _layout: 0
   _customPivot:
     _hasCustomPivot: 0
@@ -260,7 +260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54fc23297c2042b49bd7e0edee84ce49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2315639431823274679
+--- !u!114 &8904621390359654100
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -287,13 +287,12 @@ MonoBehaviour:
   _displayNameLocKey: Tobbert.TrainYard.DisplayName
   _descriptionLocKey: Tobbert.TrainYard.Description
   _flavorDescriptionLocKey: Tobbert.TrainYard.FlavorDescription
-  _image: {fileID: 21300000, guid: 37fe282da26712e46ab2e943bcf96dba, type: 3}
+  _image: {fileID: 21300000, guid: 6d3ffa577a1134b43a18fb2f4293d9b9, type: 3}
 --- !u!1001 &537134680322877547
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    serializedVersion: 2
     m_TransformParent: {fileID: 3336589163391838871}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 67da53235f3350747adab54581bf7f4a, type: 3}
@@ -409,7 +408,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 67994ecbb9674c54f81c354ecfdc795d, type: 2}
     m_RemovedComponents: []
-    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 67da53235f3350747adab54581bf7f4a, type: 3}
 --- !u!4 &71758905495867264 stripped
 Transform:

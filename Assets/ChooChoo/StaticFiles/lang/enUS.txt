@@ -37,7 +37,10 @@ Tobbert.TrainAction.Wait.WaitingInMinutes,Hours to wait: ,-
 Tobbert.TrainAction.TakeGoods,Take Goods,-
 Tobbert.TrainAction.TakeGoods.TakeGoodAmount,Take goods: ,-
 
-Tobbert.GoodsStation.Loading,Load: ,-
-Tobbert.GoodsStation.Unloading,Unload: ,-
+Tobbert.GoodsStation.GoodSelector,Edit allowed goods,-
+Tobbert.GoodsStation.Loading,Sending: ,-
+Tobbert.GoodsStation.Unloading,Receiving: ,-
 
 Tobbert.ToolGroup.Trains,Trains,-
+
+Tobbert.TrainYard.PreviewErrorMessage,Only 1 Train Yard can be build,-

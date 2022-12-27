@@ -6,24 +6,30 @@ using UnityEngine;
 
 namespace ChooChoo
 {
-  public class ObjectFollower
+  public class ObjectFollower : ITrackFollower
   {
     private readonly INavigationService _navigationService;
+    private readonly TrainNavigationService _trainNavigationService;
     private readonly MovementAnimator _movementAnimator;
     private readonly Transform _transform;
     private readonly List<PathCorner> _animatedPathCorners = new(100);
-    private TrackFollower _trackFollower;
+    private ITrackFollower _objectToFollowTrackFollower;
+    private List<TrackConnection> _pathCorners = new();
     private int _currentCornerIndex;
     private int _nextSubCornerIndex;
     private Transform _objectToFollow;
     private float _minDistanceFromObject;
 
+    public int CurrentCornerIndex => _currentCornerIndex;
+
     public ObjectFollower(
       INavigationService navigationService,
+      TrainNavigationService trainNavigationService,
       MovementAnimator movementAnimator,
       Transform transform)
     {
       _navigationService = navigationService;
+      _trainNavigationService = trainNavigationService;
       _movementAnimator = movementAnimator;
       _transform = transform;
     }
@@ -33,25 +39,31 @@ namespace ChooChoo
       _objectToFollow = objectToFollow;
       _minDistanceFromObject = minDistanceFromObject;
     }
-    public void SetTrackFollower(TrackFollower trackFollower)
+    public void SetNewPathConnections(ITrackFollower trackFollower, List<TrackConnection> pathCorners)
     {
-      _trackFollower = trackFollower;
+      _objectToFollowTrackFollower = trackFollower;
+      _pathCorners = pathCorners;
+      _currentCornerIndex = 1;
+      _nextSubCornerIndex = 0;
     }
 
     public void MoveTowardsObject(float deltaTime, string animationName, float movementSpeed)
     {
+      if (_objectToFollowTrackFollower == null)
+        return;
+      
       _animatedPathCorners.Clear();
       float time = Time.time;
       _animatedPathCorners.Add(new PathCorner(_transform.position, time));
       float num = deltaTime;
-      while (num > 0.0 
-             && Vector3.Distance(_transform.position, _objectToFollow.position) > _minDistanceFromObject
+      while (Vector3.Distance(_transform.position, _objectToFollow.position) > _minDistanceFromObject
+             && num > 0.0 
              && !ReachedLastPathCorner()
-             && _trackFollower._currentCornerIndex >= _currentCornerIndex)
+             && _objectToFollowTrackFollower.CurrentCornerIndex >= _currentCornerIndex)
       {
         _nextSubCornerIndex = PeekNextSubCornerIndex();
         Vector3 position;
-        (position, num) = MoveInDirection(_transform.position, _trackFollower._pathCorners[_currentCornerIndex].PathCorners[_nextSubCornerIndex], movementSpeed, num);
+        (position, num) = MoveInDirection(_transform.position, _pathCorners[_currentCornerIndex].PathCorners[_nextSubCornerIndex], movementSpeed, num);
         _transform.position = position;
         float timeInSeconds = time + deltaTime - num;
         _animatedPathCorners.Add(new PathCorner(position, timeInSeconds));
@@ -62,17 +74,15 @@ namespace ChooChoo
     public void StopMoving()
     {
       _movementAnimator.StopAnimatingMovement();
-      _currentCornerIndex = 1;
-      _nextSubCornerIndex = 0;
     }
 
-    private bool ReachedLastPathCorner() => _navigationService.InStoppingProximity(_trackFollower._pathCorners.Last().PathCorners.Last(), _transform.position);
+    private bool ReachedLastPathCorner() => _navigationService.InStoppingProximity(_pathCorners.Last().PathCorners.Last(), _transform.position);
 
-    private bool LastOfSubCorners() => _nextSubCornerIndex >= _trackFollower._pathCorners[_currentCornerIndex].PathCorners.Length - 1;
+    private bool LastOfSubCorners() => _nextSubCornerIndex >= _pathCorners[_currentCornerIndex].PathCorners.Length - 1;
 
     private int PeekNextSubCornerIndex()
     {
-      if (_currentCornerIndex + 1 >= _trackFollower._pathCorners.Count || !_navigationService.InStoppingProximity(_transform.position, _trackFollower._pathCorners[_currentCornerIndex].PathCorners[_nextSubCornerIndex]))
+      if ((_currentCornerIndex + 1 >= _pathCorners.Count && _nextSubCornerIndex + 1 >= _pathCorners[_currentCornerIndex].PathCorners.Length) || !_navigationService.InStoppingProximity(_transform.position, _pathCorners[_currentCornerIndex].PathCorners[_nextSubCornerIndex]))
       {
         return _nextSubCornerIndex;
       }
@@ -86,7 +96,7 @@ namespace ChooChoo
         return _nextSubCornerIndex + 1;
       }
     }
-
+    
     private static (Vector3 position, float leftTime) MoveInDirection(
       Vector3 position,
       Vector3 destination,

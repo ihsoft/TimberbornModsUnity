@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using TimberApi.ConsoleSystem;
@@ -13,7 +13,7 @@ namespace ChooChoo
 {
     public class Plugin : IModEntrypoint
     {
-        public const string PluginGuid = "tobbert.choochoo";
+        private const string PluginGuid = "tobbert.choochoo";
         
         public static IConsoleWriter Log;
         
@@ -93,6 +93,20 @@ namespace ChooChoo
             }
             
             return true;
+        }
+    }
+    
+    [HarmonyPatch]
+    public class GoodCarrierFragmentPatch
+    {
+        public static MethodInfo TargetMethod()
+        {
+            return AccessTools.Method(AccessTools.TypeByName("GoodCarrierFragment"), "ShowFragment", new[] {typeof(GameObject)});
+        }
+        
+        static bool Prefix(GameObject entity)
+        {
+            return !entity.TryGetComponent(out TrainWagonManager _);
         }
     }
     

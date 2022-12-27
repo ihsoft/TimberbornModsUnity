@@ -79,7 +79,8 @@
         "Timberborn.ResourceCountingSystem.dll",
         "Timberborn.WorkerTypesUI.dll",
         "Timberborn.WorkSystemUI.dll",
-        "Timberborn.ScienceSystem.dll"
+        "Timberborn.ScienceSystem.dll",
+        "Timberborn.RecoveredGoodSystem.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

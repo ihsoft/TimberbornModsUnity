@@ -27,6 +27,8 @@ namespace ChooChoo
 
         public bool DestinationReachable(TrackPiece start, TrainDestination end)
         {
+            if (start == null || end == null)
+                return false;
             var checkedTrackPieces = new List<TrackPiece>();
             var connectedDestination = FindTrainDestination(start, checkedTrackPieces);
             return TrainDestinationsConnected(connectedDestination, end);

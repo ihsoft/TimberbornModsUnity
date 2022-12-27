@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TimberApi.UiBuilderSystem;
 using Timberborn.CoreUI;
 using Timberborn.EntityPanelSystem;
 using UnityEngine;
@@ -11,34 +12,62 @@ namespace ChooChoo
     private readonly VisualElementLoader _visualElementLoader;
     private readonly GoodsStationRowsFactory _goodsStationRowsFactory;
     private readonly IGoodSelectionController _goodSelectionController;
+    private readonly UIBuilder _uiBuilder;
     private GoodsStation _goodsStationInventory;
     private VisualElement _root;
+    private ScrollView _scrollView;
 
     private List<GoodsStationRow> _goodsStationRows;
 
     public GoodsStationInventoryFragment(
       VisualElementLoader visualElementLoader,
       GoodsStationRowsFactory goodsStationRowsFactory,
-      IGoodSelectionController goodSelectionController)
+      IGoodSelectionController goodSelectionController,
+      UIBuilder uiBuilder)
     {
       _visualElementLoader = visualElementLoader;
       _goodsStationRowsFactory = goodsStationRowsFactory;
       _goodSelectionController = goodSelectionController;
+      _uiBuilder = uiBuilder;
     }
 
     public VisualElement InitializeFragment()
     {
       _root = new VisualElement();
       
-      var rootFragment = _visualElementLoader.LoadVisualElement("Master/EntityPanel/StockpileInventoryFragment");
+      var topFragment = _uiBuilder.CreateFragmentBuilder()
+        .AddComponent(builder => builder
+          .SetJustifyContent(Justify.Center)
+          
+          .AddPreset(builder =>
+          {
+            var button = builder.Buttons().ButtonGame();
+            button.name = "Selection";
+            button.TextLocKey = "Tobbert.GoodsStation.GoodSelector";
+            return button;
+          }))
+        
+        .BuildAndInitialize();
       
-      rootFragment.Q<Button>("Unselect").ToggleDisplayStyle(false);
-      rootFragment.Q<VisualElement>("ItemAndCapacity").ToggleDisplayStyle(false);
+      _root.Add(topFragment);
+      
+      var stockpileInventoryFragment = _visualElementLoader.LoadVisualElement("Master/EntityPanel/StockpileInventoryFragment");
+      topFragment.Add(stockpileInventoryFragment.Q<VisualElement>("GoodSelectionWrapper"));
+      _goodSelectionController.Initialize(topFragment);
 
-      _goodSelectionController.Initialize(rootFragment);
-
-      _root.Add(rootFragment);
-      _goodsStationRows = _goodsStationRowsFactory.CreateRows(_root);
+      _scrollView = new ScrollView()
+      {
+        style =
+        {
+          maxHeight = new Length(500, LengthUnit.Pixel)
+        },
+        mode = ScrollViewMode.Vertical,
+        horizontalScrollerVisibility = ScrollerVisibility.Hidden,
+        verticalScrollerVisibility = ScrollerVisibility.Hidden,
+      };
+      _goodsStationRows = _goodsStationRowsFactory.CreateRows(_scrollView);
+      _root.Add(_scrollView);
+      
       _root.ToggleDisplayStyle(false);
       return _root;
     }
@@ -71,6 +100,7 @@ namespace ChooChoo
     {
       if ((bool) (Object) _goodsStationInventory && _goodsStationInventory.enabled)
       {
+        _scrollView.scrollOffset = new Vector2(0, _scrollView.scrollOffset.y);
         _root.ToggleDisplayStyle(true);
         _goodSelectionController.Update();
         foreach (var goodsStationRow in _goodsStationRows)

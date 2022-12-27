@@ -1,6 +1,4 @@
-﻿using Bindito.Core;
-using Timberborn.BehaviorSystem;
-using Timberborn.FactionSystemGame;
+﻿using Timberborn.BehaviorSystem;
 using Timberborn.Goods;
 using Timberborn.Persistence;
 using UnityEngine;
@@ -13,10 +11,7 @@ namespace ChooChoo
    
     public void Awake() => _distributorTrain = GetComponent<DistributorTrain>();
 
-    public bool Launch(GoodsStation startGoodStation, TransferableGood transferableGood, GoodsStation endGoodStation, int goodAmount)
-    {
-      return _distributorTrain.Distribute(startGoodStation, endGoodStation, new GoodAmount(transferableGood.GoodId, goodAmount));
-    }
+    public ExecutorStatus Launch(GoodsStation startGoodStation, GoodsStation endGoodStation, GoodAmount goodAmount) => _distributorTrain.Distribute(startGoodStation, endGoodStation, goodAmount);
 
     public ExecutorStatus Tick(float deltaTimeInHours)
     {

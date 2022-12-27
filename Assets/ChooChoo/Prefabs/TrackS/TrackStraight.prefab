@@ -218,7 +218,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _toolGroupId: TobbertTrains
-  _toolOrder: 0
+  _toolOrder: 10
   _layout: 2
   _customPivot:
     _hasCustomPivot: 0
@@ -251,13 +251,12 @@ MonoBehaviour:
   _displayNameLocKey: Tobbert.TrackStraight.DisplayName
   _descriptionLocKey: Tobbert.TrackStraight.Description
   _flavorDescriptionLocKey: Tobbert.TrackStraight.FlavorDescription
-  _image: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  _image: {fileID: 21300000, guid: d0ca4962f0fd4814295130f8946d7d2e, type: 3}
 --- !u!1001 &4483996417365267173
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    serializedVersion: 2
     m_TransformParent: {fileID: 3336589163391838871}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 7a78011b12a259d43bc1a2c8c6ceb32d, type: 3}
@@ -337,7 +336,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 1cc7909f4c0f30143944043698eefc04, type: 2}
     m_RemovedComponents: []
-    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a78011b12a259d43bc1a2c8c6ceb32d, type: 3}
 --- !u!4 &4157072622901998862 stripped
 Transform:

@@ -7,9 +7,14 @@ namespace  ChooChoo
   public class ObjectFollowerFactory
   {
     private readonly INavigationService _navigationService;
+    private readonly TrainNavigationService _trainNavigationService;
 
-    public ObjectFollowerFactory(INavigationService navigationService) => _navigationService = navigationService;
+    public ObjectFollowerFactory(INavigationService navigationService, TrainNavigationService trainNavigationService) 
+    {
+      _navigationService = navigationService;
+      _trainNavigationService = trainNavigationService;
+    }
 
-    public ObjectFollower Create(GameObject owner) => new(_navigationService, owner.GetComponent<MovementAnimator>(), owner.transform);
+    public ObjectFollower Create(GameObject owner) => new(_navigationService, _trainNavigationService, owner.GetComponent<MovementAnimator>(), owner.transform);
   }
 }

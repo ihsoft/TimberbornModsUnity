@@ -31,6 +31,8 @@ GameObject:
   - component: {fileID: -7546484517251830069}
   - component: {fileID: 8095146922966365799}
   - component: {fileID: 2293147786423119748}
+  - component: {fileID: 5390812966198237684}
+  - component: {fileID: 2268363557703571330}
   m_Layer: 0
   m_Name: SmallLogTrain.Folktails
   m_TagString: Untagged
@@ -218,7 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 444642958, guid: b6cb9fb40e6a9dd39b069e7f18c050b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseWalkingSpeed: 2
+  _baseWalkingSpeed: 2.2
   _baseSlowedSpeed: 1
 --- !u!114 &835374262739727047
 MonoBehaviour:
@@ -330,6 +332,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5cac9d6b20d6426f8e71f560ac949827, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5390812966198237684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3207032685556258263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d521cb7ac05c4beca8d79f007288097b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2268363557703571330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3207032685556258263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c674c2809a34aaf8c6bff017e0e4129, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &7541596489420871558

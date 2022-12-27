@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 6578201091114363928}
   - component: {fileID: 426163337955813881}
   - component: {fileID: 5232831697191421784}
-  - component: {fileID: -6830588146050007826}
+  - component: {fileID: 2204440981780356463}
   - component: {fileID: 4610783407842143319}
   - component: {fileID: 2620474729558111792}
   m_Layer: 0
@@ -287,13 +287,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _toolGroupId: TobbertTrains
-  _toolOrder: 0
+  _toolOrder: 60
   _layout: 0
   _customPivot:
     _hasCustomPivot: 0
     _coordinates: {x: 0, y: 0, z: 0}
   _devModeTool: 0
---- !u!114 &-6830588146050007826
+--- !u!114 &2204440981780356463
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -302,7 +302,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5338206533014369884}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbac759139ad67944bab9031946cda7f, type: 3}
+  m_Script: {fileID: 11500000, guid: 91f473273fcd4a6aa4b9d3072b17860b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &4610783407842143319
@@ -332,7 +332,7 @@ MonoBehaviour:
   _displayNameLocKey: Tobbert.TrainStation.DisplayName
   _descriptionLocKey: Tobbert.TrainStation.Description
   _flavorDescriptionLocKey: Tobbert.TrainStation.FlavorDescription
-  _image: {fileID: 21300000, guid: 37fe282da26712e46ab2e943bcf96dba, type: 3}
+  _image: {fileID: 21300000, guid: 86296696196c1144192912c13516c29f, type: 3}
 --- !u!1001 &7999887110563911691
 PrefabInstance:
   m_ObjectHideFlags: 0

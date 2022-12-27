@@ -119,7 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 1146226617, guid: 517afc5522de8288292d97e4e7d7b2b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseLiftingCapacity: 0
+  _baseLiftingCapacity: 100
 --- !u!114 &1607243471021243703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 444642958, guid: b6cb9fb40e6a9dd39b069e7f18c050b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseWalkingSpeed: 2
+  _baseWalkingSpeed: 2.2
   _baseSlowedSpeed: 1
 --- !u!114 &6479493708352514342
 MonoBehaviour:
@@ -204,12 +204,11 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    serializedVersion: 2
     m_TransformParent: {fileID: 9076212369666711656}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 26cd693ca4df90045abf60bba38685d4, type: 3}
       propertyPath: m_RootOrder
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 26cd693ca4df90045abf60bba38685d4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -260,7 +259,6 @@ PrefabInstance:
       value: SmallMetalCart
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 26cd693ca4df90045abf60bba38685d4, type: 3}
 --- !u!1 &1512115971136284009 stripped
 GameObject:

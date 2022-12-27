@@ -72,6 +72,11 @@ namespace ChooChoo
                 {
                     continue;
                 }
+
+                if (!trackConnection.ConnectedTrackPiece.CanPathFindOverIt && !(trackConnection.ConnectedTrackPiece == destinationTrackPiece))
+                {
+                    continue;
+                }
                 
                 if (trackConnections.Contains(trackConnection))
                 {

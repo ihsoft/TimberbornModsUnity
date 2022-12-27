@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Bindito.Core;
 using Timberborn.CharacterMovementSystem;
+using Timberborn.WalkingSystem;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace ChooChoo
 {
@@ -11,41 +10,38 @@ namespace ChooChoo
   {
     private MovementAnimator _movementAnimator;
     private ObjectFollowerFactory _objectFollowerFactory;
-    private ObjectFollower _objectFollower;
+    private WalkerSpeedManager _walkerSpeedManager;
+    public ObjectFollower ObjectFollower;
 
     private string _animationName = "Walking";
 
     public float wagonLength;
 
     [Inject]
-    public void InjectDependencies(ObjectFollowerFactory objectFollowerFactory)
-    {
-      _objectFollowerFactory = objectFollowerFactory;
-    }
+    public void InjectDependencies(ObjectFollowerFactory objectFollowerFactory) => _objectFollowerFactory = objectFollowerFactory;
 
     public void Awake()
     {
-      _objectFollower = _objectFollowerFactory.Create(gameObject);
+      _walkerSpeedManager = GetComponent<WalkerSpeedManager>();
+      ObjectFollower = _objectFollowerFactory.Create(gameObject);
     }
 
-    public void SetObjectToFollow(Transform objectToFollow, float distanceFromObject)
+    public void InitializeObjectFollower(Transform objectToFollow, float distanceFromObject)
     {
-      _objectFollower.SetObjectToFollow(objectToFollow, distanceFromObject + wagonLength / 2);
+      ObjectFollower.SetObjectToFollow(objectToFollow, distanceFromObject + wagonLength / 2);
+    }
+
+    public void StartMoving(ITrackFollower trackFollower, List<TrackConnection> pathConnections) => ObjectFollower.SetNewPathConnections(trackFollower, pathConnections);
+
+    public void Stop() => ObjectFollower.StopMoving();
+
+    public void Move()
+    {
+      var speed = _walkerSpeedManager.Speed;
+      speed *= 1.012f;
+      var time = Time.fixedDeltaTime;
+      ObjectFollower.MoveTowardsObject(time, _animationName, speed);
     }
     
-    public void SetPathCorners(TrackFollower trackFollower)
-    {
-      _objectFollower.SetTrackFollower(trackFollower);
-    }
-
-    public void Stop()
-    {
-      _objectFollower.StopMoving();
-    }
-
-    public void Move(float time, float speed)
-    {
-      _objectFollower.MoveTowardsObject(time, _animationName, speed);
-    }
   }
 }

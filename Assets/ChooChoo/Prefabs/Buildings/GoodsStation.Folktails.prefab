@@ -249,7 +249,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _toolGroupId: TobbertTrains
-  _toolOrder: 0
+  _toolOrder: 70
   _layout: 0
   _customPivot:
     _hasCustomPivot: 0
@@ -267,7 +267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72fefb1f4ed0411786856f49bdd622a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxCapacity: 50
+  _maxCapacity: 75
 --- !u!114 &435874926986273508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -349,7 +349,7 @@ MonoBehaviour:
   _displayNameLocKey: Tobbert.TrainStation.DisplayName
   _descriptionLocKey: Tobbert.TrainStation.Description
   _flavorDescriptionLocKey: Tobbert.TrainStation.FlavorDescription
-  _image: {fileID: 21300000, guid: b205f4b28f59dda49af458b35d8a3ff3, type: 3}
+  _image: {fileID: 21300000, guid: 83cc27357b555314aafd0f2b54a821b9, type: 3}
 --- !u!1001 &6689271902933471483
 PrefabInstance:
   m_ObjectHideFlags: 0
