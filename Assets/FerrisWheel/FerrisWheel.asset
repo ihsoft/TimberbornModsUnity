@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StagingPaths:
   - <ManifestPluginStaging>
-  Author: Tobbert
+  Author: 
   Name: FerrisWheel
-  Description: A ferris wheel for your beavers to enjoy!
-  Version: 1.0.0
+  Description: 
+  Version: 
   Dependencies: []
 --- !u!114 &-3041366049039997682
 MonoBehaviour:
@@ -32,8 +32,7 @@ MonoBehaviour:
   m_Name: Files
   m_EditorClassIdentifier: 
   StagingPaths:
-  - <ManifestPluginStaging>/Specifications
-  - <ThunderstorePackage>/<ManifestName>/plugins/Specifications
+  - <ManifestStagingRoot>/Specifications
   files:
   - {fileID: 4900000, guid: 7a61739bc456a5d44b2869b53d2fb923, type: 3}
   - {fileID: 4900000, guid: 771823335096b904999ea6c75e7177e9, type: 3}
@@ -53,9 +52,8 @@ MonoBehaviour:
   Data:
   - {fileID: -3931462110823901632}
   - {fileID: 2590189338767857166}
-  - {fileID: 7276679206402820566}
-  - {fileID: -3041366049039997682}
   - {fileID: 9120418034178625098}
+  - {fileID: -3041366049039997682}
   identity: {fileID: -3931462110823901632}
   QuickAccess: 1
 --- !u!114 &2590189338767857166
@@ -71,31 +69,12 @@ MonoBehaviour:
   m_Name: AssetBundleDefinitions
   m_EditorClassIdentifier: 
   StagingPaths:
-  - <ManifestPluginStaging>/assets
-  - <ThunderstorePackage>/<ManifestName>/plugins/assets
+  - <ManifestStagingRoot>/assets
   assetBundles:
   - assetBundleName: Tobbert_FerrisWheel
     assets:
     - {fileID: 5366692629481669372, guid: 7c837137dcde87b4f9a7afb01b6e8893, type: 3}
     - {fileID: 5366692629481669372, guid: e7d203cb96ee94e45800c9a4cb3b16f9, type: 3}
---- !u!114 &7276679206402820566
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b243ff405b33b94dbf5b6775dd9aa33, type: 3}
-  m_Name: Files
-  m_EditorClassIdentifier: 
-  StagingPaths:
-  - <ThunderstorePackage>
-  files:
-  - {fileID: 4900000, guid: fd3219a75df8f5d4d91e49c4670c4221, type: 3}
-  - {fileID: 4900000, guid: 227a6500a874fef4fa237045dc44451e, type: 3}
-  - {fileID: 2800000, guid: 7dcf97f458de4a14aa60f3f6ca31c45d, type: 3}
 --- !u!114 &9120418034178625098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,8 +88,7 @@ MonoBehaviour:
   m_Name: Files
   m_EditorClassIdentifier: 
   StagingPaths:
-  - <ManifestPluginStaging>
-  - <ThunderstorePackage>/<ManifestName>/plugins
+  - <ManifestStagingRoot>
   files:
   - {fileID: 102900000, guid: 2d4bf56b1f9894a41996e0f3821318a8, type: 3}
   - {fileID: 4900000, guid: 25dde747ee969424fac170eb1388c3b3, type: 3}
