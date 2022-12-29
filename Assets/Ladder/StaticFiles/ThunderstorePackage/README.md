@@ -21,6 +21,10 @@ In case you experience problems, message me in the modding channel of the the [T
 
 ## Changelog
 
+### 1.2.4 - 
+
+- Added Korean translation that was provided by ryj0902.
+
 ### 1.2.3 - 17.12.2022
 
 - Fixed to now work with Game version v0.3.4.3.

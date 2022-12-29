@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StagingPaths:
   - <ManifestPluginStaging>
-  Author: Tobbert
+  Author: 
   Name: Ladder
-  Description: A ladder which allows beavers to go directly up and down.
-  Version: 1.1.0
+  Description: 
+  Version: 
   Dependencies: []
 --- !u!114 &-1800585617083543040
 MonoBehaviour:
@@ -32,8 +32,7 @@ MonoBehaviour:
   m_Name: AssemblyDefinitions
   m_EditorClassIdentifier: 
   StagingPaths:
-  - <ManifestPluginStaging>
-  - <ThunderstorePackage>/<ManifestName>/plugins
+  - <ManifestStagingRoot>
   definitions:
   - {fileID: 5897886265953266890, guid: 0cb71a0e210d969468dbc40dd33fe50d, type: 3}
 --- !u!114 &11400000
@@ -53,7 +52,6 @@ MonoBehaviour:
   - {fileID: -1800585617083543040}
   - {fileID: 9120418034178625098}
   - {fileID: 2590189338767857166}
-  - {fileID: 7276679206402820566}
   - {fileID: 7788702448107751720}
   identity: {fileID: -3931462110823901632}
   QuickAccess: 1
@@ -70,31 +68,12 @@ MonoBehaviour:
   m_Name: AssetBundleDefinitions
   m_EditorClassIdentifier: 
   StagingPaths:
-  - <ManifestPluginStaging>/assets
-  - <ThunderstorePackage>/<ManifestName>/plugins/assets
+  - <ManifestStagingRoot>/assets
   assetBundles:
   - assetBundleName: Tobbert_Ladder
     assets:
     - {fileID: 5574067095167738340, guid: 8627ba4fd9dd6cc4f89579861273c8a1, type: 3}
     - {fileID: 5574067095167738340, guid: 3367d308abf575945b6138960f67f666, type: 3}
---- !u!114 &7276679206402820566
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b243ff405b33b94dbf5b6775dd9aa33, type: 3}
-  m_Name: Files
-  m_EditorClassIdentifier: 
-  StagingPaths:
-  - <ThunderstorePackage>
-  files:
-  - {fileID: 2800000, guid: 6e0256257a26d1d418ce0c96764ec8dc, type: 3}
-  - {fileID: 4900000, guid: 36ad66239d652564392f96611ec7af45, type: 3}
-  - {fileID: 4900000, guid: ba504b67891bb134f9f34eb97c448792, type: 3}
 --- !u!114 &7788702448107751720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,8 +87,7 @@ MonoBehaviour:
   m_Name: Files
   m_EditorClassIdentifier: 
   StagingPaths:
-  - <ManifestPluginStaging>/Specifications
-  - <ThunderstorePackage>/<ManifestName>/plugins/Specifications
+  - <ManifestStagingRoot>/Specifications
   files:
   - {fileID: 4900000, guid: 8bd12c9051d4b8b4b8da2ed35a4c3244, type: 3}
   - {fileID: 4900000, guid: 9f3067ddf7365014ca8855e0649a51d4, type: 3}
@@ -126,8 +104,7 @@ MonoBehaviour:
   m_Name: Files
   m_EditorClassIdentifier: 
   StagingPaths:
-  - <ManifestPluginStaging>
-  - <ThunderstorePackage>/<ManifestName>/plugins
+  - <ManifestStagingRoot>
   files:
   - {fileID: 102900000, guid: a5c42ad89838dbe44828b93c9ff20660, type: 3}
   - {fileID: 4900000, guid: 1ae4c966caf1a03469dd464aa775e6f6, type: 3}
