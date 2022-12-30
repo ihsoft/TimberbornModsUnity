@@ -131,7 +131,6 @@ MonoBehaviour:
   _finishableWithBeaversOnSite: 0
   _path: 0
   _drawRangeBoundsOnIt: 0
-  _hasNoRoof: 0
 --- !u!114 &9097392271342064402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,6 +282,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _noAutoWalls: 1
   _generateFloorsOnStackable: 0
+  _blockAllEdges: 0
   _addedEdges:
   - _start: {x: 1, y: 0, z: 2}
     _end: {x: 0, y: 0, z: 2}
