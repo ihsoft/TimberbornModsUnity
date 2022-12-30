@@ -33,7 +33,7 @@ MonoBehaviour:
   m_Name: Files
   m_EditorClassIdentifier: 
   StagingPaths:
-  - <ManifestPluginStaging>/Specifications
+  - <ManifestStagingRoot>/Specifications
   files:
   - {fileID: 4900000, guid: c9c53077b9ff3fb49ad3637ad54e728d, type: 3}
   - {fileID: 4900000, guid: 1f9cf4cb0cc9ce24d9edea75ce62c46d, type: 3}
@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Name: AssemblyDefinitions
   m_EditorClassIdentifier: 
   StagingPaths:
-  - <ManifestPluginStaging>
+  - <ManifestStagingRoot>
   definitions:
   - {fileID: 5897886265953266890, guid: 19fe5d1e832e5064ea4960d2019b3c01, type: 3}
 --- !u!114 &11400000
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: AssetBundleDefinitions
   m_EditorClassIdentifier: 
   StagingPaths:
-  - <ManifestPluginStaging>/assets
+  - <ManifestStagingRoot>/assets
   assetBundles:
   - assetBundleName: Tobbert_MorePaths
     assets:
@@ -117,7 +117,7 @@ MonoBehaviour:
   m_Name: Files
   m_EditorClassIdentifier: 
   StagingPaths:
-  - <ManifestPluginStaging>/assets
+  - <ManifestStagingRoot>/assets
   files:
   - {fileID: 102900000, guid: 2231c684f36335a4787bc70ebf6428b8, type: 3}
 --- !u!114 &9120418034178625098
@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Name: Files
   m_EditorClassIdentifier: 
   StagingPaths:
-  - <ManifestPluginStaging>
+  - <ManifestStagingRoot>
   files:
   - {fileID: 102900000, guid: 0b336a4cec949f74593b68e5b2e763f2, type: 3}
   - {fileID: 4900000, guid: 7d1943f8e6371de48aff76b0001cb928, type: 3}

@@ -20,7 +20,7 @@ MonoBehaviour:
   Recursive: 1
   SourceRequired: 0
   EstablishDestination: 1
-  Source: <ManifestStagingRoot>/patchers/<ManifestName>
+  Source: <ManifestStagingRoot>
   Destination: <BepInEx_Patchers>
 --- !u!114 &-1363876913999848018
 MonoBehaviour:
@@ -122,7 +122,7 @@ MonoBehaviour:
   Recursive: 1
   SourceRequired: 0
   EstablishDestination: 1
-  Source: <ManifestStagingRoot>/plugins/<ManifestName>
+  Source: <ManifestStagingRoot>
   Destination: <BepInEx_Plugins>
 --- !u!114 &2935167292843794703
 MonoBehaviour:
@@ -166,5 +166,5 @@ MonoBehaviour:
   Recursive: 1
   SourceRequired: 0
   EstablishDestination: 1
-  Source: <ManifestStagingRoot>/monomod/<ManifestName>
+  Source: <ManifestStagingRoot>
   Destination: <BepInEx_Monomod>

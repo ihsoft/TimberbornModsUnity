@@ -23,3 +23,6 @@
 
 #### Fix for serializing and deserializing 
 - https://discord.com/channels/558398674389172225/888491376143134760/1043282436865413290
+
+#### Idea for MorePlatforms icon
+- https://discord.com/channels/558398674389172225/888491376143134760/1053827218314383421
