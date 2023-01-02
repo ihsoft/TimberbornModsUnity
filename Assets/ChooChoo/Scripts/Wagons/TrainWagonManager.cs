@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using Bindito.Core;
 using Timberborn.AssetSystem;
+using Timberborn.BlockSystem;
 using Timberborn.Characters;
+using Timberborn.Coordinates;
 using Timberborn.EntitySystem;
 using Timberborn.FactionSystemGame;
 using Timberborn.Localization;
@@ -29,6 +31,8 @@ namespace ChooChoo
         
         private WagonsObjectSerializer _wagonsObjectSerializer;
 
+        private TrainYardService _trainYardService;
+
         public List<TrainWagon> TrainWagons { get; private set; }
 
         public int NumberOfCarts = 4;
@@ -36,13 +40,20 @@ namespace ChooChoo
         public float minDistanceFromTrain;
 
         [Inject]
-        public void InjectDependencies(ILoc loc, EntityService entityService, IResourceAssetLoader resourceAssetLoader, FactionService factionService, WagonsObjectSerializer wagonsObjectSerializer)
+        public void InjectDependencies(
+            ILoc loc, 
+            EntityService entityService, 
+            IResourceAssetLoader resourceAssetLoader, 
+            FactionService factionService, 
+            WagonsObjectSerializer wagonsObjectSerializer,
+            TrainYardService trainYardService)
         {
             _loc = loc;
             _entityService = entityService;
             _resourceAssetLoader = resourceAssetLoader;
             _factionService = factionService;
             _wagonsObjectSerializer = wagonsObjectSerializer;
+            _trainYardService = trainYardService;
         }
         
         public override void StartTickable()
@@ -89,14 +100,12 @@ namespace ChooChoo
         private void SetObjectToFollow()
         {
             for (int i = TrainWagons.Count - 1; i > 0; i--)
-            {
-                TrainWagons[i].InitializeObjectFollower(TrainWagons[i - 1].transform, TrainWagons[i - 1].wagonLength);
-            }
-            
-            TrainWagons[0].InitializeObjectFollower(transform, minDistanceFromTrain);
+                TrainWagons[i].InitializeObjectFollower(TrainWagons[i - 1].transform, TrainWagons[i - 1].wagonLength, i + 1 == NumberOfCarts);
+
+            TrainWagons[0].InitializeObjectFollower(transform, minDistanceFromTrain, false);
         }
 
-        public void SetNewPathConnections(ITrackFollower trackFollower, List<TrackConnection> pathConnections)
+        public void SetNewPathConnections(ITrackFollower trackFollower, List<TrackRoute> pathConnections)
         {
             TrainWagons[0].StartMoving(trackFollower, pathConnections);
             for (var index = 1; index < TrainWagons.Count; index++)
@@ -114,7 +123,7 @@ namespace ChooChoo
             }
         }
 
-        private void MoveWagons()
+        public void MoveWagons()
         {
             foreach (var trainWagon in TrainWagons)
             {
@@ -130,7 +139,9 @@ namespace ChooChoo
             for (int cartNumber = 0; cartNumber < NumberOfCarts; cartNumber++)
             {
                 var wagon = _entityService.Instantiate(cartPrefab.gameObject);
-                trainWagons.Add(wagon.GetComponent<TrainWagon>());
+                var trainWagon = wagon.GetComponent<TrainWagon>();
+                trainWagon.Train = gameObject;
+                trainWagons.Add(trainWagon);
 
                 SetInitialCartPosition(wagon, cartNumber);
                 
@@ -141,9 +152,12 @@ namespace ChooChoo
             TrainWagons = trainWagons;
         }
 
-        private void SetInitialCartPosition(GameObject cart,int cartNumber)
+        private void SetInitialCartPosition(GameObject cart, int cartNumber)
         {
-            var spawnLocation = transform.position + new Vector3(0, 0f, -0.6f * cartNumber - 1);
+            cart.transform.rotation = _trainYardService.CurrentTrainYard.GetComponent<BlockObject>().Orientation.ToWorldSpaceRotation();
+            var transform1 = transform;
+            var offset = transform1.rotation * new Vector3(0, 0f, -0.6f * cartNumber - 1);
+            var spawnLocation = transform1.position + offset;
             Plugin.Log.LogInfo("Spawning wagon " + cartNumber + " at: " + spawnLocation);
             cart.transform.position = spawnLocation;
         }

@@ -20,19 +20,19 @@ namespace ChooChoo
 
     private class TemplateModuleProvider : IProvider<TemplateModule>
     {
-      private readonly GoodsStationInventoryInitializer _goodsStationErrorInventoryInitializer;
+      private readonly GoodsStationInventoryInitializer _goodsStationInventoryInitializer;
 
       public TemplateModuleProvider(
-        GoodsStationInventoryInitializer goodsStationErrorInventoryInitializer)
+        GoodsStationInventoryInitializer goodsStationInventoryInitializer)
       {
-        _goodsStationErrorInventoryInitializer = goodsStationErrorInventoryInitializer;
+        _goodsStationInventoryInitializer = goodsStationInventoryInitializer;
       }
 
       public TemplateModule Get()
       {
         TemplateModule.Builder builder = new TemplateModule.Builder();
         builder.AddDecorator<GoodsStation, GoodsStationDescriber>();
-        builder.AddDedicatedDecorator(_goodsStationErrorInventoryInitializer);
+        builder.AddDedicatedDecorator(_goodsStationInventoryInitializer);
         builder.AddDecorator<GoodsStation, Emptiable>();
         builder.AddDecorator<GoodsStation, HaulCandidate>();
         InitializeBehaviors(builder);

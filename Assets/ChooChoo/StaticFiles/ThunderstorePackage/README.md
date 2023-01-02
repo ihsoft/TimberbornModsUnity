@@ -1,14 +1,23 @@
-# Global Market
+# ChooChoo
 
-Finding it annoying having to setup trading routes between districts? Worry no more! Now just plop down a Global Market and your beavers will have a shared building to store all their items. The items "will be transported via the Air Balloon service" so all items are available anywhere via a GlobalMarket!
+After working on this mod for about 2 months it is finally available. The ChooChoo mod! This mod adds trains to Timberborn which can pick up goods from stations and deliver them elsewhere. 
+The mod features a custom Track System that is fairly optimised and shouldn't impact performance that much. Trains can hold many items and as such trains are very good at delivering goods to remote districts. 
 
 ## How to use
 
-The Global Market can be found under the storage tab. 
+The mod as a new group to the bottom bar that has all buildings and tracks related to the trains. To unlock the buildings, you have to unlock the Train Yard building. 
 
-### Use as decoration
+### Track system
 
-It is possible to use this block as pure decoration by disabling the inventory. That way you just have a cute marketplace with a airballoon flying around!
+To make trains move, they need tracks of course! You can build tracks just like normal paths would. The trains won't be able to turn around, so make sure the train layout has possible ways for the train to turn around!
+
+### Trains
+
+Trains are created in the Train Yard. 
+
+### Goods Stations
+
+Goods stations are where beavers can give items to be picked up by trains and be delivered in other Goods Stations. 
 
 ## Installing
 
@@ -18,20 +27,12 @@ Recommended way to install this mod is through [Thunderstore](https://timberborn
 
 In case you experience problems, message me in the modding channel of the the [Timberborn discord](https://discord.gg/mfbBF4cWpX) or message me directly (Tobbert#1607). I will try to fix it as soon as possible. :D
 
-## Changelog
+## Thanking
 
-### 1.0.3 - 6.11.2022
+This is a big project and as such I want to thank all the people that send hype and inspiration. It really makes me so happy that so many are enjoying this mods and seeing it being created. 
 
-- Fixed an issue where the game crashed if the Global Market was placed, but not yet build.
+I also wanna thank Anythin in particular. He created the train and Wagon designs and tons of ideas. 
+Thanks to GinFuYou, who provided some better looking icons.
+TheBloodEyes, Kodiak Jack Tenarouse, Emberstergaming, Todor Alin, Leonineus, Revenger210, Tanstaafl all of who I wanna thank for the discussions in the discord.
 
-### 1.0.2 - 4.11.2022
-
-- Fixed the issue of the previously fixed issue.
-
-### 1.0.1 - 4.11.2022
-
-- Fixed an issue related to the Reserved Storage.
-
-### 1.0.0 - 4.11.2022
-
-- Released the plugin.
+And also thanks to all the other people in the Train mod Thread that helped with ideas! I love you so much for that!

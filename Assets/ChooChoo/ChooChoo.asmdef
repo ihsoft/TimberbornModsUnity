@@ -80,7 +80,8 @@
         "Timberborn.WorkerTypesUI.dll",
         "Timberborn.WorkSystemUI.dll",
         "Timberborn.ScienceSystem.dll",
-        "Timberborn.RecoveredGoodSystem.dll"
+        "Timberborn.RecoveredGoodSystem.dll",
+        "Timberborn.BlockObjectTools.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

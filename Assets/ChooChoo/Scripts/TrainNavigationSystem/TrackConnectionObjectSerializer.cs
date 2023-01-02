@@ -8,7 +8,6 @@ namespace ChooChoo
   {
     private static readonly PropertyKey<Vector3Int> CoordinatesKey = new("Coordinates");
     private static readonly PropertyKey<Direction2D> DirectionKey = new("Direction");
-    private static readonly ListKey<Vector3> PathCornersKey = new("PathCorners");
     private static readonly PropertyKey<TrackPiece> ConnectedTrackPieceKey = new("ConnectedTrackPiece");
 
     private readonly EnumObjectSerializer<Direction2D> _direction2DSerializer;
@@ -22,19 +21,19 @@ namespace ChooChoo
     {
       objectSaver.Set(CoordinatesKey, value.Coordinates);
       objectSaver.Set(DirectionKey, value.Direction, _direction2DSerializer);
-      objectSaver.Set(PathCornersKey, value.PathCorners);
-      objectSaver.Set(ConnectedTrackPieceKey, value.ConnectedTrackPiece);
+      if (value.ConnectedTrackPiece != null)
+      {
+        objectSaver.Set(ConnectedTrackPieceKey, value.ConnectedTrackPiece);
+        
+      }
+      
     }
 
     public Obsoletable<TrackConnection> Deserialize(IObjectLoader objectLoader)
     {
-      var trackConnection = new TrackConnection(
-        objectLoader.Get(CoordinatesKey),
-        objectLoader.Get(DirectionKey, _direction2DSerializer),
-        objectLoader.Get(PathCornersKey).ToArray())
-      {
-        ConnectedTrackPiece = objectLoader.Get(ConnectedTrackPieceKey)
-      };
+      var trackConnection = new TrackConnection(objectLoader.Get(CoordinatesKey), objectLoader.Get(DirectionKey, _direction2DSerializer));
+      if (objectLoader.Has(ConnectedTrackPieceKey))
+        trackConnection.ConnectedTrackPiece = objectLoader.Get(ConnectedTrackPieceKey);
       return trackConnection;
     }
   }

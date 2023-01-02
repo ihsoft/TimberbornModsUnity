@@ -41,52 +41,40 @@ namespace ChooChoo
     public override Decision Decide(GameObject agent)
     {
       var start = transform.position;
-      var startTrackPiece =
-        _blockService.GetFloorObjectComponentAt<TrackPiece>(
-          Vector3Int.FloorToInt(new Vector3(start.x, start.z, start.y)));
+      var startTrackPiece = _blockService.GetFloorObjectComponentAt<TrackPiece>(Vector3Int.FloorToInt(new Vector3(start.x, start.z, start.y)));
 
       var reachableGoodStation = _goodsStationsRepository.GoodsStations.FirstOrDefault(station => _trainDestinationService.DestinationReachable(startTrackPiece, station.TrainDestinationComponent));
 
-      // foreach (var VARIABLE in _goodsStationsRepository.GoodsStations)
-      // {
-      //   Plugin.Log.LogWarning(VARIABLE.TrainDestinationComponent.name + "   " + _trainDestinationService.DestinationReachable(startTrackPiece, VARIABLE.TrainDestinationComponent));
-      // }
-      // Plugin.Log.LogWarning(_goodsStationsRepository.GoodsStations.Count + "");
-      
       if (reachableGoodStation == null)
         return Decision.ReleaseNow();
       
-      var reachableGoodStations = _goodsStationsRepository.GoodsStations.Where(station =>
-        _trainDestinationService.TrainDestinationsConnected(reachableGoodStation.TrainDestinationComponent,
-          station.TrainDestinationComponent));
+      var reachableGoodStations = _goodsStationsRepository.GoodsStations.Where(station => _trainDestinationService.TrainDestinationsConnected(reachableGoodStation.TrainDestinationComponent, station.TrainDestinationComponent)).ToArray();
 
       foreach (var startGoodsStation in reachableGoodStations)
       {
         foreach (var endGoodStation in reachableGoodStations)
         {
 
-          foreach (var startTransferableGood in startGoodsStation.TransferableGoods.Where(good =>
-                     good.Enabled && good.CanReceiveGoods))
+          foreach (var startTransferableGood in startGoodsStation.SendingGoods)
           {
-            foreach (var endTransferableGood in endGoodStation.TransferableGoods.Where(good =>
-                       good.Enabled && !good.CanReceiveGoods))
+            foreach (var endTransferableGood in endGoodStation.ReceivingGoods)
             {
               if (startTransferableGood.GoodId != endTransferableGood.GoodId)
                 continue;
 
               var startInStock = startGoodsStation.Inventory.AmountInStock(startTransferableGood.GoodId);
 
-              if (startInStock <= 20)
+              if (startInStock <= 5)
                 continue;
 
               var endInStock = endGoodStation.Inventory.AmountInStock(endTransferableGood.GoodId);
 
               var desired = endGoodStation.MaxCapacity - endInStock;
 
-              if (desired <= 20)
+              if (desired <= 5)
                 continue;
 
-              Plugin.Log.LogError("Distribute: " + startInStock + " Desired: " + desired);
+              // Plugin.Log.LogError("Distribute: " + startInStock + " Desired: " + desired);
               switch (_trainDistributeGoodsExecutor.Launch(startGoodsStation, endGoodStation, new GoodAmount(startTransferableGood.GoodId, Math.Min(startInStock, desired))))
               {
                 case ExecutorStatus.Success:
@@ -113,5 +101,32 @@ namespace ChooChoo
     public void Load(IEntityLoader entityLoader)
     {
     }
+    
+    // private void TakeGoods()
+    // {
+    //   _reachedPickupLocation = true;
+    //   _goodReserver.UnreserveStock();
+    //   _startGoodStation.Inventory.Take(_goodAmount);
+    //   int wagonCount = _trainWagonManager.TrainWagons.Count;
+    //   int remainingGoodAmount = _goodAmount.Amount;
+    //   for (var index = 0; index < _trainWagonManager.TrainWagons.Count; index++)
+    //   {
+    //     var amount = (int)Math.Ceiling((float)(remainingGoodAmount / (wagonCount - index)));
+    //     remainingGoodAmount -= amount;
+    //     var trainWagon = _trainWagonManager.TrainWagons[index];
+    //     trainWagon.GoodCarrier.PutGoodsInHands(new GoodAmount(_goodAmount.GoodId, amount));
+    //   }
+    //   _machinist.GoTo(_trainPositionDestinationFactory.Create(_endGoodStation.TrainDestinationComponent));
+    // }
+    //
+    // private void DeliverGoods()
+    // {
+    //   var storage = (GoodRegistry)_chooChooCore.GetPrivateField(_endGoodStation.Inventory, "_storage");
+    //   storage.Add(_goodAmount);
+    //   foreach (var trainWagon in _trainWagonManager.TrainWagons)
+    //     trainWagon.GoodCarrier.EmptyHands();
+    //   _chooChooCore.InvokePrivateMethod(_endGoodStation.Inventory, "InvokeInventoryChangedEvent", new object[]{ _goodAmount.GoodId });
+    //   _deliveredGoods = true;
+    // }
   }
 }

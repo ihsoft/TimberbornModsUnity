@@ -12,7 +12,7 @@ namespace ChooChoo
     {
       objectSaver.Set(GoodIdKey, value.GoodId);
       objectSaver.Set(EnabledKey, value.Enabled);
-      objectSaver.Set(CanReceiveGoodsKey, value.CanReceiveGoods);
+      objectSaver.Set(CanReceiveGoodsKey, value.SendingGoods);
     }
 
     public Obsoletable<TransferableGood> Deserialize(IObjectLoader objectLoader)

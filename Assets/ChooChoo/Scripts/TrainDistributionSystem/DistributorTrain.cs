@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Linq;
+using System.Reflection;
 using Bindito.Core;
 using HarmonyLib;
 using Timberborn.BehaviorSystem;
@@ -16,6 +18,7 @@ namespace ChooChoo
     
     private Machinist _machinist;
     private GoodReserver _goodReserver;
+    private TrainWagonManager _trainWagonManager;
 
     private bool _reachedPickupLocation = true;
     private bool _deliveredGoods = true;
@@ -35,6 +38,7 @@ namespace ChooChoo
     {
       _machinist = GetComponent<Machinist>();
       _goodReserver = GetComponent<GoodReserver>();
+      _trainWagonManager = GetComponent<TrainWagonManager>();
     }
 
     public ExecutorStatus Distribute(GoodsStation startGoodStation, GoodsStation endGoodStation, GoodAmount goodAmount)
@@ -59,32 +63,58 @@ namespace ChooChoo
     {
       if (Delivered())
         return;
+
+      // if (HasGoods() && _machinist.Stopped())
+      //   DeliverGoods();
       
       if (!_reachedPickupLocation && _machinist.Stopped())
-      {
-        _reachedPickupLocation = true;
-        _goodReserver.UnreserveStock();
-        _startGoodStation.Inventory.Take(_goodAmount);
-        _machinist.GoTo(_trainPositionDestinationFactory.Create(_endGoodStation.TrainDestinationComponent));
-      }
-      
+        TakeGoods();
+
       if (_reachedPickupLocation && _machinist.Stopped())
-      {
-        var storage = (GoodRegistry)_chooChooCore.GetPrivateField(_endGoodStation.Inventory, "_storage");
-        storage.Add(_goodAmount);
-        _chooChooCore.InvokePrivateMethod(_endGoodStation.Inventory, "InvokeInventoryChangedEvent", new object[]{ _goodAmount.GoodId });
-        _deliveredGoods = true;
-      }
+        DeliverGoods();
     }
 
     public bool Delivered() => _deliveredGoods;
 
-    public void Save(IEntitySaver entitySaver)
+    private bool HasGoods()
     {
+      var flag = false;
+      foreach (var trainWagon in _trainWagonManager.TrainWagons)
+      {
+        if (trainWagon.GoodCarrier.IsCarrying)
+        {
+          flag = true;
+        }
+      }
+
+      return flag;
+    }
+    
+    private void TakeGoods()
+    {
+      _reachedPickupLocation = true;
+      _goodReserver.UnreserveStock();
+      _startGoodStation.Inventory.Take(_goodAmount);
+      int wagonCount = _trainWagonManager.TrainWagons.Count;
+      int remainingGoodAmount = _goodAmount.Amount;
+      for (var index = 0; index < _trainWagonManager.TrainWagons.Count; index++)
+      {
+        var amount = (int)Math.Ceiling((float)(remainingGoodAmount / (wagonCount - index)));
+        remainingGoodAmount -= amount;
+        var trainWagon = _trainWagonManager.TrainWagons[index];
+        trainWagon.GoodCarrier.PutGoodsInHands(new GoodAmount(_goodAmount.GoodId, amount));
+      }
+      _machinist.GoTo(_trainPositionDestinationFactory.Create(_endGoodStation.TrainDestinationComponent));
     }
 
-    public void Load(IEntityLoader entityLoader)
+    private void DeliverGoods()
     {
+      var storage = (GoodRegistry)_chooChooCore.GetPrivateField(_endGoodStation.Inventory, "_storage");
+      storage.Add(_goodAmount);
+      foreach (var trainWagon in _trainWagonManager.TrainWagons)
+        trainWagon.GoodCarrier.EmptyHands();
+      _chooChooCore.InvokePrivateMethod(_endGoodStation.Inventory, "InvokeInventoryChangedEvent", new object[]{ _goodAmount.GoodId });
+      _deliveredGoods = true;
     }
   }
 }

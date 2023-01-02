@@ -29,7 +29,7 @@ namespace ChooChoo
       public EntityPanelModule Get()
       {
         EntityPanelModule.Builder builder = new EntityPanelModule.Builder();
-        builder.AddMiddleFragment(_trainScheduleFragment);
+        // builder.AddMiddleFragment(_trainScheduleFragment);
         return builder.Build();
       }
     }

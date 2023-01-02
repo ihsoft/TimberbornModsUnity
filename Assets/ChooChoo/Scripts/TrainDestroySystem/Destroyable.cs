@@ -13,15 +13,17 @@ namespace ChooChoo
   {
     private RecoveredGoodStackSpawner _recoveredGoodStackSpawner;
     private ChooChooCore _chooChooCore;
+    private TrainYardService _trainYardService;
     private Character _character;
 
     private List<GoodCarrier> _goodCarriers;
 
     [Inject]
-    public void InjectDependencies(RecoveredGoodStackSpawner recoveredGoodStackSpawner, ChooChooCore chooChooCore)
+    public void InjectDependencies(RecoveredGoodStackSpawner recoveredGoodStackSpawner, ChooChooCore chooChooCore, TrainYardService trainYardService)
     {
       _recoveredGoodStackSpawner = recoveredGoodStackSpawner;
       _chooChooCore = chooChooCore;
+      _trainYardService = trainYardService;
     }
 
     public void Awake()
@@ -42,9 +44,15 @@ namespace ChooChoo
       var position = transform.position;
       var wrongPosition = new Vector3(position.x, position.z, position.y);
       // _recoveredGoodStackSpawner.AddAwaitingGoods(Vector3Int.RoundToInt(wrongPosition), GetCarriedGoods());
-      _chooChooCore.InvokePublicMethod(_recoveredGoodStackSpawner, "AddAwaitingGoods", new object[]{ Vector3Int.RoundToInt(wrongPosition), GetCarriedGoods()});
+      _chooChooCore.InvokePublicMethod(_recoveredGoodStackSpawner, "AddAwaitingGoods", new object[]{ Vector3Int.RoundToInt(wrongPosition), GetAllGoods()});
     }
 
-    private List<GoodAmount> GetCarriedGoods() => _goodCarriers.Where(carrier => carrier.IsCarrying).Select(carrier => carrier.CarriedGoods).ToList();
+    private List<GoodAmount> GetAllGoods()
+    {
+      List<GoodAmount> allGoods = new List<GoodAmount>();
+      allGoods.AddRange(_trainYardService.CurrentTrainYard.GetComponent<TrainYard>().TrainCost.Select(specification => specification.ToGoodAmount()));
+      allGoods.AddRange(_goodCarriers.Where(carrier => carrier.IsCarrying).Select(carrier => carrier.CarriedGoods).ToList());
+      return allGoods;
+    }
   }
 }

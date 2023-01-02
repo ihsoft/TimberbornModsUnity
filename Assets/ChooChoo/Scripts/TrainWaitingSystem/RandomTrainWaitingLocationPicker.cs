@@ -22,7 +22,7 @@ namespace ChooChoo
         public TrainWaitingLocation RandomWaitingLocation()
         {
             var list = _trainWaitingLocationsRepository.WaitingLocations.Where(location => !location.Occupied).ToList();
-            if (list.Count < 1)
+            if (!list.Any())
                 return null;
             var randomWaitingLocation = list[_randomNumberGenerator.Range(0, list.Count)];
             

@@ -21,5 +21,24 @@ namespace ChooChoo
                     throw new ArgumentOutOfRangeException(nameof (orientation), orientation, null);
             }
         }
+        
+        public static Direction2D CorrectedTransform(
+            this Orientation orientation,
+            Direction2D direction2D)
+        {
+            switch (orientation)
+            {
+                case Orientation.Cw0:
+                    return direction2D;
+                case Orientation.Cw90:
+                    return direction2D.CorrectedNext();
+                case Orientation.Cw180:
+                    return direction2D.CorrectedNext().CorrectedNext();
+                case Orientation.Cw270:
+                    return direction2D.CorrectedNext().CorrectedNext().CorrectedNext();
+                default:
+                    throw new ArgumentException(string.Format("Unexpected {0}: {1}", (object) "Orientation", (object) orientation));
+            }
+        }
     }
 }

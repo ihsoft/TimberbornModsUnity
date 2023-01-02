@@ -108,13 +108,13 @@ namespace ChooChoo
       if ((bool) (UnityEngine.Object) _inventory)
       {
         int totalAmountInStock = _inventory.AmountInStock(_goodId);
-        int maxCapacity = _limitableGoodDisallower.AllowedAmount(_goodId);
+        int maxCapacity = _transferableGood.SendingGoods ? _limitableGoodDisallower.AllowedAmount(_goodId) : totalAmountInStock;
         _progressBar.SetProgress((float) totalAmountInStock / (float) maxCapacity);
         _capacityAmount.text = totalAmountInStock.ToString();
         _capacityLimit.text = maxCapacity.ToString();
         
-        _inputOutputImage.sprite = _transferableGood.CanReceiveGoods ?  _goodsStationIconService.ObtainSprite :  _goodsStationIconService.EmptySprite;
-        _loadingStateLabel.text = _loc.T(_transferableGood.CanReceiveGoods ? "Tobbert.GoodsStation.Loading" : "Tobbert.GoodsStation.Unloading");
+        _inputOutputImage.sprite = _transferableGood.SendingGoods ?  _goodsStationIconService.ObtainSprite :  _goodsStationIconService.EmptySprite;
+        _loadingStateLabel.text = _loc.T(_transferableGood.SendingGoods ? "Tobbert.GoodsStation.Loading" : "Tobbert.GoodsStation.Unloading");
         _root.ToggleDisplayStyle(_transferableGood.Enabled);
       }
       else
@@ -130,15 +130,15 @@ namespace ChooChoo
 
     private void ToggleInputOutput()
     {
-      if (_transferableGood.CanReceiveGoods)
+      if (_transferableGood.SendingGoods)
       {
-        _transferableGood.CanReceiveGoods = false;
+        _transferableGood.SendingGoods = false;
         _inputOutputImage.sprite = _goodsStationIconService.EmptySprite;
         _limitableGoodDisallower.SetAllowedAmount(_goodId, 0);
       }
       else
       {
-        _transferableGood.CanReceiveGoods = true;
+        _transferableGood.SendingGoods = true;
         _inputOutputImage.sprite = _goodsStationIconService.ObtainSprite;
         _limitableGoodDisallower.SetAllowedAmount(_goodId, _goodsStation.MaxCapacity);
       }
@@ -148,7 +148,7 @@ namespace ChooChoo
     {
       _limitableGoodDisallower.SetAllowedAmount(_goodId, 0);
       _transferableGood.Enabled = false;
-      _transferableGood.CanReceiveGoods = false;  
+      _transferableGood.SendingGoods = false;  
       _goodSelectionController.Update();
     }
   }

@@ -3,25 +3,46 @@ Tobbert.TrackStraight.DisplayName,Straight Train Track,-
 Tobbert.TrackStraight.Description,A Track Piece that goes straight.,-
 Tobbert.TrackStraight.FlavorDescription,Choo! Choo!,-
 
+Tobbert.TrackHillStart.DisplayName,Slope Track,-
+Tobbert.TrackHillStart.Description,A track that lets trains go up and down.,-
+Tobbert.TrackHillStart.FlavorDescription,Is the train not to heavy?,-
+
 Tobbert.TrackCorner1x1.DisplayName,Corner 1x1 Train Track,-
 Tobbert.TrackCorner1x1.Description,A Track Piece that around a corner.,-
 Tobbert.TrackCorner1x1.FlavorDescription,Might be a little tight.,-
 
 Tobbert.TrackCorner2x2.DisplayName,Corner 2x2 Train Track,-
 Tobbert.TrackCorner2x2.Description,A Track Piece that around a larger corner.,-
-Tobbert.TrackCorner2x2.FlavorDescription,Might be a little tight.,-
+Tobbert.TrackCorner2x2.FlavorDescription,What a nice looking curve.,-
 
-Tobbert.TrackTIntersection.DisplayName,T intersection Train Track,-
-Tobbert.TrackTIntersection.Description,A intersection in the form of a T for trains.,-
-Tobbert.TrackTIntersection.FlavorDescription,Choo! Choo!,-
+Tobbert.TrackTIntersection1x1.DisplayName,T intersection Train Track,-
+Tobbert.TrackTIntersection1x1.Description,A intersection in the form of a T for trains.,-
+Tobbert.TrackTIntersection1x1.FlavorDescription,Which way should I go?,-
+
+Tobbert.TrackTIntersection2x3.DisplayName,T intersection Train Track,-
+Tobbert.TrackTIntersection2x3.Description,A intersection in the form of a T for trains.,-
+Tobbert.TrackTIntersection2x3.FlavorDescription,Where will those paths lead to?,-
 
 Tobbert.TrainStation.DisplayName,Train Station,-
 Tobbert.TrainStation.Description,A destination for trains.,-
 Tobbert.TrainStation.FlavorDescription,Choo! Choo!,-
 
+Tobbert.GoodsStation.DisplayName,Goods station,-
+Tobbert.GoodsStation.Description,"A building that holds items ready for pickup and deliveries from trains. Edit the allowed goods to specify what goods can be received and delivered.",-
+Tobbert.GoodsStation.FlavorDescription,Look at all the goods It can hold.,-
+Tobbert.GoodsStation.GoodSelector,Edit allowed goods,-
+Tobbert.GoodsStation.Loading,Sending: ,-
+Tobbert.GoodsStation.Unloading,Receiving: ,-
+
+Tobbert.WaitingStation.DisplayName,Waiting Station,-
+Tobbert.WaitingStation.Description,"Trains can wait here when they have nothing to do. This prevents trains from occupying the tracks. Trains cannot pathfind over this, so make sure its not in any crucial paths.",-
+Tobbert.WaitingStation.FlavorDescription,When can I go again?,-
+
 Tobbert.TrainYard.DisplayName,Train Yard,-
-Tobbert.TrainYard.Description,A place where trains are born.,-
-Tobbert.TrainYard.FlavorDescription,Choo! Choo!,-
+Tobbert.TrainYard.Description,A building that creates trains.,-
+Tobbert.TrainYard.FlavorDescription,This is where trains are born.,-
+Tobbert.TrainYard.CostOfTrain,Cost of 1 train:,-
+Tobbert.TrainYard.CreateTrain,Create train: ,-
 
 Tobbert.Train.Name,Train,-
 
@@ -37,10 +58,8 @@ Tobbert.TrainAction.Wait.WaitingInMinutes,Hours to wait: ,-
 Tobbert.TrainAction.TakeGoods,Take Goods,-
 Tobbert.TrainAction.TakeGoods.TakeGoodAmount,Take goods: ,-
 
-Tobbert.GoodsStation.GoodSelector,Edit allowed goods,-
-Tobbert.GoodsStation.Loading,Sending: ,-
-Tobbert.GoodsStation.Unloading,Receiving: ,-
-
 Tobbert.ToolGroup.Trains,Trains,-
 
 Tobbert.TrainYard.PreviewErrorMessage,Only 1 Train Yard can be build,-
+
+Tobbert.Trains.UnlockPrompt,You need to unlock {0} to build {1}.,{0} stands for <Building>.DisplayName {1} stands for <TrackPiece>.DisplayName.

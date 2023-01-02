@@ -5,23 +5,20 @@ namespace ChooChoo
 {
     public class TrackConnection
     {
-        public TrackConnection(Vector3Int coordinate, Direction2D direction, Vector3[] pathCorners)
+        public TrackConnection(Vector3Int coordinate, Direction2D direction)
         {
             Coordinates = coordinate;
             Direction = direction;
-            PathCorners = pathCorners;
             ConnectedTrackPiece = null;
-            ConnectedTrackConnection = null;
+            ConnectedTrackRoutes = null;
         }
 
         public Vector3Int Coordinates { get; }
 
-        public Direction2D Direction { get; set; }
+        public Direction2D Direction { get; }
 
-        public Vector3[] PathCorners { get; set; }
-        
         public TrackPiece ConnectedTrackPiece { get; set; }
         
-        public TrackConnection ConnectedTrackConnection { get; set; }
+        public TrackRoute[] ConnectedTrackRoutes { get; set; }
     }
 }

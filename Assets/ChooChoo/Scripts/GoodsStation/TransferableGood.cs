@@ -6,13 +6,13 @@ namespace ChooChoo
 
         public bool Enabled;
 
-        public bool CanReceiveGoods;
+        public bool SendingGoods;
 
         public TransferableGood(string goodId, bool enabled, bool isInput)
         {
             GoodId = goodId;
             Enabled = enabled;
-            CanReceiveGoods = isInput;
+            SendingGoods = isInput;
         }
     }
 }

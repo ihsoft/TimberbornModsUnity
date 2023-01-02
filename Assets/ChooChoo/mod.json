@@ -1,9 +1,9 @@
 {
   "Name": "ChooChoo",
-  "Version": "1.0.0",
+  "Version": "0.1.0",
   "UniqueId": "tobbert.choochoo",
   "MinimumApiVersion": "0.5.0",
-  "MinimumGameVersion": "0.2.9.1",
+  "MinimumGameVersion": "0.3.4.0",
   "EntryDll": "ChooChoo.dll",
   "Assets": [
     {

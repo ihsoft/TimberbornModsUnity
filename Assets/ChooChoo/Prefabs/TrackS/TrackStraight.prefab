@@ -132,9 +132,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _soundBaseName: Default
   _hasLoopingSound: 0
-  _buildingCost: []
+  _buildingCost:
+  - _goodId: Plank
+    _amount: 4
+  - _goodId: ScrapMetal
+    _amount: 2
   _scienceCost: 0
-  _placeFinished: 1
+  _placeFinished: 0
   _finishableWithBeaversOnSite: 1
   _path: 0
   _drawRangeBoundsOnIt: 0
@@ -196,7 +200,7 @@ MonoBehaviour:
     _size: {x: 1, y: 1, z: 1}
     _blockSpecifications:
     - _matterBelow: 1
-      _occupation: 0
+      _occupation: 3
       _stackable: 0
       _optionallyUnderground: 0
       _occupyAllBelow: 0

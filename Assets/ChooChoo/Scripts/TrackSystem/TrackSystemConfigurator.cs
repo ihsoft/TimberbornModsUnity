@@ -17,6 +17,7 @@ namespace ChooChoo
             containerDefinition.Bind<TrackConnectionService>().AsSingleton();
             containerDefinition.Bind<TrackSectionService>().AsSingleton();
             containerDefinition.Bind<EnumObjectSerializer<Direction2D>>().AsSingleton();
+            containerDefinition.Bind<TrackRouteObjectSerializer>().AsSingleton();
             containerDefinition.Bind<TrackConnectionObjectSerializer>().AsSingleton();
 
             // containerDefinition.MultiBind<TemplateModule>().ToProvider(ProvideTemplateModule).AsSingleton();

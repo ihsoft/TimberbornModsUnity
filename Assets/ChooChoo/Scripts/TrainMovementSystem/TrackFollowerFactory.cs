@@ -17,6 +17,6 @@ namespace  ChooChoo
       _trackSectionService = trackSectionService;
     }
 
-    public TrackFollower Create(GameObject owner) => new(_navigationService, _trainNavigationService, _trackSectionService, owner.GetComponent<MovementAnimator>(), owner.transform, owner.GetComponent<Machinist>());
+    public TrackFollower Create(GameObject owner) => new(_navigationService, _trainNavigationService, _trackSectionService, owner.GetComponent<MovementAnimator>(), owner.transform, owner.GetComponent<Machinist>(), owner);
   }
 }

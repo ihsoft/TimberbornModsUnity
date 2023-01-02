@@ -3,19 +3,25 @@ using Bindito.Core;
 using Timberborn.AssetSystem;
 using Timberborn.BlockSystem;
 using Timberborn.Characters;
+using Timberborn.Common;
 using Timberborn.ConstructibleSystem;
 using Timberborn.Coordinates;
 using Timberborn.EntitySystem;
 using Timberborn.FactionSystemGame;
+using Timberborn.Goods;
+using Timberborn.InventorySystem;
 using Timberborn.Localization;
 using UnityEngine;
 
 namespace ChooChoo
 {
-    public class TrainYard : MonoBehaviour, IFinishedStateListener
+    public class TrainYard : MonoBehaviour, IRegisteredComponent, IFinishedStateListener, IDeletableEntity
     {
         private const string TrainNameLocKey = "Tobbert.Train.Name";
 
+        [SerializeField]
+        private int _maxCapacity;
+        
         private ILoc _loc;
 
         private EntityService _entityService;
@@ -26,7 +32,9 @@ namespace ChooChoo
 
         private TrainYardService _trainYardService;
         
-        private GameObject _train;
+        public GoodAmountSpecification[] TrainCost;
+        public Inventory Inventory { get; private set; }
+        public int MaxCapacity => _maxCapacity;
 
         [Inject]
         public void InjectDependencies(ILoc loc, EntityService entityService, IResourceAssetLoader resourceAssetLoader, FactionService factionService, TrainYardService trainYardService)
@@ -38,61 +46,71 @@ namespace ChooChoo
             _trainYardService = trainYardService;
         }
 
+        public void Awake()
+        {
+            enabled = false;
+            if (!name.ToLower().Contains("preview"))
+                _trainYardService.CurrentTrainYard = GetComponent<TrainDestination>();
+        }
+
         public void OnEnterFinishedState()
         {
-            _trainYardService.CurrentTrainYard = GetComponent<TrainDestination>();
+            enabled = true;
+            Inventory.Enable();
         }
 
         public void OnExitFinishedState()
         {
-            _trainYardService.CurrentTrainYard = null;
+            Inventory.Disable();
+            enabled = false;
+        }
+        
+        public void InitializeInventory(Inventory inventory)
+        {
+            Asserts.FieldIsNull(this, Inventory, "Inventory");
+            Inventory = inventory;
         }
 
         public void InitializeTrain()
         {
+            foreach (var goodAmountSpecification in TrainCost)
+                Inventory.Take(goodAmountSpecification.ToGoodAmount());
+            
+            
             // var train = _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/Train." + _factionService.Current.Id);
-            var train = _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/SmallLogTrain.Folktails");
+            var trainPrefab = _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/SmallLogTrain.Folktails");
 
-            _train = _entityService.Instantiate(train.gameObject);
+            var train = _entityService.Instantiate(trainPrefab.gameObject);
 
-            _train.GetComponent<TrainYardSubject>().HomeTrainYard = GetComponent<TrainDestination>();
+            train.GetComponent<TrainYardSubject>().HomeTrainYard = GetComponent<TrainDestination>();
 
-            SetInitialTrainLocation();
+            SetInitialTrainLocation(train);
 
-            SetTrainName();
+            SetTrainName(train);
 
-            _train.GetComponent<Machinist>().LastTrackConnection = GetComponent<TrackPiece>().TrackConnections.First(connection => connection.Direction == Direction2D.Down);
+            train.GetComponent<Machinist>().LastTrackConnection = GetComponent<TrackPiece>().TrackRoutes.First(connection => connection.Entrance.Direction == Direction2D.Up);
         }
 
-        private void SetInitialTrainLocation()
+        public void DeleteEntity()
         {
-            _train.transform.rotation = GetComponent<BlockObject>().Orientation.ToWorldSpaceRotation();
-            var position = _train.transform.position;
+            Plugin.Log.LogInfo("Removing");
+            _trainYardService.CurrentTrainYard = null;
+        }
+
+        private void SetInitialTrainLocation(GameObject train)
+        {
+            train.transform.rotation = GetComponent<BlockObject>().Orientation.ToWorldSpaceRotation();
+            var position = train.transform.position;
             position += GetSpawnOffset();
             position += transform.position;
-            _train.transform.position = position;
+            train.transform.position = position;
         }
 
-        private Vector3 GetSpawnOffset()
-        {
-            return GetComponent<BlockObject>().Orientation.TransformInWorldSpace(new Vector3(0.5f, 0f, 2.8f));
-            // var orientation = GetComponent<BlockObject>().Orientation;
-            // switch (orientation)
-            // {
-            //     default:
-            //         return new Vector3(1.9f, 0.45f, 1.8f);
-            //     case Orientation.Cw90:
-            //         return new Vector3(1.9f, 0.45f, -1.8f);
-            //     case Orientation.Cw180:
-            //         return new Vector3(-1.9f, 0.45f, -1.8f);
-            //     case Orientation.Cw270:
-            //         return new Vector3(-1.9f, 0.45f, 1.8f);
-            // }
-        }
+        private Vector3 GetSpawnOffset() => GetComponent<BlockObject>().Orientation.TransformInWorldSpace(new Vector3(0.5f, 0f, 2.8f));
 
-        private void SetTrainName()
+        private void SetTrainName(GameObject train)
         {
-            Character component = _train.GetComponent<Character>();
+            Character component = train.GetComponent<Character>();
             component.FirstName = _loc.T(TrainNameLocKey);
         }
     }

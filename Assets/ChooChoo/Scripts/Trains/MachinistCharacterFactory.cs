@@ -18,6 +18,10 @@ namespace ChooChoo
             "__Box",
             "__Log",
             "__Bag",
+            "__Scrap",
+            "__TreatedPlank",
+            "__Plank",
+            "__MetalBlock",
             "__Backpack",
             "__None"
         };

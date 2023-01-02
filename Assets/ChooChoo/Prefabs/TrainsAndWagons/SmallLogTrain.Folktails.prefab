@@ -117,7 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 992741808, guid: 948419c1896aad842bc2afb1c6b071d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rotationSpeed: 270
+  _rotationSpeed: 540
   _animationSpeedScale: 1
 --- !u!114 &4124541311747334948
 MonoBehaviour:
@@ -220,7 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 444642958, guid: b6cb9fb40e6a9dd39b069e7f18c050b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseWalkingSpeed: 2.2
+  _baseWalkingSpeed: 3.2
   _baseSlowedSpeed: 1
 --- !u!114 &835374262739727047
 MonoBehaviour:
@@ -308,8 +308,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfce11894a074d3d8dd5dc78ef71a622, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slowDownDistance: 1.5
-  baseSlowDownSpeed: 0.1
+  slowDownDistance: 3
+  baseSlowDownSpeed: 0.3
 --- !u!114 &8095146922966365799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -429,6 +429,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7398172005394312095, guid: 5ee9b33eab1f9d143b02744d95633212, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 184657205e504834eb7274963c621fdc, type: 2}
     - target: {fileID: 7643959626124936822, guid: 5ee9b33eab1f9d143b02744d95633212, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

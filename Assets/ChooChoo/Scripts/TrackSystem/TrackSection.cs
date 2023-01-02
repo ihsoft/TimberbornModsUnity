@@ -1,9 +1,12 @@
 using System.Collections.Generic;
 using ChooChoo;
+using UnityEngine;
 
 public class TrackSection
 {
     public readonly List<TrackPiece> TrackPieces = new();
+
+    public GameObject OccupyingTrain;
 
     public bool Occupied;
 
@@ -36,14 +39,16 @@ public class TrackSection
             track.LookForTrackSection();
     }
 
-    public void Enter()
+    public void Enter(GameObject train)
     {
         Occupied = true;
+        OccupyingTrain = train;
     }
 
     public void Leave()
     {
         Occupied = false;
+        OccupyingTrain = null;
         HasWaitingTrain = false;
     }
 }

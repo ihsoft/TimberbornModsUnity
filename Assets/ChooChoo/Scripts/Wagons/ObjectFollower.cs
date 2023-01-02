@@ -9,37 +9,46 @@ namespace ChooChoo
   public class ObjectFollower : ITrackFollower
   {
     private readonly INavigationService _navigationService;
-    private readonly TrainNavigationService _trainNavigationService;
     private readonly MovementAnimator _movementAnimator;
     private readonly Transform _transform;
+    private readonly GameObject _train;
     private readonly List<PathCorner> _animatedPathCorners = new(100);
     private ITrackFollower _objectToFollowTrackFollower;
-    private List<TrackConnection> _pathCorners = new();
+    private List<TrackRoute> _pathCorners = new();
+    private bool _checkForLeavingSection;
     private int _currentCornerIndex;
     private int _nextSubCornerIndex;
     private Transform _objectToFollow;
     private float _minDistanceFromObject;
+    private TrackSection _currentTrackSection;
 
     public int CurrentCornerIndex => _currentCornerIndex;
 
+    // public List<TrackSection> OccupiedTrackSections
+    // {
+    //   get => _objectToFollowTrackFollower.OccupiedTrackSections;
+    //   set { }
+    // }
+
     public ObjectFollower(
       INavigationService navigationService,
-      TrainNavigationService trainNavigationService,
       MovementAnimator movementAnimator,
-      Transform transform)
+      Transform transform,
+      GameObject train)
     {
       _navigationService = navigationService;
-      _trainNavigationService = trainNavigationService;
       _movementAnimator = movementAnimator;
       _transform = transform;
+      _train = train;
     }
 
-    public void SetObjectToFollow(Transform objectToFollow, float minDistanceFromObject)
+    public void SetObjectToFollow(Transform objectToFollow, float minDistanceFromObject, bool checkForLeavingSection)
     {
       _objectToFollow = objectToFollow;
       _minDistanceFromObject = minDistanceFromObject;
+      _checkForLeavingSection = checkForLeavingSection;
     }
-    public void SetNewPathConnections(ITrackFollower trackFollower, List<TrackConnection> pathCorners)
+    public void SetNewPathRoutes(ITrackFollower trackFollower, List<TrackRoute> pathCorners)
     {
       _objectToFollowTrackFollower = trackFollower;
       _pathCorners = pathCorners;
@@ -49,7 +58,7 @@ namespace ChooChoo
 
     public void MoveTowardsObject(float deltaTime, string animationName, float movementSpeed)
     {
-      if (_objectToFollowTrackFollower == null)
+      if (_objectToFollowTrackFollower == null || _pathCorners.Count == 0)
         return;
       
       _animatedPathCorners.Clear();
@@ -63,12 +72,13 @@ namespace ChooChoo
       {
         _nextSubCornerIndex = PeekNextSubCornerIndex();
         Vector3 position;
-        (position, num) = MoveInDirection(_transform.position, _pathCorners[_currentCornerIndex].PathCorners[_nextSubCornerIndex], movementSpeed, num);
+        (position, num) = MoveInDirection(_transform.position, _pathCorners[_currentCornerIndex].RouteCorners[_nextSubCornerIndex], movementSpeed, num);
         _transform.position = position;
         float timeInSeconds = time + deltaTime - num;
         _animatedPathCorners.Add(new PathCorner(position, timeInSeconds));
       }
       _movementAnimator.AnimateMovementAlongPath(_animatedPathCorners, animationName, movementSpeed);
+      // CheckWhetherWagonHasLeftSection();
     }
 
     public void StopMoving()
@@ -76,13 +86,50 @@ namespace ChooChoo
       _movementAnimator.StopAnimatingMovement();
     }
 
-    private bool ReachedLastPathCorner() => _navigationService.InStoppingProximity(_pathCorners.Last().PathCorners.Last(), _transform.position);
+    private bool ReachedLastPathCorner() => _pathCorners.Count > 0 && _navigationService.InStoppingProximity(_pathCorners.Last().RouteCorners.Last(), _transform.position);
 
-    private bool LastOfSubCorners() => _nextSubCornerIndex >= _pathCorners[_currentCornerIndex].PathCorners.Length - 1;
+    private bool LastOfSubCorners() => _nextSubCornerIndex >= _pathCorners[_currentCornerIndex].RouteCorners.Length - 1;
+
+    // private void CheckWhetherWagonHasLeftSection()
+    // {
+    //   if (!_checkForLeavingSection)
+    //     return;
+    //   
+    //   TrackPiece currentTrackPiece = _pathCorners[_currentCornerIndex].Exit.ConnectedTrackPiece;
+    //
+    //   if (currentTrackPiece == null)
+    //     return;
+    //
+    //   TrackSection currentTrackSection = currentTrackPiece.TrackSection;
+    //
+    //   var lastOccupiedTrackSection = OccupiedTrackSections.LastOrDefault();
+    //
+    //   if (lastOccupiedTrackSection == null)
+    //     return;
+    //   
+    //   foreach (var trackSection1 in OccupiedTrackSections)
+    //   {
+    //     Plugin.Log.LogInfo(trackSection1.TrackPieces.First().CenterCoordinates.ToString());
+    //   }
+    //   Plugin.Log.LogWarning(currentTrackSection.TrackPieces.First().CenterCoordinates.ToString());
+    //   Plugin.Log.LogWarning(lastOccupiedTrackSection.TrackPieces.First().CenterCoordinates.ToString());
+    //
+    //   if (OccupiedTrackSections.Contains(currentTrackSection) && currentTrackSection != lastOccupiedTrackSection)
+    //   {
+    //     lastOccupiedTrackSection.Leave();
+    //     OccupiedTrackSections.Remove(lastOccupiedTrackSection);
+    //   }
+    // }
 
     private int PeekNextSubCornerIndex()
     {
-      if ((_currentCornerIndex + 1 >= _pathCorners.Count && _nextSubCornerIndex + 1 >= _pathCorners[_currentCornerIndex].PathCorners.Length) || !_navigationService.InStoppingProximity(_transform.position, _pathCorners[_currentCornerIndex].PathCorners[_nextSubCornerIndex]))
+      var flag1 = _currentCornerIndex + 1 >= _pathCorners.Count;
+      var flag2 = _nextSubCornerIndex + 1 >= _pathCorners[_currentCornerIndex].RouteCorners.Length;
+      var flag3 = !_navigationService.InStoppingProximity(_transform.position, _pathCorners[_currentCornerIndex].RouteCorners[_nextSubCornerIndex]);
+      
+      // Plugin.Log.LogWarning(flag1 + "     " + flag2 + "     " + flag3);
+
+      if ((flag1 && flag2) || flag3)
       {
         return _nextSubCornerIndex;
       }
@@ -120,7 +167,7 @@ namespace ChooChoo
       return (destination, num1);
     }
 
-    private static Vector3 ClampMovement(Vector3 movement, float movementMagnitude) => movementMagnitude <= 0.100000001490116 ? movement : movement.normalized * 0.1f;
+    private static Vector3 ClampMovement(Vector3 movement, float movementMagnitude) => movementMagnitude <= 0.05 ? movement : movement.normalized * 0.05f;
 
     private static float LeftTime(float deltaTime, float actualDistance, float maxDistance) => deltaTime * (float) (1.0 - (double) actualDistance / (double) maxDistance);
   }

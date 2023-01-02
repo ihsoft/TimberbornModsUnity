@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Timberborn.BehaviorSystem;
+using Timberborn.CharacterModelSystem;
 using Timberborn.Common;
 using Timberborn.EntitySystem;
 using Timberborn.Persistence;
@@ -16,37 +17,37 @@ namespace ChooChoo
   {
     private static readonly ComponentKey MachinistKey = new(nameof(Machinist));
     private static readonly PropertyKey<ITrainDestination> CurrentDestinationKey = new("CurrentDestination");
-    private static readonly PropertyKey<TrackConnection> LastTrackConnectionKey = new("LastTrackConnection");
+    private static readonly PropertyKey<TrackRoute> LastTrackConnectionKey = new("LastTrackConnection");
     private TrackFollowerFactory _trackFollowerFactory;
     private TrainDestinationObjectSerializer _trainDestinationObjectSerializer;
-    private TrackConnectionObjectSerializer _trackConnectionObjectSerializer;
+    private TrackRouteObjectSerializer _trackRouteObjectSerializer;
     private WalkerSpeedManager _walkerSpeedManager;
     private TrainWagonManager _trainWagonManager;
     private SlowdownCalculator _slowdownCalculator;
     private TrackFollower _trackFollower;
-    private readonly List<TrackConnection> _pathConnections = new(100);
-    private readonly List<TrackConnection> _tempPathCorners = new(100);
+    private readonly List<TrackRoute> _pathConnections = new(100);
+    private readonly List<TrackRoute> _tempPathCorners = new(100);
     private ITrainDestination _currentTrainDestination;
     private ITrainDestination _previousTrainDestination;
-    public TrackConnection LastTrackConnection;
+    public TrackRoute LastTrackConnection;
     private float _slowDownDistance = 1.5f;
 
     public event EventHandler<StartedNewPathEventArgs> StartedNewPath;
 
     public bool CurrentDestinationReachable { get; private set; }
 
-    public IReadOnlyList<TrackConnection> PathCorners { get; private set; }
+    public IReadOnlyList<TrackRoute> PathCorners { get; private set; }
 
     [Inject]
     public void InjectDependencies(
       TrackFollowerFactory trackFollowerFactory,
       TrainDestinationObjectSerializer trainDestinationObjectSerializer,
-      TrackConnectionObjectSerializer trackConnectionObjectSerializer
+      TrackRouteObjectSerializer trackConnectionObjectSerializer
     )
     {
       _trackFollowerFactory = trackFollowerFactory;
       _trainDestinationObjectSerializer = trainDestinationObjectSerializer;
-      _trackConnectionObjectSerializer = trackConnectionObjectSerializer;
+      _trackRouteObjectSerializer = trackConnectionObjectSerializer;
     }
 
     public void Awake()
@@ -92,7 +93,7 @@ namespace ChooChoo
       _previousTrainDestination = null;
       if (_currentTrainDestination == null)
         return;
-      LastTrackConnection = _trackFollower.LastTraversedTrackConnection();
+      // _trackFollower.ResetTrackSection();
       FindPath(_currentTrainDestination);
     }
 
@@ -102,7 +103,7 @@ namespace ChooChoo
       if (_currentTrainDestination != null)
         component.Set(CurrentDestinationKey, _currentTrainDestination, _trainDestinationObjectSerializer);
       if (LastTrackConnection != null)
-        component.Set(LastTrackConnectionKey, LastTrackConnection, _trackConnectionObjectSerializer);
+        component.Set(LastTrackConnectionKey, LastTrackConnection, _trackRouteObjectSerializer);
     }
 
     public void Load(IEntityLoader entityLoader)
@@ -111,7 +112,7 @@ namespace ChooChoo
       if (component.Has(CurrentDestinationKey))
         _currentTrainDestination = component.Get(CurrentDestinationKey, _trainDestinationObjectSerializer);
       if (component.Has(LastTrackConnectionKey))
-        LastTrackConnection = component.Get(LastTrackConnectionKey, (_trackConnectionObjectSerializer));
+        LastTrackConnection = component.Get(LastTrackConnectionKey, (_trackRouteObjectSerializer));
     }
     
     public void DeleteEntity()
@@ -125,18 +126,18 @@ namespace ChooChoo
       {
         Vector3 start = transform.position;
         _pathConnections.Clear();
-        CurrentDestinationReachable = trainDestination.GeneratePath(start, ref LastTrackConnection, _tempPathCorners);
+        CurrentDestinationReachable = trainDestination.GeneratePath(GetComponent<CharacterModel>().Model, ref LastTrackConnection, _tempPathCorners);
         if (CurrentDestinationReachable)
         {
-          if (!_pathConnections.IsEmpty())
-            _pathConnections.RemoveLast();
           _pathConnections.AddRange(_tempPathCorners);
           _tempPathCorners.Clear();
           _trainWagonManager.SetNewPathConnections(_trackFollower, _pathConnections);
-          _slowdownCalculator.SetPositions(_pathConnections[0].PathCorners[0], _pathConnections.Last().PathCorners.Last());
+          _slowdownCalculator.SetPositions(_pathConnections[0].RouteCorners[0], _pathConnections.Last().RouteCorners.Last());
         }
         else
+        {
           _pathConnections.Clear();
+        }
 
         _trackFollower.StartMovingAlongPath(_pathConnections);
         EventHandler<StartedNewPathEventArgs> startedNewPath = StartedNewPath;
@@ -154,8 +155,7 @@ namespace ChooChoo
       return ExecutorStatus.Failure;
     }
 
-    private bool HasSavedPathToDestination(ITrainDestination trainDestination) =>
-      Equals(_previousTrainDestination, trainDestination);
+    private bool HasSavedPathToDestination(ITrainDestination trainDestination) => Equals(_previousTrainDestination, trainDestination);
 
     private void Move()
     {

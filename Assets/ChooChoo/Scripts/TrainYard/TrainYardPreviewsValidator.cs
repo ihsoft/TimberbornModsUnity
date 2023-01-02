@@ -4,7 +4,7 @@ using ChooChoo;
 using Timberborn.Localization;
 using Timberborn.PreviewSystem;
 
-namespace Timberborn.GameDistrictsUI
+namespace ChooChoo
 {
   internal class TrainYardPreviewsValidator : IPreviewsValidator
   {

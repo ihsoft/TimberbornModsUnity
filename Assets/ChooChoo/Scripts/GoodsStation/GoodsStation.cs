@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Bindito.Core;
 using Timberborn.Common;
 using Timberborn.ConstructibleSystem;
@@ -22,6 +23,13 @@ namespace ChooChoo
     public Inventory Inventory { get; private set; }
     public TrainDestination TrainDestinationComponent { get; private set; }
     public List<TransferableGood> TransferableGoods;
+    
+    public int MaxCapacity => _maxCapacity;
+
+    public IEnumerable<TransferableGood> SendingGoods => TransferableGoods.Where(good => good.Enabled && good.SendingGoods);
+    
+    public IEnumerable<TransferableGood> ReceivingGoods => TransferableGoods.Where(good => good.Enabled && !good.SendingGoods);
+
 
     [Inject]
     public void InjectDependencies(TransferableGoodObjectSerializer transferableGoodObjectSerializer, GoodsStationsRepository goodsStationsRepository)
@@ -29,8 +37,6 @@ namespace ChooChoo
       _transferableGoodObjectSerializer = transferableGoodObjectSerializer;
       _goodsStationsRepository = goodsStationsRepository;
     }
-
-    public int MaxCapacity => _maxCapacity;
 
     public void Awake() 
     {
@@ -54,7 +60,7 @@ namespace ChooChoo
       }
       
       foreach (var transferableGood in TransferableGoods)
-        _limitableGoodDisallower.SetAllowedAmount(transferableGood.GoodId, transferableGood.CanReceiveGoods ? _maxCapacity : 0);
+        _limitableGoodDisallower.SetAllowedAmount(transferableGood.GoodId, transferableGood.SendingGoods ? _maxCapacity : 0);
     }
 
     public void OnExitFinishedState()
@@ -72,12 +78,16 @@ namespace ChooChoo
 
     public void Save(IEntitySaver entitySaver)
     {
-      entitySaver.GetComponent(GoodsStationKey).Set(TransferableGoodsKey, TransferableGoods, _transferableGoodObjectSerializer);
+      if (TransferableGoods != null)
+        entitySaver.GetComponent(GoodsStationKey).Set(TransferableGoodsKey, TransferableGoods, _transferableGoodObjectSerializer);
     }
 
     public void Load(IEntityLoader entityLoader)
     {
-      TransferableGoods = entityLoader.GetComponent(GoodsStationKey).Get(TransferableGoodsKey, _transferableGoodObjectSerializer);
+      if (!entityLoader.HasComponent(GoodsStationKey))
+        return;
+      if (entityLoader.GetComponent(GoodsStationKey).Has(TransferableGoodsKey))
+        TransferableGoods = entityLoader.GetComponent(GoodsStationKey).Get(TransferableGoodsKey, _transferableGoodObjectSerializer);
     }
   }
 }

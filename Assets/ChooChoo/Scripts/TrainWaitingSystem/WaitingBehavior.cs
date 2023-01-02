@@ -2,11 +2,12 @@
 using System;
 using Timberborn.BehaviorSystem;
 using Timberborn.BlockSystem;
+using Timberborn.EntitySystem;
 using UnityEngine;
 
 namespace ChooChoo
 {
-  public class WaitingBehavior : RootBehavior
+  public class WaitingBehavior : RootBehavior, IDeletableEntity
   {
     private BlockService _blockService;
     private RandomTrainWaitingLocationPicker _randomTrainWaitingLocationPicker;
@@ -40,6 +41,12 @@ namespace ChooChoo
 
       return GoToClosestWaitingLocation();
     }
+    
+    public void DeleteEntity()
+    {
+      if (_currentWaitingLocation != null)
+        _currentWaitingLocation.Occupied = false;
+    }
 
     private Decision GoToClosestWaitingLocation()
     {
@@ -52,7 +59,7 @@ namespace ChooChoo
         return Decision.ReleaseNow();
 
       _currentWaitingLocation.Occupied = true;
-      Plugin.Log.LogWarning( "Waiting at random location");
+      // Plugin.Log.LogWarning( "Waiting at random location");
       switch (_moveToStationExecutor.Launch(_currentWaitingLocation.TrainDestinationComponent))
       {
         case ExecutorStatus.Success:

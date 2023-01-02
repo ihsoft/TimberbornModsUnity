@@ -101,7 +101,7 @@ namespace ChooChoo
       if (transferableGood.Enabled)
       {
         transferableGood.Enabled = false;
-        transferableGood.CanReceiveGoods = false;
+        transferableGood.SendingGoods = false;
         _limitableGoodDisallower.SetAllowedAmount(transferableGood.GoodId, 0);
       }
       else

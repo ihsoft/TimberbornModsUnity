@@ -75,7 +75,7 @@ namespace ChooChoo
     public void ShowFragment(GameObject entity)
     {
       _goodsStationInventory = entity.GetComponent<GoodsStation>();
-      if ((bool)(Object)_goodsStationInventory)
+      if ((bool)(Object)_goodsStationInventory && _goodsStationInventory.Inventory.enabled)
       {
         foreach (var goodsStationRow in _goodsStationRows)
         {

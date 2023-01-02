@@ -1,16 +1,25 @@
-// using System.Numerics;
-//
-// namespace ChooChoo
-// {
-//     public class TrackRoute
-//     {
-//         public TrackRoute()
-//         {
-//             
-//         }
-//
-//         public TrackConnection[] TrackConnections;
-//         
-//         public Vector3[] PathCorners { get; set; }
-//     }
-// }
+
+
+using UnityEngine;
+
+namespace ChooChoo
+{
+    public class TrackRoute
+    {
+        public TrackRoute(
+            TrackConnection entrance, 
+            TrackConnection exit, 
+            Vector3[] routeCorners)
+        {
+            Entrance = entrance;
+            Exit = exit;
+            RouteCorners = routeCorners;
+        }
+
+        public TrackConnection Entrance;
+
+        public TrackConnection Exit;
+        
+        public Vector3[] RouteCorners { get; set; }
+    }
+}

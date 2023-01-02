@@ -1,4 +1,3 @@
-using System;
 using Bindito.Core;
 using Timberborn.EntitySystem;
 using Timberborn.SingletonSystem;
@@ -15,7 +14,7 @@ namespace ChooChoo
 
         private Machinist _machinist;
 
-        private bool _tracksUpdated;
+        private bool _tracksUpdated = true;
         
         [Inject]
         public void InjectDependencies(EventBus eventBus)
@@ -28,17 +27,17 @@ namespace ChooChoo
             _machinist = GetComponent<Machinist>();
         }
 
-        public override void StartTickable() 
+        public new void Start()
         {
             _machinist.RefreshPath();
         }
-        
+
         public override void Tick()
         {
-            // if (!_tracksUpdated) 
-            //     return;
-            // _machinist.RefreshPath();
-            // _tracksUpdated = false;
+            if (!_tracksUpdated) 
+                return;
+            _machinist.RefreshPath();
+            _tracksUpdated = false;
         }
 
         [OnEvent]
