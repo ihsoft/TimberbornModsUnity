@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StagingPaths:
   - <ManifestPluginStaging>
-  Author: Tobbert
+  Author: 
   Name: ExtendedArchitecture
   Description: 
-  Version: 0.3.2
+  Version: 
   Dependencies: []
 --- !u!114 &11400000
 MonoBehaviour:
@@ -34,9 +34,8 @@ MonoBehaviour:
   Data:
   - {fileID: -3931462110823901632}
   - {fileID: 2590189338767857166}
-  - {fileID: 7276679206402820566}
-  - {fileID: 7788702448107751720}
   - {fileID: 9120418034178625098}
+  - {fileID: 7788702448107751720}
   identity: {fileID: -3931462110823901632}
   QuickAccess: 1
 --- !u!114 &2590189338767857166
@@ -52,8 +51,7 @@ MonoBehaviour:
   m_Name: AssetBundleDefinitions
   m_EditorClassIdentifier: 
   StagingPaths:
-  - <ManifestPluginStaging>/assets
-  - <ThunderstorePackage>/<ManifestName>/plugins/assets
+  - <ManifestStagingRoot>/assets
   assetBundles:
   - assetBundleName: elec_extendedarchitexture
     assets:
@@ -61,24 +59,6 @@ MonoBehaviour:
     - {fileID: 668602528646462413, guid: e8140bf87ebad8946ad1e11b5d00a0d9, type: 3}
     - {fileID: 6439842795115214155, guid: facceb0bac57e7444ab7e093efaf2c4a, type: 3}
     - {fileID: 6439842795115214155, guid: a1b3eaadcc76a884c9494aed6ed07686, type: 3}
---- !u!114 &7276679206402820566
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b243ff405b33b94dbf5b6775dd9aa33, type: 3}
-  m_Name: Files
-  m_EditorClassIdentifier: 
-  StagingPaths:
-  - <ThunderstorePackage>
-  files:
-  - {fileID: 2800000, guid: ff79f995a503eb8439af9ded6bf8e48b, type: 3}
-  - {fileID: 4900000, guid: e5fa616b1b32dd34f84e13343934e796, type: 3}
-  - {fileID: 4900000, guid: 757bc22ebee47d9418147ad9f9e24f8f, type: 3}
 --- !u!114 &7788702448107751720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,8 +72,7 @@ MonoBehaviour:
   m_Name: Files
   m_EditorClassIdentifier: 
   StagingPaths:
-  - <ManifestPluginStaging>/Specifications
-  - <ThunderstorePackage>/<ManifestName>/plugins/Specifications
+  - <ManifestStagingRoot>/Specifications
   files:
   - {fileID: 4900000, guid: 4468feb514b39b5429e1e5b5292414c1, type: 3}
   - {fileID: 4900000, guid: cb6a7a32b10ab0f458b7a3ebf410d001, type: 3}
@@ -110,8 +89,7 @@ MonoBehaviour:
   m_Name: Files
   m_EditorClassIdentifier: 
   StagingPaths:
-  - <ManifestPluginStaging>
-  - <ThunderstorePackage>/<ManifestName>/plugins
+  - <ManifestStagingRoot>
   files:
   - {fileID: 102900000, guid: e3ca31b2ad5ea98468208857fb36e9ab, type: 3}
   - {fileID: 4900000, guid: 17289462714a584458cb8fe11dd817fa, type: 3}
