@@ -158,7 +158,7 @@ namespace ChooChoo
             var transform1 = transform;
             var offset = transform1.rotation * new Vector3(0, 0f, -0.6f * cartNumber - 1);
             var spawnLocation = transform1.position + offset;
-            Plugin.Log.LogInfo("Spawning wagon " + cartNumber + " at: " + spawnLocation);
+            // Plugin.Log.LogInfo("Spawning wagon " + cartNumber + " at: " + spawnLocation);
             cart.transform.position = spawnLocation;
         }
     }

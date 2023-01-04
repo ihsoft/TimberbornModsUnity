@@ -71,7 +71,7 @@ namespace ChooChoo
       
       var nextStation = _trainScheduleController.TrainSchedule[_currentStationIndex].Station;
 
-      Plugin.Log.LogWarning( "Go to next station");
+      // Plugin.Log.LogWarning( "Go to next station");
       switch (_moveToStationExecutor.Launch(nextStation))
       {
         case ExecutorStatus.Success:

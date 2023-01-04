@@ -9,7 +9,6 @@ namespace ChooChoo
   public class TrackFollower : ITrackFollower
   {
     private readonly INavigationService _navigationService;
-    private readonly TrackSectionService _trackSectionService;
     private readonly TrainNavigationService _trainNavigationService;
     private readonly MovementAnimator _movementAnimator;
     private readonly Transform _transform;
@@ -28,7 +27,6 @@ namespace ChooChoo
     public TrackFollower(
       INavigationService navigationService,
       TrainNavigationService trainNavigationService,
-      TrackSectionService trackSectionService,
       MovementAnimator movementAnimator,
       Transform transform,
       Machinist machinist,
@@ -36,7 +34,6 @@ namespace ChooChoo
     {
       _navigationService = navigationService;
       _trainNavigationService = trainNavigationService;
-      _trackSectionService = trackSectionService;
       _movementAnimator = movementAnimator;
       _transform = transform;
       _machinist = machinist;

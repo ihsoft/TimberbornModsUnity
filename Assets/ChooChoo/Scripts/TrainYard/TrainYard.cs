@@ -31,8 +31,6 @@ namespace ChooChoo
         private FactionService _factionService;
 
         private TrainYardService _trainYardService;
-        
-        public GoodAmountSpecification[] TrainCost;
         public Inventory Inventory { get; private set; }
         public int MaxCapacity => _maxCapacity;
 
@@ -73,14 +71,13 @@ namespace ChooChoo
 
         public void InitializeTrain()
         {
-            foreach (var goodAmountSpecification in TrainCost)
-                Inventory.Take(goodAmountSpecification.ToGoodAmount());
-            
-            
             // var train = _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/Train." + _factionService.Current.Id);
             var trainPrefab = _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/SmallLogTrain.Folktails");
 
             var train = _entityService.Instantiate(trainPrefab.gameObject);
+            
+            foreach (var goodAmountSpecification in train.GetComponent<Train>().TrainCost)
+                Inventory.Take(goodAmountSpecification.ToGoodAmount());
 
             train.GetComponent<TrainYardSubject>().HomeTrainYard = GetComponent<TrainDestination>();
 
@@ -93,8 +90,8 @@ namespace ChooChoo
 
         public void DeleteEntity()
         {
-            Plugin.Log.LogInfo("Removing");
-            _trainYardService.CurrentTrainYard = null;
+            // Plugin.Log.LogInfo("Removing");
+            // _trainYardService.CurrentTrainYard = null;
         }
 
         private void SetInitialTrainLocation(GameObject train)

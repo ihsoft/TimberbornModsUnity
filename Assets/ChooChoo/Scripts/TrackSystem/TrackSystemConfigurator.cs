@@ -11,11 +11,11 @@ namespace ChooChoo
     {
         public void Configure(IContainerDefinition containerDefinition)
         {
-            containerDefinition.Bind<TrackMap>().AsSingleton();
             containerDefinition.Bind<TrackArrayProvider>().AsSingleton();
             containerDefinition.Bind<TracksService>().AsSingleton();
             containerDefinition.Bind<TrackConnectionService>().AsSingleton();
-            containerDefinition.Bind<TrackSectionService>().AsSingleton();
+            containerDefinition.Bind<TrackRouteWeightCache>().AsSingleton();
+            // containerDefinition.Bind<TrackSectionService>().AsSingleton();
             containerDefinition.Bind<EnumObjectSerializer<Direction2D>>().AsSingleton();
             containerDefinition.Bind<TrackRouteObjectSerializer>().AsSingleton();
             containerDefinition.Bind<TrackConnectionObjectSerializer>().AsSingleton();

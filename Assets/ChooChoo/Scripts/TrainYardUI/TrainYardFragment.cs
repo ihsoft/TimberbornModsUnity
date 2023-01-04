@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using TimberApi.AssetSystem;
 using TimberApi.UiBuilderSystem;
+using Timberborn.AssetSystem;
 using Timberborn.CoreUI;
 using Timberborn.EntityPanelSystem;
 using Timberborn.Goods;
@@ -20,6 +22,7 @@ namespace ChooChoo
     private const string CreateTrainLocKey = "Tobbert.TrainYard.CreateTrain";
     private readonly InformationalRowsFactory _informationalRowsFactory;
     private readonly VisualElementLoader _visualElementLoader;
+    private readonly IResourceAssetLoader _resourceAssetLoader;
     private readonly GoodDescriber _goodDescriber;
     private readonly UIBuilder _uiBuilder;
     private readonly ILoc _loc;
@@ -28,14 +31,22 @@ namespace ChooChoo
     private Inventory _inventory;
     private Label _costLabel;
     private Button _createButton;
+    private Train _train;
     
     private ScrollView _inventoryContent;
     private readonly List<InformationalRow> _rows = new();
 
-    public TrainYardFragment(InformationalRowsFactory informationalRowsFactory, VisualElementLoader visualElementLoader, GoodDescriber goodDescriber, UIBuilder uiBuilder, ILoc loc)
+    public TrainYardFragment(
+      InformationalRowsFactory informationalRowsFactory, 
+      VisualElementLoader visualElementLoader, 
+      IResourceAssetLoader resourceAssetLoader,
+      GoodDescriber goodDescriber, 
+      UIBuilder uiBuilder, 
+      ILoc loc)
     {
       _informationalRowsFactory = informationalRowsFactory;
       _visualElementLoader = visualElementLoader;
+      _resourceAssetLoader = resourceAssetLoader;
       _goodDescriber = goodDescriber;
       _uiBuilder = uiBuilder;
       _loc = loc;
@@ -43,6 +54,9 @@ namespace ChooChoo
 
     public VisualElement InitializeFragment()
     {
+      _train = _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/SmallLogTrain.Folktails").GetComponent<Train>();
+      
+      
       _root = new VisualElement();
       var firstFragment = _uiBuilder.CreateFragmentBuilder()
         .AddComponent(builder => builder
@@ -94,7 +108,7 @@ namespace ChooChoo
       {
         _inventory = _trainYard.Inventory;
         var costDescription = $"{_loc.T("Tobbert.TrainYard.CostOfTrain")}\n";
-        foreach (var goodAmountSpecification in _trainYard.TrainCost)
+        foreach (var goodAmountSpecification in _train.TrainCost)
           costDescription += $"{goodAmountSpecification.GoodId}: {goodAmountSpecification.Amount}\n";
         _costLabel.text = costDescription;
         AddRows();
@@ -126,7 +140,7 @@ namespace ChooChoo
         }
 
         var flag = true;
-        foreach (var goodAmountSpecification in _trainYard.TrainCost)
+        foreach (var goodAmountSpecification in _train.TrainCost)
           if (_trainYard.Inventory.AmountInStock(goodAmountSpecification.GoodId) < goodAmountSpecification.Amount)
             flag = false;
         _createButton.SetEnabled(flag);

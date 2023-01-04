@@ -15,6 +15,7 @@ namespace ChooChoo
     private ChooChooCore _chooChooCore;
     private TrainYardService _trainYardService;
     private Character _character;
+    private Train _train;
 
     private List<GoodCarrier> _goodCarriers;
 
@@ -29,6 +30,7 @@ namespace ChooChoo
     public void Awake()
     {
       _character = GetComponent<Character>();
+      _train = GetComponent<Train>();
     }
 
     public void Start()
@@ -50,7 +52,7 @@ namespace ChooChoo
     private List<GoodAmount> GetAllGoods()
     {
       List<GoodAmount> allGoods = new List<GoodAmount>();
-      allGoods.AddRange(_trainYardService.CurrentTrainYard.GetComponent<TrainYard>().TrainCost.Select(specification => specification.ToGoodAmount()));
+      allGoods.AddRange(_train.TrainCost.Select(specification => specification.ToGoodAmount()));
       allGoods.AddRange(_goodCarriers.Where(carrier => carrier.IsCarrying).Select(carrier => carrier.CarriedGoods).ToList());
       return allGoods;
     }

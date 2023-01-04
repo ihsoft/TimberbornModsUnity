@@ -172,11 +172,11 @@ namespace ChooChoo
                   new(
                      new TrackConnection(new Vector3Int(0, 2, 0), Direction2D.Down), 
                      new TrackConnection(new Vector3Int(0, 0, 0), Direction2D.Up), 
-                     new Vector3[] { new(0, 0, -1.1f) }),
+                     new Vector3[] { new(-0.5f, 0, -1.1f) }),
                   new(
                      new TrackConnection(new Vector3Int(0, 0, 0), Direction2D.Up),
                      new TrackConnection(new Vector3Int(0, 2, 0), Direction2D.Down), 
-                     new Vector3[] { new(0, 0, 1.1f) })
+                     new Vector3[] { new(-0.5f, 0, 1.1f) })
                };
             case "TrainStation":
                return new TrackRoute[]

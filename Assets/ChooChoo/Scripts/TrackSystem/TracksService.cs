@@ -28,7 +28,7 @@ namespace ChooChoo
 
     private static bool IsRail(BlockObject blockObject, bool allowUnfinished)
     {
-      Plugin.Log.LogAssert("Checking rail");
+      // Plugin.Log.LogAssert("Checking rail");
       return (bool) (Object) blockObject && (allowUnfinished || blockObject.Finished) && blockObject.TryGetComponent(out TrackPiece _);
     }
   }

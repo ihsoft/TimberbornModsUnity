@@ -43,7 +43,7 @@ namespace ChooChoo
 
     private Decision ReturnToOriginalTrainYard()
     {
-     Plugin.Log.LogWarning( "Returning Home");
+     // Plugin.Log.LogWarning( "Returning Home");
       switch (_moveToStationExecutor.Launch(_trinYardSubject.HomeTrainYard))
       {
         case ExecutorStatus.Success:

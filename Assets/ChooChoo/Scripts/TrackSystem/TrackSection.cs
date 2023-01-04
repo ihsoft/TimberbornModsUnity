@@ -31,8 +31,9 @@ public class TrackSection
         TrackPieces.AddRange(trackSection.TrackPieces);
     }
     
-    public void Dissolve()
+    public void Dissolve(TrackPiece trackPiece)
     {
+        TrackPieces.Remove(trackPiece);
         foreach (var track in TrackPieces)
             track.ResetSection();
         foreach (var track in TrackPieces)

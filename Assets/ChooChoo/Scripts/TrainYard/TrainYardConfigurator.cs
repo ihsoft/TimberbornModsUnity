@@ -15,7 +15,7 @@ namespace ChooChoo
     {
       containerDefinition.Bind<TrainYardInventoryInitializer>().AsSingleton();
       containerDefinition.Bind<TrainYardService>().AsSingleton();
-      containerDefinition.MultiBind<IPreviewsValidator>().To<TrainYardPreviewsValidator>().AsSingleton();
+      // containerDefinition.MultiBind<IPreviewsValidator>().To<TrainYardPreviewsValidator>().AsSingleton();
       containerDefinition.MultiBind<TemplateModule>().ToProvider<TemplateModuleProvider>().AsSingleton();
     }
 
