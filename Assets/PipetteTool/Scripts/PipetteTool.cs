@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Timberborn.BlockObjectTools;
 using Timberborn.BlockSystem;
@@ -83,7 +84,10 @@ namespace PipetteTool
     {
       if (!gameObject.TryGetComponent(out Prefab prefab)) 
         return;
-      _toolButtons.Add(prefab.PrefabName, toolButton);
+      if (!_toolButtons.ContainsKey(prefab.PrefabName))
+        _toolButtons.Add(prefab.PrefabName, toolButton);
+      else
+        Plugin.Log.LogInfo($"Button of {prefab.PrefabName} already exists: Skipping.");
     }
 
     public override ToolDescription Description() => _toolDescription;
