@@ -93,6 +93,7 @@ MonoBehaviour:
   assetBundles:
   - assetBundleName: Tobbert_MorePlatforms
     assets:
+    - {fileID: 6190661508642916098, guid: d3fed1955b0d7fa49806feb3377a1680, type: 3}
     - {fileID: 6190661508642916098, guid: d7c427777112ec34ea93f6254b0108ca, type: 3}
     - {fileID: 6190661508642916098, guid: a99cf07512126e245b360cb596124567, type: 3}
     - {fileID: 6190661508642916098, guid: 5bb1e5e274126e5408194726085f1925, type: 3}
