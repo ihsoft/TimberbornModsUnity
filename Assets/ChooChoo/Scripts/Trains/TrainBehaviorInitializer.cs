@@ -21,7 +21,7 @@ namespace ChooChoo
 
     private void InitializeExecutors()
     {
-      AddExecutor<TrainDistributeGoodsExecutor>();
+      // AddExecutor<TrainDistributeGoodsExecutor>();
       AddExecutor<MoveToStationExecutor>();
       AddExecutor<WaitExecutor>();
     }
@@ -32,7 +32,9 @@ namespace ChooChoo
     {
       BehaviorManager component = GetComponent<BehaviorManager>();
       // component.AddRootBehavior<TrainScheduleBehavior>();
-      component.AddRootBehavior<TrainDistributorBehavior>();
+      // component.AddRootBehavior<TrainDistributorBehavior>();
+      component.AddRootBehavior<TrainCarryRootBehavior>();
+      component.AddRootBehavior<BringDistributableGoodTrainBehavior>();
       component.AddRootBehavior<WaitingBehavior>();
     }
   }

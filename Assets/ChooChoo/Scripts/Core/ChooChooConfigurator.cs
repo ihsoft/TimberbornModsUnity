@@ -11,15 +11,6 @@ namespace ChooChoo
     public void Configure(IContainerDefinition containerDefinition)
     {
       containerDefinition.Bind<ChooChooCore>().AsSingleton();
-      containerDefinition.MultiBind<TemplateModule>().ToProvider(ProvideTemplateModule).AsSingleton();
-    }
-
-    private static TemplateModule ProvideTemplateModule()
-    {
-      TemplateModule.Builder builder = new TemplateModule.Builder();
-      builder.AddDecorator<GoodsStation, TrainDestination>();
-      builder.AddDecorator<TrainWaitingLocation, TrainDestination>();
-      return builder.Build();
     }
   }
 }

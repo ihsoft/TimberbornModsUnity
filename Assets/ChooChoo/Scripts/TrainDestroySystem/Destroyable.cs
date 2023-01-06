@@ -4,6 +4,7 @@ using Bindito.Core;
 using Timberborn.Carrying;
 using Timberborn.Characters;
 using Timberborn.Goods;
+using Timberborn.InventorySystem;
 using Timberborn.RecoveredGoodSystem;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ namespace ChooChoo
     private TrainYardService _trainYardService;
     private Character _character;
     private Train _train;
+    private GoodReserver _goodReserver;
 
     private List<GoodCarrier> _goodCarriers;
 
@@ -31,6 +33,7 @@ namespace ChooChoo
     {
       _character = GetComponent<Character>();
       _train = GetComponent<Train>();
+      _goodReserver = GetComponent<GoodReserver>();
     }
 
     public void Start()
@@ -40,7 +43,9 @@ namespace ChooChoo
 
     public void Destroy()
     {
-      _character.KillCharacter();
+      // _character.KillCharacter();
+      _goodReserver.UnreserveStock();
+      _chooChooCore.SetPrivateProperty(_goodReserver, "CapacityReservation", new GoodReservation());
       gameObject.SetActive(false);
       _character.DestroyCharacter();
       var position = transform.position;

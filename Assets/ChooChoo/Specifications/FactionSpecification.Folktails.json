@@ -1,11 +1,11 @@
 {
   "CommonBuildings": [
-    "tobbert.choochoo/tobbert_choochoo/TrackStraight",
-    "tobbert.choochoo/tobbert_choochoo/TrackHill1x2",
-    "tobbert.choochoo/tobbert_choochoo/TrackCorner1x1",
-    "tobbert.choochoo/tobbert_choochoo/TrackCorner2x2",
-    "tobbert.choochoo/tobbert_choochoo/TrackTIntersection1x1",
-    "tobbert.choochoo/tobbert_choochoo/TrackTIntersection2x3",
+    "tobbert.choochoo/tobbert_choochoo/TrackStraight.Folktails",
+    "tobbert.choochoo/tobbert_choochoo/TrackHill1x2.Folktails",
+    "tobbert.choochoo/tobbert_choochoo/TrackCorner1x1.Folktails",
+    "tobbert.choochoo/tobbert_choochoo/TrackCorner2x2.Folktails",
+    "tobbert.choochoo/tobbert_choochoo/TrackTIntersection1x1.Folktails",
+    "tobbert.choochoo/tobbert_choochoo/TrackTIntersection2x3.Folktails",
     "tobbert.choochoo/tobbert_choochoo/TrainYard.Folktails",
     "tobbert.choochoo/tobbert_choochoo/WaitingStation.Folktails",
     "tobbert.choochoo/tobbert_choochoo/GoodsStation.Folktails"

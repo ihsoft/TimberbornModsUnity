@@ -1,5 +1,3 @@
-
-
 using UnityEngine;
 
 namespace ChooChoo
@@ -16,9 +14,9 @@ namespace ChooChoo
             RouteCorners = routeCorners;
         }
 
-        public TrackConnection Entrance;
+        public readonly TrackConnection Entrance;
 
-        public TrackConnection Exit;
+        public readonly TrackConnection Exit;
         
         public Vector3[] RouteCorners { get; set; }
     }

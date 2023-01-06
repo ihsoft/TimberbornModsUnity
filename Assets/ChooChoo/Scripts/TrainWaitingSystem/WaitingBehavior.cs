@@ -10,16 +10,16 @@ namespace ChooChoo
   public class WaitingBehavior : RootBehavior, IDeletableEntity
   {
     private BlockService _blockService;
-    private RandomTrainWaitingLocationPicker _randomTrainWaitingLocationPicker;
+    private ClosestTrainWaitingLocationPicker _closestTrainWaitingLocationPicker;
     private MoveToStationExecutor _moveToStationExecutor;
     private WaitExecutor _waitExecutor;
     private TrainWaitingLocation _currentWaitingLocation;
 
     [Inject]
-    public void InjectDependencies(BlockService blockService, RandomTrainWaitingLocationPicker randomTrainWaitingLocationPicker)
+    public void InjectDependencies(BlockService blockService, ClosestTrainWaitingLocationPicker closestTrainWaitingLocationPicker)
     {
       _blockService = blockService;
-      _randomTrainWaitingLocationPicker = randomTrainWaitingLocationPicker;
+      _closestTrainWaitingLocationPicker = closestTrainWaitingLocationPicker;
     }
     
     public void Awake()
@@ -30,10 +30,9 @@ namespace ChooChoo
 
     public override Decision Decide(GameObject agent)
     {
-      var start = transform.position;
-      var currentLocation = _blockService.GetFloorObjectComponentAt<TrainDestination>(Vector3Int.FloorToInt(new Vector3(start.x, start.z, start.y)));
+      var currentTrainDestination = _blockService.GetFloorObjectComponentAt<TrainDestination>(transform.position.ToBlockServicePosition());
       
-      if (_currentWaitingLocation != null && currentLocation == _currentWaitingLocation.TrainDestinationComponent)
+      if (_currentWaitingLocation != null && currentTrainDestination == _currentWaitingLocation.TrainDestinationComponent)
       {
         _waitExecutor.LaunchForSpecifiedTime(0.375f);
         return Decision.ReleaseWhenFinished(_waitExecutor);
@@ -53,8 +52,7 @@ namespace ChooChoo
       if (_currentWaitingLocation != null)
         _currentWaitingLocation.Occupied = false;
       
-      _currentWaitingLocation = _randomTrainWaitingLocationPicker.RandomWaitingLocation();
-
+      _currentWaitingLocation = _closestTrainWaitingLocationPicker.RandomWaitingLocation(transform.position);
       if (_currentWaitingLocation == null)
         return Decision.ReleaseNow();
 

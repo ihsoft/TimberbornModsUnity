@@ -201,25 +201,41 @@ namespace ChooChoo
                return new TrackRoute[]
                {
                   new(
-                     new TrackConnection(new Vector3Int(2, 2, 0), Direction2D.Left), 
-                     new TrackConnection(new Vector3Int(0, 2, 0), Direction2D.Right), 
-                     new Vector3[] { new(-1.2f, 0, 1f) }),
+                     new TrackConnection(new Vector3Int(2, 2, 0), Direction2D.Left),
+                     new TrackConnection(new Vector3Int(0, 2, 0), Direction2D.Right),
+                     new Vector3[]
+                     {
+                        new(1.2f, 0, 1f),
+                        new(-1.2f, 0, 1f)
+                     }),
                   new(
-                     new TrackConnection(new Vector3Int(0, 2, 0), Direction2D.Right), 
-                     new TrackConnection(new Vector3Int(2, 2, 0), Direction2D.Left), 
-                     new Vector3[] { new(1.2f, 0, 1f) })
+                     new TrackConnection(new Vector3Int(0, 2, 0), Direction2D.Right),
+                     new TrackConnection(new Vector3Int(2, 2, 0), Direction2D.Left),
+                     new Vector3[]
+                     {
+                        new(-1.2f, 0, 1f),
+                        new(1.2f, 0, 1f)
+                     })
                };
             case "WaitingStation":
                return new TrackRoute[]
                {
                   new(
                      new(new Vector3Int(0, 0, 0), Direction2D.Up),
-                     new(new Vector3Int(0, 2, 0), Direction2D.Down), 
-                     new Vector3[] { new(0, 0, 1.5f), }),
+                     new(new Vector3Int(0, 2, 0), Direction2D.Down),
+                     new Vector3[]
+                     {
+                        new(0, 0, -1.5f),
+                        new(0, 0, 1.2f),
+                     }),
                   new(
                      new(new Vector3Int(0, 2, 0), Direction2D.Down),
-                     new(new Vector3Int(0, 0, 0), Direction2D.Up), 
-                     new Vector3[] { new(0, 0, -1.5f), }),
+                     new(new Vector3Int(0, 0, 0), Direction2D.Up),
+                     new Vector3[]
+                     {
+                        new(0, 0, 1.5f),
+                        new(0, 0, -1.2f),
+                     }),
                };
             default:
                throw new ArgumentOutOfRangeException($"Unexpected Track object: {prefabName}");

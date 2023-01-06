@@ -13,13 +13,12 @@ namespace ChooChoo
     private readonly MovementAnimator _movementAnimator;
     private readonly Transform _transform;
     private readonly Machinist _machinist;
-    private readonly GameObject _train;
+    private readonly TrackSectionOccupier _trackSectionOccupier;
     private readonly List<PathCorner> _animatedPathCorners = new(100);
     private List<TrackRoute> _pathCorners;
     private int _pathCornersCount;
     private int _currentCornerIndex;
     private int _nextSubCornerIndex;
-    private TrackSection _trackSection;
     private static readonly float ExtraPathCornersMultiplier = 2.5f;
 
     public int CurrentCornerIndex => _currentCornerIndex;
@@ -30,14 +29,14 @@ namespace ChooChoo
       MovementAnimator movementAnimator,
       Transform transform,
       Machinist machinist,
-      GameObject train)
+      TrackSectionOccupier trackSectionOccupier)
     {
       _navigationService = navigationService;
       _trainNavigationService = trainNavigationService;
       _movementAnimator = movementAnimator;
       _transform = transform;
       _machinist = machinist;
-      _train = train;
+      _trackSectionOccupier = trackSectionOccupier;
     }
 
     public void StartMovingAlongPath(List<TrackRoute> pathCorners)
@@ -80,19 +79,11 @@ namespace ChooChoo
 
     public bool ReachedLastPathCorner() => _navigationService.InStoppingProximity(_pathCorners.Last().RouteCorners.Last(), _transform.position);
 
-    public void ResetTrackSection()
-    {
-      if (_trackSection == null) 
-        return;
-      _trackSection.Leave();
-      _trackSection = null;
-    }
-
     private bool CanEnterNextSection()
     {
       var nextCornerToCheckIndex = -1;
       
-      while (true)
+      while (_currentCornerIndex + nextCornerToCheckIndex - 1 < _pathCorners.Count)
       {
         TrackPiece trackPiece = _pathCorners[_currentCornerIndex + nextCornerToCheckIndex].Exit.ConnectedTrackPiece;
         nextCornerToCheckIndex += 1;
@@ -105,7 +96,7 @@ namespace ChooChoo
 
         TrackSection trackSection = trackPiece.TrackSection;
         
-        var flag = trackSection.Equals(_trackSection);
+        var flag = trackSection.Equals(_trackSectionOccupier.TrackSection);
         if (flag)
           return true;
 
@@ -116,24 +107,17 @@ namespace ChooChoo
             _machinist.RefreshPath();
             return false;
           }
-
-          // if (_trackSection != null)
-            trackSection.HasWaitingTrain = true;
+ 
+          trackSection.HasWaitingTrain = true;
           return false;
         }
 
-        OccupyNextTrackSection(trackSection);
+        _trackSectionOccupier.OccupyNextTrackSection(trackSection);
         return true;
       }
-    }
 
-    private void OccupyNextTrackSection(TrackSection trackSection)
-    {
-      _trackSection?.Leave();
-      _trackSection = trackSection;
-      _trackSection.Enter(_train);
+      return true;
     }
-
 
     private bool LastOfSubCorners() => _nextSubCornerIndex >= _pathCorners[_currentCornerIndex].RouteCorners.Length - 1;
 

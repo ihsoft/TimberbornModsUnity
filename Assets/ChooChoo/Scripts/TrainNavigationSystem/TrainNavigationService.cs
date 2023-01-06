@@ -29,15 +29,11 @@ namespace ChooChoo
         {
             // Plugin.Log.LogWarning("Start finding path");
             _stopwatch.Restart();
-            var start = transform.position;
-
-            var vector3Int = new Vector3Int((int)Math.Floor(start.x), (int)Math.Floor(start.z), (int)Math.Round(start.y));
-            
             // Plugin.Log.LogWarning(new Vector3(start.x, start.z, start.y).ToString());
             // Plugin.Log.LogWarning(vector3Int.ToString());
             // Plugin.Log.LogWarning( _blockService.GetFloorObjectComponentAt<TrackPiece>(vector3Int) + "");
             
-            var startTrackPiece = _blockService.GetFloorObjectComponentAt<TrackPiece>(vector3Int);
+            var startTrackPiece = _blockService.GetFloorObjectComponentAt<TrackPiece>(transform.position.ToBlockServicePosition());
             if (startTrackPiece == null) 
                 return false;
             var facingDirection = transform.eulerAngles.y.ToDirection2D();
@@ -50,178 +46,132 @@ namespace ChooChoo
             previousTrackRoute ??= startTrackPiece.TrackRoutes.FirstOrDefault(route => route.Exit.Direction == rightOfCorrectlyFacingDirection || route.Exit.Direction == leftOfCorrectlyFacingDirection);
             // Plugin.Log.LogInfo(transform.eulerAngles + "   " + facingDirection + "      " + correctedFacingDirection + "  " + rightOfCorrectlyFacingDirection + "   " + leftOfCorrectlyFacingDirection);
             
-            // var previousTrackRoute = startTrackPiece.TrackRoutes.OrderByDescending(route =>
-            // {
-            //     var badCoords = route.Exit.ConnectedTrackPiece.CenterCoordinates;
-            //     var goodCoords = new Vector3(badCoords.x, badCoords.z, badCoords.y);
-            //     var angle = Vector3.SignedAngle(start, goodCoords, Vector3.up);
-            //     Plugin.Log.LogInfo(angle + "");
-            //     return angle;
-            // }).FirstOrDefault();
             if (previousTrackRoute == null)
                 return false;
             var endTrackPiece = destination.GetComponent<TrackPiece>();
-            // Plugin.Log.LogWarning((startTrackPiece == null) +"      "+ (endTrackPiece == null) +"     "+ (startTrackPiece == endTrackPiece));
-            if (endTrackPiece == null || startTrackPiece == endTrackPiece) 
+            // Plugin.Log.LogWarning("endTrackPiece " + (endTrackPiece == null));
+            if (endTrackPiece == null) 
                 return false;
+            // Plugin.Log.LogWarning("startTrackPiece == endTrackPiece: "+ (startTrackPiece == endTrackPiece));
+            if (startTrackPiece == endTrackPiece)
+            {
+                tempPathTrackRoutes.Add(previousTrackRoute);
+                tempPathTrackRoutes.Add(previousTrackRoute);
+                return true;
+            }
             // Plugin.Log.LogWarning("TrackPieces valid");
 
             var startTrainDestination = startTrackPiece.GetComponent<TrainDestination>();
             if (!_trainDestinationService.TrainDestinationsConnected(startTrainDestination, destination))
             {
-                // Plugin.Log.LogWarning("Destinations Not Connected");
+                // Plugin.Log.LogError("Destinations Not Connected");
                 if (!_trainDestinationService.DestinationReachable(startTrackPiece, destination))
                 {
-                    // Plugin.Log.LogWarning("Destinations Unreachable");
+                    // Plugin.Log.LogError("Destinations Unreachable");
                     return false;
                 }
             }
                 
             // Plugin.Log.LogWarning("Finding next trail track");
-            int? maxLength = null;
-            int length = 0;
-            var trackRoutes = new List<TrackRoute>();
-            var nodes = new Dictionary<TrackRoute, int?>(_trackRouteWeightCache.TrackRouteWeights);
-            FindNextRailTrack(previousTrackRoute, endTrackPiece, trackRoutes, nodes, length, ref maxLength);
+            int? maxDistance = null;
+            int distance = 0;
+            var trackRouteWeights = new Dictionary<TrackRoute, int?>(_trackRouteWeightCache.TrackRouteWeights);
+            FindNextRailTrack(previousTrackRoute, endTrackPiece, trackRouteWeights, distance, ref maxDistance);
             
-            if (maxLength == null)
+            if (maxDistance == null)
                 return false;
             _stopwatch.Stop();
             var firstPart = _stopwatch.ElapsedTicks;
             _stopwatch.Restart();
-            if (!FindPathInNodes(previousTrackRoute, endTrackPiece, trackRoutes, nodes, (int)maxLength))
+            var trackRoutes = new List<TrackRoute>();
+            if (!FindPathInNodes(previousTrackRoute, endTrackPiece, trackRoutes, trackRouteWeights, (int)maxDistance))
                 return false;
             
-            // if (!FindNextRailTrack(previousTrackRoute, endTrackPiece, trackRoutes, nodes, length))
+            // if (!FindNextRailTrack(previousTrackRoute, endTrackPiece, trackRoutes, trackRouteWeights, distance))
             //     return false;
-
-            // foreach (var trackPiece in tracks)
-            // {
-            //     Plugin.Log.LogWarning(trackPiece.transform.position.ToString());
-            // }
-            // trackConnections.Reverse();
+            
             previouslyLastTrackRoute = trackRoutes.Last();
             tempPathTrackRoutes.AddRange(trackRoutes);
-            // tempPathTrackConnections.Add(endTrackPiece.TrackConnections[0]);
-            // _tempPathCorners.Add(start);
-            // _tempPathCorners.Add(destination);
-
+            
             _stopwatch.Stop();
             var secondPart = _stopwatch.ElapsedTicks;
-            Plugin.Log.LogWarning("First: " + firstPart + " Second: " + secondPart + " Total: " + (firstPart + secondPart) + " (10.000 Ticks = 1ms)");
+            // Plugin.Log.LogWarning("First: " + firstPart + " Second: " + secondPart + " Total: " + (firstPart + secondPart) + " (10.000 Ticks = 1ms)");
             return true;
 
         }
 
-        private void FindNextRailTrack(TrackRoute previousTrackRoute, TrackPiece destinationTrackPiece, List<TrackRoute> trackConnections, Dictionary<TrackRoute, int?> nodes, int length, ref int? maxLength)
+        private void FindNextRailTrack(TrackRoute previousTrackRoute, TrackPiece destinationTrackPiece, Dictionary<TrackRoute, int?> trackRouteWeights, int distance, ref int? maxDistance)
         {
-            if (!nodes.ContainsKey(previousTrackRoute) || previousTrackRoute.Exit.ConnectedTrackRoutes == null)
+            if (!trackRouteWeights.ContainsKey(previousTrackRoute) || previousTrackRoute.Exit.ConnectedTrackRoutes == null)
             {
                 // Plugin.Log.LogWarning("Is null   ");
                 return;
             }
 
-            var newLength = length + 1;
+            var newDistance = distance + 1;
 
-            if (newLength > maxLength)
+            if (newDistance > maxDistance)
             {
                 return;
             }
             
-            if (nodes[previousTrackRoute] == null)
-                nodes[previousTrackRoute] = newLength;
+            if (trackRouteWeights[previousTrackRoute] == null)
+                trackRouteWeights[previousTrackRoute] = newDistance;
             else
             {
-                var currentWeight = (int)nodes[previousTrackRoute];
-                if (currentWeight <= newLength)
+                var currentWeight = (int)trackRouteWeights[previousTrackRoute];
+                if (currentWeight <= newDistance)
                 {
                     return;
                 }
-                nodes[previousTrackRoute] = Math.Min(currentWeight, newLength);
+                trackRouteWeights[previousTrackRoute] = Math.Min(currentWeight, newDistance);
             }
 
-            // if (!nodes.ContainsKey(previousTrackRoute))
-            //     nodes.Add(previousTrackRoute, newLength);
+            // if (!trackRouteWeights.ContainsKey(previousTrackRoute))
+            //     trackRouteWeights.Add(previousTrackRoute, newLength);
             // else
-            //     nodes[previousTrackRoute] = Math.Min(nodes[previousTrackRoute], newLength);
+            //     trackRouteWeights[previousTrackRoute] = Math.Min(trackRouteWeights[previousTrackRoute], newLength);
 
             // Plugin.Log.LogError("Checking Route");
-            // trackConnections.Add(previousTrackRoute);
             foreach (var trackConnection in previousTrackRoute.Exit.ConnectedTrackRoutes
                          .Where(connection => connection.Exit.ConnectedTrackRoutes != null)
                          .OrderBy(connection => Vector3.Distance(connection.Exit.ConnectedTrackPiece.CenterCoordinates, destinationTrackPiece.CenterCoordinates))
                      )
             {
-                // var currentWeight = nodes[trackConnection];
-                
-                
-                // Plugin.Log.LogWarning("Checking: " + trackConnection.Exit.ConnectedTrackPiece.CenterCoordinates + " Current weight: " + currentWeight + " New length: " + newLength);
-
-                // if (currentWeight <= newLength)
-                // {
-                //     continue;
-                // }
+                // Plugin.Log.LogWarning("Checking: " + trackConnection.Exit.ConnectedTrackPiece.CenterCoordinates + " Current weight: " + currentWeight + " New distance: " + newLength);
 
                 if (!trackConnection.Exit.ConnectedTrackPiece.CanPathFindOverIt && !(trackConnection.Exit.ConnectedTrackPiece == destinationTrackPiece))
                 {
                     // Plugin.Log.LogError("Cannot pathfind over it");
                     continue;
                 }
-                
-                // if (trackConnections.Contains(trackConnection))
-                // {
-                //     // Plugin.Log.LogError("Route already exists");
-                //     continue;
-                // }
 
                 if (trackConnection.Exit.ConnectedTrackPiece == destinationTrackPiece)
                 {
                     // Plugin.Log.LogError("Found Destination");
-                    // trackConnections.Add(trackConnection);
-                    // trackConnections.Add(trackConnection.Exit.ConnectedTrackRoutes[0]);
                     
-                    var newNewLength = newLength + 1;
-                    
-                    if (nodes[trackConnection] == null)
-                        nodes[trackConnection] = newNewLength;
-                    else
-                        nodes[trackConnection] = Math.Min((int)nodes[trackConnection], newNewLength);
+                    var newNewDistance = newDistance + 1;
 
-                    // var destination = trackConnection.Exit.ConnectedTrackRoutes[0];
-                    // if (nodes[destination] == null)
-                    //     nodes[destination] = newNewLength;
-                    // else
-                    //     nodes[destination] = Math.Min((int)nodes[trackConnection], newNewLength);
+                    if (!trackRouteWeights.ContainsKey(trackConnection))
+                        continue;
                     
-                    // if (!nodes.ContainsKey(trackConnection))
-                    //     nodes.Add(trackConnection, newLength);
-                    // else
-                    //     nodes[trackConnection] = Math.Min(nodes[trackConnection], newLength);
-                    
-                    maxLength = maxLength == null ? newNewLength : Math.Min((int)maxLength, newNewLength);
+                    if (trackRouteWeights[trackConnection] == null)
+                        trackRouteWeights[trackConnection] = newNewDistance;
+                    else
+                        trackRouteWeights[trackConnection] = Math.Min((int)trackRouteWeights[trackConnection], newNewDistance);
+
+                    maxDistance = maxDistance == null ? newNewDistance : Math.Min((int)maxDistance, newNewDistance);
                     break;
-                    // foreach (var VARIABLE in trackConnection.ConnectedTrackConnection.PathCorners)
-                    // {
-                    //     Plugin.Log.LogWarning(VARIABLE.ToString());
-                    // }
-                    // return true;
                 }
 
-                FindNextRailTrack(trackConnection, destinationTrackPiece, trackConnections, nodes, newLength, ref maxLength);
-                // if (FindNextRailTrack(trackConnection, destinationTrackPiece, trackConnections, nodes, newLength))
-                // {
-                //     return true;
-                // }
+                FindNextRailTrack(trackConnection, destinationTrackPiece, trackRouteWeights, newDistance, ref maxDistance);
             }
             // Plugin.Log.LogError("Dead end");
-            // trackConnections.Remove(previousTrackRoute);
         }
 
         private bool FindPathInNodes(TrackRoute previousTrackRoute, TrackPiece destinationTrackPiece, List<TrackRoute> trackConnections, Dictionary<TrackRoute, int?> nodes, int maxLength)
         {
-            trackConnections.Clear();
-            
-            trackConnections.Add(previousTrackRoute);
+            // trackConnections.Add(previousTrackRoute);
             var test =  FindPath(previousTrackRoute, nodes, destinationTrackPiece, trackConnections, maxLength);
 
             // Plugin.Log.LogInfo(test + "");
@@ -250,7 +200,7 @@ namespace ChooChoo
 
                 if (nodes[previousRoute] + 1 == nodes[trackRoute])
                 {
-                    // var test = "Route found: " + nodes[trackRoute] + " ";
+                    // var test = "Route found: " + trackRouteWeights[trackRoute] + " ";
                     // if (trackRoute.Exit.ConnectedTrackPiece != null)
                     //     test += trackRoute.Exit.ConnectedTrackPiece.CenterCoordinates;
                     // Plugin.Log.LogError(test);

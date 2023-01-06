@@ -15,11 +15,11 @@ Tobbert.TrackCorner2x2.DisplayName,Corner 2x2 Train Track,-
 Tobbert.TrackCorner2x2.Description,A Track Piece that around a larger corner.,-
 Tobbert.TrackCorner2x2.FlavorDescription,What a nice looking curve.,-
 
-Tobbert.TrackTIntersection1x1.DisplayName,T intersection Train Track,-
+Tobbert.TrackTIntersection1x1.DisplayName,T intersection Train Track 1x1,-
 Tobbert.TrackTIntersection1x1.Description,A intersection in the form of a T for trains.,-
 Tobbert.TrackTIntersection1x1.FlavorDescription,Which way should I go?,-
 
-Tobbert.TrackTIntersection2x3.DisplayName,T intersection Train Track,-
+Tobbert.TrackTIntersection2x3.DisplayName,T intersection Train Track 2x3,-
 Tobbert.TrackTIntersection2x3.Description,A intersection in the form of a T for trains.,-
 Tobbert.TrackTIntersection2x3.FlavorDescription,Where will those paths lead to?,-
 
@@ -44,7 +44,8 @@ Tobbert.TrainYard.FlavorDescription,This is where trains are born.,-
 Tobbert.TrainYard.CostOfTrain,Cost of 1 train:,-
 Tobbert.TrainYard.CreateTrain,Create train: ,-
 
-Tobbert.Train.Name,Train,-
+Tobbert.Train.PrefabName,Train,-
+Tobbert.Wagon.PrefabName,Wagon,-
 
 Tobbert.BatchControl.Trains,Trains,-
 Tobbert.Train.Length,Train Length: ,-
@@ -63,3 +64,5 @@ Tobbert.ToolGroup.Trains,Trains,-
 Tobbert.TrainYard.PreviewErrorMessage,Only 1 Train Yard can be build,-
 
 Tobbert.Trains.UnlockPrompt,You need to unlock {0} to build {1}.,{0} stands for <Building>.DisplayName {1} stands for <TrackPiece>.DisplayName.
+
+Tobbert.DistributionTrain.MinimumOfItemsToMove,Minimum of items to move: ,-

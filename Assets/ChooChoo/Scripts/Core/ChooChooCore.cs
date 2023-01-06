@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
+using Timberborn.Common;
 
 namespace ChooChoo
 {
@@ -8,6 +9,14 @@ namespace ChooChoo
     {
         private readonly Dictionary<string, FieldInfo> _fieldInfos = new();
         private readonly Dictionary<string, MethodInfo> _methodInfos = new();
+        private readonly Dictionary<string, PropertyInfo> _propertyInfos = new();
+        
+        public void SetPrivateProperty(object instance, string fieldName, object newValue)
+        {
+            var propertyInfo = _propertyInfos.GetOrAdd(fieldName, () => AccessTools.TypeByName(instance.GetType().Name).GetProperty(fieldName,BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance));
+
+            propertyInfo.SetValue(instance, newValue);
+        }
         
         public object InvokePublicMethod(object instance, string methodName, object[] args)
         {

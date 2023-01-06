@@ -5,7 +5,7 @@ using Timberborn.TickSystem;
 
 namespace ChooChoo
 {
-    public class TrainDestinationConnectedRepository : ITickableSingleton, ILoadableSingleton
+    public class TrainDestinationConnectedRepository : ILoadableSingleton
     {
         private readonly EventBus _eventBus;
 
@@ -87,13 +87,6 @@ namespace ChooChoo
 
                 CheckNextTrackPiece(trackConnection.Exit.ConnectedTrackPiece, checkedTrackPieces, trainDestinationsConnected);
             }
-
-            // checkedTrackPieces.Remove(checkingTrackPiece);
-        }
-
-        public void Tick()
-        {
-            
         }
     }
 }

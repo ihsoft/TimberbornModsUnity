@@ -1,14 +1,23 @@
 using System.Collections.Generic;
 using System.Reflection;
+using Timberborn.AssetSystem;
 using Timberborn.Beavers;
+using Timberborn.Common;
+using Timberborn.FactionSystemGame;
 using Timberborn.SingletonSystem;
 using UnityEngine;
 
 namespace ChooChoo
 {
-    public class MachinistCharacterFactory : ILoadableSingleton
+    public class MachinistCharacterFactory : IPostLoadableSingleton
     {
-        private BeaverFactory _beaverFactory;
+        private readonly IRandomNumberGenerator _randomNumberGenerator;
+
+        private readonly IResourceAssetLoader _resourceAssetLoader;
+
+        private readonly FactionService _factionService;
+        
+        private readonly BeaverFactory _beaverFactory;
 
         private GameObject _pilotPrefab;
 
@@ -26,14 +35,17 @@ namespace ChooChoo
             "__None"
         };
 
-        MachinistCharacterFactory(BeaverFactory beaverFactory)
+        MachinistCharacterFactory(IRandomNumberGenerator randomNumberGenerator, IResourceAssetLoader resourceAssetLoader, FactionService factionService, BeaverFactory beaverFactory)
         {
+            _randomNumberGenerator = randomNumberGenerator;
+            _resourceAssetLoader = resourceAssetLoader;
+            _factionService = factionService;
             _beaverFactory = beaverFactory;
         }
 
-        public void Load()
+        public void PostLoad()
         {
-            InitializePilotCharacter();
+            InitializeMachinistCharacter();
         }
 
         public GameObject CreatePilot(Transform parent)
@@ -41,12 +53,13 @@ namespace ChooChoo
             return Object.Instantiate(_pilotPrefab, parent).gameObject;
         }
 
-        private void InitializePilotCharacter()
+        private void InitializeMachinistCharacter()
         {
-            Beaver beaver = typeof(BeaverFactory)
-                .GetField("_adultPrefab", BindingFlags.NonPublic | BindingFlags.Instance)
-                .GetValue(_beaverFactory) as Beaver;
+            Beaver beaver = typeof(BeaverFactory).GetField("_adultPrefab", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(_beaverFactory) as Beaver;
             Transform beaverModel = beaver.transform.GetChild(0).GetChild(0);
+            var skinnedMeshRenderer = beaver.GetComponentInChildren<SkinnedMeshRenderer>();
+            var current = _factionService.Current;
+            skinnedMeshRenderer.sharedMaterial = _resourceAssetLoader.Load<Material>(_randomNumberGenerator.GetEnumerableElement(current.Materials));
             DisableBodyParts(beaverModel);
             _pilotPrefab = beaverModel.gameObject;
         }

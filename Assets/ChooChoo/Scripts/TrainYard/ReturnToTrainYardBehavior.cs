@@ -30,8 +30,7 @@ namespace ChooChoo
 
     public override Decision Decide(GameObject agent)
     {
-      var start = transform.position;
-      var currentTrainDestination = _blockService.GetFloorObjectComponentAt<TrainDestination>(Vector3Int.FloorToInt(new Vector3(start.x, start.z, start.y)));
+      var currentTrainDestination = _blockService.GetFloorObjectComponentAt<TrainDestination>(transform.position.ToBlockServicePosition());
       if (currentTrainDestination == _trinYardSubject.HomeTrainYard)
       {
         _waitExecutor.LaunchForSpecifiedTime(1);

@@ -11,13 +11,14 @@ using Timberborn.FactionSystemGame;
 using Timberborn.Goods;
 using Timberborn.InventorySystem;
 using Timberborn.Localization;
+using Timberborn.TimeSystem;
 using UnityEngine;
 
 namespace ChooChoo
 {
     public class TrainYard : MonoBehaviour, IRegisteredComponent, IFinishedStateListener, IDeletableEntity
     {
-        private const string TrainNameLocKey = "Tobbert.Train.Name";
+        private const string TrainNameLocKey = "Tobbert.Train.PrefabName";
 
         [SerializeField]
         private int _maxCapacity;
@@ -31,17 +32,20 @@ namespace ChooChoo
         private FactionService _factionService;
 
         private TrainYardService _trainYardService;
+
+        private IDayNightCycle _dayNightCycle;
         public Inventory Inventory { get; private set; }
         public int MaxCapacity => _maxCapacity;
 
         [Inject]
-        public void InjectDependencies(ILoc loc, EntityService entityService, IResourceAssetLoader resourceAssetLoader, FactionService factionService, TrainYardService trainYardService)
+        public void InjectDependencies(ILoc loc, EntityService entityService, IResourceAssetLoader resourceAssetLoader, FactionService factionService, TrainYardService trainYardService, IDayNightCycle dayNightCycle)
         {
             _loc = loc;
             _entityService = entityService;
             _resourceAssetLoader = resourceAssetLoader;
             _factionService = factionService;
             _trainYardService = trainYardService;
+            _dayNightCycle = dayNightCycle;
         }
 
         public void Awake()
@@ -71,8 +75,8 @@ namespace ChooChoo
 
         public void InitializeTrain()
         {
-            // var train = _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/Train." + _factionService.Current.Id);
-            var trainPrefab = _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/SmallLogTrain.Folktails");
+            var trainPrefab = _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/SmallLogTrain." + _factionService.Current.Id);
+            // var trainPrefab = _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/SmallLogTrain.Folktails");
 
             var train = _entityService.Instantiate(trainPrefab.gameObject);
             
@@ -109,6 +113,7 @@ namespace ChooChoo
         {
             Character component = train.GetComponent<Character>();
             component.FirstName = _loc.T(TrainNameLocKey);
+            component.DayOfBirth = _dayNightCycle.DayNumber;
         }
     }
 }

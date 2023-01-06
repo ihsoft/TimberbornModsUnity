@@ -296,7 +296,7 @@ GameObject:
   - component: {fileID: 5069470885696984443}
   - component: {fileID: 2620474729558111792}
   m_Layer: 0
-  m_Name: TrackTIntersection1x1
+  m_Name: TrackTIntersection1x1.IronTeeth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -370,8 +370,9 @@ MonoBehaviour:
   m_Script: {fileID: -731835049, guid: b5f268a4cb31a93ed707a95d3a502b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefabName: TrackTIntersection1x1
-  _backwardCompatiblePrefabNames: []
+  _prefabName: TrackTIntersection1x1.IronTeeth
+  _backwardCompatiblePrefabNames:
+  - TrackTIntersection1x1
   _requiredFeatureToggle: 
 --- !u!114 &6578201091114363928
 MonoBehaviour:
@@ -400,8 +401,8 @@ MonoBehaviour:
   _blocksSpecification:
     _size: {x: 1, y: 1, z: 1}
     _blockSpecifications:
-    - _matterBelow: 0
-      _occupation: 7
+    - _matterBelow: 1
+      _occupation: 3
       _stackable: 0
       _optionallyUnderground: 0
       _occupyAllBelow: 0
@@ -569,15 +570,15 @@ PrefabInstance:
     - target: {fileID: 3855937482087671896, guid: acd860b6e83beaa48bc82b5b24b072c4, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 67994ecbb9674c54f81c354ecfdc795d, type: 2}
+      objectReference: {fileID: 2100000, guid: f0673e1fae278014881868c946434506, type: 2}
     - target: {fileID: 6462645772955062561, guid: acd860b6e83beaa48bc82b5b24b072c4, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 67994ecbb9674c54f81c354ecfdc795d, type: 2}
+      objectReference: {fileID: 2100000, guid: f0673e1fae278014881868c946434506, type: 2}
     - target: {fileID: 8074490814521150679, guid: acd860b6e83beaa48bc82b5b24b072c4, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 67994ecbb9674c54f81c354ecfdc795d, type: 2}
+      objectReference: {fileID: 2100000, guid: f0673e1fae278014881868c946434506, type: 2}
     - target: {fileID: 8311891941050202423, guid: acd860b6e83beaa48bc82b5b24b072c4, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

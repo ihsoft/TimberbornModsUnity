@@ -40,10 +40,20 @@ namespace ChooChoo
             var connectedDestination = FindTrainDestination(start, checkedTrackPieces);
             return TrainDestinationsConnected(connectedDestination, end);
         }
+        
+        public bool DestinationReachable(Vector3 startPosition, TrainDestination end)
+        {
+            var startTrackPiece = _blockService.GetFloorObjectComponentAt<TrackPiece>(startPosition.ToBlockServicePosition());
+            if (startTrackPiece == null || end == null)
+                return false;
+            var checkedTrackPieces = new List<TrackPiece>();
+            var connectedDestination = FindTrainDestination(startTrackPiece, checkedTrackPieces);
+            return TrainDestinationsConnected(connectedDestination, end);
+        }
 
         public List<TrainDestination> ReachableTrainDestinations(Vector3 start)
         {
-            var startTrackPiece = _blockService.GetFloorObjectComponentAt<TrackPiece>(Vector3Int.FloorToInt(new Vector3(start.x, start.z, start.y)));
+            var startTrackPiece = _blockService.GetFloorObjectComponentAt<TrackPiece>(start.ToBlockServicePosition());
 
             if (!startTrackPiece.TryGetComponent(out TrainDestination trainDestination))
                 return null;

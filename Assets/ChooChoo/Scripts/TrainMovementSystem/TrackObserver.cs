@@ -12,6 +12,8 @@ namespace ChooChoo
     {
         private EventBus _eventBus;
 
+        private TrackSectionOccupier _trackSectionOccupier;
+
         private Machinist _machinist;
 
         private bool _tracksUpdated = true;
@@ -25,6 +27,7 @@ namespace ChooChoo
         private void Awake()
         {
             _machinist = GetComponent<Machinist>();
+            _trackSectionOccupier = GetComponent<TrackSectionOccupier>();
         }
 
         public new void Start()
@@ -37,6 +40,7 @@ namespace ChooChoo
             if (!_tracksUpdated) 
                 return;
             _machinist.RefreshPath();
+            _trackSectionOccupier.OccupyCurrentTrackSection();
             _tracksUpdated = false;
         }
 

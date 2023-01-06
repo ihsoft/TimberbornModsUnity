@@ -30,9 +30,9 @@ GameObject:
   - component: {fileID: 2126802968284837227}
   - component: {fileID: -7546484517251830069}
   - component: {fileID: 8095146922966365799}
-  - component: {fileID: 2293147786423119748}
   - component: {fileID: -1882917126439013918}
   - component: {fileID: 5390812966198237684}
+  - component: {fileID: 6477474431058663684}
   m_Layer: 0
   m_Name: SmallLogTrain.Folktails
   m_TagString: Untagged
@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 1146226617, guid: 517afc5522de8288292d97e4e7d7b2b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseLiftingCapacity: 0
+  _baseLiftingCapacity: 200
 --- !u!114 &590515972662432967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,7 +195,7 @@ MonoBehaviour:
   m_Script: {fileID: -1907271204, guid: 5472a64f9e8ebdd4bb05a6bc0fa7cde5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefabNameLocKey: SmallLogTrain.Folktails
+  _prefabNameLocKey: Tobbert.Train.PrefabName
 --- !u!114 &1151881408293305778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,18 +322,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b367064195764009a11917aa87b4f2f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2293147786423119748
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3207032685556258263}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cac9d6b20d6426f8e71f560ac949827, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-1882917126439013918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -363,6 +351,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d521cb7ac05c4beca8d79f007288097b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6477474431058663684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3207032685556258263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0f9d540c3054df5832a3360ecbcc8f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MinimumOfItemsToMove: 19
 --- !u!1 &8728296629722364148
 GameObject:
   m_ObjectHideFlags: 0
@@ -389,7 +390,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8728296629722364148}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.486, z: 0.2}
+  m_LocalPosition: {x: 0, y: 0.599, z: 0.2}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -460,7 +461,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.3
+      scalar: 0.25
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -540,8 +541,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.1
-      minScalar: 0.1
+      scalar: 0.05
+      minScalar: 0.05
       maxCurve:
         serializedVersion: 2
         m_Curve: []
@@ -672,7 +673,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: -90, y: 0, z: 0}
-    m_Scale: {x: 1, y: 1, z: 2}
+    m_Scale: {x: 1, y: 1, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0

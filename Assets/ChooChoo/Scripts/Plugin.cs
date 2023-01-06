@@ -114,4 +114,24 @@ namespace ChooChoo
             return !entity.TryGetComponent(out TrainWagonManager _);
         }
     }
+    
+    [HarmonyPatch]
+    public class CharacterBatchControlTabPatch
+    {
+        public static MethodInfo TargetMethod()
+        {
+            return AccessTools.Method(AccessTools.TypeByName("CharacterBatchControlTab"), "GetSortingKey", new[] {typeof(string)});
+        }
+        
+        static bool Prefix(string locKey, ref string __result)
+        {
+            if (locKey == "Tobbert.Train.PrefabName" || locKey == "Tobbert.Wagon.PrefabName")
+            {
+                __result = "4";
+                return false;
+            }
+
+            return true;
+        }
+    }
 }

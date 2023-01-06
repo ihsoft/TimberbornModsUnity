@@ -2,6 +2,7 @@
 using TimberApi.ConfiguratorSystem;
 using TimberApi.SceneSystem;
 using Timberborn.PrefabSystem;
+using Timberborn.TemplateSystem;
 
 namespace ChooChoo
 {

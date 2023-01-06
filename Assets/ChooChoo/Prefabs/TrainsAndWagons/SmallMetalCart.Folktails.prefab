@@ -159,7 +159,7 @@ MonoBehaviour:
   m_Script: {fileID: -1907271204, guid: 5472a64f9e8ebdd4bb05a6bc0fa7cde5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefabNameLocKey: SmallMetalCart.Folktails
+  _prefabNameLocKey: Tobbert.Wagon.PrefabName
 --- !u!114 &499880859668066832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,14 +250,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6136719610040920917, guid: 26cd693ca4df90045abf60bba38685d4, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 184657205e504834eb7274963c621fdc, type: 2}
+    - target: {fileID: -4522553331781985559, guid: 26cd693ca4df90045abf60bba38685d4, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 184657205e504834eb7274963c621fdc, type: 2}
+    - target: {fileID: -3496746390825028355, guid: 26cd693ca4df90045abf60bba38685d4, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 184657205e504834eb7274963c621fdc, type: 2}
     - target: {fileID: -3238546720703367975, guid: 26cd693ca4df90045abf60bba38685d4, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.05
       objectReference: {fileID: 0}
+    - target: {fileID: -2743204796136065391, guid: 26cd693ca4df90045abf60bba38685d4, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 184657205e504834eb7274963c621fdc, type: 2}
+    - target: {fileID: -2743204796136065391, guid: 26cd693ca4df90045abf60bba38685d4, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 184657205e504834eb7274963c621fdc, type: 2}
     - target: {fileID: 919132149155446097, guid: 26cd693ca4df90045abf60bba38685d4, type: 3}
       propertyPath: m_Name
       value: SmallMetalCart
       objectReference: {fileID: 0}
+    - target: {fileID: 8605636143115630363, guid: 26cd693ca4df90045abf60bba38685d4, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 184657205e504834eb7274963c621fdc, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 26cd693ca4df90045abf60bba38685d4, type: 3}
 --- !u!1 &1512115971136284009 stripped

@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Bindito.Core;
 using Timberborn.AssetSystem;
 using Timberborn.BlockSystem;
@@ -6,9 +8,11 @@ using Timberborn.Characters;
 using Timberborn.Coordinates;
 using Timberborn.EntitySystem;
 using Timberborn.FactionSystemGame;
+using Timberborn.Goods;
 using Timberborn.Localization;
 using Timberborn.Persistence;
 using Timberborn.TickSystem;
+using Timberborn.TimeSystem;
 using UnityEngine;
 
 namespace ChooChoo
@@ -19,7 +23,7 @@ namespace ChooChoo
 
         private static readonly ListKey<TrainWagon> TrainKey = new(nameof(TrainWagons));
 
-        private const string TrainNameLocKey = "Tobbert.Train.Name";
+        private const string TrainNameLocKey = "Tobbert.Wagon.PrefabName";
 
         private ILoc _loc;
 
@@ -33,11 +37,17 @@ namespace ChooChoo
 
         private TrainYardService _trainYardService;
 
+        private IDayNightCycle _dayNightCycle;
+
         public List<TrainWagon> TrainWagons { get; private set; }
 
         public int NumberOfCarts = 4;
 
         public float minDistanceFromTrain;
+
+        public bool IsCarrying => TrainWagons.Any(wagon => wagon.GoodCarrier.IsCarrying);
+
+        public int LiftingCapacity => TrainWagons.Sum(wagon => wagon.GoodCarrier.LiftingCapacity);
 
         [Inject]
         public void InjectDependencies(
@@ -46,7 +56,8 @@ namespace ChooChoo
             IResourceAssetLoader resourceAssetLoader, 
             FactionService factionService, 
             WagonsObjectSerializer wagonsObjectSerializer,
-            TrainYardService trainYardService)
+            TrainYardService trainYardService,
+            IDayNightCycle dayNightCycle)
         {
             _loc = loc;
             _entityService = entityService;
@@ -54,6 +65,7 @@ namespace ChooChoo
             _factionService = factionService;
             _wagonsObjectSerializer = wagonsObjectSerializer;
             _trainYardService = trainYardService;
+            _dayNightCycle = dayNightCycle;
         }
         
         public override void StartTickable()
@@ -130,6 +142,25 @@ namespace ChooChoo
                 trainWagon.Move();
             }
         }
+
+        public void EmptyWagons()
+        {
+            foreach (var trainWagon in TrainWagons)
+                trainWagon.GoodCarrier.EmptyHands();
+        }
+
+        public void PutInWagons(GoodAmount goodAmount)
+        {
+            int wagonCount = TrainWagons.Count;
+            int remainingGoodAmount = goodAmount.Amount;
+            for (var index = 0; index < TrainWagons.Count; index++)
+            {
+                var amount = (int)Math.Ceiling((float)(remainingGoodAmount / (wagonCount - index)));
+                remainingGoodAmount -= amount;
+                var trainWagon = TrainWagons[index];
+                trainWagon.GoodCarrier.PutGoodsInHands(new GoodAmount(goodAmount.GoodId, amount));
+            }
+        }
         
         private void InitializeCarts()
         {
@@ -147,6 +178,7 @@ namespace ChooChoo
                 
                 Character component = wagon.GetComponent<Character>();
                 component.FirstName = _loc.T(TrainNameLocKey);
+                component.DayOfBirth = _dayNightCycle.DayNumber;
             }
 
             TrainWagons = trainWagons;

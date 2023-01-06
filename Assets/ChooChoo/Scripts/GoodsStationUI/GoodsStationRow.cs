@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Text.RegularExpressions;
 using Timberborn.CoreUI;
 using Timberborn.Goods;
 using Timberborn.InventorySystem;
@@ -108,7 +110,8 @@ namespace ChooChoo
       if ((bool) (UnityEngine.Object) _inventory)
       {
         int totalAmountInStock = _inventory.AmountInStock(_goodId);
-        int maxCapacity = _transferableGood.SendingGoods ? _limitableGoodDisallower.AllowedAmount(_goodId) : totalAmountInStock;
+        // int maxCapacity = _transferableGood.SendingGoods ? _limitableGoodDisallower.AllowedAmount(_goodId) : totalAmountInStock;
+        int maxCapacity = Math.Max(totalAmountInStock, _goodsStation.MaxCapacity);
         _progressBar.SetProgress((float) totalAmountInStock / (float) maxCapacity);
         _capacityAmount.text = totalAmountInStock.ToString();
         _capacityLimit.text = maxCapacity.ToString();

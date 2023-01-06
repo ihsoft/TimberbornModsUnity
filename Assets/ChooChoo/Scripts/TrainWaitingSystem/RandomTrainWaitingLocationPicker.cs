@@ -7,26 +7,26 @@ using Random = System.Random;
 
 namespace ChooChoo
 {
-    public class RandomTrainWaitingLocationPicker
+    public class ClosestTrainWaitingLocationPicker
     {
         private readonly TrainWaitingLocationsRepository _trainWaitingLocationsRepository;
-        
-        private readonly IRandomNumberGenerator _randomNumberGenerator;
 
-        RandomTrainWaitingLocationPicker(TrainWaitingLocationsRepository trainWaitingLocationsRepository, IRandomNumberGenerator randomNumberGenerator)
+        private readonly TrainDestinationService _trainDestinationService;
+
+        ClosestTrainWaitingLocationPicker(TrainWaitingLocationsRepository trainWaitingLocationsRepository, TrainDestinationService trainDestinationService)
         {
             _trainWaitingLocationsRepository = trainWaitingLocationsRepository;
-            _randomNumberGenerator = randomNumberGenerator;
+            _trainDestinationService = trainDestinationService;
         }
 
-        public TrainWaitingLocation RandomWaitingLocation()
+        public TrainWaitingLocation RandomWaitingLocation(Vector3 position)
         {
-            var list = _trainWaitingLocationsRepository.WaitingLocations.Where(location => !location.Occupied).ToList();
+            var list = _trainWaitingLocationsRepository.WaitingLocations.Where(location => !location.Occupied && _trainDestinationService.DestinationReachable(position, location.TrainDestinationComponent)).OrderBy(location => Vector3.Distance(position, location.transform.position)).ToList();
             if (!list.Any())
                 return null;
-            var randomWaitingLocation = list[_randomNumberGenerator.Range(0, list.Count)];
+            var closestReachableTrainWaitingLocation = list.First();
             
-            return randomWaitingLocation;
+            return closestReachableTrainWaitingLocation;
         }
     }
 }

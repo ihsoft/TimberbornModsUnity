@@ -31,8 +31,11 @@ In case you experience problems, message me in the modding channel of the the [T
 
 This is a big project and as such I want to thank all the people that send hype and inspiration. It really makes me so happy that so many are enjoying this mods and seeing it being created. 
 
-I also wanna thank Anythin in particular. He created the train and Wagon designs and tons of ideas. 
+Big thanks to Anythin! He created the train and Wagon designs and tons of ideas. 
+Big thanks to TheBloodEyes for testing and helping with optimization.
 Thanks to GinFuYou, who provided some better looking icons.
-TheBloodEyes, Kodiak Jack Tenarouse, Emberstergaming, Todor Alin, Leonineus, Revenger210, Tanstaafl all of who I wanna thank for the discussions in the discord.
+Thanks to Todor Alin for once again playtesting and finding tons of bugs and forgotten things.
+Thanks to Sukunabikona for the translation to Japanse. 
+Kodiak Jack Tenarouse, Emberstergaming, Leonineus, Revenger210, Tanstaafl all of who I wanna thank for the discussions in the discord.
 
 And also thanks to all the other people in the Train mod Thread that helped with ideas! I love you so much for that!

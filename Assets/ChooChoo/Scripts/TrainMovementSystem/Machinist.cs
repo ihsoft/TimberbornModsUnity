@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Timberborn.BehaviorSystem;
 using Timberborn.CharacterModelSystem;
-using Timberborn.Common;
-using Timberborn.EntitySystem;
 using Timberborn.Persistence;
 using Timberborn.TickSystem;
 using Timberborn.WalkingSystem;
@@ -13,7 +11,7 @@ using UnityEngine;
 
 namespace ChooChoo
 {
-  public class Machinist : TickableComponent, IPersistentEntity, IDeletableEntity
+  public class Machinist : TickableComponent, IPersistentEntity
   {
     private static readonly ComponentKey MachinistKey = new(nameof(Machinist));
     private static readonly PropertyKey<ITrainDestination> CurrentDestinationKey = new("CurrentDestination");
@@ -93,7 +91,6 @@ namespace ChooChoo
       _previousTrainDestination = null;
       if (_currentTrainDestination == null)
         return;
-      // _trackFollower.ResetTrackSection();
       FindPath(_currentTrainDestination);
     }
 
@@ -113,11 +110,6 @@ namespace ChooChoo
         _currentTrainDestination = component.Get(CurrentDestinationKey, _trainDestinationObjectSerializer);
       if (component.Has(LastTrackConnectionKey))
         LastTrackConnection = component.Get(LastTrackConnectionKey, (_trackRouteObjectSerializer));
-    }
-    
-    public void DeleteEntity()
-    {
-      _trackFollower.ResetTrackSection();
     }
 
     private ExecutorStatus FindPath(ITrainDestination trainDestination)

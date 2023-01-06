@@ -17,8 +17,6 @@ namespace ChooChoo
 
         private TrackArrayProvider _trackArrayProvider;
 
-        private TrackConnectionService _trackConnectionService;
-
         private TrackRouteWeightCache _trackRouteWeightCache;
 
         private BlockObject _blockObject;
@@ -40,13 +38,11 @@ namespace ChooChoo
             BlockService blockService, 
             EventBus eventBus, 
             TrackArrayProvider trackArrayProvider, 
-            TrackConnectionService trackConnectionService,
             TrackRouteWeightCache trackRouteWeightCache)
         {
             _blockService = blockService;
             _eventBus = eventBus;
             _trackArrayProvider = trackArrayProvider;
-            _trackConnectionService = trackConnectionService;
             _trackRouteWeightCache = trackRouteWeightCache;
         }
         
@@ -213,41 +209,17 @@ namespace ChooChoo
                 trackRoute.Exit.ConnectedTrackRoutes = myTrackRouteEntrances;
             }
 
-            // foreach (var trackRoute in otherTrackRoutesEntrances)
-            // {
-            //     trackRoute.Entrance.ConnectedTrackPiece = this;
-            //     trackRoute.Entrance.ConnectedTrackConnection = myTrackRouteEntrances;
-            // }
-
-
-            // if (TryGetComponent(out TrainDestination _) || trackPiece.TryGetComponent(out TrainDestination _))
-            //     return;
-
             var flag1 = TryGetComponent(out TrackIntersection _);
             var flag2 = trackPiece != null && trackPiece.TryGetComponent(out TrackIntersection _);
 
             if (flag1 || flag2)
             {
                 if (flag1)
-                {
-                    
                     trackPiece.TrackSection.Add(this);
-                }
-
                 if (flag2)
-                {
-                    
                     TrackSection.Add(trackPiece);
-                }
                 return;
             }
-
-            // if (flag1)
-            // {
-            //     TrackSection.Add(trackPiece);
-            //     return;
-            // }
-
 
             if (trackPiece.TrackSection != TrackSection)
                 trackPiece.TrackSection.Merge(TrackSection);

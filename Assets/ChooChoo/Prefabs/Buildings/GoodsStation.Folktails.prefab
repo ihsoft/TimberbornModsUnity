@@ -289,23 +289,23 @@ MonoBehaviour:
       _optionallyUnderground: 0
       _occupyAllBelow: 0
     - _matterBelow: 1
-      _occupation: 3
-      _stackable: 0
-      _optionallyUnderground: 0
-      _occupyAllBelow: 0
-    - _matterBelow: 1
-      _occupation: 3
-      _stackable: 0
-      _optionallyUnderground: 0
-      _occupyAllBelow: 0
-    - _matterBelow: 1
-      _occupation: 3
-      _stackable: 0
-      _optionallyUnderground: 0
-      _occupyAllBelow: 0
-    - _matterBelow: 1
       _occupation: 0
       _stackable: 1
+      _optionallyUnderground: 0
+      _occupyAllBelow: 0
+    - _matterBelow: 1
+      _occupation: 3
+      _stackable: 0
+      _optionallyUnderground: 0
+      _occupyAllBelow: 0
+    - _matterBelow: 1
+      _occupation: 3
+      _stackable: 0
+      _optionallyUnderground: 0
+      _occupyAllBelow: 0
+    - _matterBelow: 1
+      _occupation: 3
+      _stackable: 0
       _optionallyUnderground: 0
       _occupyAllBelow: 0
   _entrance:
