@@ -28,7 +28,7 @@ namespace ChooChoo
             return _methodInfos[methodName].Invoke(instance, args);
         }
         
-        public object InvokePrivateMethod(object instance, string methodName, object[] args)
+        public object InvokePrivateMethod(object instance, string methodName, object[] args = null)
         {
             if (!_methodInfos.ContainsKey(methodName))
             {

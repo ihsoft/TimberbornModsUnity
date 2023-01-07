@@ -93,6 +93,7 @@ namespace ChooChoo
       // capacityReservation.Inventory.Give(capacityReservation.GoodAmount);
       var storage = (GoodRegistry)_chooChooCore.GetPrivateField(capacityReservation.Inventory, "_storage");
       storage.Add(capacityReservation.GoodAmount);
+      _chooChooCore.InvokePrivateMethod(capacityReservation.Inventory, "InvokeInventoryChangedEvent", new object[]{ capacityReservation.GoodAmount.GoodId });
       _trainWagonManager.EmptyWagons();
       return Decision.ReturnNextTick();
     }

@@ -5,6 +5,7 @@ using TimberApi.ConsoleSystem;
 using TimberApi.ModSystem;
 using Timberborn.Characters;
 using Timberborn.GameDistricts;
+using Timberborn.Goods;
 using Timberborn.PrefabSystem;
 using UnityEngine;
 

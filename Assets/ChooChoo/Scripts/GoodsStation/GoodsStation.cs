@@ -19,6 +19,7 @@ namespace ChooChoo
     private static readonly ListKey<TransferableGood> TransferableGoodsKey = new("TransferableGoods");
     private TransferableGoodObjectSerializer _transferableGoodObjectSerializer;
     private GoodsStationsRepository _goodsStationsRepository;
+    private ChooChooCore _chooChooCore;
     private LimitableGoodDisallower _limitableGoodDisallower;
     public Inventory Inventory { get; private set; }
     public TrainDestination TrainDestinationComponent { get; private set; }
@@ -32,10 +33,11 @@ namespace ChooChoo
 
 
     [Inject]
-    public void InjectDependencies(TransferableGoodObjectSerializer transferableGoodObjectSerializer, GoodsStationsRepository goodsStationsRepository)
+    public void InjectDependencies(TransferableGoodObjectSerializer transferableGoodObjectSerializer, GoodsStationsRepository goodsStationsRepository, ChooChooCore chooChooCore)
     {
       _transferableGoodObjectSerializer = transferableGoodObjectSerializer;
       _goodsStationsRepository = goodsStationsRepository;
+      _chooChooCore = chooChooCore;
     }
 
     public void Awake() 
@@ -49,6 +51,7 @@ namespace ChooChoo
     {
       enabled = true;
       Inventory.Enable();
+      Inventory.InventoryChanged += InventoryChangedEvent;
       _goodsStationsRepository.Register(this);
       if (TransferableGoods == null)
       {
@@ -94,5 +97,10 @@ namespace ChooChoo
     public int MaxAllowedAmount(string goodId) => _maxCapacity;
 
     public bool IsSending(string goodId) => TransferableGoods.First(good => good.GoodId == goodId).SendingGoods;
+    
+    private void InventoryChangedEvent(object sender, InventoryChangedEventArgs e)
+    {
+      _chooChooCore.InvokePrivateMethod(Inventory, "CheckIfUnwantedStockAppeared");
+    }
   }
 }
