@@ -31,7 +31,7 @@ namespace ChooChoo
         
         public bool CanPathFindOverIt { get; set; }
 
-        public bool IsIntersection { get; set; }
+        public bool DevidesSection { get; set; }
 
         [Inject]
         public void InjectDependencies(
@@ -129,8 +129,10 @@ namespace ChooChoo
         {
             if (this == null)
                 return;
+
+            var exitsToCheck = TrackRoutes.GroupBy(route => route.Exit.Direction).Select(group => group.First());
             
-            foreach (var directionalTrackRoute in TrackRoutes.GroupBy(route => route.Exit.Direction).Select(group => group.First()))
+            foreach (var directionalTrackRoute in exitsToCheck)
             {
                 
                 // Plugin.Log.LogWarning(directionalTrackRoute.Exit.Direction.ToString());
@@ -157,7 +159,44 @@ namespace ChooChoo
                 //     " Other Entrances: " + otherTrackRoutesEntrances.Length + 
                 //     " Other Exits: " + otherTrackRoutesExits.Length);
                 // if (myTrackRouteEntrances.Length < 1 || myTrackRouteExits.Length < 1 || otherTrackRoutesEntrances.Length < 1 || otherTrackRoutesExits.Length < 1)
-                if (myTrackRouteExits.Length < 1 || otherTrackRoutesExits.Length < 1)
+                // if ((myTrackRouteEntrances.Length < 1 && otherTrackRoutesExits.Length) < 1 || (otherTrackRoutesEntrances.Length < 1 && myTrackRouteExits.Length < 1))
+                //     continue;
+                if (myTrackRouteExits.Length < 1 || otherTrackRoutesEntrances.Length < 1)
+                    continue;
+                MakeConnection(trackPiece, myTrackRouteEntrances, myTrackRouteExits, otherTrackRoutesEntrances, otherTrackRoutesExits);
+            }
+
+            var test = exitsToCheck.Select(route => route.Exit.Direction);
+            var entrancesToCheck = TrackRoutes.GroupBy(route => route.Entrance.Direction).Select(group => group.First()).Where(route => !test.Contains(route.Entrance.Direction));
+            
+            foreach (var directionalTrackRoute in entrancesToCheck)
+            {
+                
+                // Plugin.Log.LogWarning(directionalTrackRoute.Exit.Direction.ToString());
+                // _trackConnectionService.CanConnectInDirection(trackConnection.Coordinates, trackConnection.Direction);
+                // Plugin.Log.LogInfo("Offset " + trackConnection.Coordinates);
+                // Plugin.Log.LogInfo("Direciton offset " + trackConnection.Direction.ToOffset());
+                // Plugin.Log.LogInfo("Together " + (trackConnection.Coordinates - trackConnection.Direction.ToOffset()));
+                // Plugin.Log.LogInfo("Final" + _blockObject.Transform(trackConnection.Coordinates - trackConnection.Direction.ToOffset()));
+            
+                var obj = _blockService.GetFloorObjectAt(_blockObject.Transform(directionalTrackRoute.Entrance.Coordinates - directionalTrackRoute.Entrance.Direction.ToOffset()));
+                if (obj == null || !obj.TryGetComponent(out TrackPiece trackPiece)) 
+                    continue;
+                // Plugin.Log.LogWarning("Place to check: " + _blockObject.Transform(directionalTrackRoute.Exit.Coordinates - directionalTrackRoute.Exit.Direction.ToOffset()));
+                var myTrackRouteEntrances = CheckAndGetConnection(trackPiece).ToArray();
+                var myTrackRouteExits = CheckAndGetExits(trackPiece).ToArray();
+                
+                // var connection = GetConnection(trackPiece, trackConnection.Direction);
+                var otherTrackRoutesEntrances = trackPiece.CheckAndGetConnection(this).ToArray();
+                var otherTrackRoutesExits = trackPiece.CheckAndGetExits(this).ToArray();
+                // Plugin.Log.LogInfo(obj.Coordinates.ToString());
+                // Plugin.Log.LogWarning(
+                //     "My Entrances: " + myTrackRouteEntrances.Length + 
+                //     " My Exits: " + myTrackRouteExits.Length + 
+                //     " Other Entrances: " + otherTrackRoutesEntrances.Length + 
+                //     " Other Exits: " + otherTrackRoutesExits.Length);
+                // if (myTrackRouteEntrances.Length < 1 || myTrackRouteExits.Length < 1 || otherTrackRoutesEntrances.Length < 1 || otherTrackRoutesExits.Length < 1)
+                if (myTrackRouteEntrances.Length < 1 || otherTrackRoutesExits.Length < 1)
                     continue;
                 MakeConnection(trackPiece, myTrackRouteEntrances, myTrackRouteExits, otherTrackRoutesEntrances, otherTrackRoutesExits);
             }
@@ -197,6 +236,8 @@ namespace ChooChoo
 
         private void MakeConnection(TrackPiece trackPiece, TrackRoute[] myTrackRouteEntrances, TrackRoute[] myTrackRouteExits, TrackRoute[] otherTrackRoutesEntrances, TrackRoute[] otherTrackRoutesExits)
         {
+            // Plugin.Log.LogWarning("Connecting");
+
             foreach (var trackRoute in myTrackRouteExits)
             {
                 trackRoute.Exit.ConnectedTrackPiece = trackPiece;
@@ -209,8 +250,9 @@ namespace ChooChoo
                 trackRoute.Exit.ConnectedTrackRoutes = myTrackRouteEntrances;
             }
 
-            var flag1 = TryGetComponent(out TrackIntersection _);
-            var flag2 = trackPiece != null && trackPiece.TryGetComponent(out TrackIntersection _);
+
+            var flag1 = TryGetComponent(out SectionDivider _);
+            var flag2 = trackPiece != null && trackPiece.TryGetComponent(out SectionDivider _);
 
             if (flag1 || flag2)
             {

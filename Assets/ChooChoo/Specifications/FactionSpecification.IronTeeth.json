@@ -1,6 +1,7 @@
 {
   "CommonBuildings": [
     "tobbert.choochoo/tobbert_choochoo/TrackStraight.IronTeeth",
+    "tobbert.choochoo/tobbert_choochoo/TrackOneWay.IronTeeth",
     "tobbert.choochoo/tobbert_choochoo/TrackHill1x2.IronTeeth",
     "tobbert.choochoo/tobbert_choochoo/TrackCorner1x1.IronTeeth",
     "tobbert.choochoo/tobbert_choochoo/TrackCorner2x2.IronTeeth",

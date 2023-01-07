@@ -3,6 +3,10 @@ Tobbert.TrackStraight.DisplayName,Straight Train Track,-
 Tobbert.TrackStraight.Description,A Track Piece that goes straight.,-
 Tobbert.TrackStraight.FlavorDescription,Choo! Choo!,-
 
+Tobbert.TrackOneWay.DisplayName,One way signal Track,-
+Tobbert.TrackOneWay.Description,Wil tell trains that they can only go through the green side.,-
+Tobbert.TrackOneWay.FlavorDescription,You... Shall... Pass...,-
+
 Tobbert.TrackHillStart.DisplayName,Slope Track,-
 Tobbert.TrackHillStart.Description,A track that lets trains go up and down.,-
 Tobbert.TrackHillStart.FlavorDescription,Is the train not to heavy?,-

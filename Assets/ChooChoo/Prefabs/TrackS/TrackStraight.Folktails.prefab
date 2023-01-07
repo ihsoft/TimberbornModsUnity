@@ -223,7 +223,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _toolGroupId: TobbertTrains
-  _toolOrder: 10
+  _toolOrder: 40
   _layout: 2
   _customPivot:
     _hasCustomPivot: 0

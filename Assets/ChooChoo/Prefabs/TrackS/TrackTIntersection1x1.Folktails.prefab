@@ -424,7 +424,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _toolGroupId: TobbertTrains
-  _toolOrder: 40
+  _toolOrder: 90
   _layout: 0
   _customPivot:
     _hasCustomPivot: 0

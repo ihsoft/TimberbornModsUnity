@@ -91,7 +91,7 @@ namespace ChooChoo
         if (trackPiece == null)
           return false;
 
-        if (trackPiece.IsIntersection)
+        if (trackPiece.DevidesSection)
           continue;
 
         TrackSection trackSection = trackPiece.TrackSection;

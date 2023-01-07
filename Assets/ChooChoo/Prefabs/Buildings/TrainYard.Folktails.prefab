@@ -297,11 +297,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxCapacity: 50
-  TrainCost:
-  - _goodId: Plank
-    _amount: 20
-  - _goodId: ScrapMetal
-    _amount: 15
 --- !u!114 &4757435691195921719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,7 +352,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _toolGroupId: TobbertTrains
-  _toolOrder: 50
+  _toolOrder: 10
   _layout: 0
   _customPivot:
     _hasCustomPivot: 0

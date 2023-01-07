@@ -9,7 +9,7 @@ namespace ChooChoo
       public TrackRoute[] GetConnections(string prefabName)
       {
          prefabName = FixPrefabName(prefabName);
-         // Plugin.Log.LogWarning("Providing Connections: " + prefabName);
+         // Plugin.Log.LogWarning("Providing TrackRoutes: " + prefabName);
          switch (prefabName)
          {
             case "TrackStraight":
@@ -23,6 +23,14 @@ namespace ChooChoo
                      new TrackConnection(new Vector3Int(0, 0, 0), Direction2D.Down),
                      new TrackConnection(new Vector3Int(0, 0, 0), Direction2D.Up), 
                      new[] { Vector3.zero })
+               };
+            case "TrackOneWay":
+               return new TrackRoute[]
+               {
+                  new(
+                     new TrackConnection(new Vector3Int(0, 0, 0), Direction2D.Up),
+                     new TrackConnection(new Vector3Int(0, 0, 0), Direction2D.Down), 
+                     new[] { Vector3.zero }),
                };
             case "TrackHill1x2":
                return new TrackRoute[]

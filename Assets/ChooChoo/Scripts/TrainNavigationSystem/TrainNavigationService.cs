@@ -171,7 +171,7 @@ namespace ChooChoo
 
         private bool FindPathInNodes(TrackRoute previousTrackRoute, TrackPiece destinationTrackPiece, List<TrackRoute> trackConnections, Dictionary<TrackRoute, int?> nodes, int maxLength)
         {
-            // trackConnections.Add(previousTrackRoute);
+            // trackRoutes.Add(previousTrackRoute);
             var test =  FindPath(previousTrackRoute, nodes, destinationTrackPiece, trackConnections, maxLength);
 
             // Plugin.Log.LogInfo(test + "");
