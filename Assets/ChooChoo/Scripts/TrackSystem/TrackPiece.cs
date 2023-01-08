@@ -31,7 +31,7 @@ namespace ChooChoo
         
         public bool CanPathFindOverIt { get; set; }
 
-        public bool DevidesSection { get; set; }
+        public bool DividesSection { get; set; }
 
         [Inject]
         public void InjectDependencies(

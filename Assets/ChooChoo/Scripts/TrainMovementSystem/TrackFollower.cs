@@ -91,7 +91,7 @@ namespace ChooChoo
         if (trackPiece == null)
           return false;
 
-        if (trackPiece.DevidesSection)
+        if (trackPiece.DividesSection)
           continue;
 
         TrackSection trackSection = trackPiece.TrackSection;

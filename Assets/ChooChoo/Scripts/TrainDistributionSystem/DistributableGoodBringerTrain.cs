@@ -58,10 +58,8 @@ namespace ChooChoo
     public bool BringDistributableGoods()
     {
       // Plugin.Log.LogInfo("Looking to move goods");
-      var start = transform.position;
-      var startTrackPiece = _blockService.GetFloorObjectComponentAt<TrackPiece>(start.ToBlockServicePosition());
 
-      var reachableGoodStation = _goodsStationsRepository.GoodsStations.FirstOrDefault(station => _trainDestinationService.DestinationReachable(startTrackPiece, station.TrainDestinationComponent));
+      var reachableGoodStation = _goodsStationsRepository.GoodsStations.FirstOrDefault(station => _trainDestinationService.DestinationReachable(transform.position, station.TrainDestinationComponent));
 
       if (reachableGoodStation == null)
         return false;

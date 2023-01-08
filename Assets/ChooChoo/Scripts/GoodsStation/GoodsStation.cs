@@ -93,7 +93,6 @@ namespace ChooChoo
         TransferableGoods = entityLoader.GetComponent(GoodsStationKey).Get(TransferableGoodsKey, _transferableGoodObjectSerializer);
     }
     
-    // public int MaxAllowedAmount(string goodId) => _limitableGoodDisallower.AllowedAmount(goodId);
     public int MaxAllowedAmount(string goodId) => _maxCapacity;
 
     public bool IsSending(string goodId) => TransferableGoods.First(good => good.GoodId == goodId).SendingGoods;

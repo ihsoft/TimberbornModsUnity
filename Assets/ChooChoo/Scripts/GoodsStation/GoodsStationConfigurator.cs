@@ -3,7 +3,9 @@ using TimberApi.ConfiguratorSystem;
 using TimberApi.SceneSystem;
 using Timberborn.Emptying;
 using Timberborn.Hauling;
+using Timberborn.StockpilePrioritySystem;
 using Timberborn.TemplateSystem;
+using Timberborn.Workshops;
 
 namespace ChooChoo
 {
@@ -37,12 +39,14 @@ namespace ChooChoo
         builder.AddDedicatedDecorator(_goodsStationInventoryInitializer);
         builder.AddDecorator<GoodsStation, Emptiable>();
         builder.AddDecorator<GoodsStation, HaulCandidate>();
+        builder.AddDecorator<GoodsStation, FillGoodsStationHaulBehaviorProvider>();
         InitializeBehaviors(builder);
         return builder.Build();
       }
 
       private static void InitializeBehaviors(TemplateModule.Builder builder)
       {
+        builder.AddDecorator<GoodsStation, FillGoodsStationBehavior>();
         builder.AddDecorator<GoodsStation, EmptyInventoriesWorkplaceBehavior>();
         builder.AddDecorator<GoodsStation, RemoveUnwantedStockWorkplaceBehavior>();
       }

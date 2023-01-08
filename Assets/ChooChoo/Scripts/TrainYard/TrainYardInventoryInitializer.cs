@@ -37,7 +37,7 @@ namespace ChooChoo
     {
       foreach (var goodAmountSpecification in inventoryCapacity)
       {
-        StorableGoodAmount storableGoodAmount = new StorableGoodAmount(StorableGood.CreateGiveableAndTakeable(goodAmountSpecification.GoodId), goodAmountSpecification.Amount * 2);
+        StorableGoodAmount storableGoodAmount = new StorableGoodAmount(StorableGood.CreateAsGivable(goodAmountSpecification.GoodId), goodAmountSpecification.Amount * 2);
         inventoryInitializer.AddAllowedGood(storableGoodAmount);
       }
     }

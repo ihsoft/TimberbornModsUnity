@@ -1,11 +1,15 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using TimberApi.ConsoleSystem;
 using TimberApi.ModSystem;
 using Timberborn.Characters;
+using Timberborn.Common;
 using Timberborn.GameDistricts;
-using Timberborn.Goods;
+using Timberborn.InventorySystem;
+using Timberborn.Navigation;
 using Timberborn.PrefabSystem;
 using UnityEngine;
 
@@ -71,11 +75,11 @@ namespace ChooChoo
         {
             return AccessTools.Method(AccessTools.TypeByName("Instantiator"), "AddComponent", new []
             {
-                typeof(GameObject), typeof(System.Type)
+                typeof(GameObject), typeof(Type)
             });
         }
         
-        static bool Prefix(GameObject gameObject, System.Type componentType, ref Component __result)
+        static bool Prefix(GameObject gameObject, MemberInfo componentType, ref Component __result)
         {
             if (gameObject == null)
                 return true;
@@ -133,6 +137,54 @@ namespace ChooChoo
             }
 
             return true;
+        }
+    }
+
+    [HarmonyPatch]
+    public class ObtainGoodWorkplaceBehaviorPatch
+    {
+        public static MethodInfo TargetMethod()
+        {
+            return AccessTools.Method(AccessTools.TypeByName("DistrictInventoryPicker"), "ClosestInventoryWithStock",
+                new[]
+                {
+                    typeof(Accessible),
+                    typeof(string),
+                    typeof(Predicate<Inventory>),
+                });
+        }
+
+        static bool Prefix(
+            Accessible start,
+            string goodId,
+            Predicate<Inventory> inventoryFilter,
+            DistrictInventoryRegistry ____districtInventoryRegistry,
+            ref Inventory __result)
+        {
+            List<Inventory> inventoryList = ____districtInventoryRegistry.ActiveInventoriesWithStock(goodId).ToList();
+            
+            // Added a check so it doesn't deliver to itself
+            var goodsStation = start.GetComponent<GoodsStation>();
+            var originalInventory = goodsStation == null ? null : goodsStation.Inventory;
+            if (inventoryList.Contains(originalInventory))
+                inventoryList.Remove(originalInventory);
+            
+            Inventory inventory = null;
+            float num = float.MaxValue;
+            for (int index = 0; index < inventoryList.Count; ++index)
+            {
+                Inventory component = inventoryList[index];
+                Accessible enabledComponent = component.GetEnabledComponent<Accessible>();
+                float distance;
+                if (inventoryFilter(component) && enabledComponent.FindRoadPath(start, out distance) && (double)distance < (double)num)
+                {
+                    inventory = component;
+                    num = distance;
+                }
+            }
+
+            __result = inventory;
+            return false;
         }
     }
 }

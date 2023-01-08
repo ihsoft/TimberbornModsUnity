@@ -36,12 +36,14 @@ namespace ChooChoo
         builder.AddDedicatedDecorator(_trainYardInventoryInitializer);
         builder.AddDecorator<TrainYard, Emptiable>();
         builder.AddDecorator<TrainYard, HaulCandidate>();
+        builder.AddDecorator<TrainYard, FillGoodsStationHaulBehaviorProvider>();
         InitializeBehaviors(builder);
         return builder.Build();
       }
 
       private static void InitializeBehaviors(TemplateModule.Builder builder)
       {
+        builder.AddDecorator<TrainYard, FillGoodsStationBehavior>();
         builder.AddDecorator<TrainYard, EmptyInventoriesWorkplaceBehavior>();
         builder.AddDecorator<TrainYard, RemoveUnwantedStockWorkplaceBehavior>();
       }

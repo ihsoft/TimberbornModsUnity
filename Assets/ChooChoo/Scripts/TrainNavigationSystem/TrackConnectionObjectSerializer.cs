@@ -22,11 +22,7 @@ namespace ChooChoo
       objectSaver.Set(CoordinatesKey, value.Coordinates);
       objectSaver.Set(DirectionKey, value.Direction, _direction2DSerializer);
       if (value.ConnectedTrackPiece != null)
-      {
         objectSaver.Set(ConnectedTrackPieceKey, value.ConnectedTrackPiece);
-        
-      }
-      
     }
 
     public Obsoletable<TrackConnection> Deserialize(IObjectLoader objectLoader)
