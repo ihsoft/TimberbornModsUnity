@@ -3,9 +3,13 @@ Tobbert.TrackStraight.DisplayName,直進線路,-Straight Train Track
 Tobbert.TrackStraight.Description,直進する線路。,-A Track Piece that goes straight.
 Tobbert.TrackStraight.FlavorDescription,ガタンゴトン！,-Choo! Choo!
 
+Tobbert.TrackOneWay.DisplayName,一方通行の信号,-One way signal Track
+Tobbert.TrackOneWay.Description,列車に矢印の方向にしか進めないことを示す。閉そくを区切る効果もある。,-Wil tell trains that they can only go through the green side.
+Tobbert.TrackOneWay.FlavorDescription,ここへ来てはいけない！すぐ戻れ！,-千と千尋。原文「You... Shall... Pass...」はロード・オブ・ザ・リングの改変
+
 Tobbert.TrackHillStart.DisplayName,勾配線路,-Slope Track
 Tobbert.TrackHillStart.Description,列車の高さを変えられる線路。,-A track that lets trains go up and down.
-Tobbert.TrackHillStart.FlavorDescription,勾配抵抗は大丈夫？,-Is the train not to heavy?
+Tobbert.TrackHillStart.FlavorDescription,勾配抵抗にご用心,-Is the train not to heavy?
 
 Tobbert.TrackCorner1x1.DisplayName,カーブ線路 1x1,-Corner 1x1 Train Track
 Tobbert.TrackCorner1x1.Description,角を曲がるための線路。,-A Track Piece that around a corner.
@@ -28,7 +32,7 @@ Tobbert.TrainStation.Description,列車の目的地。,-A destination for trains
 Tobbert.TrainStation.FlavorDescription,ポッポー！,-Choo! Choo!
 
 Tobbert.GoodsStation.DisplayName,貨物駅,-Goods station
-Tobbert.GoodsStation.Description,列車で積み降ろしする貨物の保管施設。「取り扱い貨物を設定」から何を積み降ろしするのかを指定する。,-"A building that holds items ready for pickup and deliveries from trains. Edit the allowed goods to specify what goods can be received and delivered."
+Tobbert.GoodsStation.Description,列車で積み降ろしする貨物の保管施設。「取り扱い貨物を設定」から何を積み降ろしするのかを複数指定できる。,-"A building that holds items ready for pickup and deliveries from trains. Edit the allowed goods to specify what goods can be received and delivered."
 Tobbert.GoodsStation.FlavorDescription,とくとご覧あれ、この収納力の高さを。,-Look at all the goods It can hold.
 Tobbert.GoodsStation.GoodSelector,取り扱い貨物を設定,-Edit allowed goods
 Tobbert.GoodsStation.Loading,積む: ,-Sending:
@@ -44,10 +48,8 @@ Tobbert.TrainYard.FlavorDescription,ここで列車が作られる。,-This is w
 Tobbert.TrainYard.CostOfTrain,1編成の建造費:,-Cost of 1 train:
 Tobbert.TrainYard.CreateTrain,列車を新造する,-Create train:
 
-Tobbert.Train.Name,列車,-Trains
-
 Tobbert.Train.PrefabName,機関車,-Train
-Tobbert.Wagon.PrefabName,貨車,-Wagon
+Tobbert.Wagon.PrefabName,無蓋車,-Wagon
 
 Tobbert.BatchControl.Trains,列車,-Trains
 Tobbert.Train.Length,両数: ,-Train Length: 
