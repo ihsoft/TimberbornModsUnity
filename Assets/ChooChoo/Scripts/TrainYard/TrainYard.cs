@@ -88,8 +88,6 @@ namespace ChooChoo
             SetInitialTrainLocation(train);
 
             SetTrainName(train);
-
-            train.GetComponent<Machinist>().LastTrackConnection = GetComponent<TrackPiece>().TrackRoutes.First(connection => connection.Entrance.Direction == Direction2D.Up);
         }
 
         public void DeleteEntity()

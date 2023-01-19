@@ -48,8 +48,12 @@ namespace ChooChoo
     
     private bool CanObtainFrom(Inventory inventory)
     {
-      GoodObtainer component = inventory.GetComponent<GoodObtainer>();
-      return !(bool) (UnityEngine.Object) component || !component.GoodObtainingEnabled;
+      GoodsStation component1 = inventory.GetComponent<GoodsStation>();
+      GoodObtainer component2 = inventory.GetComponent<GoodObtainer>();
+      return 
+        !(bool) (Object) component1 &&
+        (!(bool)(Object)component2 ||
+         !component2.GoodObtainingEnabled);
     }
   }
 }

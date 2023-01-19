@@ -210,6 +210,8 @@ namespace ChooChoo
                 var obj = _blockService.GetFloorObjectAt(_blockObject.Transform(trackRoute.Entrance.Coordinates - trackRoute.Entrance.Direction.ToOffset()));
                 if (obj == null || !obj.TryGetComponent(out TrackPiece trackPiece))
                     continue;
+                if (!obj.TryGetComponent(out BlockObject blockObject) || !blockObject.Finished)
+                    continue;
                 // Plugin.Log.LogWarning((trackPiece == previousTrackPiece) + "");
                 if (trackPiece == previousTrackPiece)
                 {
@@ -225,6 +227,8 @@ namespace ChooChoo
                 // Plugin.Log.LogError(_blockObject.Transform(trackRoute.Exit.Coordinates - trackRoute.Exit.Direction.ToOffset()) + " Exit");
                 var obj = _blockService.GetFloorObjectAt(_blockObject.Transform(trackRoute.Exit.Coordinates - trackRoute.Exit.Direction.ToOffset()));
                 if (obj == null || !obj.TryGetComponent(out TrackPiece trackPiece))
+                    continue;
+                if (!obj.TryGetComponent(out BlockObject blockObject) || !blockObject.Finished)
                     continue;
                 // Plugin.Log.LogWarning((trackPiece == previousTrackPiece) + "");
                 if (trackPiece == previousTrackPiece)

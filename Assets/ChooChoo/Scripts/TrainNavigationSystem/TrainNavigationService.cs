@@ -25,7 +25,7 @@ namespace ChooChoo
             _blockService = blockService;
         }
         
-        public bool FindRailTrackPath(Transform transform, TrainDestination destination, ref TrackRoute previouslyLastTrackRoute, List<TrackRoute> tempPathTrackRoutes)
+        public bool FindRailTrackPath(Transform transform, TrainDestination destination, List<TrackRoute> tempPathTrackRoutes)
         {
             // Plugin.Log.LogWarning("Start finding path");
             _stopwatch.Restart();
@@ -90,7 +90,6 @@ namespace ChooChoo
             // if (!FindNextRailTrack(previousTrackRoute, endTrackPiece, trackRoutes, trackRouteWeights, distance))
             //     return false;
             
-            previouslyLastTrackRoute = trackRoutes.Last();
             tempPathTrackRoutes.AddRange(trackRoutes);
             
             _stopwatch.Stop();

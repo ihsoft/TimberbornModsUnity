@@ -27,7 +27,6 @@ namespace ChooChoo
     private readonly List<TrackRoute> _tempPathCorners = new(100);
     private ITrainDestination _currentTrainDestination;
     private ITrainDestination _previousTrainDestination;
-    public TrackRoute LastTrackConnection;
     private float _slowDownDistance = 1.5f;
 
     public event EventHandler<StartedNewPathEventArgs> StartedNewPath;
@@ -99,8 +98,6 @@ namespace ChooChoo
       IObjectSaver component = entitySaver.GetComponent(MachinistKey);
       if (_currentTrainDestination != null)
         component.Set(CurrentDestinationKey, _currentTrainDestination, _trainDestinationObjectSerializer);
-      if (LastTrackConnection != null)
-        component.Set(LastTrackConnectionKey, LastTrackConnection, _trackRouteObjectSerializer);
     }
 
     public void Load(IEntityLoader entityLoader)
@@ -108,8 +105,6 @@ namespace ChooChoo
       IObjectLoader component = entityLoader.GetComponent(MachinistKey);
       if (component.Has(CurrentDestinationKey))
         _currentTrainDestination = component.Get(CurrentDestinationKey, _trainDestinationObjectSerializer);
-      if (component.Has(LastTrackConnectionKey))
-        LastTrackConnection = component.Get(LastTrackConnectionKey, (_trackRouteObjectSerializer));
     }
 
     private ExecutorStatus FindPath(ITrainDestination trainDestination)
@@ -118,7 +113,7 @@ namespace ChooChoo
       {
         Vector3 start = transform.position;
         _pathConnections.Clear();
-        CurrentDestinationReachable = trainDestination.GeneratePath(GetComponent<CharacterModel>().Model, ref LastTrackConnection, _tempPathCorners);
+        CurrentDestinationReachable = trainDestination.GeneratePath(GetComponent<CharacterModel>().Model, _tempPathCorners);
         if (CurrentDestinationReachable)
         {
           _pathConnections.AddRange(_tempPathCorners);

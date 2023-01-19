@@ -1,0 +1,72 @@
+ID,Text,Comment
+Tobbert.TrackStraight.DisplayName,Gleis Gerade,-
+Tobbert.TrackStraight.Description,Ein gerades Zuggleis.,-
+Tobbert.TrackStraight.FlavorDescription,Tschu-tschu!,-
+
+Tobbert.TrackOneWay.DisplayName,Einbahngleis,-
+Tobbert.TrackOneWay.Description,"Sagt den Zügen, dass sie nur auf der grünen Seite durchfahren können.",-
+Tobbert.TrackOneWay.FlavorDescription,Du... Sollst... Passieren...,-
+
+Tobbert.TrackHillStart.DisplayName,Gleis Steigung,-
+Tobbert.TrackHillStart.Description,"Ein Gleis, auf dem Züge auf und ab fahren.",-
+Tobbert.TrackHillStart.FlavorDescription,Ist der Zug nicht zu schwer?,-
+
+Tobbert.TrackCorner1x1.DisplayName,Gleis Kurve 1x1,-
+Tobbert.TrackCorner1x1.Description,"Ein Gleisstück, das um eine Ecke führt.",-
+Tobbert.TrackCorner1x1.FlavorDescription,Könnte ein bisschen eng sein.,-
+
+Tobbert.TrackCorner2x2.DisplayName,Gleis Kurve 2x2,-
+Tobbert.TrackCorner2x2.Description,"Ein Gleisstück, das um eine größere Ecke führt.",-
+Tobbert.TrackCorner2x2.FlavorDescription,Was für eine schön anzusehende Kurve.,-
+
+Tobbert.TrackTIntersection1x1.DisplayName,Gleis T-Kreuzung 1x1,-
+Tobbert.TrackTIntersection1x1.Description,Eine Kreuzung in Form eines T für Züge.,-
+Tobbert.TrackTIntersection1x1.FlavorDescription,Welchen Weg soll ich einschlagen?,-
+
+Tobbert.TrackTIntersection2x3.DisplayName,Gleis T-Kreuzung 2x3,-
+Tobbert.TrackTIntersection2x3.Description,Eine Kreuzung in Form eines T für Züge.,-
+Tobbert.TrackTIntersection2x3.FlavorDescription,Wohin werden diese Wege führen?,-
+
+Tobbert.TrainStation.DisplayName,Zugbahnhof,-
+Tobbert.TrainStation.Description,Ein Ziel für Züge.,-
+Tobbert.TrainStation.FlavorDescription,Tschu-tschu!,-
+
+Tobbert.GoodsStation.DisplayName,Güterbahnhof,-
+Tobbert.GoodsStation.Description,"Ein Gebäude, in dem Güter für die Abholung und Lieferung von Zügen bereitstehen. Bearbeiten Sie die zulässigen Güter, um festzulegen, welche empfangen und geliefert werden können.",-
+Tobbert.GoodsStation.FlavorDescription,"Schauen Sie sich all die Waren an, die es aufnehmen kann.",-
+Tobbert.GoodsStation.GoodSelector,Zulässige Waren bearbeiten,-
+Tobbert.GoodsStation.Loading,Liefern: ,-
+Tobbert.GoodsStation.Unloading,Empfangen: ,-
+
+Tobbert.WaitingStation.DisplayName,Wartestation,-
+Tobbert.WaitingStation.Description,"Hier können Züge warten, wenn sie nichts zu tun haben. Dadurch wird verhindert, dass Züge die Gleise besetzen. Züge können nicht über diesen Bereich fahren, also stellen Sie sicher, dass er nicht in einem wichtigen Weg liegt.",-
+Tobbert.WaitingStation.FlavorDescription,Wann kann ich wieder fahren?,-
+
+Tobbert.TrainYard.DisplayName,Zugfabrik,-
+Tobbert.TrainYard.Description,"Ein Gebäude, das Züge herstellt.",-
+Tobbert.TrainYard.FlavorDescription,Hier werden Züge geboren.,-
+Tobbert.TrainYard.CostOfTrain,Kosten für 1 Zug:,-
+Tobbert.TrainYard.CreateTrain,Zug herstellen: ,-
+
+Tobbert.Train.PrefabName,Zug,-
+Tobbert.Wagon.PrefabName,Wagen,-
+
+Tobbert.BatchControl.Trains,Züge,-
+Tobbert.Train.Length,Zuglänge: ,-
+
+Tobbert.TrainSchedule.AddNewStation,Neuer Zugbahnhof,-
+Tobbert.TrainSchedule.AddNewTrainAction,Neue Aktion,-
+
+Tobbert.TrainAction.Wait,Warten,-
+Tobbert.TrainAction.Wait.WaitingInMinutes,Wartezeit: ,-
+
+Tobbert.TrainAction.TakeGoods,Güter annehmen,-
+Tobbert.TrainAction.TakeGoods.TakeGoodAmount,Güter annehmen: ,-
+
+Tobbert.ToolGroup.Trains,Züge,-
+
+Tobbert.TrainYard.PreviewErrorMessage,Es kann nur 1 Zugfabrik gebaut werden,-
+
+Tobbert.Trains.UnlockPrompt,"Sie müssen {0} freischalten, um {1} zu bauen.",{0} steht für <Building>.DisplayName {1} steht für <TrackPiece>.DisplayName.
+
+Tobbert.DistributionTrain.MinimumOfItemsToMove,Minimum an zu bewegenden Gütern: ,-
