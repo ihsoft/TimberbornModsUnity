@@ -32,6 +32,8 @@ namespace ChooChoo
             // Plugin.Log.LogWarning(new Vector3(start.x, start.z, start.y).ToString());
             // Plugin.Log.LogWarning(vector3Int.ToString());
             // Plugin.Log.LogWarning( _blockService.GetFloorObjectComponentAt<TrackPiece>(vector3Int) + "");
+            if (destination == null)
+                return false;
             
             var startTrackPiece = _blockService.GetFloorObjectComponentAt<TrackPiece>(transform.position.ToBlockServicePosition());
             if (startTrackPiece == null) 
@@ -107,12 +109,10 @@ namespace ChooChoo
                 return;
             }
 
-            var newDistance = distance + 1;
+            var newDistance = distance + previousTrackRoute.Exit.ConnectedTrackPiece.TrackDistance;
 
             if (newDistance > maxDistance)
-            {
                 return;
-            }
             
             if (trackRouteWeights[previousTrackRoute] == null)
                 trackRouteWeights[previousTrackRoute] = newDistance;
@@ -120,9 +120,7 @@ namespace ChooChoo
             {
                 var currentWeight = (int)trackRouteWeights[previousTrackRoute];
                 if (currentWeight <= newDistance)
-                {
                     return;
-                }
                 trackRouteWeights[previousTrackRoute] = Math.Min(currentWeight, newDistance);
             }
 
@@ -132,38 +130,38 @@ namespace ChooChoo
             //     trackRouteWeights[previousTrackRoute] = Math.Min(trackRouteWeights[previousTrackRoute], newLength);
 
             // Plugin.Log.LogError("Checking Route");
-            foreach (var trackConnection in previousTrackRoute.Exit.ConnectedTrackRoutes
-                         .Where(connection => connection.Exit.ConnectedTrackRoutes != null)
-                         .OrderBy(connection => Vector3.Distance(connection.Exit.ConnectedTrackPiece.CenterCoordinates, destinationTrackPiece.CenterCoordinates))
+            foreach (var trackRoute in previousTrackRoute.Exit.ConnectedTrackRoutes
+                         .Where(trackRoute => trackRoute.Exit.ConnectedTrackRoutes != null)
+                         .OrderBy(trackRoute => Vector3.Distance(trackRoute.Exit.ConnectedTrackPiece.CenterCoordinates, destinationTrackPiece.CenterCoordinates))
                      )
             {
-                // Plugin.Log.LogWarning("Checking: " + trackConnection.Exit.ConnectedTrackPiece.CenterCoordinates + " Current weight: " + currentWeight + " New distance: " + newLength);
+                // Plugin.Log.LogWarning("Checking: " + trackRoute.Exit.ConnectedTrackPiece.CenterCoordinates + " Current weight: " + trackRouteWeights[trackRoute] + " New distance: " + newDistance);
 
-                if (!trackConnection.Exit.ConnectedTrackPiece.CanPathFindOverIt && !(trackConnection.Exit.ConnectedTrackPiece == destinationTrackPiece))
+                if (!trackRoute.Exit.ConnectedTrackPiece.CanPathFindOverIt && !(trackRoute.Exit.ConnectedTrackPiece == destinationTrackPiece))
                 {
                     // Plugin.Log.LogError("Cannot pathfind over it");
                     continue;
                 }
 
-                if (trackConnection.Exit.ConnectedTrackPiece == destinationTrackPiece)
+                if (trackRoute.Exit.ConnectedTrackPiece == destinationTrackPiece)
                 {
                     // Plugin.Log.LogError("Found Destination");
                     
-                    var newNewDistance = newDistance + 1;
+                    var newNewDistance = newDistance + trackRoute.Exit.ConnectedTrackPiece.TrackDistance;
 
-                    if (!trackRouteWeights.ContainsKey(trackConnection))
+                    if (!trackRouteWeights.ContainsKey(trackRoute))
                         continue;
                     
-                    if (trackRouteWeights[trackConnection] == null)
-                        trackRouteWeights[trackConnection] = newNewDistance;
+                    if (trackRouteWeights[trackRoute] == null)
+                        trackRouteWeights[trackRoute] = newNewDistance;
                     else
-                        trackRouteWeights[trackConnection] = Math.Min((int)trackRouteWeights[trackConnection], newNewDistance);
+                        trackRouteWeights[trackRoute] = Math.Min((int)trackRouteWeights[trackRoute], newNewDistance);
 
                     maxDistance = maxDistance == null ? newNewDistance : Math.Min((int)maxDistance, newNewDistance);
                     break;
                 }
 
-                FindNextRailTrack(trackConnection, destinationTrackPiece, trackRouteWeights, newDistance, ref maxDistance);
+                FindNextRailTrack(trackRoute, destinationTrackPiece, trackRouteWeights, newDistance, ref maxDistance);
             }
             // Plugin.Log.LogError("Dead end");
         }
@@ -179,7 +177,7 @@ namespace ChooChoo
 
         private bool FindPath(TrackRoute previousRoute, Dictionary<TrackRoute, int?> nodes, TrackPiece destinationTrackPiece, List<TrackRoute> trackConnections, int maxLength)
         {
-
+            // Plugin.Log.LogInfo(nodes[previousRoute] + "      " + maxLength);
             if (!nodes.ContainsKey(previousRoute) || previousRoute.Exit.ConnectedTrackRoutes == null || nodes[previousRoute] > maxLength)
             {
                 // Plugin.Log.LogWarning("Is null   ");
@@ -193,16 +191,15 @@ namespace ChooChoo
                      .OrderBy(connection => Vector3.Distance(connection.Exit.ConnectedTrackPiece.CenterCoordinates, destinationTrackPiece.CenterCoordinates))
                     )
             {
-                // Plugin.Log.LogError("Checking route");
+                // Plugin.Log.LogError("Checking route: " + nodes[trackRoute] + "  " + nodes[previousRoute] + "  " + trackRoute.Exit.ConnectedTrackPiece.TrackDistance);
                 if (!nodes.ContainsKey(trackRoute))
                     continue;
-
-                if (nodes[previousRoute] + 1 == nodes[trackRoute])
+                if (nodes[previousRoute] + trackRoute.Exit.ConnectedTrackPiece.TrackDistance == nodes[trackRoute])
                 {
-                    // var test = "Route found: " + trackRouteWeights[trackRoute] + " ";
+                    // var test = "Route found: " + nodes[trackRoute] + " ";
                     // if (trackRoute.Exit.ConnectedTrackPiece != null)
                     //     test += trackRoute.Exit.ConnectedTrackPiece.CenterCoordinates;
-                    // Plugin.Log.LogError(test);
+                    // Plugin.Log.LogWarning(test);
                     if (trackRoute.Exit.ConnectedTrackPiece == destinationTrackPiece)
                     {
                         // Plugin.Log.LogError("Found Destination");

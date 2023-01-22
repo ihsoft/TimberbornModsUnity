@@ -65,6 +65,8 @@ namespace ChooChoo
         return false;
       
       var reachableGoodStations = _goodsStationsRepository.GoodsStations.Where(station => _trainDestinationService.TrainDestinationsConnected(reachableGoodStation.TrainDestinationComponent, station.TrainDestinationComponent)).ToArray();
+
+      // var reachableGoodStations = _trainDestinationService.ReachableTrainDestinations(transform.position).Where(destination => destination.TryGetComponent(out GoodsStation _)).Select(destination => destination.GetComponent<GoodsStation>()).ToArray();
       
       foreach (var deliverableGoodsStation in reachableGoodStations)
       {

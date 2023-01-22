@@ -177,6 +177,7 @@ GameObject:
   - component: {fileID: 426163337955813881}
   - component: {fileID: 5232831697191421784}
   - component: {fileID: 4495404040876493144}
+  - component: {fileID: -3737239338883309595}
   - component: {fileID: 2620474729558111792}
   m_Layer: 0
   m_Name: TrackCorner1x1.Folktails
@@ -325,6 +326,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54fc23297c2042b49bd7e0edee84ce49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _trackDistance: 1
+--- !u!114 &-3737239338883309595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5338206533014369884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f3b6c1c127e437e8d3f5a2ed5c25f92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _trackSectionMesh: {fileID: 2347654025753984253}
+  _trackEntranceSectionMesh: {fileID: 0}
+  _trackExitSectionMesh: {fileID: 0}
 --- !u!114 &2620474729558111792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -572,5 +589,10 @@ PrefabInstance:
 --- !u!4 &1797910005044519284 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 145f80d2aa8073b448825de443278889, type: 3}
+  m_PrefabInstance: {fileID: 2268069161788884639}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2347654025753984253 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4606414990535375458, guid: 145f80d2aa8073b448825de443278889, type: 3}
   m_PrefabInstance: {fileID: 2268069161788884639}
   m_PrefabAsset: {fileID: 0}

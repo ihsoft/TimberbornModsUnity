@@ -11,6 +11,9 @@ namespace ChooChoo
 {
     public class TrackPiece : MonoBehaviour, IFinishedStateListener
     {
+        [SerializeField]
+        private int _trackDistance;
+        
         private BlockService _blockService;
 
         private EventBus _eventBus;
@@ -32,6 +35,8 @@ namespace ChooChoo
         public bool CanPathFindOverIt { get; set; }
 
         public bool DividesSection { get; set; }
+
+        public int TrackDistance => _trackDistance;
 
         [Inject]
         public void InjectDependencies(
@@ -161,13 +166,13 @@ namespace ChooChoo
                 // if (myTrackRouteEntrances.Length < 1 || myTrackRouteExits.Length < 1 || otherTrackRoutesEntrances.Length < 1 || otherTrackRoutesExits.Length < 1)
                 // if ((myTrackRouteEntrances.Length < 1 && otherTrackRoutesExits.Length) < 1 || (otherTrackRoutesEntrances.Length < 1 && myTrackRouteExits.Length < 1))
                 //     continue;
-                if (myTrackRouteExits.Length < 1 || otherTrackRoutesEntrances.Length < 1)
+                if (myTrackRouteExits.Length < 1 || (otherTrackRoutesExits.Length < 1 && otherTrackRoutesEntrances.Length < 1))
                     continue;
                 MakeConnection(trackPiece, myTrackRouteEntrances, myTrackRouteExits, otherTrackRoutesEntrances, otherTrackRoutesExits);
             }
 
-            var test = exitsToCheck.Select(route => route.Exit.Direction);
-            var entrancesToCheck = TrackRoutes.GroupBy(route => route.Entrance.Direction).Select(group => group.First()).Where(route => !test.Contains(route.Entrance.Direction));
+            var checkedDirections = exitsToCheck.Select(route => route.Exit.Direction);
+            var entrancesToCheck = TrackRoutes.GroupBy(route => route.Entrance.Direction).Select(group => group.First()).Where(route => !checkedDirections.Contains(route.Entrance.Direction));
             
             foreach (var directionalTrackRoute in entrancesToCheck)
             {
@@ -196,7 +201,7 @@ namespace ChooChoo
                 //     " Other Entrances: " + otherTrackRoutesEntrances.Length + 
                 //     " Other Exits: " + otherTrackRoutesExits.Length);
                 // if (myTrackRouteEntrances.Length < 1 || myTrackRouteExits.Length < 1 || otherTrackRoutesEntrances.Length < 1 || otherTrackRoutesExits.Length < 1)
-                if (myTrackRouteEntrances.Length < 1 || otherTrackRoutesExits.Length < 1)
+                if (myTrackRouteEntrances.Length < 1 || (otherTrackRoutesEntrances.Length < 1 && otherTrackRoutesExits.Length < 1))
                     continue;
                 MakeConnection(trackPiece, myTrackRouteEntrances, myTrackRouteExits, otherTrackRoutesEntrances, otherTrackRoutesExits);
             }
@@ -253,10 +258,21 @@ namespace ChooChoo
                 trackRoute.Exit.ConnectedTrackPiece = this;
                 trackRoute.Exit.ConnectedTrackRoutes = myTrackRouteEntrances;
             }
-
+            
+            foreach (var trackRoute in myTrackRouteEntrances)
+            {
+                trackRoute.Entrance.ConnectedTrackPiece = trackPiece;
+                // trackRoute.Entrance.ConnectedTrackRoutes = otherTrackRoutesExits;
+            }
+        
+            foreach (var trackRoute in otherTrackRoutesEntrances)
+            {
+                trackRoute.Entrance.ConnectedTrackPiece = this;
+                // trackRoute.Entrance.ConnectedTrackRoutes = myTrackRouteExits;
+            }
 
             var flag1 = TryGetComponent(out SectionDivider _);
-            var flag2 = trackPiece != null && trackPiece.TryGetComponent(out SectionDivider _);
+            var flag2 = trackPiece.TryGetComponent(out SectionDivider _);
 
             if (flag1 || flag2)
             {

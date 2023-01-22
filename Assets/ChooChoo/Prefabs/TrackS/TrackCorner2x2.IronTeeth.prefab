@@ -93,6 +93,7 @@ GameObject:
   - component: {fileID: 426163337955813881}
   - component: {fileID: 5232831697191421784}
   - component: {fileID: 4495404040876493144}
+  - component: {fileID: -1186471357641059163}
   - component: {fileID: 2620474729558111792}
   m_Layer: 0
   m_Name: TrackCorner2x2.IronTeeth
@@ -256,6 +257,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54fc23297c2042b49bd7e0edee84ce49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _trackDistance: 2
+--- !u!114 &-1186471357641059163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5338206533014369884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f3b6c1c127e437e8d3f5a2ed5c25f92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _trackSectionMesh: {fileID: 3928335532125009488}
+  _trackEntranceSectionMesh: {fileID: 0}
+  _trackExitSectionMesh: {fileID: 0}
 --- !u!114 &2620474729558111792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,5 +357,10 @@ PrefabInstance:
 --- !u!4 &1072911281452968921 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e4ae83e69c50bff478b941b5079e2852, type: 3}
+  m_PrefabInstance: {fileID: 678080216475503666}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3928335532125009488 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4606414990535375458, guid: e4ae83e69c50bff478b941b5079e2852, type: 3}
   m_PrefabInstance: {fileID: 678080216475503666}
   m_PrefabAsset: {fileID: 0}

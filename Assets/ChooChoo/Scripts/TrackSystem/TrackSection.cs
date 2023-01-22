@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using ChooChoo;
+using UnityEngine;
 
 public class TrackSection
 {
@@ -9,9 +10,12 @@ public class TrackSection
 
     public bool HasWaitingTrain;
 
+    public Color32 Color;
+
     public TrackSection(TrackPiece firstTrackPiece)
     {
         TrackPieces.Add(firstTrackPiece);
+        Color = new Color32((byte)(Random.value * 255), (byte)(Random.value * 255), (byte)(Random.value * 255), 255);
     }
 
     public void Add(TrackPiece trackPiece)

@@ -192,7 +192,8 @@ GameObject:
   - component: {fileID: 426163337955813881}
   - component: {fileID: 5232831697191421784}
   - component: {fileID: 2204440981780356463}
-  - component: {fileID: 4610783407842143319}
+  - component: {fileID: 574770714531512216}
+  - component: {fileID: 8090384878591098087}
   - component: {fileID: 2620474729558111792}
   m_Layer: 0
   m_Name: WaitingStation.Folktails
@@ -350,7 +351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91f473273fcd4a6aa4b9d3072b17860b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4610783407842143319
+--- !u!114 &574770714531512216
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -362,6 +363,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54fc23297c2042b49bd7e0edee84ce49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _trackDistance: 3
+--- !u!114 &8090384878591098087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5338206533014369884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f3b6c1c127e437e8d3f5a2ed5c25f92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _trackSectionMesh: {fileID: 5406086391667261646}
+  _trackEntranceSectionMesh: {fileID: 0}
+  _trackExitSectionMesh: {fileID: 0}
 --- !u!114 &2620474729558111792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -573,6 +590,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 67994ecbb9674c54f81c354ecfdc795d, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f66da347f43d0e140a96032df60515bf, type: 3}
+--- !u!1 &5406086391667261646 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4606414990535375458, guid: f66da347f43d0e140a96032df60515bf, type: 3}
+  m_PrefabInstance: {fileID: 8424828529031756460}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8314130434157894983 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f66da347f43d0e140a96032df60515bf, type: 3}

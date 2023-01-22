@@ -173,9 +173,8 @@ namespace ChooChoo
             
             Inventory inventory = null;
             float num = float.MaxValue;
-            for (int index = 0; index < inventoryList.Count; ++index)
+            foreach (var component in inventoryList)
             {
-                Inventory component = inventoryList[index];
                 Accessible enabledComponent = component.GetEnabledComponent<Accessible>();
                 float distance;
                 if (inventoryFilter(component) && enabledComponent.FindRoadPath(start, out distance) && (double)distance < (double)num)
@@ -209,25 +208,22 @@ namespace ChooChoo
                 DistrictInventoryRegistry ____districtInventoryRegistry,
                 ref Inventory __result)
             {
-                List<Inventory> inventoryList = ____districtInventoryRegistry.ActiveInventoriesWithStock(goodAmount.GoodId).ToList();
+                List<Inventory> inventoryList = ____districtInventoryRegistry.ActiveInventoriesWithCapacity(goodAmount.GoodId).ToList();
 
-                var originalIsGoodsStation = start.GetComponent<GoodsStation>() != null;
+                var originalIsGoodsStation = start.TryGetComponent(out GoodsStation _);
 
                 Inventory inventory1 = null;
                 float num = float.MaxValue;
 
-                for (int index = 0; index < inventoryList.Count; ++index)
+                foreach (var inventory2 in inventoryList)
                 {
-                    Inventory inventory2 = inventoryList[index];
-                    
                     // Prevent goods stations from delivering to other goods stations inside same district
-                    if (originalIsGoodsStation)
-                        if (inventory2.GetComponent<GoodsStation>() != null)
-                            continue;
+                    if (originalIsGoodsStation && inventory2.TryGetComponent(out GoodsStation _)) 
+                        continue;
 
                     float distance;
                     if (inventory2.GetEnabledComponent<Accessible>().FindRoadPath(start, out distance) &&
-                        distance < num 
+                        (double)distance < (double)num 
                         && inventory2.HasUnreservedCapacity(goodAmount) 
                         && inventory2.GetComponent<IInventoryValidator>().ValidInventory 
                         && inventory2.GetComponent<BlockableBuilding>().IsUnblocked)

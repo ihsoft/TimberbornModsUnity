@@ -82,7 +82,11 @@
         "Timberborn.ScienceSystem.dll",
         "Timberborn.RecoveredGoodSystem.dll",
         "Timberborn.BlockObjectTools.dll",
-        "Timberborn.Workshops.dll"
+        "Timberborn.Workshops.dll",
+        "Timberborn.Core.dll",
+        "Timberborn.PrefabOptimization.dll",
+        "Timberborn.BuildingsNavigation.dll",
+        "Timberborn.ConstructionMode.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

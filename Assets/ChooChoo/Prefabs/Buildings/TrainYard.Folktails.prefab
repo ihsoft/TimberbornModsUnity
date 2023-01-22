@@ -142,6 +142,7 @@ GameObject:
   - component: {fileID: 4610783407842143319}
   - component: {fileID: 8904621390359654100}
   - component: {fileID: 5745968062577608249}
+  - component: {fileID: 4410152765747214194}
   - component: {fileID: 2620474729558111792}
   m_Layer: 0
   m_Name: TrainYard.Folktails
@@ -371,6 +372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54fc23297c2042b49bd7e0edee84ce49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _trackDistance: 3
 --- !u!114 &8904621390359654100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -399,6 +401,21 @@ MonoBehaviour:
   _generateFloorsOnStackable: 1
   _blockAllEdges: 0
   _addedEdges: []
+--- !u!114 &4410152765747214194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5338206533014369884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f3b6c1c127e437e8d3f5a2ed5c25f92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _trackSectionMesh: {fileID: 4078307578274451977}
+  _trackEntranceSectionMesh: {fileID: 0}
+  _trackExitSectionMesh: {fileID: 0}
 --- !u!114 &2620474729558111792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -631,6 +648,11 @@ PrefabInstance:
 --- !u!4 &71758905495867264 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 67da53235f3350747adab54581bf7f4a, type: 3}
+  m_PrefabInstance: {fileID: 537134680322877547}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4078307578274451977 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4606414990535375458, guid: 67da53235f3350747adab54581bf7f4a, type: 3}
   m_PrefabInstance: {fileID: 537134680322877547}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1475094107653766520

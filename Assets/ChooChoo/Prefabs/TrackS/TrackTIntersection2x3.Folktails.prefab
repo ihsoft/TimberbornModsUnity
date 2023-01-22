@@ -134,7 +134,8 @@ GameObject:
   - component: {fileID: 6578201091114363928}
   - component: {fileID: 426163337955813881}
   - component: {fileID: 5232831697191421784}
-  - component: {fileID: 5069470885696984443}
+  - component: {fileID: -980179235077448307}
+  - component: {fileID: -3578277097964046143}
   - component: {fileID: 2620474729558111792}
   m_Layer: 0
   m_Name: TrackTIntersection2x3.Folktails
@@ -296,7 +297,7 @@ MonoBehaviour:
     _hasCustomPivot: 0
     _coordinates: {x: 0, y: 0, z: 0}
   _devModeTool: 0
---- !u!114 &5069470885696984443
+--- !u!114 &-980179235077448307
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -305,9 +306,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 5338206533014369884}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 659be183809a8cb449261609f3323d90, type: 3}
+  m_Script: {fileID: 11500000, guid: 54fc23297c2042b49bd7e0edee84ce49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _trackDistance: 2
+--- !u!114 &-3578277097964046143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5338206533014369884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f3b6c1c127e437e8d3f5a2ed5c25f92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _trackSectionMesh: {fileID: 8960428040517043232}
+  _trackEntranceSectionMesh: {fileID: 0}
+  _trackExitSectionMesh: {fileID: 0}
 --- !u!114 &2620474729558111792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -400,5 +417,10 @@ PrefabInstance:
 --- !u!4 &1813657951088008694 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bd1b3f21d9d419540a83b741034608e8, type: 3}
+  m_PrefabInstance: {fileID: 2207275302383827485}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8960428040517043232 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7131455393521434173, guid: bd1b3f21d9d419540a83b741034608e8, type: 3}
   m_PrefabInstance: {fileID: 2207275302383827485}
   m_PrefabAsset: {fileID: 0}

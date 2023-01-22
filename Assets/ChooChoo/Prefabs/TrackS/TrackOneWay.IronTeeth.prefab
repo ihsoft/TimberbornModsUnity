@@ -261,6 +261,7 @@ GameObject:
   - component: {fileID: 426163337955813881}
   - component: {fileID: 5232831697191421784}
   - component: {fileID: 1457623395490410269}
+  - component: {fileID: 6273584799691415009}
   - component: {fileID: 2620474729558111792}
   m_Layer: 0
   m_Name: TrackOneWay.IronTeeth
@@ -408,6 +409,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 659be183809a8cb449261609f3323d90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _trackDistance: 1
+--- !u!114 &6273584799691415009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5338206533014369884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f3b6c1c127e437e8d3f5a2ed5c25f92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _trackSectionMesh: {fileID: 0}
+  _trackEntranceSectionMesh: {fileID: 7135890868930537373}
+  _trackExitSectionMesh: {fileID: 6101167826472192863}
 --- !u!114 &2620474729558111792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -592,6 +609,16 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: c2a119b8ec433ae4eb021109b60ad6ae, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d774677381ed8294a9298d575bd69c87, type: 3}
+--- !u!1 &6101167826472192863 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -5309568890901949735, guid: d774677381ed8294a9298d575bd69c87, type: 3}
+  m_PrefabInstance: {fileID: 7132343816404195718}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7135890868930537373 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 143246683515862555, guid: d774677381ed8294a9298d575bd69c87, type: 3}
+  m_PrefabInstance: {fileID: 7132343816404195718}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7309788137214230125 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d774677381ed8294a9298d575bd69c87, type: 3}

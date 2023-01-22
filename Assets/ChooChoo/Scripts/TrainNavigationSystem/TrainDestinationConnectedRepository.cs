@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Timberborn.SingletonSystem;
-using Timberborn.TickSystem;
 
 namespace ChooChoo
 {
@@ -77,15 +76,15 @@ namespace ChooChoo
             if (checkingTrackPiece.TryGetComponent(out TrainDestination trainDestination))
                 trainDestinationsConnected.Add(trainDestination);
             
-            foreach (var trackConnection in checkingTrackPiece.TrackRoutes.GroupBy(route => route.Exit.Direction).Select(group => group.First()))
+            foreach (var trackRoute in checkingTrackPiece.TrackRoutes.GroupBy(route => route.Exit.Direction).Select(group => group.First()))
             {
-                if (trackConnection.Exit.ConnectedTrackPiece == null)
+                if (trackRoute.Exit.ConnectedTrackPiece == null)
                     continue;
 
-                if (checkedTrackPieces.Contains(trackConnection.Exit.ConnectedTrackPiece))
+                if (checkedTrackPieces.Contains(trackRoute.Exit.ConnectedTrackPiece))
                     continue;
 
-                CheckNextTrackPiece(trackConnection.Exit.ConnectedTrackPiece, checkedTrackPieces, trainDestinationsConnected);
+                CheckNextTrackPiece(trackRoute.Exit.ConnectedTrackPiece, checkedTrackPieces, trainDestinationsConnected);
             }
         }
     }

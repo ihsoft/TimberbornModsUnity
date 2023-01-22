@@ -1,4 +1,3 @@
-using System;
 using Bindito.Core;
 using Timberborn.BlockSystem;
 using Timberborn.EntitySystem;
@@ -35,7 +34,8 @@ namespace ChooChoo
             var startTrackPiece = _blockService.GetFloorObjectComponentAt<TrackPiece>(transform.position.ToBlockServicePosition());
             if (startTrackPiece == null)
                 return;
-            OccupyNextTrackSection(startTrackPiece.TrackSection);
+            if (!startTrackPiece.TrackSection.Occupied)
+                OccupyNextTrackSection(startTrackPiece.TrackSection);
         }
     }
 }

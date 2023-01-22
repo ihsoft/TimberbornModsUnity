@@ -93,6 +93,7 @@ GameObject:
   - component: {fileID: 426163337955813881}
   - component: {fileID: 5232831697191421784}
   - component: {fileID: 4495404040876493144}
+  - component: {fileID: 7226734329125752757}
   - component: {fileID: 2620474729558111792}
   m_Layer: 0
   m_Name: TrackHill1x2.IronTeeth
@@ -256,6 +257,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54fc23297c2042b49bd7e0edee84ce49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _trackDistance: 2
+--- !u!114 &7226734329125752757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5338206533014369884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f3b6c1c127e437e8d3f5a2ed5c25f92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _trackSectionMesh: {fileID: 2753843696312858585}
+  _trackEntranceSectionMesh: {fileID: 0}
+  _trackExitSectionMesh: {fileID: 0}
 --- !u!114 &2620474729558111792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -348,5 +365,10 @@ PrefabInstance:
 --- !u!4 &2184352721110657616 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c374f2506ba37944e91a297e1a6b8cf4, type: 3}
+  m_PrefabInstance: {fileID: 1863039197393718715}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2753843696312858585 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4606414990535375458, guid: c374f2506ba37944e91a297e1a6b8cf4, type: 3}
   m_PrefabInstance: {fileID: 1863039197393718715}
   m_PrefabAsset: {fileID: 0}

@@ -82,8 +82,10 @@ namespace ChooChoo
     private bool CanEnterNextSection()
     {
       var nextCornerToCheckIndex = -1;
+
+      var countIsNotZero = _pathCorners.Count > 0;
       
-      while (_currentCornerIndex + nextCornerToCheckIndex - 1 < _pathCorners.Count)
+      while (_currentCornerIndex + nextCornerToCheckIndex - 1 < _pathCorners.Count && countIsNotZero)
       {
         TrackPiece trackPiece = _pathCorners[_currentCornerIndex + nextCornerToCheckIndex].Exit.ConnectedTrackPiece;
         nextCornerToCheckIndex += 1;
