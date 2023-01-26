@@ -16,9 +16,9 @@ namespace ChooChoo
       Destination = destination;
     }
 
-    public bool GeneratePath(Transform transform, List<TrackRoute> pathCorners)
+    public bool GeneratePath(Transform transform,List<TrackRoute> pathCorners, bool isStuck)
     {
-      return _trainNavigationService.FindRailTrackPath(transform, Destination, pathCorners);
+      return _trainNavigationService.FindRailTrackPath(transform, Destination, pathCorners, isStuck);
     }
 
     public bool Equals(TrainPositionDestination other)

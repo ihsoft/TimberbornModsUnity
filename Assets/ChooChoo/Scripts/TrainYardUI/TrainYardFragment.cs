@@ -109,7 +109,7 @@ namespace ChooChoo
         _inventory = _trainYard.Inventory;
         var costDescription = $"{_loc.T("Tobbert.TrainYard.CostOfTrain")}\n";
         foreach (var goodAmountSpecification in _train.TrainCost)
-          costDescription += $"{goodAmountSpecification.GoodId}: {goodAmountSpecification.Amount}\n";
+          costDescription += $"{_goodDescriber.Describe(goodAmountSpecification.GoodId)}: {goodAmountSpecification.Amount}\n";
         _costLabel.text = costDescription;
         AddRows();
       }

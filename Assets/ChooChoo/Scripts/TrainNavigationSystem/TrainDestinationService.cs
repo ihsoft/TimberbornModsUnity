@@ -20,16 +20,17 @@ namespace ChooChoo
 
         public bool TrainDestinationsConnected(TrainDestination a, TrainDestination b)
         {
-            foreach (var connectedTrainDestinations in _trainDestinationConnectedRepository.TrainDestinations)
-            {
-                var partOfConnectedDestinations1 = connectedTrainDestinations.Contains(a);
-                var partOfConnectedDestinations2 = connectedTrainDestinations.Contains(b);
+            return TrainDestinationConnectedOneWay(a, b) && TrainDestinationConnectedOneWay(b, a);
+        }
 
-                if (partOfConnectedDestinations1 && partOfConnectedDestinations2)
-                    return true;
-            }
+        public bool TrainDestinationConnectedOneWay(TrainDestination originTrainDestination, TrainDestination checkingTrainDestination)
+        {
+            if (originTrainDestination == null)
+                return false;
 
-            return false;
+            var trainDestinations = _trainDestinationConnectedRepository.TrainDestinations;
+            
+            return trainDestinations.ContainsKey(originTrainDestination) && trainDestinations[originTrainDestination].Contains(checkingTrainDestination);
         }
 
         public bool DestinationReachable(TrackPiece start, TrainDestination end)
@@ -49,16 +50,6 @@ namespace ChooChoo
             var checkedTrackPieces = new List<TrackPiece>();
             var connectedDestination = FindTrainDestination(startTrackPiece, checkedTrackPieces);
             return TrainDestinationsConnected(connectedDestination, end);
-        }
-
-        public List<TrainDestination> ReachableTrainDestinations(Vector3 start)
-        {
-            var startTrackPiece = _blockService.GetFloorObjectComponentAt<TrackPiece>(start.ToBlockServicePosition());
-
-            if (!startTrackPiece.TryGetComponent(out TrainDestination trainDestination))
-                return null;
-
-            return _trainDestinationConnectedRepository.TrainDestinations.FirstOrDefault(connectedTrainDestinations => connectedTrainDestinations.Contains(trainDestination));
         }
 
         private TrainDestination FindTrainDestination(TrackPiece checkingTrackPiece, List<TrackPiece> checkedTrackPieces)

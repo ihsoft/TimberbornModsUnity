@@ -22,7 +22,6 @@ namespace ChooChoo
     private TrainCarryAmountCalculator _trainCarryAmountCalculator;
     private GoodCarrier _goodCarrier;
     private GoodReserver _goodReserver;
-    private readonly List<GoodAmount> _sortedLackingGoods = new();
     
     public int MinimumOfItemsToMove { get; set; } = 19;
 
@@ -65,18 +64,22 @@ namespace ChooChoo
         return false;
       
       var reachableGoodStations = _goodsStationsRepository.GoodsStations.Where(station => _trainDestinationService.TrainDestinationsConnected(reachableGoodStation.TrainDestinationComponent, station.TrainDestinationComponent)).ToArray();
-
-      // var reachableGoodStations = _trainDestinationService.ReachableTrainDestinations(transform.position).Where(destination => destination.TryGetComponent(out GoodsStation _)).Select(destination => destination.GetComponent<GoodsStation>()).ToArray();
       
-      foreach (var deliverableGoodsStation in reachableGoodStations)
+      foreach (GoodsStation goodsStation in reachableGoodStations)
+        goodsStation.UpdateLackingGoods(false);
+
+      var orderedGoodsStations = reachableGoodStations.OrderByDescending(station => station.TotalLackingAmount()).ToArray();
+      
+      foreach (var deliverableGoodsStation in orderedGoodsStations)
       {
         // Plugin.Log.LogError(deliverableGoodsStation.transform.position + "");
-        UpdateLackingGoods(deliverableGoodsStation, false);
-        
+
+        var goodAmounts = deliverableGoodsStation.SortedLackingGoods.Where(amount => amount.Amount > MinimumOfItemsToMove);
+
         // Plugin.Log.LogError(_sortedLackingGoods.Count + "");
-        foreach (GoodAmount sortedLackingGood in _sortedLackingGoods)
+        foreach (GoodAmount sortedLackingGood in goodAmounts)
         {
-          Inventory inventory = GoodsStationWithStock(deliverableGoodsStation, reachableGoodStations, sortedLackingGood.GoodId);
+          Inventory inventory = GoodsStationWithStock(deliverableGoodsStation, orderedGoodsStations, sortedLackingGood.GoodId);
           
           // Plugin.Log.LogError((bool)(UnityEngine.Object)inventory + "");
           if ((bool)(Object)inventory)
@@ -97,47 +100,7 @@ namespace ChooChoo
       }
       
       // Plugin.Log.LogInfo("Didnt find goods to move");
-      
       return false;
-    }
-
-    private void UpdateLackingGoods(GoodsStation distributionPost, bool isSendingGood)
-    {
-      _sortedLackingGoods.Clear();
-      // goodsStation.LackingGoods(_sortedLackingGoods);
-      var transferableGoods = isSendingGood ? distributionPost.SendingGoods : distributionPost.ReceivingGoods;
-      
-      foreach (TransferableGood transferableGood in transferableGoods)
-      {
-        string goodId = transferableGood.GoodId;
-        // Plugin.Log.LogInfo(goodId);
-        // Plugin.Log.LogWarning("MaxAllowedAmount: " + distributionPost.MaxAllowedAmount(goodId) + " UnreservedAmountInStockAndIncoming: " + distributionPost.Inventory.UnreservedAmountInStockAndIncoming(goodId) + " UnreservedCapacity: " + distributionPost.Inventory.UnreservedCapacity(goodId));
-        // int amount = Mathf.Min(Mathf.Max(goodsStation.MaxAllowedAmount(goodId) - goodsStation.Inventory.UnreservedAmountInStockAndIncoming(goodId), 0), goodsStation.Inventory.UnreservedCapacity(goodId));
-        int amount = Mathf.Max(distributionPost.MaxAllowedAmount(goodId) - distributionPost.Inventory.UnreservedAmountInStockAndIncoming(goodId), 0);
-        
-        // Plugin.Log.LogInfo("Found amount: " + amount);
-        if (amount > MinimumOfItemsToMove)
-        {
-          _sortedLackingGoods.Add(new GoodAmount(goodId, amount));
-        }
-      }
-      _sortedLackingGoods.Sort((x, y) => CompareLackingGoods(distributionPost, x, y));
-    }
-
-    private int CompareLackingGoods(
-      GoodsStation goodsStation,
-      GoodAmount x,
-      GoodAmount y)
-    {
-      float num = LackingGoodPriority(goodsStation, x);
-      return LackingGoodPriority(goodsStation, y).CompareTo(num);
-    }
-
-    private float LackingGoodPriority(
-      GoodsStation goodsStation,
-      GoodAmount goodAmount)
-    {
-      return (float) goodAmount.Amount / (float) goodsStation.MaxAllowedAmount(goodAmount.GoodId);
     }
 
     private Inventory GoodsStationWithStock(GoodsStation deliverableGoodsStation, GoodsStation[] reachableGoodsStations, string goodId)

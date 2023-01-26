@@ -4,12 +4,3 @@ https://discord.com/channels/558398674389172225/888491376143134760/1050839599892
 Unfinished:
 - Good Receiving priority system
 - Derailing
-
-
-Fixed: 
-- Disable goodsstation within same district 
-- Shouldnt pathfind over unfinished tracks
-- Added German Translation
-- Goodsstation stackable strict not connected
-- Improved the pathfinding to add weights to tracks. 
-

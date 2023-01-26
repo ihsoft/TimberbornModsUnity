@@ -82,11 +82,10 @@ namespace ChooChoo
     private bool CanEnterNextSection()
     {
       var nextCornerToCheckIndex = -1;
-
-      var countIsNotZero = _pathCorners.Count > 0;
       
-      while (_currentCornerIndex + nextCornerToCheckIndex - 1 < _pathCorners.Count && countIsNotZero)
+      while (_currentCornerIndex + nextCornerToCheckIndex - 1 < _pathCorners.Count && _pathCorners.Count > _currentCornerIndex + nextCornerToCheckIndex)
       {
+        // Plugin.Log.LogInfo("Count: " + _pathCorners.Count + "   " + _currentCornerIndex + "   "+ nextCornerToCheckIndex);
         TrackPiece trackPiece = _pathCorners[_currentCornerIndex + nextCornerToCheckIndex].Exit.ConnectedTrackPiece;
         nextCornerToCheckIndex += 1;
       
@@ -106,7 +105,7 @@ namespace ChooChoo
         {
           if (trackSection.HasWaitingTrain)
           {
-            _machinist.RefreshPath();
+            // _machinist.RefreshPath();
             return false;
           }
  

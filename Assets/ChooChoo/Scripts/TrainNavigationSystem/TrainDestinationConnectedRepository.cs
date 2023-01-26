@@ -10,11 +10,11 @@ namespace ChooChoo
 
         private readonly TrainDestinationsRepository _trainDestinationsRepository;
 
-        private List<TrainDestination>[] _trainDestinationConnections = {};
+        private Dictionary<TrainDestination, List<TrainDestination>> _trainDestinationConnections = new();
 
         private bool _tracksUpdated = true;
 
-        public List<TrainDestination>[] TrainDestinations {
+        public Dictionary<TrainDestination, List<TrainDestination>> TrainDestinations {
             get
             {
                 if (_tracksUpdated)
@@ -48,24 +48,19 @@ namespace ChooChoo
 
         private void FindDestinationConnections()
         {
-            var list = new List<List<TrainDestination>>();
+            _trainDestinationConnections.Clear();
             foreach (var checkingDestination in _trainDestinationsRepository.TrainDestinations)
             {
-                if (list.Any(destinations => destinations.Any(destination => destination == checkingDestination)))
-                    continue;
-                
                 var trainDestinationsConnected = new List<TrainDestination>();
                 var checkedTrackPieces = new List<TrackPiece>();
                 CheckNextTrackPiece(checkingDestination.GetComponent<TrackPiece>(), checkedTrackPieces, trainDestinationsConnected);
-                list.Add(trainDestinationsConnected);
+                _trainDestinationConnections.Add(checkingDestination, trainDestinationsConnected);
             }
             // Plugin.Log.LogWarning(list.Count + "");
             // foreach (var l in list)
             // {
             //     Plugin.Log.LogInfo(l.Count + "");
             // }
-            
-            _trainDestinationConnections = list.ToArray();
         }
         
         private void CheckNextTrackPiece(TrackPiece checkingTrackPiece, List<TrackPiece> checkedTrackPieces, List<TrainDestination> trainDestinationsConnected)

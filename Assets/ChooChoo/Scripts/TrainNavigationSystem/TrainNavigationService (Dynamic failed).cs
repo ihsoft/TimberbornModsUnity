@@ -8,7 +8,7 @@
 //
 // namespace ChooChoo
 // {
-//     public class TrainNavigationService
+//     public class TrainNavigationServiceFailed
 //     {
 //         private readonly TrainDestinationService _trainDestinationService;
 //
@@ -18,7 +18,7 @@
 //
 //         private readonly Stopwatch _stopwatch = Stopwatch.StartNew();
 //
-//         TrainNavigationService(TrainDestinationService trainDestinationService, TrackRouteWeightCache trackRouteWeightCache, BlockService blockService)
+//         TrainNavigationServiceFailed(TrainDestinationService trainDestinationService, TrackRouteWeightCache trackRouteWeightCache, BlockService blockService)
 //         {
 //             _trainDestinationService = trainDestinationService;
 //             _trackRouteWeightCache = trackRouteWeightCache;
@@ -103,13 +103,13 @@
 //                 tempPathTrackRoutes.AddRange(trackRoutes);
 //                 _stopwatch.Stop();
 //                 elapsedTicks = _stopwatch.ElapsedTicks;
-//                 Plugin.Log.LogWarning("Path found! Calculation time: " + elapsedTicks + " (10.000 Ticks = 1ms)");
+//                 // Plugin.Log.LogWarning("Path found! Calculation time: " + elapsedTicks + " (10.000 Ticks = 1ms)");
 //                 return true;
 //             }
 //             
 //             _stopwatch.Stop();
 //             elapsedTicks = _stopwatch.ElapsedTicks;
-//             Plugin.Log.LogWarning("No path was found. Calculation time: " + elapsedTicks + " (10.000 Ticks = 1ms)");
+//             // Plugin.Log.LogWarning("No path was found. Calculation time: " + elapsedTicks + " (10.000 Ticks = 1ms)");
 //             return false;
 //         }
 //
@@ -139,10 +139,8 @@
 //             // var previousTrackRoute4 = startTrackPiece.TrackRoutes.FirstOrDefault(route => route.Exit.Direction == oppositeOfCorrectlyFacingDirection);
 //             // if (previousTrackRoute4 != null)
 //             //     list.Add(previousTrackRoute4);
-//
-//                  
-//             Plugin.Log.LogInfo(transform.eulerAngles + "   " + facingDirection + "      " + correctedFacingDirection + "  " + rightOfCorrectlyFacingDirection + "   " + leftOfCorrectlyFacingDirection);
-//
+//             
+//             // Plugin.Log.LogInfo(transform.eulerAngles + "   " + facingDirection + "      " + correctedFacingDirection + "  " + rightOfCorrectlyFacingDirection + "   " + leftOfCorrectlyFacingDirection);
 //             
 //             return list;
 //         }

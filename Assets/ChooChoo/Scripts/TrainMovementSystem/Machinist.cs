@@ -35,6 +35,9 @@ namespace ChooChoo
 
     public IReadOnlyList<TrackRoute> PathCorners { get; private set; }
 
+
+    public bool IsStuck { get; set; }
+
     [Inject]
     public void InjectDependencies(
       TrackFollowerFactory trackFollowerFactory,
@@ -111,15 +114,15 @@ namespace ChooChoo
     {
       if (!HasSavedPathToDestination(trainDestination))
       {
-        Vector3 start = transform.position;
         _pathConnections.Clear();
-        CurrentDestinationReachable = trainDestination.GeneratePath(GetComponent<CharacterModel>().Model, _tempPathCorners);
+        CurrentDestinationReachable = trainDestination.GeneratePath(GetComponent<CharacterModel>().Model, _tempPathCorners, IsStuck);
         if (CurrentDestinationReachable)
         {
           _pathConnections.AddRange(_tempPathCorners);
           _tempPathCorners.Clear();
           _trainWagonManager.SetNewPathConnections(_trackFollower, _pathConnections);
           _slowdownCalculator.SetPositions(_pathConnections[0].RouteCorners[0], _pathConnections.Last().RouteCorners.Last());
+          IsStuck = false;
         }
         else
         {

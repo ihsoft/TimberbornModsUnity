@@ -25,7 +25,7 @@ namespace ChooChoo
             _blockService = blockService;
         }
         
-        public bool FindRailTrackPath(Transform transform, TrainDestination destination, List<TrackRoute> tempPathTrackRoutes)
+        public bool FindRailTrackPath(Transform transform, TrainDestination destination, List<TrackRoute> tempPathTrackRoutes, bool isStuck)
         {
             // Plugin.Log.LogWarning("Start finding path");
             _stopwatch.Restart();
@@ -36,31 +36,25 @@ namespace ChooChoo
                 return false;
             
             var startTrackPiece = _blockService.GetFloorObjectComponentAt<TrackPiece>(transform.position.ToBlockServicePosition());
-            if (startTrackPiece == null) 
-                return false;
-            var facingDirection = transform.eulerAngles.y.ToDirection2D();
-            var correctedFacingDirection = startTrackPiece.GetComponent<BlockObject>().Orientation.CorrectedTransform(facingDirection);
-              
-            var previousTrackRoute = startTrackPiece.TrackRoutes.FirstOrDefault(route => route.Exit.Direction == correctedFacingDirection);
-
-            var rightOfCorrectlyFacingDirection = correctedFacingDirection.Next();
-            var leftOfCorrectlyFacingDirection = correctedFacingDirection.Next().Next();
-            previousTrackRoute ??= startTrackPiece.TrackRoutes.FirstOrDefault(route => route.Exit.Direction == rightOfCorrectlyFacingDirection || route.Exit.Direction == leftOfCorrectlyFacingDirection);
+            // if (startTrackPiece == null) 
+            //     return false;
+            // var facingDirection = transform.eulerAngles.y.ToDirection2D();
+            // var correctedFacingDirection = startTrackPiece.GetComponent<BlockObject>().Orientation.CorrectedTransform(facingDirection);
+            //   
+            // var previousTrackRoute = startTrackPiece.TrackRoutes.FirstOrDefault(route => route.Exit.Direction == correctedFacingDirection);
+            //
+            // var rightOfCorrectlyFacingDirection = correctedFacingDirection.Next();
+            // var leftOfCorrectlyFacingDirection = correctedFacingDirection.Next().Next();
+            // previousTrackRoute ??= startTrackPiece.TrackRoutes.FirstOrDefault(route => route.Exit.Direction == rightOfCorrectlyFacingDirection || route.Exit.Direction == leftOfCorrectlyFacingDirection);
             // Plugin.Log.LogInfo(transform.eulerAngles + "   " + facingDirection + "      " + correctedFacingDirection + "  " + rightOfCorrectlyFacingDirection + "   " + leftOfCorrectlyFacingDirection);
-            
-            if (previousTrackRoute == null)
-                return false;
+            //
+            // if (previousTrackRoute == null)
+            //     return false;
             var endTrackPiece = destination.GetComponent<TrackPiece>();
             // Plugin.Log.LogWarning("endTrackPiece " + (endTrackPiece == null));
             if (endTrackPiece == null) 
                 return false;
-            // Plugin.Log.LogWarning("startTrackPiece == endTrackPiece: "+ (startTrackPiece == endTrackPiece));
-            if (startTrackPiece == endTrackPiece)
-            {
-                tempPathTrackRoutes.Add(previousTrackRoute);
-                tempPathTrackRoutes.Add(previousTrackRoute);
-                return true;
-            }
+            
             // Plugin.Log.LogWarning("TrackPieces valid");
 
             var startTrainDestination = startTrackPiece.GetComponent<TrainDestination>();
@@ -73,33 +67,93 @@ namespace ChooChoo
                     return false;
                 }
             }
-                
-            // Plugin.Log.LogWarning("Finding next trail track");
-            int? maxDistance = null;
-            int distance = 0;
-            var trackRouteWeights = new Dictionary<TrackRoute, int?>(_trackRouteWeightCache.TrackRouteWeights);
-            FindNextRailTrack(previousTrackRoute, endTrackPiece, trackRouteWeights, distance, ref maxDistance);
-            
-            if (maxDistance == null)
-                return false;
-            _stopwatch.Stop();
-            var firstPart = _stopwatch.ElapsedTicks;
-            _stopwatch.Restart();
-            var trackRoutes = new List<TrackRoute>();
-            if (!FindPathInNodes(previousTrackRoute, endTrackPiece, trackRoutes, trackRouteWeights, (int)maxDistance))
-                return false;
-            
-            // if (!FindNextRailTrack(previousTrackRoute, endTrackPiece, trackRoutes, trackRouteWeights, distance))
-            //     return false;
-            
-            tempPathTrackRoutes.AddRange(trackRoutes);
-            
-            _stopwatch.Stop();
-            var secondPart = _stopwatch.ElapsedTicks;
-            // Plugin.Log.LogWarning("First: " + firstPart + " Second: " + secondPart + " Total: " + (firstPart + secondPart) + " (10.000 Ticks = 1ms)");
-            return true;
 
+            var facingDirectionRoutes = GetFacingDirections(transform, startTrackPiece, isStuck);
+
+            foreach (var trackRoute in facingDirectionRoutes)
+            {
+                // Plugin.Log.LogWarning("startTrackPiece == endTrackPiece: "+ (startTrackPiece == endTrackPiece));
+                if (startTrackPiece == endTrackPiece)
+                {
+                    tempPathTrackRoutes.Add(trackRoute);
+                    tempPathTrackRoutes.Add(trackRoute);
+                    return true;
+                }
+                
+                // Plugin.Log.LogWarning("Finding next trail track");
+                int? maxDistance = null;
+                int distance = 0;
+                var trackRouteWeights = new Dictionary<TrackRoute, int?>(_trackRouteWeightCache.TrackRouteWeights);
+                FindNextRailTrack(trackRoute, endTrackPiece, trackRouteWeights, distance, ref maxDistance);
+            
+                if (maxDistance == null)
+                    continue;
+                // _stopwatch.Stop();
+                // var firstPart = _stopwatch.ElapsedTicks;
+                // _stopwatch.Restart();
+                var trackRoutes = new List<TrackRoute>();
+
+                var test = !FindPathInNodes(trackRoute, endTrackPiece, trackRoutes, trackRouteWeights,
+                    (int)maxDistance);
+                // Plugin.Log.LogWarning("Find Path in nodes: " + test);
+                if (test)
+                    continue;
+            
+                // if (!FindNextRailTrack(previousTrackRoute, endTrackPiece, trackRoutes, trackRouteWeights, distance))
+                //     return false;
+            
+                tempPathTrackRoutes.AddRange(trackRoutes);
+                
+                // _stopwatch.Stop();
+                // var secondPart = _stopwatch.ElapsedTicks;
+                // Plugin.Log.LogWarning("First: " + firstPart + " Second: " + secondPart + " Total: " + (firstPart + secondPart) + " (10.000 Ticks = 1ms)");
+                return true;
+            }
+            
+            // Plugin.Log.LogInfo("Couldnt find path");
+            
+            // _stopwatch.Stop();
+            // var secondPart = _stopwatch.ElapsedTicks;
+            // Plugin.Log.LogWarning("First: " + firstPart + " Second: " + secondPart + " Total: " + (firstPart + secondPart) + " (10.000 Ticks = 1ms)");
+            return false;
         }
+            
+         private IEnumerable<TrackRoute> GetFacingDirections(Transform transform, TrackPiece startTrackPiece, bool isStuck)
+         {
+             var list = new List<TrackRoute>();
+             
+             var facingDirection = transform.eulerAngles.y.ToDirection2D();
+             var correctedFacingDirection = startTrackPiece.GetComponent<BlockObject>().Orientation.CorrectedTransform(facingDirection);
+             var previousTrackRoute1 = startTrackPiece.TrackRoutes.FirstOrDefault(route => route.Exit.Direction == correctedFacingDirection);
+             if (previousTrackRoute1 != null)
+                 list.Add(previousTrackRoute1);
+             
+             
+             var rightOfCorrectlyFacingDirection = correctedFacingDirection.Next();
+             var previousTrackRoute2 = startTrackPiece.TrackRoutes.FirstOrDefault(route => route.Exit.Direction == rightOfCorrectlyFacingDirection);
+             if (previousTrackRoute2 != null)
+                 list.Add(previousTrackRoute2);
+             
+             
+             var leftOfCorrectlyFacingDirection = correctedFacingDirection.Next().Next().Next();
+             var previousTrackRoute3 = startTrackPiece.TrackRoutes.FirstOrDefault(route => route.Exit.Direction == leftOfCorrectlyFacingDirection);
+             if (previousTrackRoute3 != null)
+                 list.Add(previousTrackRoute3);
+
+             Direction2D? oppositeOfCorrectlyFacingDirection = null;
+             
+             if (isStuck)
+             {
+                 oppositeOfCorrectlyFacingDirection = correctedFacingDirection.Next().Next();
+                 var previousTrackRoute4 = startTrackPiece.TrackRoutes.FirstOrDefault(route => route.Exit.Direction == oppositeOfCorrectlyFacingDirection);
+                 if (previousTrackRoute4 != null)
+                     list.Add(previousTrackRoute4);
+             }
+
+             // Plugin.Log.LogInfo(transform.eulerAngles + "   " + facingDirection + "      " + correctedFacingDirection + "  " + rightOfCorrectlyFacingDirection + "   " + leftOfCorrectlyFacingDirection + "    " + oppositeOfCorrectlyFacingDirection);
+             
+             return list;
+         }
 
         private void FindNextRailTrack(TrackRoute previousTrackRoute, TrackPiece destinationTrackPiece, Dictionary<TrackRoute, int?> trackRouteWeights, int distance, ref int? maxDistance)
         {

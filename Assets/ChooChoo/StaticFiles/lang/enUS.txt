@@ -53,6 +53,7 @@ Tobbert.Wagon.PrefabName,Wagon,-
 
 Tobbert.BatchControl.Trains,Trains,-
 Tobbert.Train.Length,Train Length: ,-
+Tobbert.Train.Destroy,Are you sure you want to destroy this train?,-
 
 Tobbert.TrainSchedule.AddNewStation,New Station,-
 Tobbert.TrainSchedule.AddNewTrainAction,New Action,-
@@ -70,3 +71,5 @@ Tobbert.TrainYard.PreviewErrorMessage,Only 1 Train Yard can be build,-
 Tobbert.Trains.UnlockPrompt,You need to unlock {0} to build {1}.,{0} stands for <Building>.DisplayName {1} stands for <TrackPiece>.DisplayName.
 
 Tobbert.DistributionTrain.MinimumOfItemsToMove,Minimum of items to move: ,-
+
+Tobbert.TrainNavigation.Unstuck,Turn Around,-
