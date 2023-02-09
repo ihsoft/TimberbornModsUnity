@@ -52,7 +52,7 @@ namespace ChooChoo
       if (_currentWaitingLocation != null)
         _currentWaitingLocation.Occupied = false;
       
-      _currentWaitingLocation = _closestTrainWaitingLocationPicker.RandomWaitingLocation(transform.position);
+      _currentWaitingLocation = _closestTrainWaitingLocationPicker.ClosestWaitingLocation(transform.position);
       if (_currentWaitingLocation == null)
         return Decision.ReleaseNow();
 

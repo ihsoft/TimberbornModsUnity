@@ -174,6 +174,76 @@ namespace ChooChoo
                         new(0.5f, 0, 1.5f),
                      }),
                };
+            case "TrackRIntersectionLeft2x3":
+               return new TrackRoute[]
+               {
+                  new(
+                     new(new Vector3Int(1, 0, 0), Direction2D.Up), 
+                     new(new Vector3Int(0, 2, 0), Direction2D.Down), 
+                     new Vector3[]
+                     {
+                        new(0.5f, 0, -1.5f),
+                        new(0.4f, 0, -0.8f),
+                        new(-0.1f,0,0),
+                        new(-0.3f, 0, 0.2f),
+                        new(-0.4f, 0, 0.5f),
+                        new(-0.5f, 0, 0.8f),
+                     }),
+                  new(
+                     new(new Vector3Int(0, 2, 0), Direction2D.Down),
+                     new(new Vector3Int(1, 0, 0), Direction2D.Up),
+                     new Vector3[]
+                     {
+                        new(-0.4f, 0, 0.5f),
+                        new(-0.3f, 0, 0.2f),
+                        new(-0.1f,0,0),
+                        new(0.4f, 0, -0.8f),
+                        new(0.5f, 0, -1.5f),
+                     }),
+                  new(
+                     new(new Vector3Int(0, 0, 0), Direction2D.Up),
+                     new(new Vector3Int(0, 2, 0), Direction2D.Down), 
+                     new Vector3[] { new(-0.5f, 0, 0), }),
+                  new(
+                     new(new Vector3Int(0, 2, 0), Direction2D.Down),
+                     new(new Vector3Int(0, 0, 0), Direction2D.Up), 
+                     new Vector3[] { new(-0.5f, 0, 0), }),
+               };
+            case "TrackRIntersectionRight2x3":
+               return new TrackRoute[]
+               {
+                  new(
+                     new(new Vector3Int(0, 0, 0), Direction2D.Up), 
+                     new(new Vector3Int(1, 2, 0), Direction2D.Down), 
+                     new Vector3[]
+                     {
+                        new(-0.5f, 0, -1.5f),
+                        new(-0.4f, 0, -0.8f),
+                        new(0.1f,0,0),
+                        new(0.3f, 0, 0.2f),
+                        new(0.4f, 0, 0.5f),
+                        new(0.5f, 0, 0.8f),
+                     }),
+                  new(
+                     new(new Vector3Int(1, 2, 0), Direction2D.Down),
+                     new(new Vector3Int(0, 0, 0), Direction2D.Up),
+                     new Vector3[]
+                     {
+                        new(0.4f, 0, 0.5f),
+                        new(0.3f, 0, 0.2f),
+                        new(0.1f,0,0),
+                        new(-0.4f, 0, -0.8f),
+                        new(-0.5f, 0, -1.5f),
+                     }),
+                  new(
+                     new(new Vector3Int(1, 0, 0), Direction2D.Up),
+                     new(new Vector3Int(1, 2, 0), Direction2D.Down), 
+                     new Vector3[] { new(0.5f, 0, 0), }),
+                  new(
+                     new(new Vector3Int(1, 2, 0), Direction2D.Down),
+                     new(new Vector3Int(1, 0, 0), Direction2D.Up), 
+                     new Vector3[] { new(0.5f, 0, 0), }),
+               };
             case "TrainYard":
                return new TrackRoute[]
                {

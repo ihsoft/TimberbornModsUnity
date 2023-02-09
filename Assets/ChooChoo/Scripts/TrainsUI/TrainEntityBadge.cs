@@ -59,10 +59,11 @@ namespace ChooChoo
 
     public ClickableSubtitle GetEntityClickableSubtitle()
     {
-      if (_trainYardService.CurrentTrainYard == null)
-        return ClickableSubtitle.CreateEmpty();
-      GameObject trainYard = _trainYardService.CurrentTrainYard.gameObject;
-      return ClickableSubtitle.Create(() => _selectionManager.SelectAndFocusOn(trainYard), _loc.T(TrainYardDisplayNameLocKey));
+      // if (_trainYardService.CurrentTrainYard == null)
+      //   return ClickableSubtitle.CreateEmpty();
+      // GameObject trainYard = _trainYardService.CurrentTrainYard.gameObject;
+      // return ClickableSubtitle.Create(() => _selectionManager.SelectAndFocusOn(trainYard), _loc.T(TrainYardDisplayNameLocKey));
+      return ClickableSubtitle.CreateEmpty();
     }
 
     public Sprite GetEntityAvatar() => _sprite;

@@ -10,7 +10,7 @@ namespace ChooChoo
 
         private readonly TrainDestinationsRepository _trainDestinationsRepository;
 
-        private Dictionary<TrainDestination, List<TrainDestination>> _trainDestinationConnections = new();
+        private readonly Dictionary<TrainDestination, List<TrainDestination>> _trainDestinationConnections = new();
 
         private bool _tracksUpdated = true;
 

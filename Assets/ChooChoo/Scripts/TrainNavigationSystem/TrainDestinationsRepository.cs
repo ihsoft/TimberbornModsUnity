@@ -17,10 +17,5 @@ namespace ChooChoo
         {
             _trainDestinations.Remove(trainDestination);
         }
-
-        public bool Registered(TrainDestination trainDestination)
-        {
-            return _trainDestinations.Contains(trainDestination);
-        }
     }
 }

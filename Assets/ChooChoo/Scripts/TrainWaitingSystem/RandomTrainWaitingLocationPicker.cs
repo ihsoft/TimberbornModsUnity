@@ -1,9 +1,5 @@
-using System;
 using System.Linq;
-using Timberborn.BlockSystem;
-using Timberborn.Common;
 using UnityEngine;
-using Random = System.Random;
 
 namespace ChooChoo
 {
@@ -19,9 +15,9 @@ namespace ChooChoo
             _trainDestinationService = trainDestinationService;
         }
 
-        public TrainWaitingLocation RandomWaitingLocation(Vector3 position)
+        public TrainWaitingLocation ClosestWaitingLocation(Vector3 position)
         {
-            var list = _trainWaitingLocationsRepository.WaitingLocations.Where(location => !location.Occupied && _trainDestinationService.DestinationReachable(position, location.TrainDestinationComponent)).OrderBy(location => Vector3.Distance(position, location.transform.position)).ToList();
+            var list = _trainWaitingLocationsRepository.WaitingLocations.Where(location => !location.Occupied && _trainDestinationService.DestinationReachable(position, location.TrainDestinationComponent)).OrderBy(location => Vector3.Distance(position, location.transform.position));
             if (!list.Any())
                 return null;
             var closestReachableTrainWaitingLocation = list.First();

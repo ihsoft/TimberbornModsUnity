@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace ChooChoo
+﻿namespace ChooChoo
 {
   public class TrainPositionDestinationFactory
   {

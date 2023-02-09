@@ -134,12 +134,9 @@ namespace ChooChoo
         {
             if (this == null)
                 return;
-
-            var exitsToCheck = TrackRoutes.GroupBy(route => route.Exit.Direction).Select(group => group.First());
             
-            foreach (var directionalTrackRoute in exitsToCheck)
+            foreach (var directionalTrackRoute in TrackRoutes)
             {
-                
                 // Plugin.Log.LogWarning(directionalTrackRoute.Exit.Direction.ToString());
                 // _trackConnectionService.CanConnectInDirection(trackConnection.Coordinates, trackConnection.Direction);
                 // Plugin.Log.LogInfo("Offset " + trackConnection.Coordinates);
@@ -171,12 +168,8 @@ namespace ChooChoo
                 MakeConnection(trackPiece, myTrackRouteEntrances, myTrackRouteExits, otherTrackRoutesEntrances, otherTrackRoutesExits);
             }
 
-            var checkedDirections = exitsToCheck.Select(route => route.Exit.Direction);
-            var entrancesToCheck = TrackRoutes.GroupBy(route => route.Entrance.Direction).Select(group => group.First()).Where(route => !checkedDirections.Contains(route.Entrance.Direction));
-            
-            foreach (var directionalTrackRoute in entrancesToCheck)
+            foreach (var directionalTrackRoute in TrackRoutes)
             {
-                
                 // Plugin.Log.LogWarning(directionalTrackRoute.Exit.Direction.ToString());
                 // _trackConnectionService.CanConnectInDirection(trackConnection.Coordinates, trackConnection.Direction);
                 // Plugin.Log.LogInfo("Offset " + trackConnection.Coordinates);

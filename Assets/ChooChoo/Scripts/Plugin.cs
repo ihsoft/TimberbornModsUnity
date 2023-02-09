@@ -237,5 +237,128 @@ namespace ChooChoo
                 return false;
             }
         }
+        //
+        // [HarmonyPatch]
+        // public class RoadNavMeshGraphPatch
+        // {
+        //     public static IEnumerable<MethodInfo> TargetMethods()
+        //     {
+        //         return new[]
+        //         {
+        //             // AccessTools.Method(AccessTools.TypeByName("RoadAStarPathfinder"), "FillFlowFieldWithPath",
+        //             //     new[]
+        //             //     {
+        //             //         typeof(RoadNavMeshGraph), typeof(PathFlowField), typeof(float), typeof(int), typeof(int)
+        //             //     }),
+        //             AccessTools.Method(AccessTools.TypeByName("RoadAStarPathfinder"), "FillFlowFieldWithPath",
+        //                 new[]
+        //                 {
+        //                     typeof(RoadNavMeshGraph), typeof(PathFlowField), typeof(float), typeof(int), typeof(IReadOnlyList<int>), typeof(int).MakeByRefType()
+        //                 })
+        //         };
+        //     }
+        //
+        //     static void Postfix(PathFlowField flowField, bool __result)
+        //     {
+        //         // Plugin.Log.LogError((bool)RoadAStarPathfinderPatch.ChooChooCore.GetPrivateField(flowField, "_fullyFilled") + "");
+        //         Plugin.Log.LogError(__result + "");
+        //     }
+        // }
+        //
+        // [HarmonyPatch]
+        // public class CharacterBatchControlTabPatch
+        // {
+        //     public static IEnumerable<MethodInfo> TargetMethods()
+        //     {
+        //         return new[]
+        //         {
+        //             // AccessTools.Method(AccessTools.TypeByName("RoadAStarPathfinder"), "FillFlowFieldWithPath",
+        //             //     new[]
+        //             //     {
+        //             //         typeof(RoadNavMeshGraph), typeof(PathFlowField), typeof(float), typeof(int), typeof(int)
+        //             //     }),
+        //             AccessTools.Method(AccessTools.TypeByName("RoadAStarPathfinder"), "FillFlowFieldWithPath",
+        //             new[]
+        //             {
+        //                 typeof(RoadNavMeshGraph), typeof(PathFlowField), typeof(float), typeof(int), typeof(IReadOnlyList<int>), typeof(int).MakeByRefType()
+        //             })
+        //         };
+        //     }
+        //
+        //     static void Postfix(PathFlowField flowField, bool __result)
+        //     {
+        //         // Plugin.Log.LogError((bool)RoadAStarPathfinderPatch.ChooChooCore.GetPrivateField(flowField, "_fullyFilled") + "");
+        //         Plugin.Log.LogError(__result + "");
+        //     }
+        // }
+        //
+        // [HarmonyPatch]
+        // public class RoadAStarPathfinderPatch
+        // {
+        //     private static readonly Type Type = AccessTools.TypeByName("RoadNavMeshNode");
+        //
+        //     private static TeleporterService _teleporterService;
+        //
+        //     private static TeleporterService TeleporterService
+        //     {
+        //         get
+        //         {
+        //             return _teleporterService ??= TimberApi.DependencyContainerSystem.DependencyContainer.GetInstance<TeleporterService>();
+        //         }
+        //     }
+        //     
+        //     private static ChooChooCore _chooChooCore;
+        //
+        //     public static ChooChooCore ChooChooCore
+        //     {
+        //         get
+        //         {
+        //             return _chooChooCore ??= TimberApi.DependencyContainerSystem.DependencyContainer.GetInstance<ChooChooCore>();
+        //         }
+        //     }
+        //     
+        //     private static RoadAStarPathfinder _roadAStarPathfinder;
+        //
+        //     private static RoadAStarPathfinder RoadAStarPathfinder
+        //     {
+        //         get
+        //         {
+        //             return _roadAStarPathfinder ??= TimberApi.DependencyContainerSystem.DependencyContainer.GetInstance<RoadAStarPathfinder>();
+        //         }
+        //     }
+        //
+        //     public static MethodInfo TargetMethod()
+        //     {
+        //         return AccessTools.Method(AccessTools.TypeByName("RoadAStarPathfinder"), "VisitNode", new[]
+        //         {
+        //             AccessTools.TypeByName("AStarNode"),
+        //             AccessTools.TypeByName("RoadNavMeshNode"),
+        //         });
+        //     }
+        //
+        //     static void Postfix(AStarNode parentNode, RoadNavMeshNode node, PathFlowField ____flowField, float ____maxDistance)
+        //     {
+        //         int id = (int)ChooChooCore.GetPublicProperty(node, "Id");
+        //         
+        //         Plugin.Log.LogWarning(id + "");
+        //
+        //         var teleporterLink = TeleporterService.IsTeleporterNode(id);
+        //         
+        //         if (teleporterLink != null)
+        //         {
+        //             Plugin.Log.LogInfo("Teleporter Node");
+        //             
+        //             // if (____flowField.HasNode(id))
+        //             //     return;
+        //             int num = (bool)ChooChooCore.GetPublicProperty(node, "IsFree") ? 0 : 1;
+        //             float gScore = (float)ChooChooCore.GetPublicProperty(parentNode, "GScore") + num;
+        //             if ((double) gScore > (double) ____maxDistance)
+        //                 return;
+        //             // PushNode(id, parentNode.NodeId, gScore);
+        //             var parentNodeID = (int)ChooChooCore.GetPublicProperty(parentNode, "NodeId");
+        //             _chooChooCore.InvokePrivateMethod(RoadAStarPathfinder, "PushNode", new object[] { teleporterLink.GoToNodeId, parentNodeID, gScore});
+        //         }
+        //     }
+        // }
     }
 }

@@ -27,6 +27,14 @@ Tobbert.TrackTIntersection2x3.DisplayName,T intersection Train Track 2x3,-
 Tobbert.TrackTIntersection2x3.Description,A intersection in the form of a T for trains.,-
 Tobbert.TrackTIntersection2x3.FlavorDescription,Where will those paths lead to?,-
 
+Tobbert.TrackRIntersectionLeft2x3.DisplayName,R intersection towards the right Train Track 2x3,-
+Tobbert.TrackRIntersectionLeft2x3.Description,A intersection in the form of a R for trains.,-
+Tobbert.TrackRIntersectionLeft2x3.FlavorDescription,Where R we going?,A joke of the letter R
+
+Tobbert.TrackRIntersectionRight2x3.DisplayName,R intersection towards the left Train Track 2x3,-
+Tobbert.TrackRIntersectionRight2x3.Description,A intersection in the form of a R for trains.,-
+Tobbert.TrackRIntersectionRight2x3.FlavorDescription,Where R we going?,A joke of the letter R
+
 Tobbert.TrainStation.DisplayName,Train Station,-
 Tobbert.TrainStation.Description,A destination for trains.,-
 Tobbert.TrainStation.FlavorDescription,Choo! Choo!,-

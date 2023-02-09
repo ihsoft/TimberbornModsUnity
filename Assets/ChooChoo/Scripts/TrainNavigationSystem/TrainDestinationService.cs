@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Timberborn.BlockSystem;
 using UnityEngine;
 
@@ -8,29 +7,17 @@ namespace ChooChoo
     public class TrainDestinationService
     {
         private readonly TrainDestinationConnectedRepository _trainDestinationConnectedRepository;
-        private readonly TrainDestinationsRepository _trainDestinationsRepository;
         private readonly BlockService _blockService;
 
-        public TrainDestinationService(TrainDestinationConnectedRepository trainDestinationConnectedRepository, TrainDestinationsRepository trainDestinationsRepository, BlockService blockService)
+        public TrainDestinationService(TrainDestinationConnectedRepository trainDestinationConnectedRepository, BlockService blockService)
         {
             _trainDestinationConnectedRepository = trainDestinationConnectedRepository;
-            _trainDestinationsRepository = trainDestinationsRepository;
             _blockService = blockService;
         }
 
         public bool TrainDestinationsConnected(TrainDestination a, TrainDestination b)
         {
             return TrainDestinationConnectedOneWay(a, b) && TrainDestinationConnectedOneWay(b, a);
-        }
-
-        public bool TrainDestinationConnectedOneWay(TrainDestination originTrainDestination, TrainDestination checkingTrainDestination)
-        {
-            if (originTrainDestination == null)
-                return false;
-
-            var trainDestinations = _trainDestinationConnectedRepository.TrainDestinations;
-            
-            return trainDestinations.ContainsKey(originTrainDestination) && trainDestinations[originTrainDestination].Contains(checkingTrainDestination);
         }
 
         public bool DestinationReachable(TrackPiece start, TrainDestination end)
@@ -52,6 +39,16 @@ namespace ChooChoo
             return TrainDestinationsConnected(connectedDestination, end);
         }
 
+        private bool TrainDestinationConnectedOneWay(TrainDestination originTrainDestination, TrainDestination checkingTrainDestination)
+        {
+            if (originTrainDestination == null)
+                return false;
+
+            var trainDestinations = _trainDestinationConnectedRepository.TrainDestinations;
+            
+            return trainDestinations.ContainsKey(originTrainDestination) && trainDestinations[originTrainDestination].Contains(checkingTrainDestination);
+        }
+        
         private TrainDestination FindTrainDestination(TrackPiece checkingTrackPiece, List<TrackPiece> checkedTrackPieces)
         {
             checkedTrackPieces.Add(checkingTrackPiece);

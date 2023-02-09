@@ -7,6 +7,8 @@
     "tobbert.choochoo/tobbert_choochoo/TrackCorner2x2.Folktails",
     "tobbert.choochoo/tobbert_choochoo/TrackTIntersection1x1.Folktails",
     "tobbert.choochoo/tobbert_choochoo/TrackTIntersection2x3.Folktails",
+    "tobbert.choochoo/tobbert_choochoo/TrackRIntersectionLeft2x3.Folktails",
+    "tobbert.choochoo/tobbert_choochoo/TrackRIntersectionRight2x3.Folktails",
     "tobbert.choochoo/tobbert_choochoo/TrainYard.Folktails",
     "tobbert.choochoo/tobbert_choochoo/WaitingStation.Folktails",
     "tobbert.choochoo/tobbert_choochoo/GoodsStation.Folktails"
