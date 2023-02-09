@@ -19,13 +19,21 @@ Tobbert.TrackCorner2x2.DisplayName,カーブ線路 2x2,-Corner 2x2 Train Track
 Tobbert.TrackCorner2x2.Description,より大きな角を曲がるための線路。,-A Track Piece that around a larger corner.
 Tobbert.TrackCorner2x2.FlavorDescription,なんてオシャレなカーブだ。,-What a nice looking curve.
 
-Tobbert.TrackTIntersection1x1.DisplayName,丁字型ポイント線路 1x1,-T intersection Train Track
-Tobbert.TrackTIntersection1x1.Description,丁字型のポイント線路。,-A intersection in the form of a T for trains.
+Tobbert.TrackTIntersection1x1.DisplayName,丁字形ポイント線路 1x1,-T intersection Train Track
+Tobbert.TrackTIntersection1x1.Description,丁字形のポイント線路。,-A intersection in the form of a T for trains.
 Tobbert.TrackTIntersection1x1.FlavorDescription,どちらの線路を選ぶべきだろうか？,-Which way should I go?
 
-Tobbert.TrackTIntersection2x3.DisplayName,丁字型ポイント線路 2x3,-T intersection Train Track
-Tobbert.TrackTIntersection2x3.Description,丁字型のポイント線路。,-A intersection in the form of a T for trains.
+Tobbert.TrackTIntersection2x3.DisplayName,丁字形ポイント線路 2x3,-T intersection Train Track
+Tobbert.TrackTIntersection2x3.Description,丁字形のポイント線路。,-A intersection in the form of a T for trains.
 Tobbert.TrackTIntersection2x3.FlavorDescription,その線路の先には何がある？,-Where will those paths lead to?
+
+Tobbert.TrackRIntersectionLeft2x3.DisplayName,左片開き分岐器 2x3,-R intersection towards the right Train Track 2x3
+Tobbert.TrackRIntersectionLeft2x3.Description,直進と左方向へ軌道が分かれる分岐器。,-A intersection in the form of a R for trains.
+Tobbert.TrackRIntersectionLeft2x3.FlavorDescription,ポイントは転てつ器がどちらに分岐しているかだ。,原文はダジャレ。Where R we going?-A joke of the letter R
+
+Tobbert.TrackRIntersectionRight2x3.DisplayName,右片開き分岐器 2x3,-R intersection towards the left Train Track 2x3
+Tobbert.TrackRIntersectionRight2x3.Description,直進と右方向へ軌道が分かれる分岐器。,-A intersection in the form of a R for trains.
+Tobbert.TrackRIntersectionRight2x3.FlavorDescription,ポイントは転てつ器がどちらに分岐しているかだ。,Where R we going?-A joke of the letter R
 
 Tobbert.TrainStation.DisplayName,鉄道駅,-Train Station
 Tobbert.TrainStation.Description,列車の目的地。,-A destination for trains.
@@ -34,7 +42,6 @@ Tobbert.TrainStation.FlavorDescription,ポッポー！,-Choo! Choo!
 Tobbert.GoodsStation.DisplayName,貨物駅,-Goods station
 Tobbert.GoodsStation.Description,列車で積み降ろしする貨物の保管施設。「取り扱い貨物を設定」から何を積み降ろしするのかを複数指定できる。,-"A building that holds items ready for pickup and deliveries from trains. Edit the allowed goods to specify what goods can be received and delivered."
 Tobbert.GoodsStation.FlavorDescription,とくとご覧あれ、この収納力の高さを。,-Look at all the goods It can hold.
-
 Tobbert.GoodsStation.GoodSelector,取り扱い貨物を設定,-Edit allowed goods
 Tobbert.GoodsStation.Loading,積む: ,-Sending:
 Tobbert.GoodsStation.Unloading,降ろす: ,-Receiving:
