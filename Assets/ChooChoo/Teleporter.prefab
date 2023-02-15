@@ -269,10 +269,22 @@ MonoBehaviour:
   m_Script: {fileID: 406104335, guid: 79523a2b71f4fae881a60ad2e723d456, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _noAutoWalls: 0
-  _generateFloorsOnStackable: 1
+  _noAutoWalls: 1
+  _generateFloorsOnStackable: 0
   _blockAllEdges: 0
-  _addedEdges: []
+  _addedEdges:
+  - _start: {x: 0, y: 0, z: 1}
+    _end: {x: -1, y: 0, z: 1}
+    _isTwoWay: 0
+  - _start: {x: 0, y: 0, z: 1}
+    _end: {x: 1, y: 0, z: 1}
+    _isTwoWay: 0
+  - _start: {x: 0, y: 0, z: 1}
+    _end: {x: 0, y: -1, z: 1}
+    _isTwoWay: 0
+  - _start: {x: 0, y: 0, z: 1}
+    _end: {x: 0, y: 1, z: 1}
+    _isTwoWay: 0
 --- !u!114 &2981612571759544432
 MonoBehaviour:
   m_ObjectHideFlags: 0

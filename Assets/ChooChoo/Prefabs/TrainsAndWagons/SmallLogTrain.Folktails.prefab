@@ -220,7 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 444642958, guid: b6cb9fb40e6a9dd39b069e7f18c050b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseWalkingSpeed: 3.2
+  _baseWalkingSpeed: 3.5
   _baseSlowedSpeed: 1
 --- !u!114 &835374262739727047
 MonoBehaviour:
@@ -363,7 +363,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0f9d540c3054df5832a3360ecbcc8f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinimumOfItemsToMove: 19
 --- !u!1 &8728296629722364148
 GameObject:
   m_ObjectHideFlags: 0

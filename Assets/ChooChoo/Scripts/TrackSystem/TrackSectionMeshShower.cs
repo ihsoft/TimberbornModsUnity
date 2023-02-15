@@ -40,18 +40,20 @@ namespace ChooChoo
             var material = chooChooCore.GetPrivateField(pathNavRangeDrawer, "_material") as Material;
             
             _trackPiece = GetComponent<TrackPiece>();
-            
-            if (_trackPiece.DividesSection)
+
+            if (_trackEntranceSectionMesh != null)
             {
                 _trackEntranceSectionMeshRenderer = _trackEntranceSectionMesh.GetComponentInChildren<MeshRenderer>();
                 _trackEntranceSectionMeshRenderer.material = material;
                 _trackEntranceSectionMeshRenderer.material.renderQueue = material.renderQueue;
-            
+            }
+            if (_trackExitSectionMesh != null)
+            {
                 _trackExitSectionMeshRenderer = _trackExitSectionMesh.GetComponentInChildren<MeshRenderer>();
                 _trackExitSectionMeshRenderer.material = material;
                 _trackExitSectionMeshRenderer.material.renderQueue = material.renderQueue;
             }
-            else
+            if(_trackSectionMesh != null)
             {
                 _trackSectionMeshRenderer = _trackSectionMesh.GetComponentInChildren<MeshRenderer>();
                 _trackSectionMeshRenderer.material = material;
@@ -134,7 +136,7 @@ namespace ChooChoo
         
         private void UpdateColor() 
         {
-            if (_trackPiece.DividesSection)
+            if (_trackEntranceSectionMeshRenderer != null)
             {
                 if (_trackPiece.TrackRoutes[0].Entrance.ConnectedTrackPiece != null)
                 {
@@ -144,7 +146,9 @@ namespace ChooChoo
                 {
                     _trackEntranceSectionMeshRenderer.material.SetColor("_BaseColor_1", Color.white);
                 }
-                
+            }
+            if (_trackExitSectionMeshRenderer != null)
+            {
                 if (_trackPiece.TrackRoutes[0].Exit.ConnectedTrackPiece != null)
                 {
                     _trackExitSectionMeshRenderer.material.SetColor("_BaseColor_1", _trackPiece.TrackRoutes[0].Exit.ConnectedTrackPiece.TrackSection.Color);
@@ -154,7 +158,7 @@ namespace ChooChoo
                     _trackExitSectionMeshRenderer.material.SetColor("_BaseColor_1", Color.white);
                 }
             }
-            else
+            if (_trackSectionMeshRenderer != null)
             {
                 _trackSectionMeshRenderer.material.SetColor("_BaseColor_1", _trackPiece.TrackSection.Color);
             }
@@ -162,19 +166,12 @@ namespace ChooChoo
         
         private void SetActive(bool active)
         {
-            if (_trackPiece.DividesSection)
-            {
-                if (_trackEntranceSectionMesh.activeSelf != active)
-                    _trackEntranceSectionMesh.SetActive(active);
-                
-                if (_trackExitSectionMesh.activeSelf != active)
-                    _trackExitSectionMesh.SetActive(active);
-            }
-            else
-            {
-                if (_trackSectionMesh.activeSelf != active)
-                    _trackSectionMesh.SetActive(active);
-            }
+            if (_trackEntranceSectionMesh != null && _trackEntranceSectionMesh.activeSelf != active)
+                _trackEntranceSectionMesh.SetActive(active);
+            if (_trackExitSectionMesh != null && _trackExitSectionMesh.activeSelf != active)
+                _trackExitSectionMesh.SetActive(active);
+            if(_trackSectionMesh != null && _trackSectionMesh.activeSelf != active)
+                _trackSectionMesh.SetActive(active);
         }
     }
 }

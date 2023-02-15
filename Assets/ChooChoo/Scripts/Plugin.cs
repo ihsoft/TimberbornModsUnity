@@ -241,6 +241,49 @@ namespace ChooChoo
         // [HarmonyPatch]
         // public class RoadNavMeshGraphPatch
         // {
+        //     private static TeleporterService _teleporterService;
+        //     
+        //     private static TeleporterService TeleporterService
+        //     {
+        //         get
+        //         {
+        //             return _teleporterService ??= TimberApi.DependencyContainerSystem.DependencyContainer.GetInstance<TeleporterService>();
+        //         }
+        //     }
+        //     
+        //     private static ChooChooCore _chooChooCore;
+        //     
+        //     public static ChooChooCore ChooChooCore
+        //     {
+        //         get
+        //         {
+        //             return _chooChooCore ??= TimberApi.DependencyContainerSystem.DependencyContainer.GetInstance<ChooChooCore>();
+        //         }
+        //     }
+        //     
+        //     public static MethodInfo TargetMethod()
+        //     {
+        //         return AccessTools.Method(AccessTools.TypeByName("RoadNavMeshGraph"), "VerifyAfterChange", new[] {typeof(int), typeof(int)});
+        //     }
+        //
+        //     static void Prefix(int aNodeId, int bNodeId, RoadNavMeshGraph __instance)
+        //     {
+        //         // Plugin.Log.LogWarning(aNodeId + "");
+        //     
+        //         var teleporterLink = TeleporterService.GetTeleporterLink(aNodeId);
+        //         
+        //         if (teleporterLink != null)
+        //         {
+        //             ChooChooCore.InvokePrivateMethod(__instance, "AddOneWayConnection", new object[] { teleporterLink.StartNodeId, teleporterLink.GoToNodeId, true});
+        //             ChooChooCore.InvokePrivateMethod(__instance, "AddOneWayConnection", new object[] { teleporterLink.GoToNodeId, teleporterLink.StartNodeId, true});
+        //         }
+        //     }
+        // }
+        
+        //
+        // [HarmonyPatch]
+        // public class RoadNavMeshGraphPatch
+        // {
         //     public static IEnumerable<MethodInfo> TargetMethods()
         //     {
         //         return new[]
@@ -342,7 +385,7 @@ namespace ChooChoo
         //         
         //         Plugin.Log.LogWarning(id + "");
         //
-        //         var teleporterLink = TeleporterService.IsTeleporterNode(id);
+        //         var teleporterLink = TeleporterService.GetTeleporterLink(id);
         //         
         //         if (teleporterLink != null)
         //         {

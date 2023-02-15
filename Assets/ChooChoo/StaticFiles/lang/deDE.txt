@@ -27,6 +27,14 @@ Tobbert.TrackTIntersection2x3.DisplayName,Gleis T-Kreuzung 2x3,-
 Tobbert.TrackTIntersection2x3.Description,Eine Kreuzung in Form eines T für Züge.,-
 Tobbert.TrackTIntersection2x3.FlavorDescription,Wohin werden diese Wege führen?,-
 
+Tobbert.TrackRIntersectionLeft2x3.DisplayName,Gleis Abzweigung Rechts 2x3,-
+Tobbert.TrackRIntersectionLeft2x3.Description,"Eine Abzweigung, die die Züge nach rechts führt.",-
+Tobbert.TrackRIntersectionLeft2x3.FlavorDescription,"Rechts ist da, wo der Daumen links ist.",-
+
+Tobbert.TrackRIntersectionRight2x3.DisplayName,Gleis Abzweigung Links 2x3,-
+Tobbert.TrackRIntersectionRight2x3.Description,"Eine Abzweigung, die die Züge nach links führt.",-
+Tobbert.TrackRIntersectionRight2x3.FlavorDescription,"Links ist da, wo der Daumen rechts ist.",-
+
 Tobbert.TrainStation.DisplayName,Zugbahnhof,-
 Tobbert.TrainStation.Description,Ein Ziel für Züge.,-
 Tobbert.TrainStation.FlavorDescription,Tschu-tschu!,-
@@ -53,6 +61,7 @@ Tobbert.Wagon.PrefabName,Wagen,-
 
 Tobbert.BatchControl.Trains,Züge,-
 Tobbert.Train.Length,Zuglänge: ,-
+Tobbert.Train.Destroy,Soll der Zug wirklich zerstört werden?,-
 
 Tobbert.TrainSchedule.AddNewStation,Neuer Zugbahnhof,-
 Tobbert.TrainSchedule.AddNewTrainAction,Neue Aktion,-
@@ -70,3 +79,5 @@ Tobbert.TrainYard.PreviewErrorMessage,Es kann nur 1 Zugfabrik gebaut werden,-
 Tobbert.Trains.UnlockPrompt,"Sie müssen {0} freischalten, um {1} zu bauen.",{0} steht für <Building>.DisplayName {1} steht für <TrackPiece>.DisplayName.
 
 Tobbert.DistributionTrain.MinimumOfItemsToMove,Minimum an zu bewegenden Gütern: ,-
+
+Tobbert.TrainNavigation.Unstuck,Wenden,-

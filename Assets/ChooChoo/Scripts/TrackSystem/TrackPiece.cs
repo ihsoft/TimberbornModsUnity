@@ -264,6 +264,14 @@ namespace ChooChoo
                 // trackRoute.Entrance.ConnectedTrackRoutes = myTrackRouteExits;
             }
 
+            var flag4 = TryGetComponent(out TrainWaitingLocation _);
+            var flag3 = trackPiece.TryGetComponent(out TrainWaitingLocation _);
+            
+            if (flag3 || flag4)
+            {
+                return;
+            }
+            
             var flag1 = TryGetComponent(out SectionDivider _);
             var flag2 = trackPiece.TryGetComponent(out SectionDivider _);
 

@@ -11,7 +11,9 @@ namespace ChooChoo
 
         public TrainDestination TrainDestinationComponent { get; private set; }
         
-        public bool Occupied { get; set; }
+        private GameObject Occupant { get; set; }
+        
+        public bool Occupied => Occupant != null;
 
         [Inject]
         public void InjectDependencies(TrainWaitingLocationsRepository trainWaitingLocationsRepository)
@@ -33,5 +35,9 @@ namespace ChooChoo
         {
             _trainWaitingLocationsRepository.UnRegister(this);
         }
+
+        public void Occupy(GameObject occupant) => Occupant = occupant;
+
+        public void UnOccupy() => Occupant = null;
     }
 }

@@ -71,7 +71,7 @@ namespace ChooChoo
             if (checkingTrackPiece.TryGetComponent(out TrainDestination trainDestination))
                 trainDestinationsConnected.Add(trainDestination);
             
-            foreach (var trackRoute in checkingTrackPiece.TrackRoutes.GroupBy(route => route.Exit.Direction).Select(group => group.First()))
+            foreach (var trackRoute in checkingTrackPiece.TrackRoutes)
             {
                 if (trackRoute.Exit.ConnectedTrackPiece == null)
                     continue;

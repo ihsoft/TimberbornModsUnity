@@ -17,16 +17,26 @@ namespace ChooChoo
 
         public bool TrainDestinationsConnected(TrainDestination a, TrainDestination b)
         {
-            return TrainDestinationConnectedOneWay(a, b) && TrainDestinationConnectedOneWay(b, a);
+            return TrainDestinationsConnectedOneWay(a, b) && TrainDestinationsConnectedOneWay(b, a);
+        }
+        
+        public bool TrainDestinationsConnectedOneWay(TrainDestination origin, TrainDestination end)
+        {
+            if (origin == null)
+                return false;
+
+            var trainDestinations = _trainDestinationConnectedRepository.TrainDestinations;
+            
+            return trainDestinations.ContainsKey(origin) && trainDestinations[origin].Contains(end);
         }
 
-        public bool DestinationReachable(TrackPiece start, TrainDestination end)
+        public bool DestinationReachableOneWay(TrackPiece start, TrainDestination end)
         {
             if (start == null || end == null)
                 return false;
             var checkedTrackPieces = new List<TrackPiece>();
             var connectedDestination = FindTrainDestination(start, checkedTrackPieces);
-            return TrainDestinationsConnected(connectedDestination, end);
+            return TrainDestinationsConnectedOneWay(connectedDestination, end);
         }
         
         public bool DestinationReachable(Vector3 startPosition, TrainDestination end)
@@ -38,17 +48,17 @@ namespace ChooChoo
             var connectedDestination = FindTrainDestination(startTrackPiece, checkedTrackPieces);
             return TrainDestinationsConnected(connectedDestination, end);
         }
-
-        private bool TrainDestinationConnectedOneWay(TrainDestination originTrainDestination, TrainDestination checkingTrainDestination)
-        {
-            if (originTrainDestination == null)
-                return false;
-
-            var trainDestinations = _trainDestinationConnectedRepository.TrainDestinations;
-            
-            return trainDestinations.ContainsKey(originTrainDestination) && trainDestinations[originTrainDestination].Contains(checkingTrainDestination);
-        }
         
+        public bool DestinationReachableOneWay(Vector3 startPosition, TrainDestination end)
+        {
+            var startTrackPiece = _blockService.GetFloorObjectComponentAt<TrackPiece>(startPosition.ToBlockServicePosition());
+            if (startTrackPiece == null || end == null)
+                return false;
+            var checkedTrackPieces = new List<TrackPiece>();
+            var connectedDestination = FindTrainDestination(startTrackPiece, checkedTrackPieces);
+            return TrainDestinationsConnectedOneWay(connectedDestination, end);
+        }
+
         private TrainDestination FindTrainDestination(TrackPiece checkingTrackPiece, List<TrackPiece> checkedTrackPieces)
         {
             checkedTrackPieces.Add(checkingTrackPiece);

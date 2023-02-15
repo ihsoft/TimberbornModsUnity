@@ -30,35 +30,37 @@ namespace ChooChoo
 
     public override Decision Decide(GameObject agent)
     {
-      var currentTrainDestination = _blockService.GetFloorObjectComponentAt<TrainDestination>(transform.position.ToBlockServicePosition());
-      
-      if (_currentWaitingLocation != null && currentTrainDestination == _currentWaitingLocation.TrainDestinationComponent)
+      var trainWaitingLocation = _blockService.GetFloorObjectComponentAt<TrainWaitingLocation>(transform.position.ToBlockServicePosition());
+      if (_currentWaitingLocation != null && trainWaitingLocation == _currentWaitingLocation)
       {
-        _waitExecutor.LaunchForSpecifiedTime(0.375f);
+        _waitExecutor.LaunchForIdleTime();
         return Decision.ReleaseWhenFinished(_waitExecutor);
       }
-
+      if (trainWaitingLocation != null && !trainWaitingLocation.Occupied)
+        return OccupyWaitingLocation(trainWaitingLocation);
       return GoToClosestWaitingLocation();
     }
     
     public void DeleteEntity()
     {
       if (_currentWaitingLocation != null)
-        _currentWaitingLocation.Occupied = false;
+        _currentWaitingLocation.UnOccupy();
     }
 
-    private Decision GoToClosestWaitingLocation()
+    private Decision OccupyWaitingLocation(TrainWaitingLocation trainWaitingLocation)
     {
       if (_currentWaitingLocation != null)
-        _currentWaitingLocation.Occupied = false;
-      
-      _currentWaitingLocation = _closestTrainWaitingLocationPicker.ClosestWaitingLocation(transform.position);
+        _currentWaitingLocation.UnOccupy();
+      _currentWaitingLocation = trainWaitingLocation;
       if (_currentWaitingLocation == null)
         return Decision.ReleaseNow();
-
-      _currentWaitingLocation.Occupied = true;
-      // Plugin.Log.LogWarning( "Waiting at random location");
-      switch (_moveToStationExecutor.Launch(_currentWaitingLocation.TrainDestinationComponent))
+      _currentWaitingLocation.Occupy(gameObject);
+      return GoToWaitingLocation(_currentWaitingLocation.TrainDestinationComponent);
+    }
+    
+    private Decision GoToWaitingLocation(TrainDestination trainDestination)
+    {
+      switch (_moveToStationExecutor.Launch(trainDestination))
       {
         case ExecutorStatus.Success:
           return Decision.ReleaseNow();
@@ -69,6 +71,17 @@ namespace ChooChoo
         default:
           throw new ArgumentOutOfRangeException();
       }
+    }
+
+    private Decision GoToClosestWaitingLocation()
+    {
+      var trainWaitingLocation = _closestTrainWaitingLocationPicker.ClosestWaitingLocation(transform.position);
+      if (trainWaitingLocation == null)
+      {
+        _currentWaitingLocation = null;
+        return Decision.ReleaseNow();
+      }
+      return OccupyWaitingLocation(trainWaitingLocation);
     }
   }
 }

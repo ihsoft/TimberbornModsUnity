@@ -99,7 +99,7 @@ namespace ChooChoo
     public void Save(IEntitySaver entitySaver)
     {
       IObjectSaver component = entitySaver.GetComponent(MachinistKey);
-      if (_currentTrainDestination != null)
+      if (_currentTrainDestination is TrainPositionDestination test && test.Destination != null)
         component.Set(CurrentDestinationKey, _currentTrainDestination, _trainDestinationObjectSerializer);
     }
 

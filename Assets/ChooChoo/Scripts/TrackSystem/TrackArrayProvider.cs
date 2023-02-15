@@ -305,15 +305,7 @@ namespace ChooChoo
                      {
                         new(0, 0, -1.5f),
                         new(0, 0, 1.2f),
-                     }),
-                  new(
-                     new(new Vector3Int(0, 2, 0), Direction2D.Down),
-                     new(new Vector3Int(0, 0, 0), Direction2D.Up),
-                     new Vector3[]
-                     {
-                        new(0, 0, 1.5f),
-                        new(0, 0, -1.2f),
-                     }),
+                     })
                };
             default:
                throw new ArgumentOutOfRangeException($"Unexpected Track object: {prefabName}");

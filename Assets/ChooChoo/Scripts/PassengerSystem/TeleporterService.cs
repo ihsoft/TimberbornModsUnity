@@ -38,7 +38,7 @@ namespace ChooChoo
             _nodeIds.Add(new TeleporterLink(originalNodeId, endNodeID));
         }
 
-        public TeleporterLink IsTeleporterNode(int nodeId)
+        public TeleporterLink GetTeleporterLink(int nodeId)
         {
             return _nodeIds.FirstOrDefault(link => link.StartNodeId == nodeId);
         }

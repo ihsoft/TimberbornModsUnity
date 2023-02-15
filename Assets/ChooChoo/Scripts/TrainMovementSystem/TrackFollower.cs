@@ -92,7 +92,7 @@ namespace ChooChoo
         if (trackPiece == null)
           return false;
 
-        if (trackPiece.DividesSection)
+        if (trackPiece.DividesSection && trackPiece != _pathCorners[^2].Exit.ConnectedTrackPiece)
           continue;
 
         TrackSection trackSection = trackPiece.TrackSection;
