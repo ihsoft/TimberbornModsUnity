@@ -262,6 +262,7 @@ GameObject:
   - component: {fileID: 5232831697191421784}
   - component: {fileID: 1457623395490410269}
   - component: {fileID: 6273584799691415009}
+  - component: {fileID: -3114941030834459332}
   - component: {fileID: 2620474729558111792}
   m_Layer: 0
   m_Name: TrackOneWay.IronTeeth
@@ -338,8 +339,11 @@ MonoBehaviour:
   m_Script: {fileID: -731835049, guid: b5f268a4cb31a93ed707a95d3a502b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefabName: TrackOneWay.Folktails
-  _backwardCompatiblePrefabNames: []
+  _prefabName: TrackOneWay.IronTeeth
+  _backwardCompatiblePrefabNames:
+  - TrackOneWay.Folktails
+  - TrackStraight.IronTeeth
+  - TrackStraight
   _requiredFeatureToggle: 
 --- !u!114 &6578201091114363928
 MonoBehaviour:
@@ -392,7 +396,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _toolGroupId: TobbertTrains
   _toolOrder: 50
-  _layout: 0
+  _layout: 2
   _customPivot:
     _hasCustomPivot: 0
     _coordinates: {x: 0, y: 0, z: 0}
@@ -410,6 +414,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _trackDistance: 1
+  DividesSection: 0
+  Building: {fileID: 7942737001465570519}
+  Sign: {fileID: 3011367020565750546}
 --- !u!114 &6273584799691415009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -422,9 +429,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f3b6c1c127e437e8d3f5a2ed5c25f92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _trackSectionMesh: {fileID: 0}
+  _trackSectionMesh: {fileID: 6707666268240798692}
   _trackEntranceSectionMesh: {fileID: 7135890868930537373}
   _trackExitSectionMesh: {fileID: 6101167826472192863}
+  _trackContainedSectionMesh: {fileID: 0}
+--- !u!114 &-3114941030834459332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5338206533014369884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20d6baa8049542ccb4b157b9a5edc2ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _displayNameLocKey: Tobbert.TrackStraight.DisplayName
+  _descriptionLocKey: Tobbert.TrackStraight.Description
+  _flavorDescriptionLocKey: Tobbert.TrackStraight.FlavorDescription
+  _image: {fileID: 21300000, guid: d0ca4962f0fd4814295130f8946d7d2e, type: 3}
+  _alternativeDisplayNameLocKey: Tobbert.TrackOneWay.DisplayName
+  _alternativeDescriptionLocKey: Tobbert.TrackOneWay.Description
+  _alternativeFlavorDescriptionLocKey: Tobbert.TrackOneWay.FlavorDescription
+  _alternativeImage: {fileID: 21300000, guid: 8a7c7201e830e31479efe4f2e10dd0f9, type: 3}
 --- !u!114 &2620474729558111792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -437,10 +465,10 @@ MonoBehaviour:
   m_Script: {fileID: -1115175677, guid: b5f268a4cb31a93ed707a95d3a502b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _displayNameLocKey: Tobbert.TrackOneWay.DisplayName
-  _descriptionLocKey: Tobbert.TrackOneWay.Description
-  _flavorDescriptionLocKey: Tobbert.TrackOneWay.FlavorDescription
-  _image: {fileID: 21300000, guid: 8a7c7201e830e31479efe4f2e10dd0f9, type: 3}
+  _displayNameLocKey: Tobbert.TrackStraight.DisplayName
+  _descriptionLocKey: Tobbert.TrackStraight.Description
+  _flavorDescriptionLocKey: Tobbert.TrackStraight.FlavorDescription
+  _image: {fileID: 21300000, guid: d0ca4962f0fd4814295130f8946d7d2e, type: 3}
 --- !u!1 &5395524899552350035
 GameObject:
   m_ObjectHideFlags: 0
@@ -571,6 +599,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6984879625622122060, guid: d774677381ed8294a9298d575bd69c87, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: eb3bdebe46cb3fc48aeff926556a0acf, type: 2}
+    - target: {fileID: -6984879625622122060, guid: d774677381ed8294a9298d575bd69c87, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: f0673e1fae278014881868c946434506, type: 2}
     - target: {fileID: -4929788903857198384, guid: d774677381ed8294a9298d575bd69c87, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -579,6 +615,14 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 67994ecbb9674c54f81c354ecfdc795d, type: 2}
+    - target: {fileID: -3736997748050649074, guid: d774677381ed8294a9298d575bd69c87, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c2a119b8ec433ae4eb021109b60ad6ae, type: 2}
+    - target: {fileID: -1884190776471526637, guid: d774677381ed8294a9298d575bd69c87, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c2a119b8ec433ae4eb021109b60ad6ae, type: 2}
     - target: {fileID: -1466235360251257820, guid: d774677381ed8294a9298d575bd69c87, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -595,6 +639,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 184657205e504834eb7274963c621fdc, type: 2}
+    - target: {fileID: 4312309177884380841, guid: d774677381ed8294a9298d575bd69c87, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f0673e1fae278014881868c946434506, type: 2}
     - target: {fileID: 6462645772955062561, guid: d774677381ed8294a9298d575bd69c87, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -609,9 +657,19 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: c2a119b8ec433ae4eb021109b60ad6ae, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d774677381ed8294a9298d575bd69c87, type: 3}
+--- !u!1 &3011367020565750546 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -3805072536629396844, guid: d774677381ed8294a9298d575bd69c87, type: 3}
+  m_PrefabInstance: {fileID: 7132343816404195718}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6101167826472192863 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5309568890901949735, guid: d774677381ed8294a9298d575bd69c87, type: 3}
+  m_PrefabInstance: {fileID: 7132343816404195718}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6707666268240798692 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4606414990535375458, guid: d774677381ed8294a9298d575bd69c87, type: 3}
   m_PrefabInstance: {fileID: 7132343816404195718}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &7135890868930537373 stripped
@@ -622,5 +680,10 @@ GameObject:
 --- !u!4 &7309788137214230125 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d774677381ed8294a9298d575bd69c87, type: 3}
+  m_PrefabInstance: {fileID: 7132343816404195718}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7942737001465570519 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d774677381ed8294a9298d575bd69c87, type: 3}
   m_PrefabInstance: {fileID: 7132343816404195718}
   m_PrefabAsset: {fileID: 0}

@@ -57,8 +57,8 @@ namespace ChooChoo
       _goodsStationsRepository.Register(this);
       if (TransferableGoods == null)
         CreateTransferableGoods();
-      // else
-      //   VerifyTransferableGoods();
+      else
+        VerifyTransferableGoods();
       foreach (var transferableGood in TransferableGoods)
         _limitableGoodDisallower.SetAllowedAmount(transferableGood.GoodId, transferableGood.SendingGoods ? _maxCapacity : 0);
     }
@@ -125,35 +125,35 @@ namespace ChooChoo
       TransferableGoods = list;
     }
 
-    // private void VerifyTransferableGoods()
-    // {
-    //   RemoveGoods();
-    //   AddNewGoods();
-    // }
-    //
-    // private void RemoveGoods()
-    // {
-    //   var allowedGoods = Inventory.AllowedGoods.ToArray();
-    //   
-    //   foreach (var transferableGood in TransferableGoods)
-    //   {
-    //     if (!allowedGoods.Any(good => good.StorableGood.GoodId == transferableGood.GoodId))
-    //     {
-    //       TransferableGoods.Remove(transferableGood);
-    //     }
-    //   }
-    // }
-    //
-    // private void AddNewGoods()
-    // {
-    //   foreach (var storableGoodAmount in Inventory.AllowedGoods)
-    //   {
-    //     if (!TransferableGoods.Any(good => good.GoodId == storableGoodAmount.StorableGood.GoodId))
-    //     {
-    //       TransferableGoods.Add(new TransferableGood(storableGoodAmount.StorableGood.GoodId, false, false));
-    //     }
-    //   }
-    // }
+    private void VerifyTransferableGoods()
+    {
+      RemoveGoods();
+      AddNewGoods();
+    }
+    
+    private void RemoveGoods()
+    {
+      var allowedGoods = Inventory.AllowedGoods.ToArray();
+      
+      foreach (var transferableGood in TransferableGoods)
+      {
+        if (!allowedGoods.Any(good => good.StorableGood.GoodId == transferableGood.GoodId))
+        {
+          TransferableGoods.Remove(transferableGood);
+        }
+      }
+    }
+    
+    private void AddNewGoods()
+    {
+      foreach (var storableGoodAmount in Inventory.AllowedGoods)
+      {
+        if (!TransferableGoods.Any(good => good.GoodId == storableGoodAmount.StorableGood.GoodId))
+        {
+          TransferableGoods.Add(new TransferableGood(storableGoodAmount.StorableGood.GoodId, false, false));
+        }
+      }
+    }
 
     private int MaxAllowedAmount() => _maxCapacity;
     

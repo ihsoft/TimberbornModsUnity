@@ -14,9 +14,9 @@ namespace ChooChoo
         [SerializeField]
         private int _trackDistance;
         
+        protected EventBus EventBus;
+        
         private BlockService _blockService;
-
-        private EventBus _eventBus;
 
         private TrackArrayProvider _trackArrayProvider;
 
@@ -34,7 +34,7 @@ namespace ChooChoo
         
         public bool CanPathFindOverIt { get; set; }
 
-        public bool DividesSection { get; set; }
+        public bool DividesSection;
 
         public int TrackDistance => _trackDistance;
 
@@ -46,12 +46,12 @@ namespace ChooChoo
             TrackRouteWeightCache trackRouteWeightCache)
         {
             _blockService = blockService;
-            _eventBus = eventBus;
+            EventBus = eventBus;
             _trackArrayProvider = trackArrayProvider;
             _trackRouteWeightCache = trackRouteWeightCache;
         }
         
-        public TrackRoute[] TrackRoutes
+        public virtual TrackRoute[] TrackRoutes
         {
             get
             {
@@ -68,9 +68,10 @@ namespace ChooChoo
                 }
                 return _trackConnections;
             }
+            // protected set => _trackConnections = value;
         }
 
-        void Awake()
+        public void Awake()
         {
             TrackSection = new TrackSection(this);
             _blockObject = GetComponent<BlockObject>();
@@ -82,7 +83,7 @@ namespace ChooChoo
         {
             LookForTrackSection();
             CenterCoordinates = GetComponent<BlockObjectCenter>().WorldCenterGrounded;
-            _eventBus.Post(new OnTracksUpdatedEvent());
+            EventBus.Post(new OnTracksUpdatedEvent());
             
             // foreach (var track in TrackSection.TrackPieces)
             // {
@@ -95,8 +96,8 @@ namespace ChooChoo
             //         Plugin.Log.LogWarning("");
             //     }
             // }
-            //
-            //
+            
+            
             // foreach (var trackRoute in TrackRoutes)
             // {
             //     if (trackRoute.Exit.ConnectedTrackRoutes == null)
@@ -121,7 +122,7 @@ namespace ChooChoo
         public void OnExitFinishedState()
         {
             TrackSection.Dissolve(this);
-            _eventBus.Post(new OnTracksUpdatedEvent());
+            EventBus.Post(new OnTracksUpdatedEvent());
             _trackRouteWeightCache.Remove(TrackRoutes);
         }
 
@@ -272,8 +273,8 @@ namespace ChooChoo
                 return;
             }
             
-            var flag1 = TryGetComponent(out SectionDivider _);
-            var flag2 = trackPiece.TryGetComponent(out SectionDivider _);
+            var flag1 = DividesSection;
+            var flag2 = trackPiece.DividesSection;
 
             if (flag1 || flag2)
             {

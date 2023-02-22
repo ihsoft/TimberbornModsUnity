@@ -11,6 +11,7 @@ namespace ChooChoo
         {
             containerDefinition.Bind<TrainDestinationsRepository>().AsSingleton();
             containerDefinition.Bind<TrainDestinationConnectedRepository>().AsSingleton();
+            containerDefinition.Bind<TrackRouteWeightsCalculator>().AsSingleton();
             containerDefinition.Bind<TrainDestinationService>().AsSingleton();
             containerDefinition.Bind<WagonsObjectSerializer>().AsSingleton();
         }

@@ -10,12 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3336589163391838871}
   - component: {fileID: 7193435995520911162}
-  - component: {fileID: 8360500296980907203}
-  - component: {fileID: 3512378659035382405}
   - component: {fileID: 6351149636141899093}
   - component: {fileID: 4183511115309159103}
   - component: {fileID: 1028629217916336506}
-  - component: {fileID: 6071328528575532001}
   m_Layer: 0
   m_Name: __Finished
   m_TagString: Untagged
@@ -52,32 +49,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.6, y: 0.06, z: 3}
   m_Center: {x: 0.5, y: 0.03, z: 1.5}
---- !u!65 &8360500296980907203
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1135628514543214075}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.26999998, y: 0.34000003, z: 0.049855813}
-  m_Center: {x: 0.125, y: 0.75, z: 0.12212957}
---- !u!65 &3512378659035382405
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1135628514543214075}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.060000002, y: 0.57, z: 0.04836735}
-  m_Center: {x: 0.125, y: 0.29, z: 0.12211323}
 --- !u!65 &6351149636141899093
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -117,19 +88,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.18, y: 0.28892386, z: 0.11420441}
   m_Center: {x: 0.875, y: 0.47, z: 2.7042046}
---- !u!65 &6071328528575532001
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1135628514543214075}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.13, y: 0.3, z: 0.13}
-  m_Center: {x: 0.115, y: 0.47, z: 0.22}
 --- !u!1 &1937769883314588243
 GameObject:
   m_ObjectHideFlags: 0
@@ -192,7 +150,7 @@ GameObject:
   - component: {fileID: 426163337955813881}
   - component: {fileID: 5232831697191421784}
   - component: {fileID: 2204440981780356463}
-  - component: {fileID: 7790617656750521025}
+  - component: {fileID: 8023521899775805333}
   - component: {fileID: 8090384878591098087}
   - component: {fileID: 2620474729558111792}
   m_Layer: 0
@@ -334,7 +292,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _toolGroupId: TobbertTrains
   _toolOrder: 20
-  _layout: 0
+  _layout: 2
   _customPivot:
     _hasCustomPivot: 0
     _coordinates: {x: 0, y: 0, z: 0}
@@ -351,7 +309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91f473273fcd4a6aa4b9d3072b17860b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7790617656750521025
+--- !u!114 &8023521899775805333
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -360,10 +318,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5338206533014369884}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 659be183809a8cb449261609f3323d90, type: 3}
+  m_Script: {fileID: 11500000, guid: 54fc23297c2042b49bd7e0edee84ce49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _trackDistance: 3
+  DividesSection: 1
 --- !u!114 &8090384878591098087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,9 +335,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f3b6c1c127e437e8d3f5a2ed5c25f92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _trackSectionMesh: {fileID: 5406086391667261646}
+  _trackSectionMesh: {fileID: 0}
   _trackEntranceSectionMesh: {fileID: 8437470745842713783}
   _trackExitSectionMesh: {fileID: 4808612745229412469}
+  _trackContainedSectionMesh: {fileID: 5406086391667261646}
 --- !u!114 &2620474729558111792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -551,7 +511,7 @@ PrefabInstance:
     - target: {fileID: -2637066281952355912, guid: f66da347f43d0e140a96032df60515bf, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: c2a119b8ec433ae4eb021109b60ad6ae, type: 2}
+      objectReference: {fileID: 2100000, guid: 1fe3688e6ca8dd348a158e07de51cc00, type: 2}
     - target: {fileID: -2637066281952355912, guid: f66da347f43d0e140a96032df60515bf, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 

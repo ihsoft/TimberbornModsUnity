@@ -1,7 +1,7 @@
 {
   "CommonBuildings": [
-    "tobbert.choochoo/tobbert_choochoo/TrackStraight.Folktails",
     "tobbert.choochoo/tobbert_choochoo/TrackOneWay.Folktails",
+    "tobbert.choochoo/tobbert_choochoo/TrackCrossing.Folktails",
     "tobbert.choochoo/tobbert_choochoo/TrackHill1x2.Folktails",
     "tobbert.choochoo/tobbert_choochoo/TrackCorner1x1.Folktails",
     "tobbert.choochoo/tobbert_choochoo/TrackCorner2x2.Folktails",

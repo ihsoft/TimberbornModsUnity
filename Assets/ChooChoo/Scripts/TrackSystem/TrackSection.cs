@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using ChooChoo;
+using Timberborn.Common;
 using UnityEngine;
 
 public class TrackSection
 {
-    public readonly List<TrackPiece> TrackPieces = new();
+    public readonly HashSet<TrackPiece> TrackPieces = new();
 
     public bool Occupied;
 
@@ -35,6 +36,14 @@ public class TrackSection
     public void Dissolve(TrackPiece trackPiece)
     {
         TrackPieces.Remove(trackPiece);
+        foreach (var track in TrackPieces)
+            track.ResetSection();
+        foreach (var track in TrackPieces)
+            track.LookForTrackSection();
+    }
+    
+    public void Refresh()
+    {
         foreach (var track in TrackPieces)
             track.ResetSection();
         foreach (var track in TrackPieces)

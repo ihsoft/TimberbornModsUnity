@@ -54,7 +54,7 @@ Tobbert.TrainYard.DisplayName,操車場,-Train Yard
 Tobbert.TrainYard.Description,列車を新造するための施設。,-A building that creates trains.
 Tobbert.TrainYard.FlavorDescription,ここで列車が作られる。,-This is where trains are born.
 Tobbert.TrainYard.CostOfTrain,1編成の建造費:,-Cost of 1 train:
-Tobbert.TrainYard.CreateTrain,列車を新造する,-Create train:
+Tobbert.TrainYard.CreateTrain,列車を新造する,-Create train
 
 Tobbert.Train.PrefabName,機関車,-Train
 Tobbert.Wagon.PrefabName,無蓋車,-Wagon
@@ -71,6 +71,10 @@ Tobbert.TrainAction.Wait.WaitingInMinutes,停車時間: ,-Hours to wait:
 
 Tobbert.TrainAction.TakeGoods,貨物積降,-Take Goods
 Tobbert.TrainAction.TakeGoods.TakeGoodAmount,貨物扱い: ,-
+
+Tobbert.TrackSystem.ToggleSectionDivider,閉そく区間を分割： ,-Divides sections: 
+Tobbert.TrackSystem.ButtonChangeDirection,向きを変える,-Change direction
+Tobbert.TrackSystem.CollidingSectionDividers,閉そくを連続して区切る配置はできません,-Cannot connect 2 Section Dividers
 
 Tobbert.ToolGroup.Trains,鉄道,-Trains
 

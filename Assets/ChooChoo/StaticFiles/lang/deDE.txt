@@ -54,7 +54,7 @@ Tobbert.TrainYard.DisplayName,Zugfabrik,-
 Tobbert.TrainYard.Description,"Ein Gebäude, das Züge herstellt.",-
 Tobbert.TrainYard.FlavorDescription,Hier werden Züge geboren.,-
 Tobbert.TrainYard.CostOfTrain,Kosten für 1 Zug:,-
-Tobbert.TrainYard.CreateTrain,Zug herstellen: ,-
+Tobbert.TrainYard.CreateTrain,Zug herstellen,-
 
 Tobbert.Train.PrefabName,Zug,-
 Tobbert.Wagon.PrefabName,Wagen,-
@@ -71,6 +71,8 @@ Tobbert.TrainAction.Wait.WaitingInMinutes,Wartezeit: ,-
 
 Tobbert.TrainAction.TakeGoods,Güter annehmen,-
 Tobbert.TrainAction.TakeGoods.TakeGoodAmount,Güter annehmen: ,-
+
+Tobbert.TrackSystem.ToggleSectionDivider,Trennt Streckenabschnitte: ,-
 
 Tobbert.ToolGroup.Trains,Züge,-
 
