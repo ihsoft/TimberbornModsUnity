@@ -27,13 +27,17 @@ Tobbert.TrackTIntersection2x3.DisplayName,Gleis T-Kreuzung 2x3,-
 Tobbert.TrackTIntersection2x3.Description,Eine Kreuzung in Form eines T für Züge.,-
 Tobbert.TrackTIntersection2x3.FlavorDescription,Wohin werden diese Wege führen?,-
 
-Tobbert.TrackRIntersectionLeft2x3.DisplayName,Gleis Abzweigung Rechts 2x3,-
-Tobbert.TrackRIntersectionLeft2x3.Description,"Eine Abzweigung, die die Züge nach rechts führt.",-
-Tobbert.TrackRIntersectionLeft2x3.FlavorDescription,"Rechts ist da, wo der Daumen links ist.",-
+Tobbert.TrackRIntersectionLeft2x3.DisplayName,Gleis Abzweigung Links 2x3,-
+Tobbert.TrackRIntersectionLeft2x3.Description,"Eine Abzweigung, die die Züge nach links führt.",-
+Tobbert.TrackRIntersectionLeft2x3.FlavorDescription,"Links ist da, wo der Daumen rechts ist.",-
 
-Tobbert.TrackRIntersectionRight2x3.DisplayName,Gleis Abzweigung Links 2x3,-
-Tobbert.TrackRIntersectionRight2x3.Description,"Eine Abzweigung, die die Züge nach links führt.",-
-Tobbert.TrackRIntersectionRight2x3.FlavorDescription,"Links ist da, wo der Daumen rechts ist.",-
+Tobbert.TrackRIntersectionRight2x3.DisplayName,Gleis Abzweigung Rechts 2x3,-
+Tobbert.TrackRIntersectionRight2x3.Description,"Eine Abzweigung, die die Züge nach rechts führt.",-
+Tobbert.TrackRIntersectionRight2x3.FlavorDescription,"Rechts ist da, wo der Daumen links ist.",-
+
+Tobbert.TrackCrossing.DisplayName,Gleisübergang,-
+Tobbert.TrackCrossing.Description,"Biber können hier die Gleise überqueren. Kollisionen werden nicht implementiert, da die Leistung zu sehr leiden würde.",-
+Tobbert.TrackCrossing.FlavorDescription,Dieser Zug nähert sich sehr schn-,RIP
 
 Tobbert.TrainStation.DisplayName,Zugbahnhof,-
 Tobbert.TrainStation.Description,Ein Ziel für Züge.,-
@@ -73,6 +77,8 @@ Tobbert.TrainAction.TakeGoods,Güter annehmen,-
 Tobbert.TrainAction.TakeGoods.TakeGoodAmount,Güter annehmen: ,-
 
 Tobbert.TrackSystem.ToggleSectionDivider,Trennt Streckenabschnitte: ,-
+Tobbert.TrackSystem.ButtonChangeDirection,Richtung wechseln,-
+Tobbert.TrackSystem.CollidingSectionDividers,2 Streckenabschnittstrenner können nicht verbunden werden,-
 
 Tobbert.ToolGroup.Trains,Züge,-
 
