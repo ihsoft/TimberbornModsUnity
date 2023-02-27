@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace ChooChoo
 {
-    public class TeleporterService
+    public class PathLinkPointService
     {
         private NodeIdService _nodeIdService;
         
@@ -15,13 +15,13 @@ namespace ChooChoo
         
         private readonly List<TeleporterLink> _nodeIds = new();
 
-        TeleporterService(NodeIdService nodeIdService, ChooChooCore chooChooCore)
+        PathLinkPointService(NodeIdService nodeIdService, ChooChooCore chooChooCore)
         {
             _nodeIdService = nodeIdService;
             _chooChooCore = chooChooCore;
         }
 
-        public void AddTeleporterNode(GameObject gameObject)
+        public void AddTeleporterNode(GameObject gameObject, GameObject end)
         {
             var blockObject = gameObject.GetComponent<BlockObject>();
 
@@ -33,6 +33,9 @@ namespace ChooChoo
             var endCoordinates = originalCoordinates + Direction2D.Down.ToOffset() * 10;
             var endNodeID = (int)_chooChooCore.InvokePrivateMethod(_nodeIdService, "GridToId", new object[] { endCoordinates });
             
+            endCoordinates = new Vector3Int(endCoordinates.x, endCoordinates.z, endCoordinates.y);
+            end.transform.position = endCoordinates;
+
             Plugin.Log.LogError(originalNodeId + "   " + originalCoordinates);
             Plugin.Log.LogWarning(endNodeID + "   " + endCoordinates);
             _nodeIds.Add(new TeleporterLink(originalNodeId, endNodeID));

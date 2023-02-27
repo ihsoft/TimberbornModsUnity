@@ -44,18 +44,18 @@ namespace ChooChoo
 
         public void SetOriginal()
         { 
-            _chooChooCore.ChangePrivateField(_labeledPrefab, "_displayNameLocKey",  _displayNameLocKey);
-            _chooChooCore.ChangePrivateField(_labeledPrefab, "_descriptionLocKey",  _descriptionLocKey);
-            _chooChooCore.ChangePrivateField(_labeledPrefab, "_flavorDescriptionLocKey",  _flavorDescriptionLocKey);
-            _chooChooCore.ChangePrivateField(_labeledPrefab, "_image",  _image);
+            _chooChooCore.SetInaccessibleField(_labeledPrefab, "_displayNameLocKey",  _displayNameLocKey);
+            _chooChooCore.SetInaccessibleField(_labeledPrefab, "_descriptionLocKey",  _descriptionLocKey);
+            _chooChooCore.SetInaccessibleField(_labeledPrefab, "_flavorDescriptionLocKey",  _flavorDescriptionLocKey);
+            _chooChooCore.SetInaccessibleField(_labeledPrefab, "_image",  _image);
         }
 
         public void SetAlternative()
         {
-            _chooChooCore.ChangePrivateField(_labeledPrefab, "_displayNameLocKey",  _alternativeDisplayNameLocKey);
-            _chooChooCore.ChangePrivateField(_labeledPrefab, "_descriptionLocKey",  _alternativeDescriptionLocKey);
-            _chooChooCore.ChangePrivateField(_labeledPrefab, "_flavorDescriptionLocKey",  _alternativeFlavorDescriptionLocKey);
-            _chooChooCore.ChangePrivateField(_labeledPrefab, "_image",  _alternativeImage);
+            _chooChooCore.SetInaccessibleField(_labeledPrefab, "_displayNameLocKey",  _alternativeDisplayNameLocKey);
+            _chooChooCore.SetInaccessibleField(_labeledPrefab, "_descriptionLocKey",  _alternativeDescriptionLocKey);
+            _chooChooCore.SetInaccessibleField(_labeledPrefab, "_flavorDescriptionLocKey",  _alternativeFlavorDescriptionLocKey);
+            _chooChooCore.SetInaccessibleField(_labeledPrefab, "_image",  _alternativeImage);
         }
     }
 }

@@ -45,18 +45,17 @@ namespace ChooChoo
             return _methodInfos[methodName].Invoke(instance, args);
         }
 
-        public void ChangePrivateField(object instance, string fieldName, object newValue)
+        public void SetInaccessibleField(object instance, string fieldName, object newValue)
         {
             if (!_fieldInfos.ContainsKey(fieldName))
             {
-                _fieldInfos.Add(fieldName, AccessTools.TypeByName(instance.GetType().Name).GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance));
+                _fieldInfos.Add(fieldName, AccessTools.TypeByName(instance.GetType().Name).GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance));
             }
             
             _fieldInfos[fieldName].SetValue(instance, newValue);
         }
 
-        // Rename to GetInaccesableField
-        public object GetPrivateField(object instance, string fieldName)
+        public object GetInaccessibleField(object instance, string fieldName)
         {
             if (!_fieldInfos.ContainsKey(fieldName))
             {

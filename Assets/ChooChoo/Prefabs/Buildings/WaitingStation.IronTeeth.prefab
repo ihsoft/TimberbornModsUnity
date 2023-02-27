@@ -293,7 +293,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _toolGroupId: TobbertTrains
   _toolOrder: 20
-  _layout: 2
+  _layout: 0
   _customPivot:
     _hasCustomPivot: 0
     _coordinates: {x: 0, y: 0, z: 0}

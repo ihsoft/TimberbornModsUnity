@@ -3,4 +3,5 @@ https://discord.com/channels/558398674389172225/888491376143134760/1050839599892
 
 Unfinished:
 - Good Receiving priority system
-- Derailing
+- Optimise Tracks so they only update directly nextto the track that is placed or removed. 
+- Fixing that 

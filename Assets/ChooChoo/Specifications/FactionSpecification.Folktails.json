@@ -11,6 +11,7 @@
     "tobbert.choochoo/tobbert_choochoo/TrackRIntersectionRight2x3.Folktails",
     "tobbert.choochoo/tobbert_choochoo/TrainYard.Folktails",
     "tobbert.choochoo/tobbert_choochoo/WaitingStation.Folktails",
-    "tobbert.choochoo/tobbert_choochoo/GoodsStation.Folktails"
+    "tobbert.choochoo/tobbert_choochoo/GoodsStation.Folktails",
+    "tobbert.choochoo/tobbert_choochoo/Teleporter"
   ]
 }

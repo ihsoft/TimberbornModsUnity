@@ -8,7 +8,7 @@ namespace ChooChoo
   {
     public void Configure(IContainerDefinition containerDefinition)
     {
-      containerDefinition.Bind<TeleporterService>().AsSingleton();
+      containerDefinition.Bind<PathLinkPointService>().AsSingleton();
     }
   }
 }

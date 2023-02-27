@@ -40,9 +40,9 @@ namespace ChooChoo
             _toolGroupManager = toolGroupManager;
             _eventBus = eventBus;
 
-            var pathNavRangeDrawer = chooChooCore.GetPrivateField(navRangeDrawingService, "_pathNavRangeDrawer");
+            var pathNavRangeDrawer = chooChooCore.GetInaccessibleField(navRangeDrawingService, "_pathNavRangeDrawer");
 
-            var material = chooChooCore.GetPrivateField(pathNavRangeDrawer, "_material") as Material;
+            var material = chooChooCore.GetInaccessibleField(pathNavRangeDrawer, "_material") as Material;
             
             _trackPiece = GetComponent<TrackPiece>();
 

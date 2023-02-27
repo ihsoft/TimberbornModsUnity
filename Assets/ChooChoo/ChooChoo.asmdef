@@ -87,7 +87,8 @@
         "Timberborn.PrefabOptimization.dll",
         "Timberborn.BuildingsNavigation.dll",
         "Timberborn.ConstructionMode.dll",
-        "Timberborn.RecoverableGoodSystemUI.dll"
+        "Timberborn.RecoverableGoodSystemUI.dll",
+        "Timberborn.BlockSystemNavigation.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

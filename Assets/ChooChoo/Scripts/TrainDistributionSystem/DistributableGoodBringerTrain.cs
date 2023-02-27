@@ -58,7 +58,7 @@ namespace ChooChoo
     {
       // Plugin.Log.LogInfo("Looking to move goods");
 
-      var reachableGoodStation = _goodsStationsRepository.GoodsStations.FirstOrDefault(station => _trainDestinationService.DestinationReachable(transform.position, station.TrainDestinationComponent));
+      var reachableGoodStation = _goodsStationsRepository.GoodsStations.FirstOrDefault(station => _trainDestinationService.DestinationReachableOneWay(transform.position, station.TrainDestinationComponent));
 
       if (reachableGoodStation == null)
         return false;
