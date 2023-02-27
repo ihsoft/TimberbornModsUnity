@@ -7,6 +7,10 @@ Tobbert.TrackOneWay.DisplayName,一方通行の信号,-One way signal Track
 Tobbert.TrackOneWay.Description,列車を矢印の方向にしか進めないようにする線路。閉そくを区切る効果もある。1つの閉そく区間は色つきの線で表示され、一度に1編成だけ列車が入れる。,-Wil tell trains that they can only go through the green side.
 Tobbert.TrackOneWay.FlavorDescription,ここへ来てはいけない！すぐ戻れ！,-千と千尋。原文「You... Shall... Pass...」はロード・オブ・ザ・リングの改変
 
+Tobbert.TrackCrossing.DisplayName,踏切,-Train Track Crossing
+Tobbert.TrackCrossing.Description,ビーバーが線路を渡ることができる。ゲームが著しく重くなるので、踏切事故は未実装。,-Beavers can cross the tracks here. Collision will not be implemented as performance will suffer too much.
+Tobbert.TrackCrossing.FlavorDescription,列車は遠いから渡っちゃえ。アッ！あの列車―――速, -グモ。原文→RIP That train is approaching very fa-
+
 Tobbert.TrackHillStart.DisplayName,勾配線路,-Slope Track
 Tobbert.TrackHillStart.Description,列車の高さを変えられる線路。,-A track that lets trains go up and down.
 Tobbert.TrackHillStart.FlavorDescription,勾配抵抗にご用心。,-Is the train not to heavy?
