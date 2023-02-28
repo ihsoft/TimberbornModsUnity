@@ -1,0 +1,16 @@
+{
+  "Name": "CustomNamesList",
+  "Version": "1.0.0",
+  "UniqueId": "tobbert.customnameslist",
+  "MinimumApiVersion": "0.5.0",
+  "MinimumGameVersion": "0.3.4.0",
+  "EntryDll": "CustomNamesList.dll",
+  "Assets": [
+    {
+      "Prefix": "tobbert.customnameslist",
+      "Scenes": [
+        "All"
+      ]
+    }
+  ]
+}
