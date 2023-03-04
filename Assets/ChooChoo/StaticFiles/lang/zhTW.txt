@@ -1,0 +1,91 @@
+ID,Text,Comment
+Tobbert.TrackStraight.DisplayName,直線軌道,-
+Tobbert.TrackStraight.Description,A Track Piece that goes straight.,-
+Tobbert.TrackStraight.FlavorDescription,Choo! Choo!,-
+
+Tobbert.TrackOneWay.DisplayName,單向訊號軌道,-
+Tobbert.TrackOneWay.Description,Wil tell trains that they can only go through the green side.,-
+Tobbert.TrackOneWay.FlavorDescription,You... Shall... Pass...,-
+
+Tobbert.TrackCrossing.DisplayName,Train Track Crossing,-
+Tobbert.TrackCrossing.Description,Beavers can cross the tracks here. Collision will not be implemented as performance will suffer too much.,-
+Tobbert.TrackCrossing.FlavorDescription,That train is approaching very fa-,RIP
+
+Tobbert.TrackHillStart.DisplayName,斜坡軌道,-
+Tobbert.TrackHillStart.Description,A track that lets trains go up and down.,-
+Tobbert.TrackHillStart.FlavorDescription,Is the train not to heavy?,-
+
+Tobbert.TrackCorner1x1.DisplayName,轉角1x1軌道,-
+Tobbert.TrackCorner1x1.Description,A Track Piece that around a corner.,-
+Tobbert.TrackCorner1x1.FlavorDescription,Might be a little tight.,-
+
+Tobbert.TrackCorner2x2.DisplayName,轉角2x2軌道,-
+Tobbert.TrackCorner2x2.Description,A Track Piece that around a larger corner.,-
+Tobbert.TrackCorner2x2.FlavorDescription,What a nice looking curve.,-
+
+Tobbert.TrackTIntersection1x1.DisplayName,T字交叉軌道1x1,-
+Tobbert.TrackTIntersection1x1.Description,A intersection in the form of a T for trains.,-
+Tobbert.TrackTIntersection1x1.FlavorDescription,Which way should I go?,-
+
+Tobbert.TrackTIntersection2x3.DisplayName,T字交叉軌道2x3,-
+Tobbert.TrackTIntersection2x3.Description,A intersection in the form of a T for trains.,-
+Tobbert.TrackTIntersection2x3.FlavorDescription,Where will those paths lead to?,-
+
+Tobbert.TrackRIntersectionLeft2x3.DisplayName,Switch (left) Train Track 2x3,-
+Tobbert.TrackRIntersectionLeft2x3.Description,A switch in the form of a R for trains.,-
+Tobbert.TrackRIntersectionLeft2x3.FlavorDescription,Where R we going?,A joke of the letter R
+
+Tobbert.TrackRIntersectionRight2x3.DisplayName,Switch (right) Train Track 2x3,-
+Tobbert.TrackRIntersectionRight2x3.Description,A switch in the form of a R for trains.,-
+Tobbert.TrackRIntersectionRight2x3.FlavorDescription,Where R we going?,A joke of the letter R
+
+Tobbert.TrainStation.DisplayName,火車站,-
+Tobbert.TrainStation.Description,A destination for trains.,-
+Tobbert.TrainStation.FlavorDescription,Choo! Choo!,-
+
+Tobbert.GoodsStation.DisplayName,貨物站n,-
+Tobbert.GoodsStation.Description,"A building that holds items ready for pickup and deliveries from trains. Edit the allowed goods to specify what goods can be received and delivered.",-
+Tobbert.GoodsStation.FlavorDescription,Look at all the goods It can hold.,-
+Tobbert.GoodsStation.GoodSelector,Edit allowed goods,-
+Tobbert.GoodsStation.Loading,Sending: ,-
+Tobbert.GoodsStation.Unloading,Receiving: ,-
+
+Tobbert.WaitingStation.DisplayName,等候站,-
+Tobbert.WaitingStation.Description,"Trains can wait here when they have nothing to do. This prevents trains from occupying the tracks. Trains cannot pathfind over this, so make sure its not in any crucial paths.",-
+Tobbert.WaitingStation.FlavorDescription,When can I go again?,-
+
+Tobbert.TrainYard.DisplayName,火車場,-
+Tobbert.TrainYard.Description,A building that creates trains.,-
+Tobbert.TrainYard.FlavorDescription,This is where trains are born.,-
+Tobbert.TrainYard.CostOfTrain,Cost of 1 train:,-
+Tobbert.TrainYard.CreateTrain,Build train,-
+
+Tobbert.Train.PrefabName,火車,-
+Tobbert.Wagon.PrefabName,Wagon,-
+
+Tobbert.BatchControl.Trains,火車,-
+Tobbert.Train.Length,Train Length: ,-
+Tobbert.Train.Destroy,Are you sure you want to destroy this train?,-
+
+Tobbert.TrainSchedule.AddNewStation,New Station,-
+Tobbert.TrainSchedule.AddNewTrainAction,New Action,-
+
+Tobbert.TrainAction.Wait,等待,-
+Tobbert.TrainAction.Wait.WaitingInMinutes,Hours to wait: ,-
+
+Tobbert.TrainAction.TakeGoods,Take Goods,-
+Tobbert.TrainAction.TakeGoods.TakeGoodAmount,Take goods: ,-
+
+Tobbert.TrackSystem.ToggleSectionDivider,Divides sections: ,-
+Tobbert.TrackSystem.ButtonChangeDirection,Change direction,-
+Tobbert.TrackSystem.CollidingSectionDividers,Cannot connect 2 Section Dividers,-
+
+Tobbert.ToolGroup.Trains,火車,-
+
+Tobbert.TrainYard.PreviewErrorMessage,Only 1 Train Yard can be build,-
+
+Tobbert.Trains.UnlockPrompt,You need to unlock {0} to build {1}.,{0} stands for <Building>.DisplayName {1} stands for <TrackPiece>.DisplayName.
+
+Tobbert.DistributionTrain.MinimumOfItemsToMove,Minimum of items to move: ,-
+
+Tobbert.TrainNavigation.Unstuck,Turn Around,-
