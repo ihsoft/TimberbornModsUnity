@@ -1,7 +1,7 @@
 ID,Text,Comment
 Tobbert.VerticalPowerShaft.DisplayName,垂直能量傳動軸,-
 Tobbert.VerticalPowerShaft.Description,可以垂直傳輸能量的傳動軸！,-
-Tobbert.VerticalPowerShaft.FlavorDiscription,''如果我將動力軸旋轉 90 度會怎樣？''－油膩海貍,-
+Tobbert.VerticalPowerShaft.FlavorDiscription,''如果我將傳動軸旋轉 90 度會怎樣？''－油膩海貍,-
 
 Tobbert.StraightToVerticalPowerShaft.DisplayName,能量傳動軸垂直彎角,-
 Tobbert.StraightToVerticalPowerShaft.Description,可以將能量在水平與垂直間轉換！,-
@@ -12,5 +12,5 @@ Tobbert.VerticalToStraightPowerShaft.Description,在垂直能量傳動軸旁加�
 Tobbert.VerticalToStraightPowerShaft.FlavorDiscription,''從上面看還不錯！''－油膩海貍,-
 
 Tobbert.UniversalPowerShaft.DisplayName,萬向能量傳動軸,-
-Tobbert.UniversalPowerShaft.Description,各種方向皆可傳輸能量的動力軸！,-
+Tobbert.UniversalPowerShaft.Description,各種方向皆可傳輸能量的傳動軸！,-
 Tobbert.UniversalPowerShaft.FlavorDiscription,無限能量！,-
