@@ -5,6 +5,6 @@ namespace ChooChoo
 {
   public interface ITrainDestination
   {
-    bool GeneratePath(Transform transform, List<TrackRoute> pathCorners, bool isStuck);
+    bool GeneratePath(Transform transform, List<TrackRoute> pathCorners);
   }
 }

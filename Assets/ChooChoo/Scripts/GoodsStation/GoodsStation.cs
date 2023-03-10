@@ -135,12 +135,10 @@ namespace ChooChoo
     {
       var allowedGoods = Inventory.AllowedGoods.ToArray();
       
-      foreach (var transferableGood in TransferableGoods)
+      foreach (var transferableGood in TransferableGoods.ToList())
       {
         if (!allowedGoods.Any(good => good.StorableGood.GoodId == transferableGood.GoodId))
-        {
           TransferableGoods.Remove(transferableGood);
-        }
       }
     }
     

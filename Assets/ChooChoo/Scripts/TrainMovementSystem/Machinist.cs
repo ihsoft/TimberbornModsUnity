@@ -115,7 +115,7 @@ namespace ChooChoo
       if (!HasSavedPathToDestination(trainDestination))
       {
         _pathConnections.Clear();
-        CurrentDestinationReachable = trainDestination.GeneratePath(GetComponent<CharacterModel>().Model, _tempPathCorners, IsStuck);
+        CurrentDestinationReachable = trainDestination.GeneratePath(GetComponent<CharacterModel>().Model, _tempPathCorners);
         if (CurrentDestinationReachable)
         {
           _pathConnections.AddRange(_tempPathCorners);

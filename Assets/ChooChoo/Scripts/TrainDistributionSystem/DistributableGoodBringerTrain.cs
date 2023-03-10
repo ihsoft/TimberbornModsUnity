@@ -1,5 +1,4 @@
 ﻿using Bindito.Core;
-using System.Collections.Generic;
 using System.Linq;
 using Timberborn.BlockSystem;
 using Timberborn.Carrying;
@@ -57,19 +56,15 @@ namespace ChooChoo
     public bool BringDistributableGoods()
     {
       // Plugin.Log.LogInfo("Looking to move goods");
-
       var reachableGoodStation = _goodsStationsRepository.GoodsStations.FirstOrDefault(station => _trainDestinationService.DestinationReachableOneWay(transform.position, station.TrainDestinationComponent));
-
       if (reachableGoodStation == null)
         return false;
       
       var reachableGoodStations = _goodsStationsRepository.GoodsStations.Where(station => _trainDestinationService.TrainDestinationsConnected(reachableGoodStation.TrainDestinationComponent, station.TrainDestinationComponent)).ToArray();
-      
       foreach (GoodsStation goodsStation in reachableGoodStations)
         goodsStation.UpdateLackingGoods(false);
 
       var orderedGoodsStations = reachableGoodStations.OrderByDescending(station => station.TotalLackingAmount()).ToArray();
-      
       foreach (var deliverableGoodsStation in orderedGoodsStations)
       {
         // Plugin.Log.LogError(deliverableGoodsStation.transform.position + "");
@@ -132,6 +127,9 @@ namespace ChooChoo
       _goodReserver.ReserveExactStockAmount(closestInventory, carriableGood);
       // _goodReserver.ReserveCapacity(goodsStation.Inventory, carriableGood);
       _goodReserver.UnreserveCapacity();
+      var reservedCapacity = (GoodRegistry)_chooChooCore.GetInaccessibleField(goodsStation.Inventory, "_reservedCapacity");
+      reservedCapacity.Add(carriableGood);
+      _chooChooCore.InvokePrivateMethod(goodsStation.Inventory, "InvokeInventoryChangedEvent", new object[] { carriableGood.GoodId });
       _chooChooCore.SetPrivateProperty(_goodReserver, "CapacityReservation", new GoodReservation(goodsStation.Inventory, carriableGood, true));
     }
   }
