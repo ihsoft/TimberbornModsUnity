@@ -28,7 +28,7 @@ namespace ChooChoo
             _blockService = blockService;
         }
         
-        public bool FindRailTrackPath(Transform transform, TrainDestination destination, List<TrackRoute> tempPathTrackRoutes, bool isStuck)
+        public bool FindRailTrackPath(Transform transform, TrainDestination destination, List<TrackRoute> tempPathTrackRoutes)
         {
             // _stopwatch.Restart();
             if (destination == null)
@@ -50,7 +50,7 @@ namespace ChooChoo
                 }
             }
 
-            var facingDirectionRoutes = GetFacingDirections(transform, startTrackPiece, isStuck);
+            var facingDirectionRoutes = GetFacingDirections(transform, startTrackPiece);
 
             foreach (var trackRoute in facingDirectionRoutes)
             {
@@ -84,7 +84,7 @@ namespace ChooChoo
             return false;
         }
             
-         private IEnumerable<TrackRoute> GetFacingDirections(Transform transform, TrackPiece startTrackPiece, bool isStuck)
+         private IEnumerable<TrackRoute> GetFacingDirections(Transform transform, TrackPiece startTrackPiece)
          {
              var directionalTrackRoutes = new List<TrackRoute>();
              var facingDirection = transform.eulerAngles.y.ToDirection2D();
@@ -94,8 +94,6 @@ namespace ChooChoo
              AddFacingTrackRoute(rightOfCorrectlyFacingDirection, directionalTrackRoutes, startTrackPiece);
              var leftOfCorrectlyFacingDirection = correctedFacingDirection.Next().Next().Next();
              AddFacingTrackRoute(leftOfCorrectlyFacingDirection, directionalTrackRoutes, startTrackPiece);
-             if (!isStuck) 
-                 return directionalTrackRoutes;
              var oppositeOfCorrectlyFacingDirection = correctedFacingDirection.Next().Next();
              AddFacingTrackRoute(oppositeOfCorrectlyFacingDirection, directionalTrackRoutes, startTrackPiece);
              // Plugin.Log.LogInfo(transform.eulerAngles + "   " + facingDirection + "      " + correctedFacingDirection + "  " + rightOfCorrectlyFacingDirection + "   " + leftOfCorrectlyFacingDirection + "    " + oppositeOfCorrectlyFacingDirection);

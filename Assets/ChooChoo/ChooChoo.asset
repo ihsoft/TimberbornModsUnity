@@ -18,7 +18,8 @@ MonoBehaviour:
   Name: ChooChoo
   Description: 
   Version: 
-  Dependencies: []
+  Dependencies:
+  - {fileID: 11400000, guid: 27cad031aaa3a2b4b85e53f41a99e636, type: 2}
 --- !u!114 &-3041366049039997682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,7 +119,6 @@ MonoBehaviour:
     - {fileID: 5338206533014369884, guid: ab18e65da853b214484aec86bdb7fced, type: 3}
     - {fileID: 5338206533014369884, guid: 778a1399b4fbf8a4f94803f284a86088, type: 3}
     - {fileID: 2800000, guid: d90a8ee9e7dec89458ab20f40a795546, type: 3}
-    - {fileID: 5338206533014369884, guid: aca4585fb2b984c4c9d2756e1a61032e, type: 3}
 --- !u!114 &9120418034178625098
 MonoBehaviour:
   m_ObjectHideFlags: 0

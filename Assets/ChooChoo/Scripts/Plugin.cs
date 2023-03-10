@@ -238,47 +238,47 @@ namespace ChooChoo
             }
         }
         
-        [HarmonyPatch]
-        public class RoadNavMeshGraphPatch
-        {
-            private static PathLinkPointService _pathLinkPointService;
-            
-            private static PathLinkPointService PathLinkPointService
-            {
-                get
-                {
-                    return _pathLinkPointService ??= TimberApi.DependencyContainerSystem.DependencyContainer.GetInstance<PathLinkPointService>();
-                }
-            }
-            
-            private static ChooChooCore _chooChooCore;
-            
-            public static ChooChooCore ChooChooCore
-            {
-                get
-                {
-                    return _chooChooCore ??= TimberApi.DependencyContainerSystem.DependencyContainer.GetInstance<ChooChooCore>();
-                }
-            }
-            
-            public static MethodInfo TargetMethod()
-            {
-                return AccessTools.Method(AccessTools.TypeByName("RoadNavMeshGraph"), "VerifyAfterChange", new[] {typeof(int), typeof(int)});
-            }
-        
-            static void Prefix(int aNodeId, int bNodeId, RoadNavMeshGraph __instance)
-            {
-                // Plugin.Log.LogWarning(aNodeId + "");
-            
-                var teleporterLink = PathLinkPointService.GetTeleporterLink(aNodeId);
-                
-                if (teleporterLink != null)
-                {
-                    ChooChooCore.InvokePrivateMethod(__instance, "AddOneWayConnection", new object[] { teleporterLink.StartNodeId, teleporterLink.GoToNodeId, true});
-                    ChooChooCore.InvokePrivateMethod(__instance, "AddOneWayConnection", new object[] { teleporterLink.GoToNodeId, teleporterLink.StartNodeId, true});
-                }
-            }
-        }
+        // [HarmonyPatch]
+        // public class RoadNavMeshGraphPatch
+        // {
+        //     private static PathLinkPointService _pathLinkPointService;
+        //     
+        //     private static PathLinkPointService PathLinkPointService
+        //     {
+        //         get
+        //         {
+        //             return _pathLinkPointService ??= TimberApi.DependencyContainerSystem.DependencyContainer.GetInstance<PathLinkPointService>();
+        //         }
+        //     }
+        //     
+        //     private static ChooChooCore _chooChooCore;
+        //     
+        //     public static ChooChooCore ChooChooCore
+        //     {
+        //         get
+        //         {
+        //             return _chooChooCore ??= TimberApi.DependencyContainerSystem.DependencyContainer.GetInstance<ChooChooCore>();
+        //         }
+        //     }
+        //     
+        //     public static MethodInfo TargetMethod()
+        //     {
+        //         return AccessTools.Method(AccessTools.TypeByName("RoadNavMeshGraph"), "VerifyAfterChange", new[] {typeof(int), typeof(int)});
+        //     }
+        //
+        //     static void Prefix(int aNodeId, int bNodeId, RoadNavMeshGraph __instance)
+        //     {
+        //         // Plugin.Log.LogWarning(aNodeId + "");
+        //     
+        //         var teleporterLink = PathLinkPointService.GetTeleporterLink(aNodeId);
+        //         
+        //         if (teleporterLink != null)
+        //         {
+        //             ChooChooCore.InvokePrivateMethod(__instance, "AddOneWayConnection", new object[] { teleporterLink.StartNodeId, teleporterLink.GoToNodeId, true});
+        //             ChooChooCore.InvokePrivateMethod(__instance, "AddOneWayConnection", new object[] { teleporterLink.GoToNodeId, teleporterLink.StartNodeId, true});
+        //         }
+        //     }
+        // }
         
         //
         // [HarmonyPatch]

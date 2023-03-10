@@ -86,7 +86,7 @@ namespace ChooChoo
     private Decision CompleteDelivery()
     {
       GoodReservation capacityReservation = _goodReserver.CapacityReservation;
-      // _goodReserver.UnreserveCapacity();
+      _goodReserver.UnreserveCapacity();
       _chooChooCore.SetPrivateProperty(_goodReserver, "CapacityReservation", new GoodReservation());
       // if (!capacityReservation.Inventory.HasUnreservedCapacity(capacityReservation.GoodAmount))
       //   return Decision.ReleaseNextTick();
