@@ -1,0 +1,7 @@
+ID,Text,Comment
+Tobbert.PathLinkPoint.Title,Path Link Point,-
+Tobbert.PathLinkPoint.Tip,Click another Path Point to create a Path Link which will allow beavers to travel between the two buildings.,-
+Tobbert.PathLinkPoint.Warning,Cannot create link with this building.,-
+Tobbert.PathLinkPoint.AlreadyConnected,Already Connected.,-
+Tobbert.PathLinkPoint.CreateLink,Create Link,-
+Tobbert.PathLinkPoint.RemoveLinks,Remove Links,-
