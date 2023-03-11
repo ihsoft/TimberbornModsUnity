@@ -13,7 +13,6 @@ namespace ChooChoo
   public class Destroyable : MonoBehaviour
   {
     private RecoveredGoodStackSpawner _recoveredGoodStackSpawner;
-    private ChooChooCore _chooChooCore;
     private TrainYardService _trainYardService;
     private Character _character;
     private Train _train;
@@ -22,10 +21,9 @@ namespace ChooChoo
     private List<GoodCarrier> _goodCarriers;
 
     [Inject]
-    public void InjectDependencies(RecoveredGoodStackSpawner recoveredGoodStackSpawner, ChooChooCore chooChooCore, TrainYardService trainYardService)
+    public void InjectDependencies(RecoveredGoodStackSpawner recoveredGoodStackSpawner, TrainYardService trainYardService)
     {
       _recoveredGoodStackSpawner = recoveredGoodStackSpawner;
-      _chooChooCore = chooChooCore;
       _trainYardService = trainYardService;
     }
 
@@ -45,13 +43,13 @@ namespace ChooChoo
     {
       // _character.KillCharacter();
       _goodReserver.UnreserveStock();
-      _chooChooCore.SetPrivateProperty(_goodReserver, "CapacityReservation", new GoodReservation());
+      ChooChooCore.SetPrivateProperty(_goodReserver, "CapacityReservation", new GoodReservation());
       gameObject.SetActive(false);
       _character.DestroyCharacter();
       var position = transform.position;
       var wrongPosition = new Vector3(position.x, position.z, position.y);
       // _recoveredGoodStackSpawner.AddAwaitingGoods(Vector3Int.RoundToInt(wrongPosition), GetCarriedGoods());
-      _chooChooCore.InvokePublicMethod(_recoveredGoodStackSpawner, "AddAwaitingGoods", new object[]{ Vector3Int.RoundToInt(wrongPosition), GetAllGoods()});
+      ChooChooCore.InvokePublicMethod(_recoveredGoodStackSpawner, "AddAwaitingGoods", new object[]{ Vector3Int.RoundToInt(wrongPosition), GetAllGoods()});
     }
 
     private List<GoodAmount> GetAllGoods()

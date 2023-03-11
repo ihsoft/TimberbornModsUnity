@@ -17,7 +17,6 @@ namespace ChooChoo
     private GoodsStationsRepository _goodsStationsRepository;
     private GoodsStationService _goodsStationService;
     private BlockService _blockService;
-    private ChooChooCore _chooChooCore;
     private TrainCarryAmountCalculator _trainCarryAmountCalculator;
     private GoodCarrier _goodCarrier;
     private GoodReserver _goodReserver;
@@ -25,13 +24,12 @@ namespace ChooChoo
     public int MinimumOfItemsToMove { get; set; } = 19;
 
     [Inject]
-    public void InjectDependencies(TrainDestinationService trainDestinationService, GoodsStationsRepository goodsStationsRepository, GoodsStationService goodsStationService, BlockService blockService, ChooChooCore chooChooCore, TrainCarryAmountCalculator trainCarryAmountCalculator)
+    public void InjectDependencies(TrainDestinationService trainDestinationService, GoodsStationsRepository goodsStationsRepository, GoodsStationService goodsStationService, BlockService blockService, TrainCarryAmountCalculator trainCarryAmountCalculator)
     {
       _trainDestinationService = trainDestinationService;
       _goodsStationsRepository = goodsStationsRepository;
       _goodsStationService = goodsStationService;
       _blockService = blockService;
-      _chooChooCore = chooChooCore;
       _trainCarryAmountCalculator = trainCarryAmountCalculator;
     }
 
@@ -127,10 +125,10 @@ namespace ChooChoo
       _goodReserver.ReserveExactStockAmount(closestInventory, carriableGood);
       // _goodReserver.ReserveCapacity(goodsStation.Inventory, carriableGood);
       _goodReserver.UnreserveCapacity();
-      var reservedCapacity = (GoodRegistry)_chooChooCore.GetInaccessibleField(goodsStation.Inventory, "_reservedCapacity");
+      var reservedCapacity = (GoodRegistry)ChooChooCore.GetInaccessibleField(goodsStation.Inventory, "_reservedCapacity");
       reservedCapacity.Add(carriableGood);
-      _chooChooCore.InvokePrivateMethod(goodsStation.Inventory, "InvokeInventoryChangedEvent", new object[] { carriableGood.GoodId });
-      _chooChooCore.SetPrivateProperty(_goodReserver, "CapacityReservation", new GoodReservation(goodsStation.Inventory, carriableGood, true));
+      ChooChooCore.InvokePrivateMethod(goodsStation.Inventory, "InvokeInventoryChangedEvent", new object[] { carriableGood.GoodId });
+      ChooChooCore.SetPrivateProperty(_goodReserver, "CapacityReservation", new GoodReservation(goodsStation.Inventory, carriableGood, true));
     }
   }
 }

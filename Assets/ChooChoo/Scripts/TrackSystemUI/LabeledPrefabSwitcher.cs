@@ -27,15 +27,7 @@ namespace ChooChoo
         [SerializeField]
         private Sprite _alternativeImage;
 
-        private ChooChooCore _chooChooCore;
-
         private LabeledPrefab _labeledPrefab;
-        
-        [Inject]
-        public void InjectDependencies(ChooChooCore chooChooCore)
-        {
-            _chooChooCore = chooChooCore;
-        }
 
         void Awake()
         {
@@ -44,18 +36,18 @@ namespace ChooChoo
 
         public void SetOriginal()
         { 
-            _chooChooCore.SetInaccessibleField(_labeledPrefab, "_displayNameLocKey",  _displayNameLocKey);
-            _chooChooCore.SetInaccessibleField(_labeledPrefab, "_descriptionLocKey",  _descriptionLocKey);
-            _chooChooCore.SetInaccessibleField(_labeledPrefab, "_flavorDescriptionLocKey",  _flavorDescriptionLocKey);
-            _chooChooCore.SetInaccessibleField(_labeledPrefab, "_image",  _image);
+            ChooChooCore.SetInaccessibleField(_labeledPrefab, "_displayNameLocKey",  _displayNameLocKey);
+            ChooChooCore.SetInaccessibleField(_labeledPrefab, "_descriptionLocKey",  _descriptionLocKey);
+            ChooChooCore.SetInaccessibleField(_labeledPrefab, "_flavorDescriptionLocKey",  _flavorDescriptionLocKey);
+            ChooChooCore.SetInaccessibleField(_labeledPrefab, "_image",  _image);
         }
 
         public void SetAlternative()
         {
-            _chooChooCore.SetInaccessibleField(_labeledPrefab, "_displayNameLocKey",  _alternativeDisplayNameLocKey);
-            _chooChooCore.SetInaccessibleField(_labeledPrefab, "_descriptionLocKey",  _alternativeDescriptionLocKey);
-            _chooChooCore.SetInaccessibleField(_labeledPrefab, "_flavorDescriptionLocKey",  _alternativeFlavorDescriptionLocKey);
-            _chooChooCore.SetInaccessibleField(_labeledPrefab, "_image",  _alternativeImage);
+            ChooChooCore.SetInaccessibleField(_labeledPrefab, "_displayNameLocKey",  _alternativeDisplayNameLocKey);
+            ChooChooCore.SetInaccessibleField(_labeledPrefab, "_descriptionLocKey",  _alternativeDescriptionLocKey);
+            ChooChooCore.SetInaccessibleField(_labeledPrefab, "_flavorDescriptionLocKey",  _alternativeFlavorDescriptionLocKey);
+            ChooChooCore.SetInaccessibleField(_labeledPrefab, "_image",  _alternativeImage);
         }
     }
 }

@@ -11,16 +11,14 @@ namespace ChooChoo
   public class TrainCarryRootBehavior : RootBehavior
   {
     private TrainCarryAmountCalculator _trainCarryAmountCalculator;
-    private ChooChooCore _chooChooCore;
     private TrainWagonManager _trainWagonManager;
     private GoodReserver _goodReserver;
     private MoveToStationExecutor _moveToStationExecutor;
 
     [Inject]
-    public void InjectDependencies(TrainCarryAmountCalculator trainCarryAmountCalculator, ChooChooCore chooChooCore) 
+    public void InjectDependencies(TrainCarryAmountCalculator trainCarryAmountCalculator) 
     {
       _trainCarryAmountCalculator = trainCarryAmountCalculator;
-      _chooChooCore = chooChooCore;
     }
 
     public void Awake()
@@ -49,8 +47,7 @@ namespace ChooChoo
           case ExecutorStatus.Success:
             return CompleteDelivery();
           case ExecutorStatus.Failure:
-            // _goodReserver.UnreserveCapacity();
-            _chooChooCore.SetPrivateProperty(_goodReserver, "CapacityReservation", new GoodReservation());
+            _goodReserver.UnreserveCapacity();
             return Decision.ReleaseNextTick();
           case ExecutorStatus.Running:
             return Decision.ReturnWhenFinished(_moveToStationExecutor);
@@ -78,8 +75,7 @@ namespace ChooChoo
         }
       }
 
-      // _goodReserver.UnreserveCapacity();
-      _chooChooCore.SetPrivateProperty(_goodReserver, "CapacityReservation", new GoodReservation());
+      _goodReserver.UnreserveCapacity();
       return Decision.ReleaseNextTick();
     }
 
@@ -87,13 +83,12 @@ namespace ChooChoo
     {
       GoodReservation capacityReservation = _goodReserver.CapacityReservation;
       _goodReserver.UnreserveCapacity();
-      _chooChooCore.SetPrivateProperty(_goodReserver, "CapacityReservation", new GoodReservation());
       // if (!capacityReservation.Inventory.HasUnreservedCapacity(capacityReservation.GoodAmount))
       //   return Decision.ReleaseNextTick();
       // capacityReservation.Inventory.Give(capacityReservation.GoodAmount);
-      var storage = (GoodRegistry)_chooChooCore.GetInaccessibleField(capacityReservation.Inventory, "_storage");
+      var storage = (GoodRegistry)ChooChooCore.GetInaccessibleField(capacityReservation.Inventory, "_storage");
       storage.Add(capacityReservation.GoodAmount);
-      _chooChooCore.InvokePrivateMethod(capacityReservation.Inventory, "InvokeInventoryChangedEvent", new object[]{ capacityReservation.GoodAmount.GoodId });
+      ChooChooCore.InvokePrivateMethod(capacityReservation.Inventory, "InvokeInventoryChangedEvent", new object[]{ capacityReservation.GoodAmount.GoodId });
       _trainWagonManager.EmptyWagons();
       return Decision.ReturnNextTick();
     }
@@ -133,8 +128,8 @@ namespace ChooChoo
     private GoodAmount RecalculateAmountToRetrieve(GoodReservation goodReservation)
     {
       GoodReservation capacityReservation = _goodReserver.CapacityReservation;
-      // _goodReserver.UnreserveCapacity();
-      _chooChooCore.SetPrivateProperty(_goodReserver, "CapacityReservation", new GoodReservation());
+      _goodReserver.UnreserveCapacity();
+      // _chooChooCore.SetPrivateProperty(_goodReserver, "CapacityReservation", new GoodReservation());
       GoodAmount carry = _trainCarryAmountCalculator.AmountToCarry(_trainWagonManager.LiftingCapacity, goodReservation.GoodAmount.GoodId, capacityReservation.Inventory, goodReservation.Inventory);
       _goodReserver.ReserveCapacity(capacityReservation.Inventory, carry);
       return carry;

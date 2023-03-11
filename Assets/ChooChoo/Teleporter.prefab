@@ -286,12 +286,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5338206533014369884}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45912eeb08934a0e847df0acaf3e3106, type: 3}
+  m_Script: {fileID: 11500000, guid: dd790c2e60673774eb62256a340389ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeedMultiplier: 1
-  uiEnabled: 1
-  connectsTwoWay: 1
+  uiEnabled: 0
+  connectsTwoWay: 0
 --- !u!114 &2620474729558111792
 MonoBehaviour:
   m_ObjectHideFlags: 0

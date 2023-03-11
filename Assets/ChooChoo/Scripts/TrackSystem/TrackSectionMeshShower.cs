@@ -34,16 +34,13 @@ namespace ChooChoo
             ConstructionModeService constructionModeService, 
             NavRangeDrawingService navRangeDrawingService, 
             ToolGroupManager toolGroupManager, 
-            ChooChooCore chooChooCore, 
             EventBus eventBus)
         {
             _toolGroupManager = toolGroupManager;
             _eventBus = eventBus;
 
-            var pathNavRangeDrawer = chooChooCore.GetInaccessibleField(navRangeDrawingService, "_pathNavRangeDrawer");
-
-            var material = chooChooCore.GetInaccessibleField(pathNavRangeDrawer, "_material") as Material;
-            
+            var pathNavRangeDrawer = ChooChooCore.GetInaccessibleField(navRangeDrawingService, "_pathNavRangeDrawer");
+            var material = ChooChooCore.GetInaccessibleField(pathNavRangeDrawer, "_material") as Material;
             _trackPiece = GetComponent<TrackPiece>();
 
             if (_trackContainedSectionMesh != null)

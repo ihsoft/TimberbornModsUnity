@@ -23,6 +23,8 @@ namespace ChooChoo
     private TrackSection _currentTrackSection;
 
     public int CurrentCornerIndex => _currentCornerIndex;
+    
+    
 
     // public List<TrackSection> OccupiedTrackSections
     // {
@@ -65,7 +67,7 @@ namespace ChooChoo
       float time = Time.time;
       _animatedPathCorners.Add(new PathCorner(_transform.position, time));
       float num = deltaTime;
-      while (Vector3.Distance(_transform.position, _objectToFollow.position) > _minDistanceFromObject
+      while (CanMoveCloserToObject()
              && num > 0.0 
              && !ReachedLastPathCorner()
              && _objectToFollowTrackFollower.CurrentCornerIndex >= _currentCornerIndex)
@@ -77,8 +79,9 @@ namespace ChooChoo
         float timeInSeconds = time + deltaTime - num;
         _animatedPathCorners.Add(new PathCorner(position, timeInSeconds));
       }
+      if (!ReachedLastPathCorner() && CanMoveCloserToObject())
+        _animatedPathCorners.Add(new PathCorner(_pathCorners[_currentCornerIndex].RouteCorners[_nextSubCornerIndex], (float) ((double) time + deltaTime + 1.0)));
       _movementAnimator.AnimateMovementAlongPath(_animatedPathCorners, animationName, movementSpeed);
-      // CheckWhetherWagonHasLeftSection();
     }
 
     public void StopMoving()
@@ -88,38 +91,9 @@ namespace ChooChoo
 
     private bool ReachedLastPathCorner() => _pathCorners.Count > 0 && _navigationService.InStoppingProximity(_pathCorners.Last().RouteCorners.Last(), _transform.position);
 
+    private bool CanMoveCloserToObject() => Vector3.Distance(_transform.position, _objectToFollow.position) > _minDistanceFromObject;
+    
     private bool LastOfSubCorners() => _nextSubCornerIndex >= _pathCorners[_currentCornerIndex].RouteCorners.Length - 1;
-
-    // private void CheckWhetherWagonHasLeftSection()
-    // {
-    //   if (!_checkForLeavingSection)
-    //     return;
-    //   
-    //   TrackPiece currentTrackPiece = _pathCorners[_currentCornerIndex].Exit.ConnectedTrackPiece;
-    //
-    //   if (currentTrackPiece == null)
-    //     return;
-    //
-    //   TrackSection currentTrackSection = currentTrackPiece.TrackSection;
-    //
-    //   var lastOccupiedTrackSection = OccupiedTrackSections.LastOrDefault();
-    //
-    //   if (lastOccupiedTrackSection == null)
-    //     return;
-    //   
-    //   foreach (var trackSection1 in OccupiedTrackSections)
-    //   {
-    //     Plugin.Log.LogInfo(trackSection1.TrackPieces.First().CenterCoordinates.ToString());
-    //   }
-    //   Plugin.Log.LogWarning(currentTrackSection.TrackPieces.First().CenterCoordinates.ToString());
-    //   Plugin.Log.LogWarning(lastOccupiedTrackSection.TrackPieces.First().CenterCoordinates.ToString());
-    //
-    //   if (OccupiedTrackSections.Contains(currentTrackSection) && currentTrackSection != lastOccupiedTrackSection)
-    //   {
-    //     lastOccupiedTrackSection.Leave();
-    //     OccupiedTrackSections.Remove(lastOccupiedTrackSection);
-    //   }
-    // }
 
     private int PeekNextSubCornerIndex()
     {

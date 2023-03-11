@@ -43,7 +43,7 @@ namespace ChooChoo
     public void Move()
     {
       var speed = _walkerSpeedManager.CalculateNormalWalkingSpeed();
-      speed *= 1.012f;
+      speed *= 1.008f;
       var time = Time.fixedDeltaTime;
       ObjectFollower.MoveTowardsObject(time, _animationName, speed);
     }

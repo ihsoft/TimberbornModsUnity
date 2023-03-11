@@ -31,7 +31,7 @@ namespace ChooChoo
     public override Decision Decide(GameObject agent)
     {
       var trainWaitingLocation = _blockService.GetFloorObjectComponentAt<TrainWaitingLocation>(transform.position.ToBlockServicePosition());
-      if (_currentWaitingLocation != null && trainWaitingLocation == _currentWaitingLocation)
+      if (_currentWaitingLocation != null && _currentWaitingLocation == trainWaitingLocation)
       {
         _waitExecutor.LaunchForIdleTime();
         return Decision.ReleaseWhenFinished(_waitExecutor);
@@ -75,13 +75,8 @@ namespace ChooChoo
 
     private Decision GoToClosestWaitingLocation()
     {
-      var trainWaitingLocation = _closestTrainWaitingLocationPicker.ClosestWaitingLocation(transform.position);
-      if (trainWaitingLocation == null)
-      {
-        _currentWaitingLocation = null;
-        return Decision.ReleaseNow();
-      }
-      return OccupyWaitingLocation(trainWaitingLocation);
+      var closestWaitingLocation = _closestTrainWaitingLocationPicker.ClosestWaitingLocation(transform.position);
+      return OccupyWaitingLocation(closestWaitingLocation);
     }
   }
 }

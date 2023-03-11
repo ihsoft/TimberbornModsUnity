@@ -41,7 +41,7 @@ namespace ChooChoo
 
         public List<TrainWagon> TrainWagons { get; private set; }
 
-        public int NumberOfCarts = 4;
+        public int NumberOfWagons = 4;
 
         public float minDistanceFromTrain;
 
@@ -72,7 +72,7 @@ namespace ChooChoo
         {
             if (TrainWagons != null) 
                 return;
-            InitializeCarts();
+            InitializeWagons();
             SetObjectToFollow();
         }
         
@@ -112,7 +112,7 @@ namespace ChooChoo
         private void SetObjectToFollow()
         {
             for (int i = TrainWagons.Count - 1; i > 0; i--)
-                TrainWagons[i].InitializeObjectFollower(TrainWagons[i - 1].transform, TrainWagons[i - 1].wagonLength, i + 1 == NumberOfCarts);
+                TrainWagons[i].InitializeObjectFollower(TrainWagons[i - 1].transform, TrainWagons[i - 1].wagonLength, i + 1 == NumberOfWagons);
 
             TrainWagons[0].InitializeObjectFollower(transform, minDistanceFromTrain, false);
         }
@@ -162,19 +162,19 @@ namespace ChooChoo
             }
         }
         
-        private void InitializeCarts()
+        private void InitializeWagons()
         {
             var trainWagons = new List<TrainWagon>();
             // var train = _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/Train." + _factionService.Current.Id);
             var cartPrefab = _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/SmallMetalCart.Folktails");
-            for (int cartNumber = 0; cartNumber < NumberOfCarts; cartNumber++)
+            for (int cartNumber = 0; cartNumber < NumberOfWagons; cartNumber++)
             {
                 var wagon = _entityService.Instantiate(cartPrefab.gameObject);
                 var trainWagon = wagon.GetComponent<TrainWagon>();
                 trainWagon.Train = gameObject;
                 trainWagons.Add(trainWagon);
 
-                SetInitialCartPosition(wagon, cartNumber);
+                SetInitialWagonPosition(wagon, cartNumber);
                 
                 Character component = wagon.GetComponent<Character>();
                 component.FirstName = _loc.T(TrainNameLocKey);
@@ -184,7 +184,7 @@ namespace ChooChoo
             TrainWagons = trainWagons;
         }
 
-        private void SetInitialCartPosition(GameObject cart, int cartNumber)
+        private void SetInitialWagonPosition(GameObject cart, int cartNumber)
         {
             cart.transform.rotation = _trainYardService.CurrentTrainYard.GetComponent<BlockObject>().Orientation.ToWorldSpaceRotation();
             var transform1 = transform;

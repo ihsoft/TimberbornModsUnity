@@ -67,7 +67,7 @@
 //     private void GatherTrains(IEnumerable<TrainWagonManager> trains)
 //     {
 //       foreach (TrainWagonManager trainWagonManager in trains)
-//         _trains.GetOrAdd(trainWagonManager.NumberOfCarts).Add(trainWagonManager.gameObject);
+//         _trains.GetOrAdd(trainWagonManager.NumberOfWagons).Add(trainWagonManager.gameObject);
 //     }
 //
 //     private IEnumerable<BatchControlRowGroup> GetRows()

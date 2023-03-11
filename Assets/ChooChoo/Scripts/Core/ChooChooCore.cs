@@ -5,27 +5,27 @@ using Timberborn.Common;
 
 namespace ChooChoo
 {
-    public class ChooChooCore
+    public static class ChooChooCore
     {
-        private readonly Dictionary<string, FieldInfo> _fieldInfos = new();
-        private readonly Dictionary<string, MethodInfo> _methodInfos = new();
-        private readonly Dictionary<string, PropertyInfo> _propertyInfos = new();
+        private static readonly Dictionary<string, FieldInfo> _fieldInfos = new();
+        private static readonly Dictionary<string, MethodInfo> _methodInfos = new();
+        private static readonly Dictionary<string, PropertyInfo> _propertyInfos = new();
         
-        public object GetPublicProperty(object instance, string fieldName)
+        public static object GetPublicProperty(object instance, string fieldName)
         {
             var propertyInfo = _propertyInfos.GetOrAdd(fieldName, () => AccessTools.TypeByName(instance.GetType().Name).GetProperty(fieldName,BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance));
 
             return propertyInfo.GetValue(instance);
         }
         
-        public void SetPrivateProperty(object instance, string fieldName, object newValue)
+        public static void SetPrivateProperty(object instance, string fieldName, object newValue)
         {
             var propertyInfo = _propertyInfos.GetOrAdd(fieldName, () => AccessTools.TypeByName(instance.GetType().Name).GetProperty(fieldName,BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance));
 
             propertyInfo.SetValue(instance, newValue);
         }
         
-        public object InvokePublicMethod(object instance, string methodName, object[] args)
+        public static object InvokePublicMethod(object instance, string methodName, object[] args)
         {
             if (!_methodInfos.ContainsKey(methodName))
             {
@@ -35,7 +35,7 @@ namespace ChooChoo
             return _methodInfos[methodName].Invoke(instance, args);
         }
         
-        public object InvokePrivateMethod(object instance, string methodName, object[] args = null)
+        public static object InvokePrivateMethod(object instance, string methodName, object[] args = null)
         {
             if (!_methodInfos.ContainsKey(methodName))
             {
@@ -45,7 +45,7 @@ namespace ChooChoo
             return _methodInfos[methodName].Invoke(instance, args);
         }
 
-        public void SetInaccessibleField(object instance, string fieldName, object newValue)
+        public static void SetInaccessibleField(object instance, string fieldName, object newValue)
         {
             if (!_fieldInfos.ContainsKey(fieldName))
             {
@@ -55,7 +55,7 @@ namespace ChooChoo
             _fieldInfos[fieldName].SetValue(instance, newValue);
         }
 
-        public object GetInaccessibleField(object instance, string fieldName)
+        public static object GetInaccessibleField(object instance, string fieldName)
         {
             if (!_fieldInfos.ContainsKey(fieldName))
             {
