@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BepInEx;
-using BepInEx.Configuration;
-using BepInEx.Logging;
 using Bindito.Core;
 using HarmonyLib;
 using TimberApi.ConfiguratorSystem;
@@ -20,33 +17,6 @@ using UnityEngine.UIElements;
 
 namespace MorePlatforms
 {
-    // [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
-    // [BepInDependency("com.timberapi.timberapi")]
-    // [BepInDependency("tobbert.categorybutton")]
-    // public class Plugin : BaseUnityPlugin
-    // {
-    //     public const string PluginGuid = "tobbert.moreplatforms";
-    //     public const string PluginName = "More Platforms";
-    //     public const string PluginVersion = "1.2.0";
-    //     
-    //     public static ManualLogSource Log;
-    //     
-    //     public static ConfigEntry<bool> EnablePlatformMiddle;
-    //     
-    //     void Awake()
-    //     {
-    //         EnablePlatformMiddle = Config.Bind("General.Features", "EnablePlatformMiddle", false, "This adds another platform which can be placed anywhere. This will break any game integrity that remains.");
-    //
-    //         Log = Logger;
-    //         
-    //         Log.LogInfo($"Loaded {PluginName} Version: {PluginVersion}!");
-    //         
-    //         TimberAPI.AssetRegistry.AddSceneAssets(PluginGuid, SceneEntryPoint.Global);
-    //         TimberAPI.DependencyRegistry.AddConfigurator(new PluginConfigurator());
-    //         new Harmony(PluginGuid).PatchAll();
-    //     }
-    // }
-    
     public class Plugin : IModEntrypoint
     {
         public const string PluginGuid = "tobbert.moreplatforms";

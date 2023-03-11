@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Timberborn.BlockSystem;
-using Timberborn.EntitySystem;
-using Timberborn.GameDistricts;
 using Timberborn.Localization;
 using Timberborn.Navigation;
+using Timberborn.PrefabSystem;
 using Timberborn.PreviewSystem;
 using UnityEngine;
 
@@ -40,6 +39,6 @@ namespace GlobalMarket
     //     .Where(prefab => prefab.PrefabName == "LargeWarehouse.Folktails")
     //     .Select(prefab => prefab.GetComponent<BlockObject>().PositionedEntrance.DoorstepCoordinates));
     
-    private bool CurrentDistrictHasGlobalMarket(IEnumerable<Preview> previews) => this._districtService.ArePreviewDistrictsInConflict(previews.Select<Preview, Prefab>((Func<Preview, Prefab>) (preview => preview.GetComponent<Prefab>())).Where<Prefab>((Func<Prefab, bool>) (districtCenter => (bool) (UnityEngine.Object) districtCenter)).Select<Prefab, Vector3Int>((Func<Prefab, Vector3Int>) (prefab => prefab.GetComponent<BlockObject>().PositionedEntrance.DoorstepCoordinates)));
+    private bool CurrentDistrictHasGlobalMarket(IEnumerable<Preview> previews) => this._districtService.ArePreviewDistrictsInConflict(previews.Select(preview => preview.GetComponent<Prefab>()).Where<Prefab>((Func<Prefab, bool>) (districtCenter => (bool) (UnityEngine.Object) districtCenter)).Select<Prefab, Vector3Int>((Func<Prefab, Vector3Int>) (prefab => prefab.GetComponent<BlockObject>().PositionedEntrance.DoorstepCoordinates)));
   }
 }

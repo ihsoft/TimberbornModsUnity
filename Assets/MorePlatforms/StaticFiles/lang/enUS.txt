@@ -1,15 +1,15 @@
 ID,Text,Comment
 Tobbert.HorizontalPlatformEnd1x1.DisplayName,Side Platform 1x1,-
-Tobbert.HorizontalPlatformEnd1x1.Description,"A platform that can be placed on the side of a cliffs, levees or reinforced platforms.",-
+Tobbert.HorizontalPlatformEnd1x1.Description,"A platform that can be placed on the side of a cliffs, levees, reinforced platforms or Platform Middle Pieces.",-
 Tobbert.HorizontalPlatformEnd1x1.FlavorDescription,Imagine if you could stack these on itself.,-
 Tobbert.HorizontalPlatformEnd2x1.DisplayName,Side Platform 2x1,-
-Tobbert.HorizontalPlatformEnd2x1.Description,"A platform that can be placed on the side of a cliffs, levees or reinforced platforms.",-
+Tobbert.HorizontalPlatformEnd2x1.Description,"A platform that can be placed on the side of a cliffs, reinforced platforms or Platform Middle Pieces.",-
 Tobbert.HorizontalPlatformEnd2x1.FlavorDescription,"Double the platforms, double the fun!",-
 Tobbert.HorizontalPlatformEnd3x1.DisplayName,Side Platform 3x1,-
-Tobbert.HorizontalPlatformEnd3x1.Description,"A platform that can be placed on the side of a cliffs, levees or reinforced platforms.",-
+Tobbert.HorizontalPlatformEnd3x1.Description,"A platform that can be placed on the side of a cliffs, reinforced platforms or Platform Middle Pieces.",-
 Tobbert.HorizontalPlatformEnd3x1.FlavorDescription,This is for the looooooong bois.,-
 Tobbert.HorizontalPlatformEnd4x1.DisplayName,Side Platform 4x1,-
-Tobbert.HorizontalPlatformEnd4x1.Description,"A platform that can be placed on the side of a cliffs, levees or reinforced platforms.",-
+Tobbert.HorizontalPlatformEnd4x1.Description,"A platform that can be placed on the side of a cliffs, reinforced platforms or Platform Middle Pieces.",-
 Tobbert.HorizontalPlatformEnd4x1.FlavorDescription,This is not how physics work.,-
 
 Tobbert.HorizontalPlatformMiddle1x1.DisplayName,Side Platform Middle Piece 1 High,-

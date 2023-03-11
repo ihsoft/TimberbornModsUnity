@@ -129,7 +129,6 @@ MonoBehaviour:
   _finishableWithBeaversOnSite: 0
   _path: 0
   _drawRangeBoundsOnIt: 0
-  _hasNoRoof: 0
 --- !u!114 &9097392271342064402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,6 +235,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _noAutoWalls: 1
   _generateFloorsOnStackable: 0
+  _blockAllEdges: 0
   _addedEdges:
   - _start: {x: 1, y: 0, z: 2}
     _end: {x: 0, y: 0, z: 2}
@@ -487,6 +487,18 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: f0673e1fae278014881868c946434506, type: 2}
+    - target: {fileID: 4802153759386110174, guid: 25787874272455449971ff42baf111ac, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: c3c5d3b3260cb37428c36f0d41701883, type: 2}
+    - target: {fileID: 5242023258126429488, guid: 25787874272455449971ff42baf111ac, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 250fd6adf16aff343bd8fefd78533fd6, type: 2}
+    - target: {fileID: 5242023258126429488, guid: 25787874272455449971ff42baf111ac, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: f0673e1fae278014881868c946434506, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 25787874272455449971ff42baf111ac, type: 3}
 --- !u!1 &1758639546814011874 stripped
@@ -505,8 +517,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 100.22551, y: 17.621778, z: 100.22549}
-  m_Center: {x: 150.00006, y: -9.462224, z: 50.000004}
+  m_Size: {x: 1, y: 0.17, z: 1}
+  m_Center: {x: 1.5, y: -0.07, z: 0.5}
 --- !u!4 &5927391783729128604 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 25787874272455449971ff42baf111ac, type: 3}

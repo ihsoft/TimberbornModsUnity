@@ -1,7 +1,7 @@
 ﻿using Bindito.Core;
 using TimberApi.ConfiguratorSystem;
 using TimberApi.SceneSystem;
-using Timberborn.EntitySystem;
+using Timberborn.PrefabSystem;
 
 namespace GlobalMarket
 {

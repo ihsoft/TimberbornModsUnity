@@ -3,12 +3,11 @@ using System.Reflection;
 using HarmonyLib;
 using TimberApi.ConsoleSystem;
 using TimberApi.ModSystem;
-using Timberborn.EntitySystem;
 using Timberborn.GameDistricts;
 using Timberborn.InventorySystem;
 using Timberborn.Persistence;
-using Timberborn.StockKeeping;
-using Timberborn.Warehouses;
+using Timberborn.PrefabSystem;
+using Timberborn.Stockpiles;
 using UnityEngine;
 
 namespace GlobalMarket

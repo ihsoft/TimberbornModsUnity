@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 9083448781084263237}
   - component: {fileID: 590515972662432967}
   - component: {fileID: 7278868812174444743}
-  - component: {fileID: 8731285368440089541}
+  - component: {fileID: 8292891929020627905}
   - component: {fileID: 1151881408293305778}
   - component: {fileID: 499880859668066832}
   - component: {fileID: 835374262739727047}
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3207032685556258263}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -788214902, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
+  m_Script: {fileID: -731835049, guid: b5f268a4cb31a93ed707a95d3a502b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _prefabName: AirBalloon.Folktails
@@ -165,7 +165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a73b9fed0ff6ee4ba578d0dc0ae0061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8731285368440089541
+--- !u!114 &8292891929020627905
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -174,7 +174,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3207032685556258263}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1907271204, guid: b6b9d4cc3090b6fceb2eb6438dd271f1, type: 3}
+  m_Script: {fileID: -1907271204, guid: 5472a64f9e8ebdd4bb05a6bc0fa7cde5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _prefabNameLocKey: AirBalloon

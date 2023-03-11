@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Timberborn.AssetSystem;
-using Timberborn.EntitySystem;
+using Timberborn.PrefabSystem;
 using UnityEngine;
 
 namespace GlobalMarket

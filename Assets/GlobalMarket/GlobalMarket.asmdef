@@ -23,7 +23,6 @@
         "Timberborn.Emptying.dll",
         "Timberborn.Hauling.dll",
         "Timberborn.Persistence.dll",
-        "Timberborn.Warehouses.dll",
         "Timberborn.CoreUI.dll",
         "Timberborn.EntityPanelSystem.dll",
         "Timberborn.Localization.dll",
@@ -58,7 +57,9 @@
         "Timberborn.CharacterModelSystem.dll",
         "Timberborn.SelectionSystem.dll",
         "Timberborn.FactionSystemGame.dll",
-        "Timberborn.FactionSystem.dll"
+        "Timberborn.FactionSystem.dll",
+        "Timberborn.PrefabSystem.dll",
+        "Timberborn.Stockpiles.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],
