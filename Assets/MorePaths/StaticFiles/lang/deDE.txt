@@ -25,11 +25,11 @@ Tobbert.MetalPath.FlavorDescription,"Das fühlt sich kalt an.",-
 
 Tobbert.WoodFolktails.DisplayName,"Holz-Pfad Rustikalruten",-
 Tobbert.WoodFolktails.Description,"Ein anderer Pfad um deine Stadt abwechslungsreicher zu gestalten.",-
-Tobbert.WoodFolktails.FlavorDescription,"",-
+Tobbert.WoodFolktails.FlavorDescription,"Es ist Holz, aber NICHT verputzt! OwO",-
 
 Tobbert.WoodIronTeeth.DisplayName,"Holz-Pfad Eisenzähne",-
 Tobbert.WoodIronTeeth.Description,"Ein anderer Pfad um deine Stadt abwechslungsreicher zu gestalten.",-
-Tobbert.WoodIronTeeth.FlavorDescription,"",-
+Tobbert.WoodIronTeeth.FlavorDescription,"Es ist Holz, aber NICHT verputzt! OwO",-
 
 Tobbert.PlasteredWoodPath.Folktails.DisplayName,"Verputzter-Holz-Pfad Rustikalruten",-
 Tobbert.PlasteredWoodPath.Folktails.Description,"Ein anderer Pfad um deine Stadt abwechslungsreicher zu gestalten.",-
