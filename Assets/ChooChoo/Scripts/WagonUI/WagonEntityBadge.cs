@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Timberborn.BeaversUI
 {
-  public class WagonEntityBadge : MonoBehaviour, IModifiableEntityBadge
+  public class WagonEntityBadge : MonoBehaviour, IEntityBadge
   {
     private const string TrainDisplayNameLocKey = "Tobbert.Train.Name";
     
@@ -47,8 +47,6 @@ namespace Timberborn.BeaversUI
     }
 
     public string GetEntityName() => "<b>" + _character.FirstName + "</b>";
-
-    public void SetEntityName(string entityName) => _character.FirstName = entityName;
 
     public string GetEntitySubtitle()
     {

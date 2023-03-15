@@ -11,7 +11,7 @@ namespace ChooChoo
   public class TrainCarryRootBehavior : RootBehavior
   {
     private TrainCarryAmountCalculator _trainCarryAmountCalculator;
-    private TrainWagonManager _trainWagonManager;
+    private WagonGoodsManager _wagonGoodsManager;
     private GoodReserver _goodReserver;
     private MoveToStationExecutor _moveToStationExecutor;
 
@@ -23,20 +23,20 @@ namespace ChooChoo
 
     public void Awake()
     {
-      _trainWagonManager = GetComponent<TrainWagonManager>();
+      _wagonGoodsManager = GetComponent<WagonGoodsManager>();
       _goodReserver = GetComponent<GoodReserver>();
       _moveToStationExecutor = GetComponent<MoveToStationExecutor>();
     }
 
     public override Decision Decide(GameObject agent)
     {
-      if (_trainWagonManager.IsCarrying)
+      if (_wagonGoodsManager.IsCarrying)
       {
         if (!_goodReserver.HasReservedCapacity 
             // && !ReserveCapacityForCarriedGoods()
             )
         {
-          _trainWagonManager.EmptyWagons();
+          _wagonGoodsManager.EmptyWagons();
           return Decision.ReleaseNow();
         }
 
@@ -89,7 +89,7 @@ namespace ChooChoo
       var storage = (GoodRegistry)ChooChooCore.GetInaccessibleField(capacityReservation.Inventory, "_storage");
       storage.Add(capacityReservation.GoodAmount);
       ChooChooCore.InvokePrivateMethod(capacityReservation.Inventory, "InvokeInventoryChangedEvent", new object[]{ capacityReservation.GoodAmount.GoodId });
-      _trainWagonManager.EmptyWagons();
+      _wagonGoodsManager.EmptyWagons();
       return Decision.ReturnNextTick();
     }
 
@@ -99,7 +99,7 @@ namespace ChooChoo
       _goodReserver.UnreserveStock();
       GoodAmount goodAmount = stockReservation.FixedAmount ? stockReservation.GoodAmount : RecalculateAmountToRetrieve(stockReservation);
       stockReservation.Inventory.Take(goodAmount);
-      _trainWagonManager.PutInWagons(goodAmount);
+      _wagonGoodsManager.PutInWagons(goodAmount);
       return Decision.ReturnNextTick();
     }
 
@@ -130,7 +130,7 @@ namespace ChooChoo
       GoodReservation capacityReservation = _goodReserver.CapacityReservation;
       _goodReserver.UnreserveCapacity();
       // _chooChooCore.SetPrivateProperty(_goodReserver, "CapacityReservation", new GoodReservation());
-      GoodAmount carry = _trainCarryAmountCalculator.AmountToCarry(_trainWagonManager.LiftingCapacity, goodReservation.GoodAmount.GoodId, capacityReservation.Inventory, goodReservation.Inventory);
+      GoodAmount carry = _trainCarryAmountCalculator.AmountToCarry(_wagonGoodsManager.LiftingCapacity, goodReservation.GoodAmount.GoodId, capacityReservation.Inventory, goodReservation.Inventory);
       _goodReserver.ReserveCapacity(capacityReservation.Inventory, carry);
       return carry;
     }

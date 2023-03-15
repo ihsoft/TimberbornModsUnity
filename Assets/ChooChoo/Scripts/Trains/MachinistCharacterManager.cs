@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ChooChoo
 {
-    public class MachinistCharacterManager : TickableComponent
+    public class MachinistCharacterManager : MonoBehaviour
     {
         private MachinistCharacterFactory _machinistCharacterFactory;
         private TrainScheduleBehavior _trainScheduleBehavior;
@@ -15,28 +15,19 @@ namespace ChooChoo
 
         private readonly string AnimationName = "Sitting";
 
+        private const float Scale = 0.64f;
+
         [Inject]
         public void InjectDependencies(MachinistCharacterFactory machinistCharacterFactory)
         {
             _machinistCharacterFactory = machinistCharacterFactory;
         }
 
-        private new void Start()
+        private void Start()
         {
             _pilot = _machinistCharacterFactory.CreatePilot(transform.GetChild(0).GetChild(0).GetChild(2));
             _pilot.GetComponent<Animator>().SetBool(AnimationName, true);
+            _pilot.transform.localScale = new Vector3(Scale, Scale, Scale);
         }
-
-        public override void Tick()
-        {
-            // var newState = _flyingRootBehavior.IsReturned;
-            // if (!StateHasChanged(newState))
-            //     return;
-            // _previousState = newState;
-            // _pilot.SetActive(!newState);
-            // _pilot.GetComponent<Animator>().SetBool(AnimationName, true);
-        }
-
-        private bool StateHasChanged(bool newState) => _previousState != newState;
     }
 }

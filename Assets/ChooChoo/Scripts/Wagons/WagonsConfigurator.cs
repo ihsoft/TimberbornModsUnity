@@ -11,6 +11,7 @@ namespace ChooChoo
     public void Configure(IContainerDefinition containerDefinition)
     {
       containerDefinition.Bind<ObjectFollowerFactory>().AsSingleton();
+      containerDefinition.Bind<WagonInitializer>().AsSingleton();
       containerDefinition.MultiBind<TemplateModule>().ToProvider(ProvideTemplateModule).AsSingleton();
     }
 

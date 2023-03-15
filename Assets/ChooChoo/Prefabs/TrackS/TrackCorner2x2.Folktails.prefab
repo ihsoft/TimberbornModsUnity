@@ -202,7 +202,7 @@ MonoBehaviour:
     _size: {x: 2, y: 2, z: 1}
     _blockSpecifications:
     - _matterBelow: 1
-      _occupation: 0
+      _occupation: 6
       _stackable: 0
       _optionallyUnderground: 0
       _occupyAllBelow: 0
@@ -258,6 +258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _trackDistance: 2
+  DividesSection: 0
 --- !u!114 &-8417499419623197416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,6 +274,7 @@ MonoBehaviour:
   _trackSectionMesh: {fileID: 3928335532125009488}
   _trackEntranceSectionMesh: {fileID: 0}
   _trackExitSectionMesh: {fileID: 0}
+  _trackContainedSectionMesh: {fileID: 0}
 --- !u!114 &2620474729558111792
 MonoBehaviour:
   m_ObjectHideFlags: 0

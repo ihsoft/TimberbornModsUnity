@@ -15,12 +15,10 @@ namespace ChooChoo
   {
     private static readonly ComponentKey MachinistKey = new(nameof(Machinist));
     private static readonly PropertyKey<ITrainDestination> CurrentDestinationKey = new("CurrentDestination");
-    private static readonly PropertyKey<TrackRoute> LastTrackConnectionKey = new("LastTrackConnection");
     private TrackFollowerFactory _trackFollowerFactory;
     private TrainDestinationObjectSerializer _trainDestinationObjectSerializer;
-    private TrackRouteObjectSerializer _trackRouteObjectSerializer;
     private WalkerSpeedManager _walkerSpeedManager;
-    private TrainWagonManager _trainWagonManager;
+    private WagonMovementController _wagonMovementController;
     private SlowdownCalculator _slowdownCalculator;
     private TrackFollower _trackFollower;
     private readonly List<TrackRoute> _pathConnections = new(100);
@@ -35,25 +33,20 @@ namespace ChooChoo
 
     public IReadOnlyList<TrackRoute> PathCorners { get; private set; }
 
-
-    public bool IsStuck { get; set; }
-
     [Inject]
     public void InjectDependencies(
       TrackFollowerFactory trackFollowerFactory,
-      TrainDestinationObjectSerializer trainDestinationObjectSerializer,
-      TrackRouteObjectSerializer trackConnectionObjectSerializer
+      TrainDestinationObjectSerializer trainDestinationObjectSerializer
     )
     {
       _trackFollowerFactory = trackFollowerFactory;
       _trainDestinationObjectSerializer = trainDestinationObjectSerializer;
-      _trackRouteObjectSerializer = trackConnectionObjectSerializer;
     }
 
     public void Awake()
     {
       _walkerSpeedManager = GetComponent<WalkerSpeedManager>();
-      _trainWagonManager = GetComponent<TrainWagonManager>();
+      _wagonMovementController = GetComponent<WagonMovementController>();
       _slowdownCalculator = GetComponent<SlowdownCalculator>();
       _trackFollower = _trackFollowerFactory.Create(gameObject);
       PathCorners = _pathConnections.AsReadOnly();
@@ -61,12 +54,14 @@ namespace ChooChoo
 
     public override void Tick()
     {
-      if (Stopped())
-        return;
-      if (_trackFollower.ReachedLastPathCorner())
-        Stop();
-      else
-        Move();
+      if (!Stopped())
+      {
+        if (_trackFollower.ReachedLastPathCorner())
+          Stop();
+        else
+          Move();
+      }
+      _wagonMovementController.MoveWagons();
     }
 
     public ExecutorStatus GoTo(ITrainDestination trainDestination)
@@ -83,7 +78,7 @@ namespace ChooChoo
       _previousTrainDestination = _currentTrainDestination;
       _currentTrainDestination = null;
       _trackFollower.StopMoving();
-      _trainWagonManager.StopWagons();
+      _wagonMovementController.StopWagons();
     }
 
     public bool Stopped() => _currentTrainDestination == null;
@@ -120,9 +115,8 @@ namespace ChooChoo
         {
           _pathConnections.AddRange(_tempPathCorners);
           _tempPathCorners.Clear();
-          _trainWagonManager.SetNewPathConnections(_trackFollower, _pathConnections);
+          _wagonMovementController.SetNewPathConnections(_trackFollower, _pathConnections);
           _slowdownCalculator.SetPositions(_pathConnections[0].RouteCorners[0], _pathConnections.Last().RouteCorners.Last());
-          IsStuck = false;
         }
         else
         {

@@ -2,7 +2,7 @@
 using ChooChoo;
 using TimberApi.ConfiguratorSystem;
 using TimberApi.SceneSystem;
-using Timberborn.BeaversUI;
+using Timberborn.EntityPanelSystem;
 using Timberborn.TemplateSystem;
 
 namespace GlobalMarket
@@ -12,14 +12,36 @@ namespace GlobalMarket
   {
     public void Configure(IContainerDefinition containerDefinition)
     {
+      containerDefinition.Bind<WagonTypeDropdownOptionsSetter>().AsSingleton();
+      containerDefinition.Bind<WagonTypeSelectorFragment>().AsSingleton();
       containerDefinition.MultiBind<TemplateModule>().ToProvider(ProvideTemplateModule).AsSingleton();
+      containerDefinition.MultiBind<EntityPanelModule>().ToProvider<EntityPanelModuleProvider>().AsSingleton();
     }
     
     private static TemplateModule ProvideTemplateModule()
     {
       TemplateModule.Builder builder = new TemplateModule.Builder();
       builder.AddDecorator<TrainWagon, TrainEntityBadge>();
+      builder.AddDecorator<TrainWagonManager, WagonGoodsManager>();
+      builder.AddDecorator<TrainWagonManager, WagonMovementController>();
       return builder.Build();
+    }
+    
+    private class EntityPanelModuleProvider : IProvider<EntityPanelModule>
+    {
+      private readonly WagonTypeSelectorFragment _wagonTypeSelectorFragment;
+
+      public EntityPanelModuleProvider(WagonTypeSelectorFragment wagonTypeSelectorFragment)
+      {
+        _wagonTypeSelectorFragment = wagonTypeSelectorFragment;
+      }
+
+      public EntityPanelModule Get()
+      {
+        EntityPanelModule.Builder builder = new EntityPanelModule.Builder();
+        builder.AddBottomFragment(_wagonTypeSelectorFragment);
+        return builder.Build();
+      }
     }
   }
 }

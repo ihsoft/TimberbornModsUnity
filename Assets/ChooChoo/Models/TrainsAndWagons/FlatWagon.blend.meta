@@ -1,29 +1,9 @@
 fileFormatVersion: 2
-guid: db2e628cd96d25a4ab9eaf01a2fc3b77
+guid: bc568f9c3f38748419abc4f5ad77d9f2
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: BaseMetal.IronTeeth
-    second: {fileID: -7876486141209205285, guid: bc568f9c3f38748419abc4f5ad77d9f2, type: 3}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: BaseMetal_Folktails
-    second: {fileID: 2100000, guid: ad1e2b39851a30740a27e6ba70932347, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: BaseWood_Brown_Folktails
-    second: {fileID: 2100000, guid: 67994ecbb9674c54f81c354ecfdc795d, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: BaseWood_Grey.IronTeeth
-    second: {fileID: 2100000, guid: 34670034b62effa40a066c032e6ecc14, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 0
     materialName: 0

@@ -54,7 +54,7 @@ namespace ChooChoo
 
     public VisualElement InitializeFragment()
     {
-      _train = _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/SmallLogTrain.Folktails").GetComponent<Train>();
+      _train = _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/Train.Folktails").GetComponent<Train>();
       
       
       _root = new VisualElement();

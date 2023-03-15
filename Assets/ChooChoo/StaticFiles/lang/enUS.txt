@@ -63,6 +63,11 @@ Tobbert.TrainYard.CreateTrain,Build train,-
 Tobbert.Train.PrefabName,Train,-
 Tobbert.Wagon.PrefabName,Wagon,-
 
+Tobbert.WagonType.Box,Box Wagon,-
+Tobbert.WagonType.Liquid,Tank Wagon,-
+Tobbert.WagonType.Flat,Flat Wagon,-
+Tobbert.WagonType.Gondola,Gondola Wagon,-
+
 Tobbert.BatchControl.Trains,Trains,-
 Tobbert.Train.Length,Train Length: ,-
 Tobbert.Train.Destroy,Are you sure you want to destroy this train?,-

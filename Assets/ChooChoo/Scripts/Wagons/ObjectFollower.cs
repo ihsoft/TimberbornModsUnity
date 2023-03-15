@@ -15,7 +15,6 @@ namespace ChooChoo
     private readonly List<PathCorner> _animatedPathCorners = new(100);
     private ITrackFollower _objectToFollowTrackFollower;
     private List<TrackRoute> _pathCorners = new();
-    private bool _checkForLeavingSection;
     private int _currentCornerIndex;
     private int _nextSubCornerIndex;
     private Transform _objectToFollow;
@@ -44,11 +43,10 @@ namespace ChooChoo
       _train = train;
     }
 
-    public void SetObjectToFollow(Transform objectToFollow, float minDistanceFromObject, bool checkForLeavingSection)
+    public void SetObjectToFollow(Transform objectToFollow, float minDistanceFromObject)
     {
       _objectToFollow = objectToFollow;
       _minDistanceFromObject = minDistanceFromObject;
-      _checkForLeavingSection = checkForLeavingSection;
     }
     public void SetNewPathRoutes(ITrackFollower trackFollower, List<TrackRoute> pathCorners)
     {

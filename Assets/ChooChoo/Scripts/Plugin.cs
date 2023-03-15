@@ -48,7 +48,7 @@ namespace ChooChoo
             {
                 return false;
             }
-            if (citizen.GetComponent<Prefab>().PrefabName.Contains("Cart"))
+            if (citizen.GetComponent<Prefab>().PrefabName.Contains("Wagon"))
             {
                 return false;
             }
@@ -70,7 +70,7 @@ namespace ChooChoo
         private static readonly List<string> GameObjectsToCheck = new()
         {
             "Train",
-            "Cart"
+            "Wagon"
         };
 
         public static MethodInfo TargetMethod()
