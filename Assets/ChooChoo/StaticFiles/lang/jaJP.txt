@@ -61,7 +61,12 @@ Tobbert.TrainYard.CostOfTrain,1編成の建造費:,-Cost of 1 train:
 Tobbert.TrainYard.CreateTrain,列車を新造する,-Create train
 
 Tobbert.Train.PrefabName,機関車,-Train
-Tobbert.Wagon.PrefabName,無蓋車,-Wagon
+Tobbert.Wagon.PrefabName,貨車,-Wagon
+
+Tobbert.WagonType.Box,有蓋車,-Box Wagon
+Tobbert.WagonType.Liquid,タンク車,-Tank Wagon
+Tobbert.WagonType.Flat,長物車,-Flat Wagon
+Tobbert.WagonType.Gondola,無蓋車,-Gondola Wagon
 
 Tobbert.BatchControl.Trains,列車,-Trains
 Tobbert.Train.Length,編成両数: ,他候補：編成長-Train Length: 
