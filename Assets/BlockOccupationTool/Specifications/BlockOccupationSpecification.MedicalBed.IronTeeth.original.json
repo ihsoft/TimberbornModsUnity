@@ -1,0 +1,12 @@
+{
+  "BuildingName": "Buildings/Wellbeing/MedicalBed/MedicalBed.IronTeeth",
+  "BlocksSpecifications": [
+    {
+      "MatterBelow": "Ground Or Stackable",
+      "Occupation": "Bottom And Floor",
+      "Stackable": "None",
+      "OptionallyUnderground": false,
+      "OccupyAllBelow": false
+    }
+  ]
+}
