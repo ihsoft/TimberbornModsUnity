@@ -148,6 +148,7 @@ namespace ChooChoo
                             }
                         }
 
+                        trackConnections.Remove(previousRoute);
                         return false;
                     }
 

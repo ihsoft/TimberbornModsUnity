@@ -178,6 +178,62 @@ namespace ChooChoo
                         new(0.5f, 0, 1.5f),
                      }),
                };
+            case "TrackXIntersection1x1":
+               return new TrackRoute[]
+               {
+                  // Up
+                  new(
+                     new(new Vector3Int(0, 0, 0), Direction2D.Up),
+                     new(new Vector3Int(0, 0, 0), Direction2D.Right), 
+                     new[] { Vector3.zero }),
+                  new(
+                     new(new Vector3Int(0, 0, 0), Direction2D.Up),
+                     new(new Vector3Int(0, 0, 0), Direction2D.Left), 
+                     new[] { Vector3.zero }),
+                  new(
+                     new(new Vector3Int(0, 0, 0), Direction2D.Up),
+                     new(new Vector3Int(0, 0, 0), Direction2D.Down), 
+                     new[] { Vector3.zero }),
+                  // Down
+                  new(
+                     new(new Vector3Int(0, 0, 0), Direction2D.Down),
+                     new(new Vector3Int(0, 0, 0), Direction2D.Right), 
+                     new[] { Vector3.zero }),
+                  new(
+                     new(new Vector3Int(0, 0, 0), Direction2D.Down),
+                     new(new Vector3Int(0, 0, 0), Direction2D.Left), 
+                     new[] { Vector3.zero }),
+                  new(
+                     new(new Vector3Int(0, 0, 0), Direction2D.Down),
+                     new(new Vector3Int(0, 0, 0), Direction2D.Up), 
+                     new[] { Vector3.zero }),
+                  // Right
+                  new(
+                     new(new Vector3Int(0, 0, 0), Direction2D.Right),
+                     new(new Vector3Int(0, 0, 0), Direction2D.Up), 
+                     new[] { Vector3.zero }),
+                  new(
+                     new(new Vector3Int(0, 0, 0), Direction2D.Right),
+                     new(new Vector3Int(0, 0, 0), Direction2D.Left), 
+                     new[] { Vector3.zero }),
+                  new(
+                     new(new Vector3Int(0, 0, 0), Direction2D.Right),
+                     new(new Vector3Int(0, 0, 0), Direction2D.Down), 
+                     new[] { Vector3.zero }),
+                  // Left
+                  new(
+                     new(new Vector3Int(0, 0, 0), Direction2D.Left),
+                     new(new Vector3Int(0, 0, 0), Direction2D.Up), 
+                     new[] { Vector3.zero }),
+                  new(
+                     new(new Vector3Int(0, 0, 0), Direction2D.Left),
+                     new(new Vector3Int(0, 0, 0), Direction2D.Right), 
+                     new[] { Vector3.zero }),
+                  new(
+                     new(new Vector3Int(0, 0, 0), Direction2D.Left),
+                     new(new Vector3Int(0, 0, 0), Direction2D.Down), 
+                     new[] { Vector3.zero }),
+               };
             case "TrackRIntersectionLeft2x3":
                return new TrackRoute[]
                {

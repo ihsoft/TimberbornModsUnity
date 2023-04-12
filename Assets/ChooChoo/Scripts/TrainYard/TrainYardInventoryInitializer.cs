@@ -26,7 +26,7 @@ namespace ChooChoo
       InventoryInitializer inventoryInitializer = new InventoryInitializer(_goodService, decorator, CalculateTotalCapacity(subject), InventoryComponentName);
       inventoryInitializer.HasPublicInput();
       inventoryInitializer.HasPublicOutput();
-      AllowEveryGoodAsGiveAndTabeable(inventoryInitializer, _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/Train.Folktails").GetComponent<Train>().TrainCost);
+      AllowEveryGoodAsGiveAndTabeable(inventoryInitializer, _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/Train").GetComponent<Train>().TrainCost);
       inventoryInitializer.Initialize();
       subject.InitializeInventory(decorator);
     }

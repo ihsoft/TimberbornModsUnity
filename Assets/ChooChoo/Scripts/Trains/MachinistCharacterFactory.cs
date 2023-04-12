@@ -19,7 +19,7 @@ namespace ChooChoo
         
         private readonly BeaverFactory _beaverFactory;
 
-        private GameObject _pilotPrefab;
+        private GameObject _machinistPrefab;
 
         private readonly List<string> _bodyPartsToDisable = new()
         {
@@ -48,9 +48,9 @@ namespace ChooChoo
             InitializeMachinistCharacter();
         }
 
-        public GameObject CreatePilot(Transform parent)
+        public GameObject CreateMachinist(Transform parent)
         {
-            return Object.Instantiate(_pilotPrefab, parent).gameObject;
+            return Object.Instantiate(_machinistPrefab, parent).gameObject;
         }
 
         private void InitializeMachinistCharacter()
@@ -61,7 +61,7 @@ namespace ChooChoo
             var current = _factionService.Current;
             skinnedMeshRenderer.sharedMaterial = _resourceAssetLoader.Load<Material>(_randomNumberGenerator.GetEnumerableElement(current.Materials));
             DisableBodyParts(beaverModel);
-            _pilotPrefab = beaverModel.gameObject;
+            _machinistPrefab = beaverModel.gameObject;
         }
 
         private void DisableBodyParts(Transform beaver)

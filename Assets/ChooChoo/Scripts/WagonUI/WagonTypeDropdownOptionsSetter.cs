@@ -1,3 +1,4 @@
+using System.Linq;
 using Timberborn.CoreUI;
 
 namespace ChooChoo
@@ -6,23 +7,26 @@ namespace ChooChoo
     {
         private readonly DropdownOptionsSetter _dropdownOptionsSetter;
 
-        public WagonTypeDropdownOptionsSetter(DropdownOptionsSetter dropdownOptionsSetter)
+        private readonly TrainModelSpecificationRepository _trainModelSpecificationRepository;
+
+        public WagonTypeDropdownOptionsSetter(DropdownOptionsSetter dropdownOptionsSetter, TrainModelSpecificationRepository trainModelSpecificationRepository)
         {
             _dropdownOptionsSetter = dropdownOptionsSetter;
+            _trainModelSpecificationRepository = trainModelSpecificationRepository;
         }
 
-        public void SetOptions(TrainWagonManager trainWagonManager, Dropdown dropdown, int index)
+        public void SetOptions(WagonManager wagonManager, Dropdown dropdown, int index)
         {
             _dropdownOptionsSetter.SetLocalizableOptions(
                 dropdown, 
-                trainWagonManager.WagonTypes, 
-                () => trainWagonManager.TrainWagons[index].ActiveWagonType, 
-                value => SetPriority(value, trainWagonManager, index));
+                _trainModelSpecificationRepository.SelectableActiveWagonModels.Select(model => model.NameLocKey),
+                () => wagonManager.Wagons[index].GetComponent<WagonModelManager>().ActiveWagonModel.WagonModelSpecification.NameLocKey, 
+                value => SetPriority(value, wagonManager, index));
         }
 
-        private static void SetPriority(string value, TrainWagonManager trainWagonManager, int index)
+        private static void SetPriority(string value, WagonManager wagonManager, int index)
         {
-            trainWagonManager.UpdateWagonType(value, index);
+            wagonManager.UpdateWagonType(value, index);
         }
     }
 }

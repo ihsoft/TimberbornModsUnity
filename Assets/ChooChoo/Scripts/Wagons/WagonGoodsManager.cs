@@ -7,32 +7,32 @@ namespace ChooChoo
 {
     public class WagonGoodsManager : MonoBehaviour
     {
-        private TrainWagonManager _trainWagonManager;
+        private WagonManager _wagonManager;
         
-        public bool IsCarrying => _trainWagonManager.TrainWagons.Any(wagon => wagon.GoodCarrier.IsCarrying);
+        public bool IsCarrying => _wagonManager.Wagons.Any(wagon => wagon.GoodCarrier.IsCarrying);
 
-        public int LiftingCapacity => _trainWagonManager.TrainWagons.Sum(wagon => _trainWagonManager.WagonTypes.Contains(wagon.ActiveWagonType) ? wagon.GoodCarrier.LiftingCapacity : 0);
+        public int LiftingCapacity => _wagonManager.Wagons.Sum(wagon => wagon.GoodCarrier.LiftingCapacity);
 
         private void Awake()
         {
-            _trainWagonManager = GetComponent<TrainWagonManager>();
+            _wagonManager = GetComponent<WagonManager>();
         }
 
         public void EmptyWagons()
         {
-            foreach (var trainWagon in _trainWagonManager.TrainWagons)
+            foreach (var trainWagon in _wagonManager.Wagons)
                 trainWagon.GoodCarrier.EmptyHands();
         }
 
         public void PutInWagons(GoodAmount goodAmount)
         {
-            int wagonCount = _trainWagonManager.TrainWagons.Count;
+            int wagonCount = _wagonManager.Wagons.Count;
             int remainingGoodAmount = goodAmount.Amount;
-            for (var index = 0; index < _trainWagonManager.TrainWagons.Count; index++)
+            for (var index = 0; index < _wagonManager.Wagons.Count; index++)
             {
                 var amount = (int)Math.Ceiling((float)remainingGoodAmount / (wagonCount - index));
                 remainingGoodAmount -= amount;
-                var trainWagon = _trainWagonManager.TrainWagons[index];
+                var trainWagon = _wagonManager.Wagons[index];
                 trainWagon.GoodCarrier.PutGoodsInHands(new GoodAmount(goodAmount.GoodId, amount));
             }
         }

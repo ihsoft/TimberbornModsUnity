@@ -35,7 +35,7 @@ namespace ChooChoo
 
         public void Load()
         {
-            _trainWagonPrefab = _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/Wagon.Folktails");
+            _trainWagonPrefab = _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/Wagon");
         }
         
         public TrainWagon InitializeWagon(GameObject train, int cartNumber)

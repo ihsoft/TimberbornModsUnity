@@ -18,8 +18,8 @@ namespace ChooChoo
         {
             List<Object> list = new List<Object>
             {
-                _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/Train.Folktails"),
-                _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/Wagon.Folktails")
+                _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/Train"),
+                _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/Wagon")
             };
             return list;
         }

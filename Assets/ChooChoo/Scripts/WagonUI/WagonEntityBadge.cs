@@ -7,7 +7,7 @@ using Timberborn.Localization;
 using Timberborn.SelectionSystem;
 using UnityEngine;
 
-namespace Timberborn.BeaversUI
+namespace ChooChoo
 {
   public class WagonEntityBadge : MonoBehaviour, IEntityBadge
   {

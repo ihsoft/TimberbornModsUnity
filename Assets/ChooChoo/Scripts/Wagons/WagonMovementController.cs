@@ -5,16 +5,16 @@ namespace ChooChoo
 {
     public class WagonMovementController : MonoBehaviour
     {
-        private TrainWagonManager _trainWagonManager;
+        private WagonManager _wagonManager;
         
         private void Awake()
         {
-            _trainWagonManager = GetComponent<TrainWagonManager>();
+            _wagonManager = GetComponent<WagonManager>();
         }
         
         public void SetNewPathConnections(ITrackFollower trackFollower, List<TrackRoute> pathConnections)
         {
-            var trainWagons = _trainWagonManager.TrainWagons;
+            var trainWagons = _wagonManager.Wagons;
             trainWagons[0].StartMoving(trackFollower, pathConnections);
             for (var index = 1; index < trainWagons.Count; index++)
             {
@@ -25,7 +25,7 @@ namespace ChooChoo
 
         public void MoveWagons()
         {
-            foreach (var trainWagon in _trainWagonManager.TrainWagons)
+            foreach (var trainWagon in _wagonManager.Wagons)
             {
                 trainWagon.Move();
             }
@@ -33,7 +33,7 @@ namespace ChooChoo
         
         public void StopWagons()
         {
-            foreach (var trainWagon in _trainWagonManager.TrainWagons)
+            foreach (var trainWagon in _wagonManager.Wagons)
             {
                 trainWagon.GetComponent<TrainWagon>().Stop();
             }
