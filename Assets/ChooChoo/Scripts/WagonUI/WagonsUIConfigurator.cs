@@ -22,8 +22,8 @@ namespace GlobalMarket
     {
       TemplateModule.Builder builder = new TemplateModule.Builder();
       builder.AddDecorator<TrainWagon, TrainEntityBadge>();
-      builder.AddDecorator<TrainWagonManager, WagonGoodsManager>();
-      builder.AddDecorator<TrainWagonManager, WagonMovementController>();
+      builder.AddDecorator<WagonManager, WagonGoodsManager>();
+      builder.AddDecorator<WagonManager, WagonMovementController>();
       return builder.Build();
     }
     

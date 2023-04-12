@@ -36,7 +36,7 @@ namespace ChooChoo
 
     public void Start()
     {
-      _goodCarriers = GetComponent<TrainWagonManager>().TrainWagons.Select(wagon => wagon.GetComponent<GoodCarrier>()).ToList();
+      _goodCarriers = GetComponent<WagonManager>().Wagons.Select(wagon => wagon.GetComponent<GoodCarrier>()).ToList();
     }
 
     public void Destroy()

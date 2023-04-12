@@ -118,7 +118,7 @@ namespace ChooChoo
         
         static bool Prefix(GameObject entity)
         {
-            return !entity.TryGetComponent(out TrainWagonManager _);
+            return !entity.TryGetComponent(out WagonManager _);
         }
     }
     

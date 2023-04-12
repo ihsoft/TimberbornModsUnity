@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using Bindito.Core;
 using Timberborn.BehaviorSystem;
 using Timberborn.TickSystem;
@@ -6,10 +8,9 @@ using UnityEngine;
 
 namespace ChooChoo
 {
-    public class SmokeController : TickableComponent
+    public class TrainSmokeController : TickableComponent
     {
-        [SerializeField]
-        private GameObject smoke;
+        private IEnumerable<GameObject> _smokeObjects;
 
         private IDayNightCycle _dayNightCycle;
         
@@ -20,16 +21,18 @@ namespace ChooChoo
         {
             _dayNightCycle = dayNightCycles;
         }
-        
-        private void Awake()
+
+        public override void StartTickable()
         {
             _waitExecutor = GetComponent<WaitExecutor>();
+            _smokeObjects = ChooChooCore.FindAllBodyParts(transform, "Smoke").Select(transformComponent => transformComponent.gameObject);
         }
-
 
         public override void Tick()
         {
-            smoke.SetActive(!IsWaiting());
+            var active = !IsWaiting();
+            foreach (var smokeObject in _smokeObjects)
+                smokeObject.SetActive(active);
         }
 
         private bool IsWaiting()

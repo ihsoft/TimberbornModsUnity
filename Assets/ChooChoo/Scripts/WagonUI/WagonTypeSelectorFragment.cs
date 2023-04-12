@@ -14,7 +14,7 @@ namespace ChooChoo
     private readonly UIBuilder _uiBuilder;
     private readonly VisualElementLoader _visualElementLoader;
     private readonly WagonTypeDropdownOptionsSetter _wagonTypeDropdownOptionsSetter;
-    private TrainWagonManager _trainWagonManager;
+    private WagonManager _wagonManager;
     private readonly List<Dropdown> _dropdowns = new();
     private VisualElement _root;
     private readonly List<VisualElement> _wagonSections = new();
@@ -53,35 +53,35 @@ namespace ChooChoo
 
     public void ShowFragment(GameObject entity)
     {
-      _trainWagonManager = entity.GetComponent<TrainWagonManager>();
-      if (!_trainWagonManager)
+      _wagonManager = entity.GetComponent<WagonManager>();
+      if (!_wagonManager)
         return;
       for (int i = 0; i < _numberOfWagons; i++)
       {
-        _wagonTypeDropdownOptionsSetter.SetOptions(_trainWagonManager, _dropdowns[i], i);
+        _wagonTypeDropdownOptionsSetter.SetOptions(_wagonManager, _dropdowns[i], i);
         _wagonSections[i].ToggleDisplayStyle(true);
       }
 
-      _trainWagonManager.WagonTypesChanged += OnPrioritizedPlantableChanged;
+      // _trainWagonManager.WagonTypesChanged += OnWagonTypeChanged;
     }
 
     public void ClearFragment()
     {
-      if (_trainWagonManager)
-        _trainWagonManager.WagonTypesChanged -= OnPrioritizedPlantableChanged;
+      // if (_trainWagonManager)
+      //   _trainWagonManager.WagonTypesChanged -= OnWagonTypeChanged;
       for (int i = 0; i < _numberOfWagons; i++)
       {
         _wagonSections[i].ToggleDisplayStyle(false);
         _dropdowns[i].ClearOptions();
       }
 
-      _trainWagonManager = null;
+      _wagonManager = null;
       UpdateFragment();
     }
 
-    public void UpdateFragment() => _root.ToggleDisplayStyle(_trainWagonManager);
+    public void UpdateFragment() => _root.ToggleDisplayStyle(_wagonManager);
 
-    private void OnPrioritizedPlantableChanged(object sender, EventArgs e) =>
+    private void OnWagonTypeChanged(object sender, EventArgs e) =>
       _dropdowns.ForEach(dropdown => dropdown.RefreshContent());
   }
 }

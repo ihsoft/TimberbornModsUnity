@@ -4,18 +4,12 @@ using UnityEngine;
 
 namespace ChooChoo
 {
-    public class MachinistCharacterManager : MonoBehaviour
+    public class MachinistCharacterManager : TickableComponent
     {
         private MachinistCharacterFactory _machinistCharacterFactory;
         private TrainScheduleBehavior _trainScheduleBehavior;
 
-        private GameObject _pilot;
-
         private bool _previousState;
-
-        private readonly string AnimationName = "Sitting";
-
-        private const float Scale = 0.64f;
 
         [Inject]
         public void InjectDependencies(MachinistCharacterFactory machinistCharacterFactory)
@@ -23,11 +17,22 @@ namespace ChooChoo
             _machinistCharacterFactory = machinistCharacterFactory;
         }
 
-        private void Start()
+        public override void Tick()
         {
-            _pilot = _machinistCharacterFactory.CreatePilot(transform.GetChild(0).GetChild(0).GetChild(2));
-            _pilot.GetComponent<Animator>().SetBool(AnimationName, true);
-            _pilot.transform.localScale = new Vector3(Scale, Scale, Scale);
+            foreach (var variable in GetComponentsInChildren<Animator>())
+                variable.SetBool("Sitting", true);
+        }
+
+        public override void StartTickable()
+        {
+            var trainModels = GetComponent<TrainModelManager>().TrainModels;
+            foreach (var trainModel in trainModels)
+            {
+                var modelSpecification = trainModel.TrainModelSpecification;
+                var machinist = _machinistCharacterFactory.CreateMachinist(ChooChooCore.FindBodyPart(trainModel.Model.transform, modelSpecification.MachinistSeatName));
+                machinist.GetComponent<Animator>().SetBool(modelSpecification.MachinistAnimationName, true);
+                machinist.transform.localScale = new Vector3(modelSpecification.MachinistScale, modelSpecification.MachinistScale, modelSpecification.MachinistScale);
+            }
         }
     }
 }

@@ -7,6 +7,10 @@ Tobbert.TrackOneWay.DisplayName,Einbahngleis,-
 Tobbert.TrackOneWay.Description,"Sagt den Zügen, dass sie nur auf der grünen Seite durchfahren können.",-
 Tobbert.TrackOneWay.FlavorDescription,Du... Sollst... Passieren...,-
 
+Tobbert.TrackCrossing.DisplayName,Gleisübergang,-
+Tobbert.TrackCrossing.Description,"Biber können hier die Gleise überqueren. Kollisionen werden nicht implementiert, da die Leistung zu sehr leiden würde.",-
+Tobbert.TrackCrossing.FlavorDescription,Dieser Zug nähert sich sehr schn-,RIP
+
 Tobbert.TrackHillStart.DisplayName,Gleis Steigung,-
 Tobbert.TrackHillStart.Description,"Ein Gleis, auf dem Züge auf und ab fahren.",-
 Tobbert.TrackHillStart.FlavorDescription,Ist der Zug nicht zu schwer?,-
@@ -35,10 +39,6 @@ Tobbert.TrackRIntersectionRight2x3.DisplayName,Gleis Abzweigung Rechts 2x3,-
 Tobbert.TrackRIntersectionRight2x3.Description,"Eine Abzweigung, die die Züge nach rechts führt.",-
 Tobbert.TrackRIntersectionRight2x3.FlavorDescription,"Rechts ist da, wo der Daumen links ist.",-
 
-Tobbert.TrackCrossing.DisplayName,Gleisübergang,-
-Tobbert.TrackCrossing.Description,"Biber können hier die Gleise überqueren. Kollisionen werden nicht implementiert, da die Leistung zu sehr leiden würde.",-
-Tobbert.TrackCrossing.FlavorDescription,Dieser Zug nähert sich sehr schn-,RIP
-
 Tobbert.TrainStation.DisplayName,Zugbahnhof,-
 Tobbert.TrainStation.Description,Ein Ziel für Züge.,-
 Tobbert.TrainStation.FlavorDescription,Tschu-tschu!,-
@@ -62,6 +62,11 @@ Tobbert.TrainYard.CreateTrain,Zug herstellen,-
 
 Tobbert.Train.PrefabName,Zug,-
 Tobbert.Wagon.PrefabName,Wagen,-
+
+Tobbert.WagonModel.Box,Güterwagen,-
+Tobbert.WagonModel.Liquid,Tankwagen,-
+Tobbert.WagonModel.Flat,Flachwagen,-
+Tobbert.WagonModel.Gondola,Gondelwagen,-
 
 Tobbert.BatchControl.Trains,Züge,-
 Tobbert.Train.Length,Zuglänge: ,-

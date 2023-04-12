@@ -401,6 +401,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _trackDistance: 3
+  DividesSection: 0
 --- !u!114 &3301556682646489746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -432,6 +433,7 @@ MonoBehaviour:
   _trackSectionMesh: {fileID: 7149560467856091801}
   _trackEntranceSectionMesh: {fileID: 0}
   _trackExitSectionMesh: {fileID: 0}
+  _trackContainedSectionMesh: {fileID: 0}
 --- !u!114 &2620474729558111792
 MonoBehaviour:
   m_ObjectHideFlags: 0

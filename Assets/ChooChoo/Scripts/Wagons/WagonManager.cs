@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Bindito.Core;
 using Timberborn.EntitySystem;
@@ -7,11 +6,11 @@ using UnityEngine;
 
 namespace ChooChoo
 {
-    public class TrainWagonManager : MonoBehaviour, IDeletableEntity, IPersistentEntity
+    public class WagonManager : MonoBehaviour, IDeletableEntity, IPersistentEntity
     {
         private static readonly ComponentKey TrainWagonManagerKey = new(nameof(TrainYard));
 
-        private static readonly ListKey<TrainWagon> WagonsKey = new(nameof(TrainWagons));
+        private static readonly ListKey<TrainWagon> WagonsKey = new("TrainWagons");
 
         private EntityService _entityService;
 
@@ -19,20 +18,17 @@ namespace ChooChoo
 
         private WagonInitializer _wagonInitializer;
 
-        private WagonModelSwitcher _wagonModelSwitcher;
+        private WagonModelManager _wagonModelManager;
 
-        public List<TrainWagon> TrainWagons { get; private set; }
+        public List<TrainWagon> Wagons { get; private set; }
 
         public int MinimumNumberOfWagons = 2;
         
         public int MaximumNumberOfWagons = 4;
 
-        public float minDistanceFromTrain;
+        // public float minDistanceFromTrain;
 
-        [NonSerialized] 
-        public readonly List<string> WagonTypes = new() { "Tobbert.WagonType.Box", "Tobbert.WagonType.Liquid", "Tobbert.WagonType.Flat", "Tobbert.WagonType.Gondola" };
-
-        public event EventHandler WagonTypesChanged;
+        // public event EventHandler WagonTypesChanged;
 
         [Inject]
         public void InjectDependencies(
@@ -47,24 +43,21 @@ namespace ChooChoo
 
         public void Start()
         {
-            if (TrainWagons == null)
-            {
+            if (Wagons == null)
                 InitializeWagons();
-            }
             SetObjectToFollow();
-            UpdateWagonModels();
         }
 
         public void DeleteEntity()
         {
-            foreach (var wagon in TrainWagons)
+            foreach (var wagon in Wagons)
                 _entityService.Delete(wagon.gameObject);
         }
 
         public void Save(IEntitySaver entitySaver)
         {
-            if (TrainWagons != null)
-                entitySaver.GetComponent(TrainWagonManagerKey).Set(WagonsKey, TrainWagons, _wagonsObjectSerializer);
+            if (Wagons != null)
+                entitySaver.GetComponent(TrainWagonManagerKey).Set(WagonsKey, Wagons, _wagonsObjectSerializer);
         }
 
         public void Load(IEntityLoader entityLoader)
@@ -73,21 +66,20 @@ namespace ChooChoo
                 return;
             var component = entityLoader.GetComponent(TrainWagonManagerKey);
             if (component.Has(WagonsKey))
-                TrainWagons = component.Get(WagonsKey, _wagonsObjectSerializer);
+                Wagons = component.Get(WagonsKey, _wagonsObjectSerializer);
         }
 
-        private void SetObjectToFollow()
+        public void SetObjectToFollow()
         {
-            for (int i = TrainWagons.Count - 1; i > 0; i--)
-                TrainWagons[i].InitializeObjectFollower(TrainWagons[i - 1].transform, TrainWagons[i - 1].wagonLength);
-
-            TrainWagons[0].InitializeObjectFollower(transform, minDistanceFromTrain);
+            for (int i = Wagons.Count - 1; i > 0; i--)
+                Wagons[i].InitializeObjectFollower(Wagons[i - 1].transform, Wagons[i - 1].GetComponent<WagonModelManager>().ActiveWagonModel.WagonModelSpecification.Length);
+            Wagons[0].InitializeObjectFollower(transform, GetComponent<TrainModelManager>().ActiveTrainModel.TrainModelSpecification.Length);
         }
 
         public void UpdateWagonType(string type, int index)
         {
-            TrainWagons[index].ActiveWagonType = type;
-            UpdateWagonModels();
+            Wagons[index].GetComponent<WagonModelManager>().UpdateTrainType(type);
+            SetObjectToFollow();
         }
         
         private void InitializeWagons()
@@ -95,15 +87,7 @@ namespace ChooChoo
             var trainWagons = new List<TrainWagon>();
             for (int i = 0; i < MaximumNumberOfWagons; i++)
                 trainWagons.Add(_wagonInitializer.InitializeWagon(gameObject, i));
-            TrainWagons = trainWagons;
-        }
-
-        private void UpdateWagonModels()
-        {
-            foreach (var trainWagon in TrainWagons)
-            {
-                trainWagon.GetComponent<WagonModelSwitcher>().RefreshModel();
-            }
+            Wagons = trainWagons;
         }
     }
 }
