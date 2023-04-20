@@ -43,7 +43,7 @@ namespace VerticalPowerShaft
     {
         static bool Prefix(BlockObjectTool __instance)
         {
-            return !__instance.Prefab.TryGetComponent(out VerticalPowerShaftComponent verticalPowerShaftComponent);
+            return !__instance.Prefab.TryGetComponentFast(out VerticalPowerShaftComponent verticalPowerShaftComponent);
         }
     }
     
@@ -52,7 +52,7 @@ namespace VerticalPowerShaft
     {
         static bool Prefix(BlockObjectTool __instance)
         {
-            return !__instance.Prefab.TryGetComponent(out VerticalPowerShaftComponent verticalPowerShaftComponent);
+            return !__instance.Prefab.TryGetComponentFast(out VerticalPowerShaftComponent verticalPowerShaftComponent);
         }
     }
 }

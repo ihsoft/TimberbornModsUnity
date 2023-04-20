@@ -17,7 +17,8 @@
         "Timberborn.MechanicalSystem.dll",
         "Timberborn.Coordinates.dll",
         "Timberborn.BlockObjectTools.dll",
-        "Timberborn.Clusters.dll"
+        "Timberborn.Clusters.dll",
+        "Timberborn.BaseComponentSystem.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],
