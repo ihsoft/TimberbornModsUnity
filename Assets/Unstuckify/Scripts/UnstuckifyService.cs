@@ -24,10 +24,10 @@ namespace Unstuckify.Scripts
         {
             try
             {
-                var closestDistrictCenterPosition = _districtCenterRegistry.DistrictCenters
+                var closestDistrictCenterPosition = _districtCenterRegistry.AllDistrictCenters
                     .Select(districtCenter =>
                     {
-                        var coordinates = districtCenter.GetComponent<BlockObject>().PositionedEntrance.DoorstepCoordinates;
+                        var coordinates = districtCenter.GetComponentFast<BlockObject>().PositionedEntrance.DoorstepCoordinates;
                         return new Vector3(coordinates.x, coordinates.z, coordinates.y);
                     })
                     .OrderBy(coordinates => Vector3.Distance(coordinates, currentPosition))

@@ -1,4 +1,5 @@
 ﻿using TimberApi.UiBuilderSystem;
+using Timberborn.BaseComponentSystem;
 using Timberborn.CharacterModelSystem;
 using Timberborn.CoreUI;
 using Timberborn.EntityPanelSystem;
@@ -45,9 +46,9 @@ namespace ChooChoo
       return _root;
     }
 
-    public void ShowFragment(GameObject entity)
+    public void ShowFragment(BaseComponent entity)
     {
-      _citizen = entity.GetComponent<Citizen>();
+      _citizen = entity.GetComponentFast<Citizen>();
     }
 
     public void ClearFragment()
@@ -66,7 +67,7 @@ namespace ChooChoo
     {
       if (!(bool)(Object)_citizen) 
         return;
-      _citizen.transform.position = _unstuckifyService.ClosestDistrictCenterPosition(_citizen.transform.position);
+      _citizen.TransformFast.position = _unstuckifyService.ClosestDistrictCenterPosition(_citizen.TransformFast.position);
       _citizen.UnassignDistrict();
     }
   }

@@ -43,7 +43,8 @@
         "Timberborn.PrefabSystem.dll",
         "Timberborn.CharacterModelSystem.dll",
         "Timberborn.WalkingSystem.dll",
-        "Timberborn.GameDistricts.dll"
+        "Timberborn.GameDistricts.dll",
+        "Timberborn.BaseComponentSystem.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],
