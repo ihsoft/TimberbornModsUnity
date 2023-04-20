@@ -19,7 +19,7 @@ namespace MultithreadedNavigation
             
             try
             {
-                behaviorManager.Tick();
+                // behaviorManager.Tick();
                 
             }
             catch (Exception e)

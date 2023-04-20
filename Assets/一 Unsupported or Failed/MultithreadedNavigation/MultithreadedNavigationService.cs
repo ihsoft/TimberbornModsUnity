@@ -43,14 +43,14 @@ namespace MultithreadedNavigation
 
             stopwatch1.Start();
             stopwatch2.Start();
-            for (int i = 0; i < MyBehaviorManagers.Count; i++)
-            {
-                var newObject = MyBehaviorManagers[i];
-                if (newObject.BehaviorManager == null)
-                {
-                    MyBehaviorManagers.Remove(newObject);
-                }
-            }
+            // for (int i = 0; i < MyBehaviorManagers.Count; i++)
+            // {
+            //     var newObject = MyBehaviorManagers[i];
+            //     if (newObject.BehaviorManager == null)
+            //     {
+            //         MyBehaviorManagers.Remove(newObject);
+            //     }
+            // }
             var behaviorManagers = new NativeArray<MyBehaviorManager>(MyBehaviorManagers.ToArray(), Allocator.TempJob);
             var job = new MultithreadedNavigationJob { MyBehaviorManagers = behaviorManagers };
             var jobHandle = job.Schedule(behaviorManagers.Length, 3);
