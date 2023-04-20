@@ -1,7 +1,0 @@
-ID,Text,Comment
-KnatteTobbert.StaircaseRight.DisplayName,Staircase Right,-
-KnatteTobbert.StaircaseRight.Description,A staircase that goes right.,-
-KnatteTobbert.StaircaseRight.FlavorDiscription,That is a big boi log in the middle.,-
-KnatteTobbert.StaircaseLeft.DisplayName,Staircase Left,-
-KnatteTobbert.StaircaseLeft.Description,A staircase that goes left.,-
-KnatteTobbert.StaircaseLeft.FlavorDiscription,That is a big boi log in the middle.,-
