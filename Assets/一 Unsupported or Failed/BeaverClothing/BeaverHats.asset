@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StagingPaths:
   - <ManifestPluginStaging>
-  Author: Tobbert
+  Author: 
   Name: BeaverHats
-  Description: BeaverHats
-  Version: 1.0.0
+  Description: 
+  Version: 
   Dependencies: []
 --- !u!114 &-3041366049039997682
 MonoBehaviour:
@@ -33,8 +33,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StagingPaths:
   - <ManifestPluginStaging>/Specifications
-  - <ThunderstorePackage>/<ManifestName>/plugins/Specifications
-  files: []
+  files:
+  - {fileID: 4900000, guid: 2a5c21f6e1d14e9d9994b2ccefca8749, type: 3}
+  - {fileID: 4900000, guid: ad49329c961449b585c72764369f64a9, type: 3}
+  - {fileID: 4900000, guid: 75fc5ee073e443ae90843fdbf8d6d20a, type: 3}
 --- !u!114 &-1800585617083543040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49,7 +51,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StagingPaths:
   - <ManifestPluginStaging>
-  - <ThunderstorePackage>/<ManifestName>/plugins
   definitions:
   - {fileID: 5897886265953266890, guid: d9fb97662f064b944900f6fe2c77d144, type: 3}
 --- !u!114 &11400000
@@ -69,7 +70,6 @@ MonoBehaviour:
   - {fileID: -1800585617083543040}
   - {fileID: 9120418034178625098}
   - {fileID: 2590189338767857166}
-  - {fileID: 7276679206402820566}
   - {fileID: -3041366049039997682}
   identity: {fileID: -3931462110823901632}
   QuickAccess: 1
@@ -87,7 +87,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StagingPaths:
   - <ManifestPluginStaging>/assets
-  - <ThunderstorePackage>/<ManifestName>/plugins/assets
   assetBundles:
   - assetBundleName: Tobbert_BeaverHats
     assets:
@@ -99,24 +98,6 @@ MonoBehaviour:
     - {fileID: 8889063059504140334, guid: b33b0638b710af648b23b8e5ea2aa6fa, type: 3}
     - {fileID: 8889063059504140334, guid: 6f248b3e0bd8cb545a0f2bd3432d0567, type: 3}
     - {fileID: 2800000, guid: 0c47679fbcb5dcb41ab3752bdcee7202, type: 3}
---- !u!114 &7276679206402820566
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b243ff405b33b94dbf5b6775dd9aa33, type: 3}
-  m_Name: Files
-  m_EditorClassIdentifier: 
-  StagingPaths:
-  - <ThunderstorePackage>
-  files:
-  - {fileID: 4900000, guid: 872acec54ac401049b44021bd91a1a97, type: 3}
-  - {fileID: 4900000, guid: 72c49c6f8ba514947a81a6c5e0a01689, type: 3}
-  - {fileID: 2800000, guid: cee8038a3bbbbf545aaa146c51e61620, type: 3}
 --- !u!114 &9120418034178625098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,7 +112,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StagingPaths:
   - <ManifestPluginStaging>
-  - <ThunderstorePackage>/<ManifestName>/plugins
   files:
   - {fileID: 102900000, guid: b14343c45e0922c478ad35fe7642be62, type: 3}
   - {fileID: 4900000, guid: f5f88b3f361cc6e428d99daae75079a6, type: 3}

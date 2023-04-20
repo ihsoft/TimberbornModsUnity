@@ -3,22 +3,24 @@ using TimberApi.ConfiguratorSystem;
 using TimberApi.SceneSystem;
 using Timberborn.Beavers;
 using Timberborn.TemplateSystem;
+using Timberborn.WorkSystem;
 
 namespace BeaverHats
 {
     [Configurator(SceneEntrypoint.InGame)]
-    public class BeaverHatsConfigurator : IConfigurator
+    public class BeaverClothingConfigurator : IConfigurator
     {
         public void Configure(IContainerDefinition containerDefinition)
         {
-            containerDefinition.Bind<BeaverHatsService>().AsSingleton();
+            containerDefinition.Bind<ClothingSpecificationDeserializer>().AsSingleton();
+            containerDefinition.Bind<BeaverClothingService>().AsSingleton();
             containerDefinition.MultiBind<TemplateModule>().ToProvider(ProvideTemplateModule).AsSingleton();
         }
 
         private TemplateModule ProvideTemplateModule()
         {
             TemplateModule.Builder builder = new TemplateModule.Builder();
-            builder.AddDecorator<Beaver, ProfessionClothingComponent>();
+            builder.AddDecorator<Beaver, ClothingComponent>();
             return builder.Build();
         }
     }

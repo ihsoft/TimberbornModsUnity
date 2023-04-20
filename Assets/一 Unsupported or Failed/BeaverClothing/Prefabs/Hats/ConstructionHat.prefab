@@ -37,7 +37,6 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    serializedVersion: 2
     m_TransformParent: {fileID: 3821783888047146387}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: c3d813c757bac3c43bcec565ca17adbc, type: 3}
@@ -45,28 +44,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c3d813c757bac3c43bcec565ca17adbc, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.06
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: c3d813c757bac3c43bcec565ca17adbc, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.06
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: c3d813c757bac3c43bcec565ca17adbc, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.85716736
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: c3d813c757bac3c43bcec565ca17adbc, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.5150381
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: c3d813c757bac3c43bcec565ca17adbc, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: c3d813c757bac3c43bcec565ca17adbc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -62
+      value: -64
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c3d813c757bac3c43bcec565ca17adbc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -81,7 +60,6 @@ PrefabInstance:
       value: ConstructionHelmetModel
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: c3d813c757bac3c43bcec565ca17adbc, type: 3}
 --- !u!4 &1124785932261699043 stripped
 Transform:

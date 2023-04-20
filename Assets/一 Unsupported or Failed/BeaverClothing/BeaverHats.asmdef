@@ -22,7 +22,10 @@
         "Timberborn.MasterScene.dll",
         "Timberborn.TemplateSystem.dll",
         "Timberborn.WorkSystem.dll",
-        "Timberborn.TickSystem.dll"
+        "Timberborn.TickSystem.dll",
+        "Timberborn.Persistence.dll",
+        "System.Collections.Immutable.dll",
+        "Timberborn.Bots.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],
