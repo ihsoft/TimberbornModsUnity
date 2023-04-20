@@ -40,7 +40,8 @@
         "Timberborn.Coordinates.dll",
         "Timberborn.ConstructionMode.dll",
         "Timberborn.TickSystem.dll",
-        "Timberborn.PrefabSystem.dll"
+        "Timberborn.PrefabSystem.dll",
+        "Timberborn.BaseComponentSystem.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

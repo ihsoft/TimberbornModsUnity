@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Timberborn.BaseComponentSystem;
 using Timberborn.BlockObjectTools;
 using Timberborn.BlockSystem;
 using Timberborn.ConstructionMode;
@@ -24,7 +25,7 @@ namespace PipetteTool
         
     private static readonly string DescriptionLocKey = "Tobbert.PipetteTool.Description";
 
-    public string CursorKey => "PipetteCursor";
+    public static string CursorKey => "PipetteCursor";
 
     private readonly EventBus _eventBus;
     
@@ -38,7 +39,7 @@ namespace PipetteTool
     
     private readonly CursorService _cursorService;
 
-    private readonly SelectionManager _selectionManager;
+    private readonly EntitySelectionService _entitySelectionService;
 
     private readonly SelectableObjectRaycaster _selectableObjectRaycaster;
 
@@ -56,7 +57,7 @@ namespace PipetteTool
 
     private readonly FieldInfo _blockObjectToolOrientationField;
     
-    public PipetteTool(EventBus eventBus, ToolManager toolManager, DevModeManager devModeManager, InputService inputService, MapEditorMode mapEditorMode, CursorService cursorService, SelectionManager selectionManager, SelectableObjectRaycaster selectableObjectRaycaster, ILoc loc)
+    public PipetteTool(EventBus eventBus, ToolManager toolManager, DevModeManager devModeManager, InputService inputService, MapEditorMode mapEditorMode, CursorService cursorService, EntitySelectionService entitySelectionService, SelectableObjectRaycaster selectableObjectRaycaster, ILoc loc)
     {
       _eventBus = eventBus;
       _toolManager = toolManager;
@@ -64,7 +65,7 @@ namespace PipetteTool
       _inputService = inputService;
       _mapEditorMode = mapEditorMode;
       _cursorService = cursorService;
-      _selectionManager = selectionManager;
+      _entitySelectionService = entitySelectionService;
       _selectableObjectRaycaster = selectableObjectRaycaster;
       _loc = loc;
       
@@ -80,9 +81,9 @@ namespace PipetteTool
       _toolDescription = new ToolDescription.Builder(_loc.T(TitleLocKey)).AddSection(_loc.T(DescriptionLocKey)).Build();
     }
 
-    public void AddToolButtonToDictionary(GameObject gameObject, ToolButton toolButton)
+    public void AddToolButtonToDictionary(BaseComponent gameObject, ToolButton toolButton)
     {
-      if (!gameObject.TryGetComponent(out Prefab prefab)) 
+      if (!gameObject.TryGetComponentFast(out Prefab prefab)) 
         return;
       if (!_toolButtons.ContainsKey(prefab.PrefabName))
         _toolButtons.Add(prefab.PrefabName, toolButton);
@@ -100,7 +101,7 @@ namespace PipetteTool
 
     public override void Exit()
     {
-      _selectionManager.Unselect();
+      _entitySelectionService.Unselect();
       _cursorService.ResetTemporaryCursor();
       _shouldPipetNextSelection = false;
     }
@@ -131,26 +132,26 @@ namespace PipetteTool
       // only used in PipetteToolInGame
     }
 
-    public void OnSelectableObjectSelected(GameObject hitObject)
-     {
-       if (!_inputService.IsCtrlHeld && !_shouldPipetNextSelection) 
-         return;
+    public void OnSelectableObjectSelected(BaseComponent hitObject)
+    {
+      if (!_inputService.IsCtrlHeld && !_shouldPipetNextSelection)
+        return;
 
-       var selectableObjectName = hitObject.GetComponent<Prefab>().PrefabName;
+      var selectableObjectName = hitObject.GetComponentFast<Prefab>().PrefabName;
 
-       if (!_toolButtons.ContainsKey(selectableObjectName))
-         return;
-       
-       var tool = _toolButtons[selectableObjectName].Tool;
-       
-       if (_mapEditorMode.IsMapEditor)
-         SwitchToSelectedBuildingTool(tool, hitObject);
-       
-       if (tool.DevModeTool && !IsDevToolEnabled) 
-         return;
-       
-       SwitchToSelectedBuildingTool(tool, hitObject);
-     }
+      if (!_toolButtons.ContainsKey(selectableObjectName))
+        return;
+
+      var tool = _toolButtons[selectableObjectName].Tool;
+
+      if (_mapEditorMode.IsMapEditor)
+        SwitchToSelectedBuildingTool(tool, hitObject);
+
+      if (tool.DevModeTool && !IsDevToolEnabled)
+        return;
+
+      SwitchToSelectedBuildingTool(tool, hitObject);
+    }
 
      private void ChangeToolOrientation(Tool tool, Orientation orientation)
      {
@@ -162,9 +163,9 @@ namespace PipetteTool
        _blockObjectToolOrientationField.SetValue(blockObjectTool, orientation);
      }
      
-     protected virtual void SwitchToSelectedBuildingTool(Tool tool, GameObject hitObject)
+     protected virtual void SwitchToSelectedBuildingTool(Tool tool, BaseComponent hitObject)
      {
-       ChangeToolOrientation(tool, hitObject.GetComponent<BlockObject>().Orientation);
+       ChangeToolOrientation(tool, hitObject.GetComponentFast<BlockObject>().Orientation);
        _toolManager.SwitchTool(tool);
        _shouldPipetNextSelection = false;
        _cursorService.ResetTemporaryCursor();

@@ -1,3 +1,4 @@
+using Timberborn.BaseComponentSystem;
 using Timberborn.ConstructionMode;
 using Timberborn.Core;
 using Timberborn.Debugging;
@@ -6,7 +7,6 @@ using Timberborn.Localization;
 using Timberborn.SelectionSystem;
 using Timberborn.SingletonSystem;
 using Timberborn.ToolSystem;
-using UnityEngine;
 
 namespace PipetteTool
 {
@@ -18,8 +18,8 @@ namespace PipetteTool
 
         public PipetteToolInGame(EventBus eventBus, ToolManager toolManager, DevModeManager devModeManager,
             InputService inputService, ConstructionModeService constructionModeService, MapEditorMode mapEditorMode,
-            CursorService cursorService, SelectionManager selectionManager, SelectableObjectRaycaster selectableObjectRaycaster, ILoc loc) : base(eventBus, toolManager, devModeManager, inputService,
-            mapEditorMode, cursorService, selectionManager, selectableObjectRaycaster, loc)
+            CursorService cursorService, EntitySelectionService entitySelectionService, SelectableObjectRaycaster selectableObjectRaycaster, ILoc loc) : base(eventBus, toolManager, devModeManager, inputService,
+            mapEditorMode, cursorService, entitySelectionService, selectableObjectRaycaster, loc)
         {
             _constructionModeService = constructionModeService;
             _inputService = inputService;
@@ -43,7 +43,7 @@ namespace PipetteTool
             ExitConstructionModeMethod.Invoke(_constructionModeService, new object[] { });
         }
 
-        protected override void SwitchToSelectedBuildingTool(Tool tool, GameObject hitObject)
+        protected override void SwitchToSelectedBuildingTool(Tool tool, BaseComponent hitObject)
         {
             base.SwitchToSelectedBuildingTool(tool, hitObject);
             EnterConstructionModeMethod.Invoke(_constructionModeService, new object[] { });

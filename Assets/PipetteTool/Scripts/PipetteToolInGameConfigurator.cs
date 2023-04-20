@@ -23,6 +23,8 @@ namespace PipetteTool
     {
         public void Configure(IContainerDefinition containerDefinition)
         {
+            
+            Plugin.Log.LogError("test");
             containerDefinition.Bind<IPipetteTool>().To<PipetteTool>().AsSingleton();
             
             containerDefinition.Bind<PipetteToolButtonProvider>().AsSingleton();

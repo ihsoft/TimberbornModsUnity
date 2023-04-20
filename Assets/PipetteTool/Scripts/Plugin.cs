@@ -48,9 +48,9 @@ namespace PipetteTool
         
         static void Postfix(PlaceableBlockObject prefab, ref ToolButton __result)
         {
-            if (prefab.TryGetComponent(out BlockObject _))
+            if (prefab.TryGetComponentFast(out BlockObject _))
             {
-                DependencyContainer.GetInstance<IPipetteTool>().AddToolButtonToDictionary(prefab.gameObject, __result);
+                DependencyContainer.GetInstance<IPipetteTool>().AddToolButtonToDictionary(prefab, __result);
             }
         }
     }
@@ -68,9 +68,9 @@ namespace PipetteTool
         
         static void Postfix(Plantable plantable, ref ToolButton __result)
         {
-            if (plantable.TryGetComponent(out BlockObject _))
+            if (plantable.TryGetComponentFast(out BlockObject _))
             {
-                DependencyContainer.GetInstance<IPipetteTool>().AddToolButtonToDictionary(plantable.gameObject, __result);
+                DependencyContainer.GetInstance<IPipetteTool>().AddToolButtonToDictionary(plantable, __result);
             }
         }
     }
@@ -80,12 +80,12 @@ namespace PipetteTool
     {
         public static MethodInfo TargetMethod()
         {
-            return AccessTools.Method(AccessTools.TypeByName("SelectionManager"), "SelectSelectable", new []{typeof(SelectableObject)});
+            return AccessTools.Method(AccessTools.TypeByName("EntitySelectionService"), "SelectSelectable", new []{typeof(SelectableObject)});
         }
         
         static void Postfix(SelectableObject target)
         {
-            DependencyContainer.GetInstance<IPipetteTool>().OnSelectableObjectSelected(target.gameObject);
+            DependencyContainer.GetInstance<IPipetteTool>().OnSelectableObjectSelected(target);
         }
     }
     
@@ -99,7 +99,7 @@ namespace PipetteTool
         
         static bool Prefix(ref string cursorName, IResourceAssetLoader ____resourceAssetLoader, ref object __result)
         {
-            if (cursorName == DependencyContainer.GetInstance<IPipetteTool>().CursorKey)
+            if (cursorName == PipetteTool.CursorKey)
             {
                 __result = ____resourceAssetLoader.Load<Object>("tobbert.pipettetool/tobbert_pipettetool/PipetteToolCursor");
                 return false;
