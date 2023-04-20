@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using TimberApi.Common.SingletonSystem;
+using Timberborn.BaseComponentSystem;
 using Timberborn.Common;
 using Timberborn.Persistence;
 using Timberborn.PrefabSystem;
@@ -68,7 +69,7 @@ namespace TextureReplacementTool
 
         private void ReplaceSharedTexture(ReplaceTextureSpecification specification)
         {
-            var meshRenderers = _objectCollectionService.GetAll().Select(obj => obj as GameObject).SelectMany(gameObject => gameObject.GetComponentsInChildren<MeshRenderer>());
+            var meshRenderers = _objectCollectionService.GetAllMonoBehaviours<BaseComponent>().SelectMany(gameObject => gameObject.GetComponentsInChildren<MeshRenderer>());
 
             OverwriteTextures(meshRenderers, specification);
         }
