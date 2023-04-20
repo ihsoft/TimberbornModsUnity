@@ -9,7 +9,6 @@ namespace ChooChoo
     {
         private IRandomNumberGenerator _randomNumberGenerator;
         private CharacterAnimator _characterAnimator;
-        private TrainScheduleBehavior _trainScheduleBehavior;
         private bool _isFlying;
 
         [Inject]

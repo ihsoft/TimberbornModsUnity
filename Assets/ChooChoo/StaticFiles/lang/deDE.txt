@@ -63,10 +63,16 @@ Tobbert.TrainYard.CreateTrain,Zug herstellen,-
 Tobbert.Train.PrefabName,Zug,-
 Tobbert.Wagon.PrefabName,Wagen,-
 
-Tobbert.WagonModel.Box,Güterwagen,-
-Tobbert.WagonModel.Liquid,Tankwagen,-
-Tobbert.WagonModel.Flat,Flachwagen,-
-Tobbert.WagonModel.Gondola,Gondelwagen,-
+Tobbert.TrainModel.TrainModel,Zugmodell:,-
+Tobbert.TrainModel.SmallLog,Baumstamm,-
+Tobbert.TrainModel.BigWooden,Holzdach,-
+
+Tobbert.WagonModel.WagonModel,Wagenmodell:,-
+Tobbert.WagonModel.BoxWagon,Güterwagen,-
+Tobbert.WagonModel.TankWagon,Tankwagen,-
+Tobbert.WagonModel.FlatWagon,Flachwagen,-
+Tobbert.WagonModel.FlipperWagon,Gondelwagen,-
+Tobbert.WagonModel.MetalCart,Metallwagen,-
 
 Tobbert.BatchControl.Trains,Züge,-
 Tobbert.Train.Length,Zuglänge: ,-
@@ -94,3 +100,7 @@ Tobbert.Trains.UnlockPrompt,"Sie müssen {0} freischalten, um {1} zu bauen.",{0}
 Tobbert.DistributionTrain.MinimumOfItemsToMove,Minimum an zu bewegenden Gütern: ,-
 
 Tobbert.TrainNavigation.Unstuck,Wenden,-
+
+Tobbert.ChooChooSettings.Header,Choo! Choo!,- 
+Tobbert.ChooChooSettings.DefaultTrainModel,Standard Zugmodell: ,-
+Tobbert.ChooChooSettings.DefaultWagonModel,Standard Wagenmodell: ,-

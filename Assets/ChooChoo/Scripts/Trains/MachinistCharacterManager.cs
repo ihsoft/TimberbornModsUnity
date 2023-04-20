@@ -7,7 +7,6 @@ namespace ChooChoo
     public class MachinistCharacterManager : TickableComponent
     {
         private MachinistCharacterFactory _machinistCharacterFactory;
-        private TrainScheduleBehavior _trainScheduleBehavior;
 
         private bool _previousState;
 

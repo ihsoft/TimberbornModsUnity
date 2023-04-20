@@ -77,15 +77,6 @@ Tobbert.BatchControl.Trains,Trains,-
 Tobbert.Train.Length,Train Length: ,-
 Tobbert.Train.Destroy,Are you sure you want to destroy this train?,-
 
-Tobbert.TrainSchedule.AddNewStation,New Station,-
-Tobbert.TrainSchedule.AddNewTrainAction,New Action,-
-
-Tobbert.TrainAction.Wait,Wait,-
-Tobbert.TrainAction.Wait.WaitingInMinutes,Hours to wait: ,-
-
-Tobbert.TrainAction.TakeGoods,Take Goods,-
-Tobbert.TrainAction.TakeGoods.TakeGoodAmount,Take goods: ,-
-
 Tobbert.TrackSystem.ToggleSectionDivider,Divides sections: ,-
 Tobbert.TrackSystem.ButtonChangeDirection,Change direction,-
 Tobbert.TrackSystem.CollidingSectionDividers,Cannot connect 2 Section Dividers,-

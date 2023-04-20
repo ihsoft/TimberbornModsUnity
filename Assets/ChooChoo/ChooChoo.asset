@@ -19,21 +19,6 @@ MonoBehaviour:
   Description: 
   Version: 
   Dependencies: []
---- !u!114 &-3041366049039997682
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b243ff405b33b94dbf5b6775dd9aa33, type: 3}
-  m_Name: Files
-  m_EditorClassIdentifier: 
-  StagingPaths:
-  - <ManifestStagingRoot>/Specifications
-  files: []
 --- !u!114 &-1800585617083543040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,7 +52,6 @@ MonoBehaviour:
   - {fileID: -1800585617083543040}
   - {fileID: 9120418034178625098}
   - {fileID: 2590189338767857166}
-  - {fileID: -3041366049039997682}
   identity: {fileID: -3931462110823901632}
   QuickAccess: 1
 --- !u!114 &2590189338767857166
