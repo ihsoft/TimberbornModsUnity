@@ -55,10 +55,10 @@ MonoBehaviour:
   assetBundles:
   - assetBundleName: elec_extendedarchitexture
     assets:
-    - {fileID: 668602528646462413, guid: 70a0102b04085714fae81cae6bc7544a, type: 3}
-    - {fileID: 668602528646462413, guid: e8140bf87ebad8946ad1e11b5d00a0d9, type: 3}
-    - {fileID: 6439842795115214155, guid: facceb0bac57e7444ab7e093efaf2c4a, type: 3}
-    - {fileID: 6439842795115214155, guid: a1b3eaadcc76a884c9494aed6ed07686, type: 3}
+    - {fileID: 668602528646462413, guid: d4d2ac8c41d7441d80ea23e16c0f8c07, type: 3}
+    - {fileID: 668602528646462413, guid: e849d96b05484ba29221ec210161edd7, type: 3}
+    - {fileID: 292605647566332844, guid: f7bc2c7261db499da228654e2a573dca, type: 3}
+    - {fileID: 6439842795115214155, guid: 2b4dcc71e8884920b110a573dbb4c024, type: 3}
 --- !u!114 &7788702448107751720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,8 +74,8 @@ MonoBehaviour:
   StagingPaths:
   - <ManifestStagingRoot>/Specifications
   files:
-  - {fileID: 4900000, guid: 4468feb514b39b5429e1e5b5292414c1, type: 3}
-  - {fileID: 4900000, guid: cb6a7a32b10ab0f458b7a3ebf410d001, type: 3}
+  - {fileID: 4900000, guid: 6489e39950e84436818352e56b1e3d1d, type: 3}
+  - {fileID: 4900000, guid: 659282cbb2204f3a9d7d21ffcf3c6eda, type: 3}
 --- !u!114 &9120418034178625098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,5 +91,5 @@ MonoBehaviour:
   StagingPaths:
   - <ManifestStagingRoot>
   files:
-  - {fileID: 102900000, guid: e3ca31b2ad5ea98468208857fb36e9ab, type: 3}
-  - {fileID: 4900000, guid: 17289462714a584458cb8fe11dd817fa, type: 3}
+  - {fileID: 102900000, guid: 40ddae269ba04fb2bd8512e098bf6cea, type: 3}
+  - {fileID: 4900000, guid: f3b5144fff1b419db4ac772674d4340f, type: 3}
