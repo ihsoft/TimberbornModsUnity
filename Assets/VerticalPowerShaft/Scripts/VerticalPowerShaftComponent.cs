@@ -44,7 +44,7 @@ namespace VerticalPowerShaft
             directionsParent.Find("Down").gameObject.SetActive(IsMechanicalObject(new Vector3(pos.x , pos.z - 1, pos.y)));
             directionsParent.Find("Right").gameObject.SetActive(IsMechanicalObject(new Vector3(pos.x  + 1, pos.z, pos.y)));
             directionsParent.Find("Left").gameObject.SetActive(IsMechanicalObject(new Vector3(pos.x - 1, pos.z, pos.y)));
-            directionsParent.Find("TopBottom").gameObject.SetActive(IsMechanicalObject(new Vector3(pos.x, pos.z, pos.y + 1)) || IsMechanicalObject(new Vector3(pos.x, pos.z, pos.y - 1)));
+            directionsParent.Find("TopBottom").gameObject.SetActive(IsOccupied(new Vector3(pos.x, pos.z, pos.y + 1)) || IsMechanicalObject(new Vector3(pos.x, pos.z, pos.y - 1)));
         }
 
         private bool IsMechanicalObject(Vector3 coords)
@@ -53,6 +53,12 @@ namespace VerticalPowerShaft
             bool flag2 = _blockService.GetObjectsWithComponentAt<MechanicalNodeSpecification>(Vector3Int.FloorToInt(coords)).Any();
             bool flag3 = _blockService.GetObjectsWithComponentAt<ClusterElement>(Vector3Int.FloorToInt(coords)).Any();
             return flag1 || flag2 || flag3;
+        }
+        
+        private bool IsOccupied(Vector3 coords)
+        {
+            bool flag1 = _blockService.GetFloorObjectAt(Vector3Int.FloorToInt(coords));
+            return flag1 ;
         }
     }
 }
