@@ -4,6 +4,8 @@
   "ToolOrder": 699,
   "ButtonIcon": "CategoryReinforcedPlatformsIcon.png",
   "Buildings": [
+    "ReinforcedLadder.Folktails",
+    "ReinforcedLadder.IronTeeth",
     "ReinforcedPlatform.Folktails",
     "ReinforcedPlatform.IronTeeth",
     "DoubleReinforcedPlatform.Folktails",

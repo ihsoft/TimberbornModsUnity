@@ -19,6 +19,9 @@ Tobbert.HorizontalPlatformMiddle1x2.DisplayName,Side Platform Middle Piece 1.5 H
 Tobbert.HorizontalPlatformMiddle1x2.Description,A platform that can be placed anywhere. Let your creativity lose!,-
 Tobbert.HorizontalPlatformMiddle1x2.FlavorDescription,For when one high is just not enough.,-
 
+Tobbert.ReinforcedLadder.DisplayName,Reinforced Ladder,-
+Tobbert.ReinforcedLadder.Description,It is a ladder which also can also be used in combination with the Side Platforms. Serves as a better looking option than levees.,-
+Tobbert.ReinforcedLadder.FlavorDescription,"When a normal ladder isn't enough.",-
 Tobbert.ReinforcedPlatform.DisplayName,Reinforced Platform,-
 Tobbert.ReinforcedPlatform.Description,A platform which can be used in combination with the Side Platforms. Serves as a better looking option than levees.,-
 Tobbert.ReinforcedPlatform.FlavorDescription,"Stack it to the top!",-

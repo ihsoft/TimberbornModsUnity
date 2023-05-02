@@ -1,13 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Bindito.Core;
 using HarmonyLib;
-using TimberApi.ConfiguratorSystem;
 using TimberApi.ConsoleSystem;
 using TimberApi.DependencyContainerSystem;
 using TimberApi.ModSystem;
-using TimberApi.SceneSystem;
 using Timberborn.BlockObjectAccesses;
 using Timberborn.BlockObjectTools;
 using Timberborn.BlockSystem;
@@ -20,11 +17,13 @@ namespace MorePlatforms
     public class Plugin : IModEntrypoint
     {
         public const string PluginGuid = "tobbert.moreplatforms";
-        public const string PluginName = "More Platforms";
-        public const string PluginVersion = "1.2.0";
+        
+        public static IConsoleWriter Log;
         
         public void Entry(IMod mod, IConsoleWriter consoleWriter)
         {
+            Log = consoleWriter;
+            
             new Harmony(PluginGuid).PatchAll();
         }
     }
@@ -42,15 +41,6 @@ namespace MorePlatforms
         {
             var fakeCoordinates = new List<Vector3Int> { fakeCoordinate };
             return _neighborCalculator.GetParentedNeighborsWithDiagonal(fakeCoordinates).Select(ParentedNeighbor2D.From3D).Distinct();
-        }
-    }
-    
-    [Configurator(SceneEntrypoint.InGame)]
-    internal class PluginConfigurator : IConfigurator
-    {
-        public void Configure(IContainerDefinition containerDefinition)
-        {
-            containerDefinition.Bind<FakeParentedNeighborCalculator>().AsSingleton();
         }
     }
 
@@ -91,7 +81,7 @@ namespace MorePlatforms
     {
         private static void Postfix(IEnumerable<ParentedNeighbor2D> __result, ParentedNeighborCalculator __instance)
         {
-            var blockObject = __instance.GetComponent<BlockObject>();
+            var blockObject = __instance.GetComponentFast<BlockObject>();
             
             var objectList1 = new List<string>()
             {
