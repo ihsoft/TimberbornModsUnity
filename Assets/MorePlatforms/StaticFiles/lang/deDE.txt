@@ -23,6 +23,9 @@ Tobbert.HorizontalPlatformMiddle1x2.DisplayName,"Seitenplattform Mittelstück\r\
 Tobbert.HorizontalPlatformMiddle1x2.Description,"Eine Plattform, die überall platziert werden kann. Lass deiner Kreativität freien Lauf!",-
 Tobbert.HorizontalPlatformMiddle1x2.FlavorDescription,Wenn Höhe 1 einfach nicht hoch genug ist.,-
 
+Tobbert.ReinforcedLadder.DisplayName,Verstärkte Leiter,-
+Tobbert.ReinforcedLadder.Description,"Eine Leiter, die in Kombination mit Seitenplattformen genutzt werden kann. Es ist eine besser aussehende Option als Deiche.",-
+Tobbert.ReinforcedLadder.FlavorDescription,"Wenn eine normale Leiter nicht ausreicht.",-
 Tobbert.ReinforcedPlatform.DisplayName,Verstärkte Plattform,-
 Tobbert.ReinforcedPlatform.Description,"Eine Plattform, die in Kombination mit Seitenplattformen genutzt werden kann. Es ist eine besser aussehende Option als Deiche.",-
 Tobbert.ReinforcedPlatform.FlavorDescription,"Stapeln bis ganz nach oben!",-
