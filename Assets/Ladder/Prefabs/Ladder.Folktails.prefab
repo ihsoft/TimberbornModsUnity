@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 4665689539434539695}
   - component: {fileID: 5361095397373176576}
   m_Layer: 0
-  m_Name: __FinishedUncovered
+  m_Name: #FinishedUncovered
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -324,7 +324,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2102455005821197372}
   m_Layer: 0
-  m_Name: __Unfinished
+  m_Name: #UnFinished
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -786,7 +786,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1226888942004063654}
   m_Layer: 0
-  m_Name: __Finished
+  m_Name: #Finished
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

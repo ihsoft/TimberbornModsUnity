@@ -48,10 +48,10 @@ namespace Ladder
         [OnEvent]
         public void OnBlockObjectSet(BlockObjectSetEvent blockObjectSetEvent)
         {
-            if (blockObjectSetEvent.BlockObject.GetComponent<Prefab>() == null)
+            if (blockObjectSetEvent.BlockObject.GetComponentFast<Prefab>() == null)
                 return;
             
-            if (blockObjectSetEvent.BlockObject.GetComponent<Prefab>().PrefabName.ToLower().Contains("ladder"))
+            if (blockObjectSetEvent.BlockObject.GetComponentFast<Prefab>().PrefabName.ToLower().Contains("ladder"))
             {
                 var coordinate = blockObjectSetEvent.BlockObject.Coordinates;
                 _verticalObjectsList.Add(coordinate);
