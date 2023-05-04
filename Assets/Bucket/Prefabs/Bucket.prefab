@@ -560,7 +560,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3220392017833923641}
   m_Layer: 0
-  m_Name: __Unfinished
+  m_Name: #UnFinished
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -773,7 +773,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2354831823038317382}
   m_Layer: 0
-  m_Name: __Finished
+  m_Name: #Finished
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
