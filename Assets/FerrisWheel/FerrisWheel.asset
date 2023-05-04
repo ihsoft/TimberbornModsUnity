@@ -73,8 +73,8 @@ MonoBehaviour:
   assetBundles:
   - assetBundleName: Tobbert_FerrisWheel
     assets:
-    - {fileID: 5366692629481669372, guid: 7c837137dcde87b4f9a7afb01b6e8893, type: 3}
-    - {fileID: 5366692629481669372, guid: e7d203cb96ee94e45800c9a4cb3b16f9, type: 3}
+    - {fileID: 5819251990051357789, guid: 7c837137dcde87b4f9a7afb01b6e8893, type: 3}
+    - {fileID: 1983636193279599644, guid: 7071766ca4ef55d40ba031145e01710f, type: 3}
 --- !u!114 &9120418034178625098
 MonoBehaviour:
   m_ObjectHideFlags: 0

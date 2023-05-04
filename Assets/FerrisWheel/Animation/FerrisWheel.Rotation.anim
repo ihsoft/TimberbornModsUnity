@@ -38,7 +38,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Wheel_Animated
+    path: '#Wheel'
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -63,7 +63,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Wheel_Animated/Seats_001_Animated
+    path: '#Wheel/#Seats_001'
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -88,7 +88,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Wheel_Animated/Seats_002_Animated
+    path: '#Wheel/#Seats_002'
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -113,7 +113,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Wheel_Animated/Seats_003_Animated
+    path: '#Wheel/#Seats_003'
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -138,7 +138,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Wheel_Animated/Seats_004_Animated
+    path: '#Wheel/#Seats_004'
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -163,7 +163,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Wheel_Animated/Seats_005_Animated
+    path: '#Wheel/#Seats_005'
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -188,7 +188,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Wheel_Animated/Seats_006_Animated
+    path: '#Wheel/#Seats_006'
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -213,7 +213,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Wheel_Animated/Seats_007_Animated
+    path: '#Wheel/#Seats_007'
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -238,7 +238,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Wheel_Animated/Seats_008_Animated
+    path: '#Wheel/#Seats_008'
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -263,7 +263,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CogBeam_Animated
+    path: '#CogBeam'
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -288,7 +288,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CogGear_Animated
+    path: '#CogGear'
   m_PositionCurves: []
   m_ScaleCurves: []
   m_FloatCurves: []
@@ -301,93 +301,104 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 3256821886
+      path: 1456054614
       attribute: 4
       script: {fileID: 0}
       typeID: 4
       customType: 4
       isPPtrCurve: 0
       isIntCurve: 0
+      isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2198923554
+      path: 1652344492
       attribute: 4
       script: {fileID: 0}
       typeID: 4
       customType: 4
       isPPtrCurve: 0
       isIntCurve: 0
+      isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1747407393
+      path: 4218787606
       attribute: 4
       script: {fileID: 0}
       typeID: 4
       customType: 4
       isPPtrCurve: 0
       isIntCurve: 0
+      isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2279946527
+      path: 2356324224
       attribute: 4
       script: {fileID: 0}
       typeID: 4
       customType: 4
       isPPtrCurve: 0
       isIntCurve: 0
+      isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1698243174
+      path: 303444515
       attribute: 4
       script: {fileID: 0}
       typeID: 4
       customType: 4
       isPPtrCurve: 0
       isIntCurve: 0
+      isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2331724120
+      path: 1695613621
       attribute: 4
       script: {fileID: 0}
       typeID: 4
       customType: 4
       isPPtrCurve: 0
       isIntCurve: 0
+      isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1640821339
+      path: 4229452559
       attribute: 4
       script: {fileID: 0}
       typeID: 4
       customType: 4
       isPPtrCurve: 0
       isIntCurve: 0
+      isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2383321445
+      path: 2334090137
       attribute: 4
       script: {fileID: 0}
       typeID: 4
       customType: 4
       isPPtrCurve: 0
       isIntCurve: 0
+      isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2131084008
+      path: 463502856
       attribute: 4
       script: {fileID: 0}
       typeID: 4
       customType: 4
       isPPtrCurve: 0
       isIntCurve: 0
+      isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2482220865
+      path: 2238455188
       attribute: 4
       script: {fileID: 0}
       typeID: 4
       customType: 4
       isPPtrCurve: 0
       isIntCurve: 0
+      isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1484375607
+      path: 1069211731
       attribute: 4
       script: {fileID: 0}
       typeID: 4
       customType: 4
       isPPtrCurve: 0
       isIntCurve: 0
+      isSerializeReferenceCurve: 0
     pptrCurveMapping: []
   m_AnimationClipSettings:
     serializedVersion: 2
@@ -410,7 +421,8 @@ AnimationClip:
     m_HeightFromFeet: 0
     m_Mirror: 0
   m_EditorCurves:
-  - curve:
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -435,10 +447,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: Wheel_Animated
+    path: '#Wheel'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -463,10 +477,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: Wheel_Animated
+    path: '#Wheel'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -491,10 +507,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Wheel_Animated
+    path: '#Wheel'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -519,10 +537,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: Wheel_Animated/Seats_001_Animated
+    path: '#Wheel/#Seats_001'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -547,10 +567,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: Wheel_Animated/Seats_001_Animated
+    path: '#Wheel/#Seats_001'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -575,10 +597,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Wheel_Animated/Seats_001_Animated
+    path: '#Wheel/#Seats_001'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -603,10 +627,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: Wheel_Animated/Seats_002_Animated
+    path: '#Wheel/#Seats_002'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -631,10 +657,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: Wheel_Animated/Seats_002_Animated
+    path: '#Wheel/#Seats_002'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -659,10 +687,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Wheel_Animated/Seats_002_Animated
+    path: '#Wheel/#Seats_002'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -687,10 +717,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: Wheel_Animated/Seats_003_Animated
+    path: '#Wheel/#Seats_003'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -715,10 +747,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: Wheel_Animated/Seats_003_Animated
+    path: '#Wheel/#Seats_003'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -743,10 +777,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Wheel_Animated/Seats_003_Animated
+    path: '#Wheel/#Seats_003'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -771,10 +807,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: Wheel_Animated/Seats_004_Animated
+    path: '#Wheel/#Seats_004'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -799,10 +837,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: Wheel_Animated/Seats_004_Animated
+    path: '#Wheel/#Seats_004'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -827,10 +867,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Wheel_Animated/Seats_004_Animated
+    path: '#Wheel/#Seats_004'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -855,10 +897,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: Wheel_Animated/Seats_005_Animated
+    path: '#Wheel/#Seats_005'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -883,10 +927,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: Wheel_Animated/Seats_005_Animated
+    path: '#Wheel/#Seats_005'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -911,10 +957,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Wheel_Animated/Seats_005_Animated
+    path: '#Wheel/#Seats_005'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -939,10 +987,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: Wheel_Animated/Seats_006_Animated
+    path: '#Wheel/#Seats_006'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -967,10 +1017,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: Wheel_Animated/Seats_006_Animated
+    path: '#Wheel/#Seats_006'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -995,10 +1047,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Wheel_Animated/Seats_006_Animated
+    path: '#Wheel/#Seats_006'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -1023,10 +1077,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: Wheel_Animated/Seats_007_Animated
+    path: '#Wheel/#Seats_007'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -1051,10 +1107,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: Wheel_Animated/Seats_007_Animated
+    path: '#Wheel/#Seats_007'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -1079,10 +1137,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Wheel_Animated/Seats_007_Animated
+    path: '#Wheel/#Seats_007'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -1107,10 +1167,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: Wheel_Animated/Seats_008_Animated
+    path: '#Wheel/#Seats_008'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -1135,10 +1197,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: Wheel_Animated/Seats_008_Animated
+    path: '#Wheel/#Seats_008'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -1163,10 +1227,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Wheel_Animated/Seats_008_Animated
+    path: '#Wheel/#Seats_008'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -1191,10 +1257,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: CogBeam_Animated
+    path: '#CogBeam'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -1219,10 +1287,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: CogBeam_Animated
+    path: '#CogBeam'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -1247,10 +1317,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: CogBeam_Animated
+    path: '#CogBeam'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -1275,10 +1347,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: CogGear_Animated
+    path: '#CogGear'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -1303,10 +1377,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: CogGear_Animated
+    path: '#CogGear'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -1331,340 +1407,407 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: CogGear_Animated
+    path: '#CogGear'
     classID: 4
     script: {fileID: 0}
+    flags: 0
   m_EulerEditorCurves:
-  - curve:
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Wheel_Animated/Seats_004_Animated
+    path: '#Wheel/#Seats_003'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Wheel_Animated/Seats_004_Animated
+    path: '#Wheel/#Seats_003'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Wheel_Animated/Seats_004_Animated
+    path: '#Wheel/#Seats_003'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Wheel_Animated/Seats_003_Animated
+    path: '#Wheel/#Seats_002'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Wheel_Animated/Seats_003_Animated
+    path: '#Wheel/#Seats_002'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Wheel_Animated/Seats_003_Animated
+    path: '#Wheel/#Seats_002'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Wheel_Animated/Seats_005_Animated
+    path: '#Wheel/#Seats_004'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Wheel_Animated/Seats_005_Animated
+    path: '#Wheel/#Seats_004'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Wheel_Animated/Seats_005_Animated
+    path: '#Wheel/#Seats_004'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Wheel_Animated/Seats_002_Animated
+    path: '#Wheel/#Seats_001'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Wheel_Animated/Seats_002_Animated
+    path: '#Wheel/#Seats_001'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Wheel_Animated/Seats_002_Animated
+    path: '#Wheel/#Seats_001'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Wheel_Animated/Seats_006_Animated
+    path: '#Wheel/#Seats_005'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Wheel_Animated/Seats_006_Animated
+    path: '#Wheel/#Seats_005'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Wheel_Animated/Seats_006_Animated
+    path: '#Wheel/#Seats_005'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Wheel_Animated/Seats_007_Animated
+    path: '#Wheel/#Seats_006'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Wheel_Animated/Seats_007_Animated
+    path: '#Wheel/#Seats_006'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Wheel_Animated/Seats_007_Animated
+    path: '#Wheel/#Seats_006'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Wheel_Animated/Seats_008_Animated
+    path: '#Wheel/#Seats_007'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Wheel_Animated/Seats_008_Animated
+    path: '#Wheel/#Seats_007'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Wheel_Animated/Seats_008_Animated
+    path: '#Wheel/#Seats_007'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Wheel_Animated
+    path: '#CogBeam'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Wheel_Animated
+    path: '#CogBeam'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Wheel_Animated
+    path: '#CogBeam'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Wheel_Animated/Seats_001_Animated
+    path: '#Wheel'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Wheel_Animated/Seats_001_Animated
+    path: '#Wheel'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Wheel_Animated/Seats_001_Animated
+    path: '#Wheel'
     classID: 4
     script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.x
-    path: CogBeam_Animated
-    classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.y
-    path: CogBeam_Animated
-    classID: 4
-    script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: CogBeam_Animated
+    path: '#Wheel/#Seats_008'
     classID: 4
     script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.x
-    path: CogGear_Animated
-    classID: 4
-    script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: CogGear_Animated
+    path: '#Wheel/#Seats_008'
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalEulerAngles.x
+    path: '#Wheel/#Seats_008'
+    classID: 4
+    script: {fileID: 0}
+    flags: 0
+  - serializedVersion: 2
+    curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalEulerAngles.x
+    path: '#CogGear'
+    classID: 4
+    script: {fileID: 0}
+    flags: 0
+  - serializedVersion: 2
+    curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalEulerAngles.y
+    path: '#CogGear'
+    classID: 4
+    script: {fileID: 0}
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: CogGear_Animated
+    path: '#CogGear'
     classID: 4
     script: {fileID: 0}
+    flags: 0
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events: []
