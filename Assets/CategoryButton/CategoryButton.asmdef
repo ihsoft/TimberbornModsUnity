@@ -35,7 +35,8 @@
         "Timberborn.AssetSystem.dll",
         "Timberborn.PlantingUI.dll",
         "Timberborn.Planting.dll",
-        "Timberborn.PrefabSystem.dll"
+        "Timberborn.PrefabSystem.dll",
+        "Timberborn.BaseComponentSystem.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

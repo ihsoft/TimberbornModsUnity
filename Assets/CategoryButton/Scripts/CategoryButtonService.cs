@@ -9,7 +9,6 @@ using Timberborn.BlockObjectTools;
 using Timberborn.BlockSystem;
 using Timberborn.Common;
 using Timberborn.CoreUI;
-using Timberborn.EntitySystem;
 using Timberborn.InputSystem;
 using Timberborn.Persistence;
 using Timberborn.PlantingUI;
@@ -113,7 +112,7 @@ namespace CategoryButton
             secondToolButtons.name += blockObject.name;
             secondToolButtons.style.position = Position.Absolute;
 
-            ToolButton button = toolButtonFactory.Create(categoryButtonTool, blockObject.GetComponent<LabeledPrefab>().Image, parent);
+            ToolButton button = toolButtonFactory.Create(categoryButtonTool, blockObject.GetComponentFast<LabeledPrefab>().Image, parent);
             categoryButtonTool.SetFields(blockObject, secondToolButtons, toolGroup, toolBarCategory);
 
             CategoryButtonTools.Add(categoryButtonTool);
@@ -126,7 +125,7 @@ namespace CategoryButton
             if (toolButton.Tool.GetType() == typeof(BlockObjectTool))
             {
                 var tool = toolButton.Tool as BlockObjectTool;
-                if (!tool.Prefab.TryGetComponent(out Prefab fPrefab)) 
+                if (!tool.Prefab.TryGetComponentFast(out Prefab fPrefab)) 
                     return;
                 foreach (var categoryButtonComponent in CategoryButtonComponents)
                 {

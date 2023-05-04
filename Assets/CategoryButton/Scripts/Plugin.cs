@@ -95,7 +95,7 @@ namespace CategoryButton
             ToolButtonFactory ____toolButtonFactory,
             ref ToolButton __result)
         {
-            if (prefab.TryGetComponent(out CategoryButtonComponent toolBarCategory))
+            if (prefab.TryGetComponentFast(out CategoryButtonComponent toolBarCategory))
             {
                 __result = DependencyContainer.GetInstance<CategoryButtonService>().CreateCategoryToolButton(prefab, toolGroup, buttonParent, toolBarCategory, ____blockObjectToolDescriber, ____toolButtonFactory);
                 return false;
