@@ -35,7 +35,6 @@ MonoBehaviour:
   - <ManifestStagingRoot>/Specifications
   files:
   - {fileID: 4900000, guid: 9a86131a3d41c2f4693b7610b04a2342, type: 3}
-  - {fileID: 4900000, guid: 997810d4241f5ed48aebf8c5f1a25d81, type: 3}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,8 +71,7 @@ MonoBehaviour:
   assetBundles:
   - assetBundleName: Tobbert_DutchWindmill
     assets:
-    - {fileID: 5366692629481669372, guid: 7222153269a2c8441914be51b97aa2b1, type: 3}
-    - {fileID: 5366692629481669372, guid: 540292e5d28333e40801ca04653e14a1, type: 3}
+    - {fileID: 589452218276890100, guid: 7222153269a2c8441914be51b97aa2b1, type: 3}
 --- !u!114 &9120418034178625098
 MonoBehaviour:
   m_ObjectHideFlags: 0
