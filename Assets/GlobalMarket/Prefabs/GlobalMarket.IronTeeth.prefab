@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4906499010071978}
   m_Layer: 0
-  m_Name: __Unfinished
+  m_Name: #UnFinished
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 65448454614426592}
   - component: {fileID: 65762432005061691}
   m_Layer: 0
-  m_Name: __Finished
+  m_Name: #Finished
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
