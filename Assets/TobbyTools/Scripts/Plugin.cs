@@ -12,6 +12,8 @@ namespace TobbyTools
         public static IConsoleWriter Log;
 
         public static IMod Mod;
+
+        public static bool LoggingEnabled = false;
         
         public void Entry(IMod mod, IConsoleWriter consoleWriter)
         {

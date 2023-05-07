@@ -42,7 +42,14 @@
         "Timberborn.Yielding.dll",
         "Timberborn.MechanicalSystemUI.dll",
         "Timberborn.PathSystem.dll",
-        "Microsoft.CSharp.dll"
+        "Microsoft.CSharp.dll",
+        "Bindito.Unity.dll",
+        "Timberborn.MeshyEditorTools.dll",
+        "Timberborn.Ruins.dll",
+        "Timberborn.Beavers.dll",
+        "Timberborn.StatusSystem.dll",
+        "Timberborn.WindSystem.dll",
+        "Timberborn.NeedApplication.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],
