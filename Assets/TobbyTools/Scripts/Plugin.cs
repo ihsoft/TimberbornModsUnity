@@ -3,17 +3,21 @@ using HarmonyLib;
 using TimberApi.ConsoleSystem;
 using TimberApi.ModSystem;
 
-namespace TextureReplacementTool
+namespace TobbyTools
 {
     public class Plugin : IModEntrypoint
     {
         public const string PluginGuid = "tobbert.texturereplacementtool";
         
         public static IConsoleWriter Log;
+
+        public static IMod Mod;
         
         public void Entry(IMod mod, IConsoleWriter consoleWriter)
         {
             Log = consoleWriter;
+
+            Mod = mod;
             
             try
             {

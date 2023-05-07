@@ -4,7 +4,7 @@ using System.Linq;
 using TimberApi.Common.SingletonSystem;
 using TimberApi.ModSystem;
 
-namespace TextureReplacementTool
+namespace TobbyTools.TextureReplacementTool
 {
     public class ImageRepository : ITimberApiPreLoadableSingleton
     {

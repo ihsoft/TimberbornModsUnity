@@ -1,4 +1,4 @@
-namespace TextureReplacementTool
+namespace TobbyTools.TextureReplacementTool
 {
     public class ReplaceTextureSpecification 
     {

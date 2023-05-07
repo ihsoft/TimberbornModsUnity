@@ -11,7 +11,7 @@ using Timberborn.PrefabSystem;
 using Timberborn.SingletonSystem;
 using UnityEngine;
 
-namespace TextureReplacementTool
+namespace TobbyTools.TextureReplacementTool
 {
     public class TextureReplacementService : ITimberApiLoadableSingleton, ILoadableSingleton
     {

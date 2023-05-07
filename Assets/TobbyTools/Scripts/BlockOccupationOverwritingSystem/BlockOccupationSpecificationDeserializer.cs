@@ -2,7 +2,7 @@ using System;
 using Timberborn.BlockSystem;
 using Timberborn.Persistence;
 
-namespace BlockOccupationTool
+namespace TobbyTools.BlockOccupationTool
 {
     public class BlockOccupationSpecificationDeserializer : IObjectSerializer<BlockOccupationSpecification>
     {

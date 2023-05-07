@@ -4,7 +4,7 @@ using HarmonyLib;
 using Timberborn.Common;
 using UnityEngine;
 
-namespace BlockOccupationTool
+namespace TobbyTools.BlockOccupationTool
 {
     public static class BlockOccupationCore
     {

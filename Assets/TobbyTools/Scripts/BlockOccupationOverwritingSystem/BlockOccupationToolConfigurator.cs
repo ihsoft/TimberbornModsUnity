@@ -2,7 +2,7 @@ using Bindito.Core;
 using TimberApi.ConfiguratorSystem;
 using TimberApi.SceneSystem;
 
-namespace BlockOccupationTool
+namespace TobbyTools.BlockOccupationTool
 {
     [Configurator(SceneEntrypoint.All)]
     public class TextureReplacementToolConfigurator : IConfigurator

@@ -36,7 +36,13 @@
         "Timberborn.PlantingUI.dll",
         "Timberborn.Planting.dll",
         "Timberborn.PrefabSystem.dll",
-        "Timberborn.BaseComponentSystem.dll"
+        "Timberborn.BaseComponentSystem.dll",
+        "Newtonsoft.Json.dll",
+        "System.Reflection.Emit 1.dll",
+        "Timberborn.Yielding.dll",
+        "Timberborn.MechanicalSystemUI.dll",
+        "Timberborn.PathSystem.dll",
+        "Microsoft.CSharp.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

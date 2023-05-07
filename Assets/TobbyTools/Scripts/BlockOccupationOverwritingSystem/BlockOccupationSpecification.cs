@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Timberborn.BlockSystem;
 
-namespace BlockOccupationTool
+namespace TobbyTools.BlockOccupationTool
 {
     public class BlockOccupationSpecification 
     {

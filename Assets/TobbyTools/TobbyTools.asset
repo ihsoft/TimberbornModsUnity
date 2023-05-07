@@ -16,6 +16,7 @@ MonoBehaviour:
   - <ManifestStagingRoot>
   files:
   - {fileID: 4900000, guid: 3885a14f4d30d6247a837481e9551829, type: 3}
+  - {fileID: 102900000, guid: e55cae1c22f70f0498b110c2e9d004d7, type: 3}
 --- !u!114 &-3931462110823901632
 MonoBehaviour:
   m_ObjectHideFlags: 0

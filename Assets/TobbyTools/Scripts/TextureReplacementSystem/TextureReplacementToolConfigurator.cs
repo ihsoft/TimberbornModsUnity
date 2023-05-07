@@ -2,7 +2,7 @@ using Bindito.Core;
 using TimberApi.ConfiguratorSystem;
 using TimberApi.SceneSystem;
 
-namespace TextureReplacementTool
+namespace TobbyTools.TextureReplacementTool
 {
     [Configurator(SceneEntrypoint.InGame)]
     public class TextureReplacementToolConfigurator : IConfigurator

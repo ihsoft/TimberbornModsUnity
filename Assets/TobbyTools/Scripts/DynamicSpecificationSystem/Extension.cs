@@ -1,0 +1,102 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Dynamic;
+using Newtonsoft.Json.Linq;
+
+namespace TobbyTools.DynamicSpecificationSystem
+{
+    public static class ExpandoObjectExtensions
+    {
+        public static object GetPropertyValue(this IDictionary<string, object> expando, string propertyName)
+        {
+            if (expando.TryGetValue(propertyName, out var value))
+            {
+                return value;
+            }
+            return null;
+        }
+
+        public static ExpandoObject ToExpandoObject(this JObject jObject)
+        {
+            ExpandoObject expando = new ExpandoObject();
+            IDictionary<string, object> dictionary = expando;
+
+            foreach (JProperty property in jObject.Properties())
+            {
+                if (property.Value is JObject valueObject)
+                {
+                    dictionary[property.Name] = valueObject.ToExpandoObject();
+                }
+                else if (property.Value is JArray valueArray)
+                {
+                    List<object> list = new List<object>();
+                    foreach (JToken item in valueArray)
+                    {
+                        if (item is JObject itemObject)
+                        {
+                            list.Add(itemObject.ToExpandoObject());
+                        }
+                        else
+                        {
+                            list.Add(item.Value<object>());
+                        }
+                    }
+                    dictionary[property.Name] = list;
+                }
+                else
+                {
+                    dictionary[property.Name] = property.Value.Value<object>();
+                }
+            }
+
+            return expando;
+        }
+        
+        public static IEnumerable<ExpandoObject> GetList(this ExpandoObject expando, string propertyName)
+        {
+            IDictionary<string, object> dictionary = expando;
+            if (dictionary.TryGetValue(propertyName, out object value))
+            {
+                if (value is IEnumerable<object> list)
+                {
+                    foreach (object item in list)
+                    {
+                        if (item is ExpandoObject expandoObject)
+                        {
+                            yield return expandoObject;
+                        }
+                    }
+                }
+            }
+        }
+        
+        public static List<KeyValuePair<string, object>> GetAllFields(this ExpandoObject expando)
+        {
+            List<KeyValuePair<string, object>> fields = new List<KeyValuePair<string, object>>();
+
+            IDictionary<string, object> dictionary = expando;
+
+            foreach (KeyValuePair<string, object> kvp in dictionary)
+            {
+                fields.Add(kvp);
+            }
+
+            return fields;
+        }
+        
+        public static List<object> GetAllPropertyValues(this ExpandoObject expando)
+        {
+            List<object> propertyValues = new List<object>();
+
+            IDictionary<string, object> dictionary = expando;
+
+            foreach (string key in dictionary.Keys)
+            {
+                object value = dictionary.GetPropertyValue(key);
+                propertyValues.Add(value);
+            }
+
+            return propertyValues;
+        }
+    }
+}

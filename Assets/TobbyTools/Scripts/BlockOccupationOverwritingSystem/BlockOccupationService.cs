@@ -6,7 +6,7 @@ using Timberborn.AssetSystem;
 using Timberborn.BlockSystem;
 using Timberborn.Persistence;
 
-namespace BlockOccupationTool
+namespace TobbyTools.BlockOccupationTool
 {
     public class BlockOccupationService : ITimberApiPreLoadableSingleton
     {
@@ -57,7 +57,6 @@ namespace BlockOccupationTool
             
             foreach (var blockSpecification in specification.BlocksSpecifications)
             {
-                Plugin.Log.LogWarning(blockSpecification.Occupation + "");
                 var officialBlockSpecification = new Timberborn.BlockSystem.BlockSpecification();
                 BlockOccupationCore.SetInaccessibleField(officialBlockSpecification, "_matterBelow", blockSpecification.MatterBelow);
                 BlockOccupationCore.SetInaccessibleField(officialBlockSpecification, "_occupation", blockSpecification.Occupation);

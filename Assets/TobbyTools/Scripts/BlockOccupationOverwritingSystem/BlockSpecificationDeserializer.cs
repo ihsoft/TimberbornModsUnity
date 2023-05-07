@@ -4,7 +4,7 @@ using Timberborn.BlockSystem;
 using Timberborn.Persistence;
 using UnityEngine;
 
-namespace BlockOccupationTool
+namespace TobbyTools.BlockOccupationTool
 {
     public class BlockSpecificationDeserializer : IObjectSerializer<BlockSpecification>
     {
