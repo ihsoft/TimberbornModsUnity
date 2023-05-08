@@ -4,10 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json.Linq;
-using Timberborn.AssetSystem;
 using Timberborn.Persistence;
 using Timberborn.SingletonSystem;
-using UnityEngine;
 using ExpandoObject = System.Dynamic.ExpandoObject;
 
 namespace TobbyTools.DynamicSpecificationSystem
@@ -16,37 +14,34 @@ namespace TobbyTools.DynamicSpecificationSystem
     {
         private readonly ActiveComponentRetriever _activeComponentRetriever;
         private readonly ISpecificationService _specificationService;
-        private readonly IResourceAssetLoader _resourceAssetLoader;
 
-        public DynamicSpecificationApplier(ActiveComponentRetriever activeComponentRetriever, ISpecificationService specificationService, IResourceAssetLoader resourceAssetLoader)
+        public DynamicSpecificationApplier(ActiveComponentRetriever activeComponentRetriever, ISpecificationService specificationService)
         {
             _activeComponentRetriever = activeComponentRetriever;
             _specificationService = specificationService;
-            _resourceAssetLoader = resourceAssetLoader;
         }
 
         public void Load()
         {
             // return;
             
-            foreach (var monoBehaviour in _activeComponentRetriever.GetAllComponents())
+            foreach (var component in _activeComponentRetriever.GetAllComponents())
             {
-                var type = monoBehaviour.GetType();
+                var componentType = component.GetType();
                 
-                if (SkippableTypes.Types.Contains(type))
+                if (SkippableTypes.Types.Contains(componentType))
                     continue;
                 
-                if (Plugin.LoggingEnabled) Plugin.Log.LogWarning("Name Monobehavior: " + type);
+                if (Plugin.LoggingEnabled) Plugin.Log.LogWarning("Name Monobehavior: " + componentType);
 
-                var fieldInfos = GetFilteredFieldInfos(type).ToArray();
-                
-                var values = GetDynamicProperties(fieldInfos, monoBehaviour).ToArray();
+                var fieldInfos = ReflectionUtils.GetSerializeableFieldInfos(componentType);
+                var dynamicProperties = DynamicPropertiesUtils.GetAll(fieldInfos, component);
 
-                if (Plugin.LoggingEnabled) Plugin.Log.LogWarning("Number of fields: " + values.Length);
-                if (!values.Any())
+                if (Plugin.LoggingEnabled) Plugin.Log.LogWarning("Number of fields: " + dynamicProperties.Count());
+                if (!dynamicProperties.Any())
                     continue;
                 
-                var fileName = "DynamicSpecification." + monoBehaviour.gameObject.name + "." + monoBehaviour.GetType().Name + ".original.json";
+                var fileName = "DynamicSpecification." + component.gameObject.name + "." + componentType.Name + ".original.json";
                 
                 if (Plugin.LoggingEnabled) Plugin.Log.LogError(fileName);
 
@@ -55,167 +50,108 @@ namespace TobbyTools.DynamicSpecificationSystem
                 if (!File.Exists(fileLocation))
                     continue;
                 
-            
-                var jsonString = File.ReadAllText(fileLocation);
+                ExpandoObject objectContaingValues = JObject.Parse(File.ReadAllText(fileLocation)).ToExpandoObject();
 
-                ExpandoObject objectContaingValues = JObject.Parse(jsonString).ToExpandoObject();
-
-                foreach (var property in values)
+                foreach (var property in dynamicProperties)
                 {
-                    UpdateValues(property, objectContaingValues, monoBehaviour, objectContaingValues.GetPropertyValue(property.StyledName));
+                    UpdateValues(property, objectContaingValues, component, objectContaingValues.GetPropertyValue(property.StyledName));
                 }
                 
-                File.Delete(fileLocation);
+                // File.Delete(fileLocation);
             }
-        }
-        
-        private IEnumerable<DynamicProperty> GetDynamicProperties(IEnumerable<FieldInfo> fieldInfos, object instance)
-        {
-            return fieldInfos.Select(field => new DynamicProperty(field.Name, field.GetValue(instance)));
-        }
-        
-        private IEnumerable<DynamicProperty> GetDynamicPropertiesWithoutValues(IEnumerable<FieldInfo> fieldInfos)
-        {
-            return fieldInfos.Select(field => new DynamicProperty(field.Name));
-        }
-        
-        private IEnumerable<DynamicProperty> GetDynamicPropertiesWithoutValues(IEnumerable<PropertyInfo> fieldInfos)
-        {
-            return fieldInfos.Select(field => new DynamicProperty(field.Name));
-        }
-
-        private IEnumerable<FieldInfo> GetFilteredFieldInfos(Type type)
-        {
-            return type
-                .GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
-                .Where(field => field.IsDefined(typeof(SerializeField), true))
-                .Where(ReflectionUtils.IsAllowedFieldType);
-        }
-
-        private IEnumerable<PropertyInfo> GetPropertyInfos(Type type)
-        {
-            return type.GetProperties(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
         }
 
         private void UpdateValues(DynamicProperty property, ExpandoObject objectContaingValues, object objectToBeUpdated, object newValue)
         {
+            if (newValue == null)
+             return;
+            
             var toBeUpdatedType = objectToBeUpdated.GetType();
             var toBeUpdateFieldInfo = toBeUpdatedType.GetField(property.OriginalName, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
             var toBeUpdatePropertyInfo = toBeUpdatedType.GetProperty(property.OriginalName, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
             
-            if (Plugin.LoggingEnabled) Plugin.Log.LogError(newValue + "");
-            if (Plugin.LoggingEnabled) Plugin.Log.LogError(newValue?.GetType() + "");
-            // var test = GetDynamicProperties(GetFilteredFieldInfos(value.GetType()), value);
-            // foreach (var dynamicProperty in test)
-            // {
-            //     UpdateValues(dynamicProperty, objectContaingValues, value);
-            //     if (Plugin.LoggingEnabled) Plugin.Log.LogWarning(dynamicProperty.OriginalName);
-            // }
-            
-            if ((toBeUpdateFieldInfo != null && toBeUpdateFieldInfo.FieldType.IsArray) || (toBeUpdatePropertyInfo != null && toBeUpdatePropertyInfo.PropertyType.IsArray))
+            if (Plugin.LoggingEnabled) Plugin.Log.LogError("New value: " + newValue);
+            if (Plugin.LoggingEnabled) Plugin.Log.LogError("New value type: " + newValue.GetType());
+
+            if (toBeUpdateFieldInfo != null && toBeUpdateFieldInfo.FieldType.IsArray || (toBeUpdatePropertyInfo != null && toBeUpdatePropertyInfo.PropertyType.IsArray))
             {
-                if (Plugin.LoggingEnabled) Plugin.Log.LogInfo("ARRAY");
-                if (Plugin.LoggingEnabled) Plugin.Log.LogInfo(property.StyledName);
-                // if (Plugin.LoggingEnabled) Plugin.Log.LogError(toBeUpdateFieldInfo.FieldType + "");
-                var elementType = toBeUpdateFieldInfo != null ? 
-                    toBeUpdateFieldInfo.FieldType.GetElementType() :
-                    toBeUpdatePropertyInfo.PropertyType.GetElementType();
-                var dynamicProperties = GetDynamicPropertiesWithoutValues(GetFilteredFieldInfos(elementType));
-
-                var list = new List<object>();
-
-                IEnumerable<IDictionary<string, object>> enumerable = objectContaingValues.GetList(property.StyledName);
-                foreach (IDictionary<string, object> item in enumerable)
-                {
-                    object newObject;
-                    
-                    try
-                    {
-                        newObject = Activator.CreateInstance(elementType);
-                    }
-                    catch (Exception e)
-                    {
-                        var constructor = elementType.GetConstructors().First();   
-                    
-                        var parameters = constructor.GetParameters();
-                        var args = new object[parameters.Length];
-                    
-                        for (int i = 0; i < parameters.Length; i++)
-                        {
-                            var parameterType = parameters[i].ParameterType;
-                            args[i] = parameterType.IsValueType ? Activator.CreateInstance(parameterType) : null;
-                        }
-                    
-                        newObject = constructor.Invoke(args);
-                    }
-
-
-                    if (Plugin.LoggingEnabled) Plugin.Log.LogWarning(newObject.GetType() + "");
-                    foreach (var dynamicProperty in dynamicProperties)
-                    {
-                        if (Plugin.LoggingEnabled) Plugin.Log.LogWarning(dynamicProperty.StyledName);
-                        if (Plugin.LoggingEnabled) Plugin.Log.LogWarning(item.GetPropertyValue(dynamicProperty.StyledName) + "");
-                        UpdateValues(dynamicProperty, objectContaingValues, newObject, item.GetPropertyValue(dynamicProperty.StyledName));
-                    }
-                    list.Add(newObject);
-                }
-
-                var generatedArray = list.ToArray();
-
-                // if (Plugin.LoggingEnabled) Plugin.Log.LogInfo("generatedArray length: " + generatedArray.Length);
-                
-                Array typedArray = Array.CreateInstance(elementType, generatedArray.Length);
-                generatedArray.CopyTo(typedArray, 0);
-                
-                // if (Plugin.LoggingEnabled) Plugin.Log.LogInfo("typedArray length: " + typedArray.Length + "");
-
-                
-                if (toBeUpdateFieldInfo != null)
-                {
-                    if (newValue != null)
-                    {
-                        toBeUpdateFieldInfo.SetValue(objectToBeUpdated, typedArray);
-                    }
-                }
-                if (toBeUpdatePropertyInfo != null)
-                {
-                    if (newValue != null && toBeUpdatePropertyInfo.GetSetMethod() != null)
-                    {
-                        toBeUpdatePropertyInfo.SetValue(objectToBeUpdated, typedArray);
-                    }
-                }
-
+                ProcessArray(property, objectContaingValues, objectToBeUpdated, toBeUpdateFieldInfo, toBeUpdatePropertyInfo);
                 return;
             }
 
-            if (
-                (toBeUpdateFieldInfo != null && toBeUpdateFieldInfo.FieldType.IsValueType && !toBeUpdateFieldInfo.FieldType.IsPrimitive && !toBeUpdateFieldInfo.FieldType.IsEnum) || 
-                (toBeUpdatePropertyInfo != null && toBeUpdatePropertyInfo.PropertyType.IsValueType && !toBeUpdatePropertyInfo.PropertyType.IsPrimitive && !toBeUpdatePropertyInfo.PropertyType.IsEnum))
+            if ((toBeUpdateFieldInfo != null && IsStruct(toBeUpdateFieldInfo.FieldType)) || 
+                (toBeUpdatePropertyInfo != null && IsStruct(toBeUpdatePropertyInfo.PropertyType)))
             {
-                ProcesStruct(property, objectContaingValues, objectToBeUpdated, toBeUpdateFieldInfo, toBeUpdatePropertyInfo);
-
+                ProcessStruct(property, objectContaingValues, objectToBeUpdated, toBeUpdateFieldInfo, toBeUpdatePropertyInfo);
                 return;
             }
 
-            if (toBeUpdateFieldInfo != null)
-            {
-                if (newValue != null)
-                {
-                    toBeUpdateFieldInfo.SetValue(objectToBeUpdated, Convert.ChangeType(newValue, toBeUpdateFieldInfo.FieldType));
-                }
-            }
-            if (toBeUpdatePropertyInfo != null)
-            {
-                if (newValue != null && toBeUpdatePropertyInfo.GetSetMethod() != null)
-                {
-                    toBeUpdatePropertyInfo.SetValue(objectToBeUpdated, Convert.ChangeType(newValue, toBeUpdatePropertyInfo.PropertyType));
-                }
-            }
-
-            if (Plugin.LoggingEnabled) Plugin.Log.LogInfo(property.OriginalName);
+            UpdateOppropriateValue(objectToBeUpdated, toBeUpdateFieldInfo, toBeUpdatePropertyInfo, newValue);
         }
 
-        private void ProcesStruct(DynamicProperty property,  ExpandoObject objectContaingValues, object objectToBeUpdated, FieldInfo toBeUpdateFieldInfo, PropertyInfo toBeUpdatePropertyInfo)
+        private void ProcessArray(DynamicProperty property,  ExpandoObject objectContaingValues, object objectToBeUpdated, FieldInfo toBeUpdateFieldInfo, PropertyInfo toBeUpdatePropertyInfo)
+        {
+            if (Plugin.LoggingEnabled) Plugin.Log.LogInfo("ARRAY");
+            if (Plugin.LoggingEnabled) Plugin.Log.LogInfo(property.StyledName);
+            var elementType = toBeUpdateFieldInfo != null ? toBeUpdateFieldInfo.FieldType.GetElementType() : toBeUpdatePropertyInfo.PropertyType.GetElementType();
+            var dynamicProperties = DynamicPropertiesUtils.GetAllWithoutValues(ReflectionUtils.GetSerializeableFieldInfos(elementType));
+
+            var list = new List<object>();
+
+            foreach (ExpandoObject item in objectContaingValues.GetList(property.StyledName))
+            {
+                CreateInstancedObject(elementType, out object newObject);
+                if (Plugin.LoggingEnabled) Plugin.Log.LogWarning(newObject.GetType() + "");
+                    
+                foreach (var dynamicProperty in dynamicProperties)
+                {
+                    if (Plugin.LoggingEnabled) Plugin.Log.LogWarning(dynamicProperty.StyledName);
+                    if (Plugin.LoggingEnabled) Plugin.Log.LogWarning(item.GetPropertyValue(dynamicProperty.StyledName) + "");
+                    UpdateValues(dynamicProperty, objectContaingValues, newObject, item.GetPropertyValue(dynamicProperty.StyledName));
+                }
+                list.Add(newObject);
+            }
+
+            var generatedArray = list.ToArray();
+            if (Plugin.LoggingEnabled) Plugin.Log.LogInfo("generatedArray length: " + generatedArray.Length);
+            Array typedArray = Array.CreateInstance(elementType, generatedArray.Length);
+            generatedArray.CopyTo(typedArray, 0);
+            if (Plugin.LoggingEnabled) Plugin.Log.LogInfo("typedArray length: " + typedArray.Length + "");
+                
+            UpdateOppropriateValue(objectToBeUpdated, toBeUpdateFieldInfo, toBeUpdatePropertyInfo, typedArray);
+        }
+
+        private bool IsStruct(Type type)
+        {
+            return type.IsValueType && !type.IsPrimitive && !type.IsEnum;
+        }
+
+        private void CreateInstancedObject(Type type, out object newObject)
+        {
+            try
+            {
+                newObject = Activator.CreateInstance(type);
+            }
+            catch (Exception e)
+            {
+                if (Plugin.LoggingEnabled) Plugin.Log.LogError(e.ToString());
+                        
+                var constructor = type.GetConstructors().First();   
+                    
+                var parameters = constructor.GetParameters();
+                var args = new object[parameters.Length];
+                    
+                for (int i = 0; i < parameters.Length; i++)
+                {
+                    var parameterType = parameters[i].ParameterType;
+                    args[i] = parameterType.IsValueType ? Activator.CreateInstance(parameterType) : null;
+                }
+                    
+                newObject = constructor.Invoke(args);
+            }
+        }
+
+        private void ProcessStruct(DynamicProperty property,  ExpandoObject objectContaingValues, object objectToBeUpdated, FieldInfo toBeUpdateFieldInfo, PropertyInfo toBeUpdatePropertyInfo)
         {
             if (Plugin.LoggingEnabled) Plugin.Log.LogInfo("STRUCT");
             if (Plugin.LoggingEnabled) Plugin.Log.LogInfo(property.StyledName);
@@ -225,74 +161,52 @@ namespace TobbyTools.DynamicSpecificationSystem
             if (parentObjectContainingValues == null)
                 return;
 
-            // if (Plugin.LoggingEnabled) Plugin.Log.LogInfo(test + "");
-            // var asd = (ExpandoObject)test.GetPropertyValue("Size");
-            // if (Plugin.LoggingEnabled) Plugin.Log.LogInfo(asd + "");
-            // if (Plugin.LoggingEnabled) Plugin.Log.LogInfo(asd.GetPropertyValue("x") + "");
-            // if (Plugin.LoggingEnabled) Plugin.Log.LogInfo(test.GetType() + "");
-            
-            // var allFields = parentObjectContainingValues.GetAllFields();
-            //
-            // foreach (var pair in allFields)
-            // {
-            //     string propertyName = pair.Key;
-            //
-            //     Debug.Log($"Property name: {propertyName}, Value: {parentObjectContainingValues.GetPropertyValue(propertyName)}");
-            // }
-
             var structInstance = toBeUpdateFieldInfo != null ? 
-                    Activator.CreateInstance(toBeUpdateFieldInfo.FieldType) : 
-                    Activator.CreateInstance(toBeUpdatePropertyInfo.PropertyType);
+                Activator.CreateInstance(toBeUpdateFieldInfo.FieldType) : 
+                Activator.CreateInstance(toBeUpdatePropertyInfo.PropertyType);
             
-            var dynamicProperties1 = toBeUpdateFieldInfo != null ?
-                GetDynamicPropertiesWithoutValues(GetFilteredFieldInfos(toBeUpdateFieldInfo.FieldType)) :
-                GetDynamicPropertiesWithoutValues(GetFilteredFieldInfos(toBeUpdatePropertyInfo.PropertyType));
-            if (Plugin.LoggingEnabled) Plugin.Log.LogWarning(dynamicProperties1.Count() + "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            var alldynamicProperties = toBeUpdateFieldInfo != null ?
+                DynamicPropertiesUtils.GetAllWithoutValues(toBeUpdateFieldInfo.FieldType) :
+                DynamicPropertiesUtils.GetAllWithoutValues(toBeUpdatePropertyInfo.PropertyType);
+
+            if (Plugin.LoggingEnabled) Plugin.Log.LogWarning("Number of dynamic properties: " + alldynamicProperties.Count());
             if (Plugin.LoggingEnabled) Plugin.Log.LogWarning(structInstance.GetType() + "");
-            foreach (var dynamicProperty in dynamicProperties1)
+            foreach (var dynamicProperty in alldynamicProperties)
             {
                 if (Plugin.LoggingEnabled) Plugin.Log.LogWarning(dynamicProperty.StyledName);
-                var hgf = parentObjectContainingValues.GetPropertyValue(dynamicProperty.StyledName);
-                if (Plugin.LoggingEnabled) Plugin.Log.LogInfo(hgf + "");
-                if (hgf == null)
+                var value = parentObjectContainingValues.GetPropertyValue(dynamicProperty.StyledName);
+                if (Plugin.LoggingEnabled) Plugin.Log.LogInfo(value + "");
+                if (value == null)
                 {
-                    hgf = parentObjectContainingValues.GetPropertyValue(dynamicProperty.OriginalName);
+                    value = parentObjectContainingValues.GetPropertyValue(dynamicProperty.OriginalName);
                 }
-                // if (Plugin.LoggingEnabled) Plugin.Log.LogWarning(hgf.GetPropertyValue("x") + "  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-                UpdateValues(dynamicProperty, parentObjectContainingValues, structInstance, hgf);
+                
+                UpdateValues(dynamicProperty, parentObjectContainingValues, structInstance, value);
             }
+
+            UpdateOppropriateValue(objectToBeUpdated, toBeUpdateFieldInfo, toBeUpdatePropertyInfo, structInstance);
+        }
+
+        private void UpdateOppropriateValue(object objectToBeUpdated, FieldInfo toBeUpdateFieldInfo, PropertyInfo toBeUpdatePropertyInfo, object newValue)
+        {
+            if (Plugin.LoggingEnabled) Plugin.Log.LogInfo("New value: " + newValue);
             
-            var dynamicProperties2 =  toBeUpdateFieldInfo != null ?
-                GetDynamicPropertiesWithoutValues(GetPropertyInfos(toBeUpdateFieldInfo.FieldType)) :
-                GetDynamicPropertiesWithoutValues(GetPropertyInfos(toBeUpdatePropertyInfo.PropertyType));
-            
-            if (Plugin.LoggingEnabled) Plugin.Log.LogWarning(dynamicProperties2.Count() + "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-            if (Plugin.LoggingEnabled) Plugin.Log.LogWarning(structInstance.GetType() + "");
-            foreach (var dynamicProperty in dynamicProperties2)
-            {
-                if (Plugin.LoggingEnabled) Plugin.Log.LogWarning(dynamicProperty.StyledName);
-                var hgf = parentObjectContainingValues.GetPropertyValue(dynamicProperty.StyledName);
-                if (hgf == null)
-                {
-                    hgf = parentObjectContainingValues.GetPropertyValue(dynamicProperty.OriginalName);
-                }
-                if (Plugin.LoggingEnabled) Plugin.Log.LogInfo("Property Value: " + hgf);
-                // if (Plugin.LoggingEnabled) Plugin.Log.LogWarning(hgf.GetPropertyValue("x") + "  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-                UpdateValues(dynamicProperty, parentObjectContainingValues, structInstance, hgf);
-            }
-            
-            if (Plugin.LoggingEnabled) Plugin.Log.LogInfo("structInstance: " + structInstance + "");
             if (toBeUpdateFieldInfo != null)
             {
-                toBeUpdateFieldInfo.SetValue(objectToBeUpdated, structInstance);
-                var test = toBeUpdateFieldInfo.GetValue(objectToBeUpdated);
-                if (Plugin.LoggingEnabled) Plugin.Log.LogInfo("test length: " + test + "");
+                var correctType = toBeUpdateFieldInfo.FieldType;
+                if (newValue.GetType() != correctType)
+                    newValue = Convert.ChangeType(newValue, correctType);
+                toBeUpdateFieldInfo.SetValue(objectToBeUpdated, newValue);
+                if (Plugin.LoggingEnabled) Plugin.Log.LogInfo("Current value: " + toBeUpdateFieldInfo.GetValue(objectToBeUpdated));
+                return;
             }
-            else
+            if (toBeUpdatePropertyInfo != null && toBeUpdatePropertyInfo.GetSetMethod() != null)
             {
-                toBeUpdatePropertyInfo.SetValue(objectToBeUpdated, structInstance);
-                var test = toBeUpdatePropertyInfo.GetValue(objectToBeUpdated);
-                if (Plugin.LoggingEnabled) Plugin.Log.LogInfo("test length: " + test + "");
+                var correctType = toBeUpdatePropertyInfo.PropertyType;
+                if (newValue.GetType() != correctType)
+                    newValue = Convert.ChangeType(newValue, correctType);
+                toBeUpdatePropertyInfo.SetValue(objectToBeUpdated, newValue);
+                if (Plugin.LoggingEnabled) Plugin.Log.LogInfo("Current value: " + toBeUpdatePropertyInfo.GetValue(objectToBeUpdated));
             }
         }
     }

@@ -1,7 +1,9 @@
 ﻿using System;
 using HarmonyLib;
 using Timberborn.AssetSystem;
+using Timberborn.Cutting;
 using Timberborn.MeshyEditorTools;
+using Timberborn.Yielding;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -21,7 +23,8 @@ namespace TobbyTools.DynamicSpecificationSystem
             AccessTools.TypeByName("CanvasScaler"),
             
             // TODO Change fix that this class gets processed
-            AccessTools.TypeByName("Cuttable"),
+            typeof(YielderSpecification),
+            typeof(Cuttable),
         };
     }
 }

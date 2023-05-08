@@ -20,8 +20,8 @@ namespace TobbyTools.DynamicSpecificationSystem
             var allPrefabConfiguratorComponents = prefabConfigurators.SelectMany(configurator => configurator.GetComponents<Component>().Concat(configurator.GetComponentsInChildren<Component>()));
             var prefabs = _resourceAssetLoader.LoadAll<GameObject>("");
             var allPrefabComponents = prefabs.SelectMany(prefab => prefab.GetComponents<Component>());
-            var allComponents = allPrefabComponents.Concat(allPrefabConfiguratorComponents).ToArray();
-            return allComponents;
+            var allComponents = allPrefabComponents.Concat(allPrefabConfiguratorComponents);
+            return allComponents.ToArray();
         }
     }
 }

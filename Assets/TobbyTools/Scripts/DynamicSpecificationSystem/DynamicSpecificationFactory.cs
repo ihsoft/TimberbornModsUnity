@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json;
-using Timberborn.AssetSystem;
 using Timberborn.SingletonSystem;
 using UnityEngine;
 
@@ -12,18 +11,13 @@ namespace TobbyTools.DynamicSpecificationSystem
 {
     public class DynamicSpecificationFactory : ILoadableSingleton
     {
-        private readonly ActiveComponentRetriever _activeComponentRetriever;
-        private readonly IResourceAssetLoader _resourceAssetLoader;
         private readonly DynamicSpecificationDeserializer _dynamicSpecificationDeserializer;
+        private readonly ActiveComponentRetriever _activeComponentRetriever;
 
-        public DynamicSpecificationFactory(
-            ActiveComponentRetriever activeComponentRetriever, 
-            IResourceAssetLoader resourceAssetLoader, 
-            DynamicSpecificationDeserializer dynamicSpecificationDeserializer)
+        public DynamicSpecificationFactory(DynamicSpecificationDeserializer dynamicSpecificationDeserializer, ActiveComponentRetriever activeComponentRetriever)
         {
-            _activeComponentRetriever = activeComponentRetriever;
-            _resourceAssetLoader = resourceAssetLoader;
             _dynamicSpecificationDeserializer = dynamicSpecificationDeserializer;
+            _activeComponentRetriever = activeComponentRetriever;
         }
 
         public void Load()
@@ -41,7 +35,6 @@ namespace TobbyTools.DynamicSpecificationSystem
                     continue;
 
                 if (Plugin.LoggingEnabled) Plugin.Log.LogWarning(type + "");
-                
                 if (Plugin.LoggingEnabled) Plugin.Log.LogWarning("Name Monobehavior: " + type);
 
                 var values = GetFilteredDynamicProperties(type, monoBehaviour);
@@ -55,7 +48,7 @@ namespace TobbyTools.DynamicSpecificationSystem
                 var a = newObject.GetType();
                 foreach (var property in values)
                 {
-                    a.GetProperty(property.StyledName, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public).SetValue(newObject, property.Value);
+                    a.GetProperty(property.StyledName, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)?.SetValue(newObject, property.Value);
                 }
 
                 var fileName = "DynamicSpecification." + monoBehaviour.gameObject.name + "." + monoBehaviour.GetType().Name + ".original.json";

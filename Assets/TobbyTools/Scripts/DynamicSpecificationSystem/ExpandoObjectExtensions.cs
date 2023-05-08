@@ -69,34 +69,5 @@ namespace TobbyTools.DynamicSpecificationSystem
                 }
             }
         }
-        
-        public static List<KeyValuePair<string, object>> GetAllFields(this ExpandoObject expando)
-        {
-            List<KeyValuePair<string, object>> fields = new List<KeyValuePair<string, object>>();
-
-            IDictionary<string, object> dictionary = expando;
-
-            foreach (KeyValuePair<string, object> kvp in dictionary)
-            {
-                fields.Add(kvp);
-            }
-
-            return fields;
-        }
-        
-        public static List<object> GetAllPropertyValues(this ExpandoObject expando)
-        {
-            List<object> propertyValues = new List<object>();
-
-            IDictionary<string, object> dictionary = expando;
-
-            foreach (string key in dictionary.Keys)
-            {
-                object value = dictionary.GetPropertyValue(key);
-                propertyValues.Add(value);
-            }
-
-            return propertyValues;
-        }
     }
 }

@@ -20,8 +20,10 @@ namespace TobbyTools.DynamicSpecificationSystem
             // TODO Change fix that this class gets processed
             typeof(List<>).MakeGenericType(AccessTools.TypeByName("ProgressStep")),
             typeof(List<>).MakeGenericType(AccessTools.TypeByName("RecipeModel")),
-            AccessTools.TypeByName("BlockObjectNavMeshEdgeSpecification"),
+            AccessTools.TypeByName("BlockObjectNavMeshEdgeSpecification").MakeArrayType(),
             AccessTools.TypeByName("NeedApplierEffectSpecification"),
+            AccessTools.TypeByName("TransputSpecification"),
+            AccessTools.TypeByName("BonusSpecification"),
             AccessTools.TypeByName("NeedSuspender"),
             AccessTools.TypeByName("FloatLimits"),
             typeof(List<string>),
