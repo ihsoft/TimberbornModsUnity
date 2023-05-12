@@ -1,5 +1,24 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5660238654762660521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94f750c613c28a14d8d01f3d86ce4481, type: 3}
+  m_Name: ModIoData
+  m_EditorClassIdentifier: 
+  StagingPaths: []
+  ModId: 2519524
+  Version: 1.2.5
+  SetLive: 0
+  Description: '[Experimental]
+
+    Updated to game version 0.4.5'
 --- !u!114 &-3931462110823901632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49,6 +68,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data:
   - {fileID: -3931462110823901632}
+  - {fileID: -5660238654762660521}
   - {fileID: -1800585617083543040}
   - {fileID: 9120418034178625098}
   - {fileID: 2590189338767857166}
@@ -72,8 +92,7 @@ MonoBehaviour:
   assetBundles:
   - assetBundleName: Tobbert_Ladder
     assets:
-    - {fileID: 5574067095167738340, guid: 8627ba4fd9dd6cc4f89579861273c8a1, type: 3}
-    - {fileID: 5574067095167738340, guid: 3367d308abf575945b6138960f67f666, type: 3}
+    - {fileID: 102900000, guid: a4e95372d9abcdd45a5ba7c40856c5ae, type: 3}
 --- !u!114 &7788702448107751720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88,6 +107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StagingPaths:
   - <ManifestStagingRoot>/Specifications
+  includeMetaFiles: 0
   files:
   - {fileID: 4900000, guid: 8bd12c9051d4b8b4b8da2ed35a4c3244, type: 3}
   - {fileID: 4900000, guid: 9f3067ddf7365014ca8855e0649a51d4, type: 3}
@@ -105,6 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StagingPaths:
   - <ManifestStagingRoot>
+  includeMetaFiles: 0
   files:
   - {fileID: 102900000, guid: a5c42ad89838dbe44828b93c9ff20660, type: 3}
   - {fileID: 4900000, guid: 1ae4c966caf1a03469dd464aa775e6f6, type: 3}
