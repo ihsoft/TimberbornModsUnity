@@ -38,7 +38,7 @@ namespace ThunderkitModioUpload
                 var manifestIdentity = pipeline.GetSingle<ManifestIdentity>();
 
                 var source = Source.Resolve(pipeline, this);
-                var output = Path.Combine(Path.GetDirectoryName(source), manifestIdentity + "Zip.zip");
+                var output = Path.Combine(Path.GetDirectoryName(source), manifestIdentity.Name + ".zip");
 
                 var modIoData = pipeline.GetSingle<ModIoData>();
 
@@ -52,18 +52,11 @@ namespace ThunderkitModioUpload
                 var task = Task.Run(async () => { modFiles = await filesClient.Search().ToList(); });
                 task.Wait();
 
-                var newFile = new NewFile(new FileInfo(output))
-                {
-                    Version = modIoData.Version,
-                    Changelog = modIoData.Description,
-                    Active = modIoData.SetLive
-                };
-
                 if (modFiles.Any())
                 {
                     var mostRecentModFile = modFiles.Last();
                     
-                    if (newFile.Version == mostRecentModFile.Version)
+                    if (modIoData.Version == mostRecentModFile.Version)
                     {
                         if (!EditorUtility.DisplayDialog("Same version number", "The most recent version of the mod has the same version number. You sure you want to continue?", "Yes", "No"))
                         {
@@ -82,6 +75,13 @@ namespace ThunderkitModioUpload
                 archive.AddAllFromDirectory(source, searchOption: SearchOption.AllDirectories);
                 var options = new WriterOptions(CompressionType.Deflate);
                 archive.SaveTo(output, options);
+                
+                var newFile = new NewFile(new FileInfo(output))
+                {
+                    Version = modIoData.Version,
+                    Changelog = modIoData.Description,
+                    Active = modIoData.SetLive
+                };
                 
                 task = Task.Run(async () => { await filesClient.Add(newFile); });
                 task.Wait();

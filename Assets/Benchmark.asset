@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data:
   - {fileID: 114525731783530820}
-  QuickAccess: 1
+  QuickAccess: 0
   manifest: {fileID: 11400000, guid: 664afe1b83bf27a44bf805bf1a2fa1b9, type: 2}
 --- !u!114 &114525731783530820
 MonoBehaviour:
@@ -29,6 +29,9 @@ MonoBehaviour:
   m_Name: ExecuteProcess
   m_EditorClassIdentifier: 
   Active: 1
+  PerManifest: 0
+  ListType: 0
+  Manifests: []
   workingDirectory: <BepInExPackDestination>
   executable: <Steam.exe>
   arguments:
