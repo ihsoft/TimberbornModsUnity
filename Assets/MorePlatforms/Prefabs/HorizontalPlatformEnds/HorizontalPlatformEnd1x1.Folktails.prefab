@@ -422,7 +422,7 @@ MonoBehaviour:
   m_Script: {fileID: -871492198, guid: c1ff95bb5ae0e8b420075ec58add6f36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _toolGroupId: Paths
+  _toolGroupId: CategorySidePlatforms
   _toolOrder: 703
   _layout: 0
   _customPivot:
