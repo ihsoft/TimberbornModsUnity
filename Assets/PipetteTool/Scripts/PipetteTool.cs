@@ -1,6 +1,7 @@
-using System.Collections.Generic;
-using System.Linq;
+using System;
 using System.Reflection;
+using TimberApi.DependencyContainerSystem;
+using TimberApi.ToolSystem;
 using Timberborn.BaseComponentSystem;
 using Timberborn.BlockObjectTools;
 using Timberborn.BlockSystem;
@@ -14,7 +15,6 @@ using Timberborn.PrefabSystem;
 using Timberborn.SelectionSystem;
 using Timberborn.SingletonSystem;
 using Timberborn.ToolSystem;
-using UnityEngine;
 using Tool = Timberborn.ToolSystem.Tool;
 
 namespace PipetteTool
@@ -44,9 +44,9 @@ namespace PipetteTool
     private readonly SelectableObjectRaycaster _selectableObjectRaycaster;
 
     private readonly ILoc _loc;
+    
+    private ToolService _toolService;
 
-    private readonly Dictionary<string, ToolButton> _toolButtons = new();
-        
     private ToolDescription _toolDescription;
 
     private bool _shouldPipetNextSelection;
@@ -56,7 +56,7 @@ namespace PipetteTool
     protected readonly MethodInfo ExitConstructionModeMethod;
 
     private readonly FieldInfo _blockObjectToolOrientationField;
-    
+
     public PipetteTool(EventBus eventBus, ToolManager toolManager, DevModeManager devModeManager, InputService inputService, MapEditorMode mapEditorMode, CursorService cursorService, EntitySelectionService entitySelectionService, SelectableObjectRaycaster selectableObjectRaycaster, ILoc loc)
     {
       _eventBus = eventBus;
@@ -76,19 +76,15 @@ namespace PipetteTool
 
     public void Load()
     {
+      _toolService = DependencyContainer.GetInstance<ToolService>();
       _inputService.AddInputProcessor(this);
       _eventBus.Register(this);
       _toolDescription = new ToolDescription.Builder(_loc.T(TitleLocKey)).AddSection(_loc.T(DescriptionLocKey)).Build();
     }
 
-    public void AddToolButtonToDictionary(BaseComponent gameObject, ToolButton toolButton)
+    public void SetToolGroup(ToolGroup toolGroup)
     {
-      if (!gameObject.TryGetComponentFast(out Prefab prefab)) 
-        return;
-      if (!_toolButtons.ContainsKey(prefab.PrefabName))
-        _toolButtons.Add(prefab.PrefabName, toolButton);
-      else
-        Plugin.Log.LogInfo($"Button of {prefab.PrefabName} already exists: Skipping.");
+      ToolGroup = toolGroup;
     }
 
     public override ToolDescription Description() => _toolDescription;
@@ -139,10 +135,15 @@ namespace PipetteTool
 
       var selectableObjectName = hitObject.GetComponentFast<Prefab>().PrefabName;
 
-      if (!_toolButtons.ContainsKey(selectableObjectName))
+      Tool tool;
+      try
+      {
+        tool = _toolService.GetTool(selectableObjectName);
+      }
+      catch (Exception)
+      {
         return;
-
-      var tool = _toolButtons[selectableObjectName].Tool;
+      }
 
       if (_mapEditorMode.IsMapEditor)
         SwitchToSelectedBuildingTool(tool, hitObject);

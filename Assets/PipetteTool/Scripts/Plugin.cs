@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
@@ -9,8 +10,8 @@ using Timberborn.BlockSystem;
 using Timberborn.Planting;
 using Timberborn.SelectionSystem;
 using Timberborn.ToolSystem;
-using UnityEngine;
 using UnityEngine.UIElements;
+using Object = UnityEngine.Object;
 
 namespace PipetteTool
 {
@@ -28,52 +29,54 @@ namespace PipetteTool
         }
     }
     
-    [HarmonyPatch]
-    public class BlockObjectToolButtonFactoryPatch
-    {
-        public static IEnumerable<MethodInfo> TargetMethods()
-        {
-            return new List<MethodInfo>()
-            {
-                AccessTools.Method(AccessTools.TypeByName("BlockObjectToolButtonFactory"), "Create", new[]
-                {
-                    typeof(PlaceableBlockObject), typeof(ToolGroup), typeof(VisualElement)
-                }),
-                AccessTools.Method(AccessTools.TypeByName("BlockObjectToolButtonFactory"), "Create", new []
-                {
-                    typeof(PlaceableBlockObject)
-                })
-            };
-        }
-        
-        static void Postfix(PlaceableBlockObject prefab, ref ToolButton __result)
-        {
-            if (prefab.TryGetComponentFast(out BlockObject _))
-            {
-                DependencyContainer.GetInstance<IPipetteTool>().AddToolButtonToDictionary(prefab, __result);
-            }
-        }
-    }
-    
-    [HarmonyPatch]
-    public class PlantingToolButtonFactoryPatch
-    {
-        public static MethodInfo TargetMethod()
-        {
-            return AccessTools.Method(AccessTools.TypeByName("PlantingToolButtonFactory"), "CreatePlantingTool", new []
-            {
-                typeof(Plantable), typeof(VisualElement), typeof(ToolGroup)
-            });
-        }
-        
-        static void Postfix(Plantable plantable, ref ToolButton __result)
-        {
-            if (plantable.TryGetComponentFast(out BlockObject _))
-            {
-                DependencyContainer.GetInstance<IPipetteTool>().AddToolButtonToDictionary(plantable, __result);
-            }
-        }
-    }
+    // [HarmonyPatch]
+    // public class BlockObjectToolButtonFactoryPatch
+    // {
+    //     public static IEnumerable<MethodInfo> TargetMethods()
+    //     {
+    //         return new List<MethodInfo>()
+    //         {
+    //             AccessTools.Method(AccessTools.TypeByName("BlockObjectToolButtonFactory"), "Create", new[]
+    //             {
+    //                 typeof(PlaceableBlockObject), typeof(ToolGroup), typeof(VisualElement)
+    //             }),
+    //             AccessTools.Method(AccessTools.TypeByName("BlockObjectToolButtonFactory"), "Create", new []
+    //             {
+    //                 typeof(PlaceableBlockObject)
+    //             })
+    //         };
+    //     }
+    //     
+    //     static void Postfix(PlaceableBlockObject prefab, ref ToolButton __result)
+    //     {
+    //         if (prefab.TryGetComponentFast(out BlockObject _))
+    //         {
+    //             Plugin.Log.LogError("plantable");
+    //             DependencyContainer.GetInstance<IPipetteTool>().AddToolButtonToDictionary(prefab, __result);
+    //         }
+    //     }
+    // }
+    //
+    // [HarmonyPatch]
+    // public class PlantingToolButtonFactoryPatch
+    // {
+    //     public static MethodInfo TargetMethod()
+    //     {
+    //         return AccessTools.Method(AccessTools.TypeByName("PlantingToolButtonFactory"), "CreatePlantingTool", new []
+    //         {
+    //             typeof(Plantable), typeof(VisualElement), typeof(ToolGroup)
+    //         });
+    //     }
+    //     
+    //     static void Postfix(Plantable plantable, ref ToolButton __result)
+    //     {
+    //         if (plantable.TryGetComponentFast(out BlockObject _))
+    //         {
+    //             Plugin.Log.LogError("plantable");
+    //             DependencyContainer.GetInstance<IPipetteTool>().AddToolButtonToDictionary(plantable, __result);
+    //         }
+    //     }
+    // }
     
     [HarmonyPatch]
     public class SelectionManagerPatch
@@ -85,7 +88,14 @@ namespace PipetteTool
         
         static void Postfix(SelectableObject target)
         {
-            DependencyContainer.GetInstance<IPipetteTool>().OnSelectableObjectSelected(target);
+            try
+            {
+                DependencyContainer.GetInstance<IPipetteTool>().OnSelectableObjectSelected(target);
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
         }
     }
     
