@@ -1,5 +1,24 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5860299651197769408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94f750c613c28a14d8d01f3d86ce4481, type: 3}
+  m_Name: ModIoData
+  m_EditorClassIdentifier: 
+  StagingPaths: []
+  ModId: 2645391
+  Version: 1.0.6
+  SetLive: 0
+  Description: '[Experimental]
+
+    Updated to game version 0.4.5'
 --- !u!114 &-3931462110823901632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33,6 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StagingPaths:
   - <ManifestStagingRoot>/Specifications
+  includeMetaFiles: 0
   files:
   - {fileID: 4900000, guid: 7a61739bc456a5d44b2869b53d2fb923, type: 3}
   - {fileID: 4900000, guid: 771823335096b904999ea6c75e7177e9, type: 3}
@@ -51,6 +71,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data:
   - {fileID: -3931462110823901632}
+  - {fileID: -5860299651197769408}
   - {fileID: 2590189338767857166}
   - {fileID: 9120418034178625098}
   - {fileID: -3041366049039997682}
@@ -89,6 +110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StagingPaths:
   - <ManifestStagingRoot>
+  includeMetaFiles: 0
   files:
   - {fileID: 102900000, guid: 2d4bf56b1f9894a41996e0f3821318a8, type: 3}
   - {fileID: 4900000, guid: 25dde747ee969424fac170eb1388c3b3, type: 3}
