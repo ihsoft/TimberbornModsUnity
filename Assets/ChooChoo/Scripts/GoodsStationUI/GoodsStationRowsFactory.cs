@@ -28,19 +28,19 @@ namespace ChooChoo
             _goodSelectionController = goodSelectionController;
         }
         
-        public List<GoodsStationRow> CreateRows(VisualElement parent)
-        {
-            var goodsStationRows = new List<GoodsStationRow>();
-            foreach (var goodId in _goodService.Goods)
-                goodsStationRows.Add(CreateRow(goodId, parent));
-            return goodsStationRows;
-        }
-
-        private GoodsStationRow CreateRow(string goodId, VisualElement parent)
-        {
-            var goodsStationRow = new GoodsStationRow(_visualElementLoader, _goodService, _goodSelectionController, _goodsStationIconService, _loc);
-            goodsStationRow.InitializeFragment(goodId, parent);
-            return goodsStationRow;
-        }
+        // public List<GoodsStationRow> CreateRows(VisualElement parent)
+        // {
+        //     var goodsStationRows = new List<GoodsStationRow>();
+        //     foreach (var goodId in _goodService.Goods)
+        //         goodsStationRows.Add(CreateRow(goodId, parent));
+        //     return goodsStationRows;
+        // }
+        //
+        // private GoodsStationRow CreateRow(string goodId, VisualElement parent)
+        // {
+        //     var goodsStationRow = new GoodsStationRow(_visualElementLoader, _goodService, _goodSelectionController, _goodsStationIconService, _loc);
+        //     goodsStationRow.InitializeFragment(goodId, parent);
+        //     return goodsStationRow;
+        // }
     }
 }

@@ -11,8 +11,8 @@ namespace ChooChoo
         
         GoodsStationIconService(IResourceAssetLoader assetLoader)
         {
-            EmptySprite = assetLoader.Load<Sprite>("ui/images/master/empty-icon");
-            ObtainSprite = assetLoader.Load<Sprite>("ui/images/master/obtain-icon");
+            EmptySprite = assetLoader.Load<Sprite>("ui/images/game/empty-icon");
+            ObtainSprite = assetLoader.Load<Sprite>("ui/images/game/obtain-icon");
         }
     }
 }

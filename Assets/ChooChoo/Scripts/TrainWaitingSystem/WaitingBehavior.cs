@@ -24,13 +24,13 @@ namespace ChooChoo
     
     public void Awake()
     {
-      _moveToStationExecutor = GetComponent<MoveToStationExecutor>();
-      _waitExecutor = GetComponent<WaitExecutor>();
+      _moveToStationExecutor = GetComponentFast<MoveToStationExecutor>();
+      _waitExecutor = GetComponentFast<WaitExecutor>();
     }
 
-    public override Decision Decide(GameObject agent)
+    public override Decision Decide(BehaviorAgent agent)
     {
-      var trainWaitingLocation = _blockService.GetFloorObjectComponentAt<TrainWaitingLocation>(transform.position.ToBlockServicePosition());
+      var trainWaitingLocation = _blockService.GetFloorObjectComponentAt<TrainWaitingLocation>(TransformFast.position.ToBlockServicePosition());
       if (_currentWaitingLocation != null && _currentWaitingLocation == trainWaitingLocation)
       {
         _waitExecutor.LaunchForIdleTime();
@@ -54,7 +54,7 @@ namespace ChooChoo
       _currentWaitingLocation = trainWaitingLocation;
       if (_currentWaitingLocation == null)
         return Decision.ReleaseNow();
-      _currentWaitingLocation.Occupy(gameObject);
+      _currentWaitingLocation.Occupy(GameObjectFast);
       return GoToWaitingLocation(_currentWaitingLocation.TrainDestinationComponent);
     }
     
@@ -75,7 +75,7 @@ namespace ChooChoo
 
     private Decision GoToClosestWaitingLocation()
     {
-      var closestWaitingLocation = _closestTrainWaitingLocationPicker.ClosestWaitingLocation(transform.position);
+      var closestWaitingLocation = _closestTrainWaitingLocationPicker.ClosestWaitingLocation(TransformFast.position);
       return OccupyWaitingLocation(closestWaitingLocation);
     }
   }

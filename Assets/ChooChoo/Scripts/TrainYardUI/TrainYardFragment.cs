@@ -3,6 +3,7 @@ using System.Linq;
 using TimberApi.AssetSystem;
 using TimberApi.UiBuilderSystem;
 using Timberborn.AssetSystem;
+using Timberborn.BaseComponentSystem;
 using Timberborn.CoreUI;
 using Timberborn.EntityPanelSystem;
 using Timberborn.Goods;
@@ -91,7 +92,7 @@ namespace ChooChoo
       var secondFragment = _uiBuilder.CreateFragmentBuilder().BuildAndInitialize();
       _root.Add(secondFragment);
       
-      var manufactoryInventoryFragment = _visualElementLoader.LoadVisualElement("Master/EntityPanel/ManufactoryInventoryFragment");
+      var manufactoryInventoryFragment = _visualElementLoader.LoadVisualElement("Game/EntityPanel/ManufactoryInventoryFragment");
       _inventoryContent = manufactoryInventoryFragment.Q<ScrollView>("Content");
       secondFragment.Add(_inventoryContent);
       
@@ -99,9 +100,9 @@ namespace ChooChoo
       return _root;
     }
 
-    public void ShowFragment(GameObject entity)
+    public void ShowFragment(BaseComponent entity)
     {
-      _trainYard = entity.GetComponent<TrainYard>();
+      _trainYard = entity.GetComponentFast<TrainYard>();
       if (!(bool)(Object)_trainYard)
         ClearFragment();
       else

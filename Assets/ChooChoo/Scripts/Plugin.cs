@@ -5,9 +5,10 @@ using System.Reflection;
 using HarmonyLib;
 using TimberApi.ConsoleSystem;
 using TimberApi.ModSystem;
-using Timberborn.Buildings;
+using Timberborn.BaseComponentSystem;
+using Timberborn.BuildingsBlocking;
+using Timberborn.Carrying;
 using Timberborn.Characters;
-using Timberborn.Common;
 using Timberborn.GameDistricts;
 using Timberborn.Goods;
 using Timberborn.InventorySystem;
@@ -44,11 +45,11 @@ namespace ChooChoo
         
         static bool Prefix(Citizen citizen)
         {
-            if (citizen.GetComponent<Prefab>().PrefabName.Contains("Train"))
+            if (citizen.GetComponentFast<Prefab>().PrefabName.Contains("Train"))
             {
                 return false;
             }
-            if (citizen.GetComponent<Prefab>().PrefabName.Contains("Wagon"))
+            if (citizen.GetComponentFast<Prefab>().PrefabName.Contains("Wagon"))
             {
                 return false;
             }
@@ -64,7 +65,8 @@ namespace ChooChoo
         {
             nameof(Citizen),
             nameof(CharacterTint),
-            "StrandedStatus"
+            "StrandedStatus",
+            "ControllableCharacter"
         };
 
         private static readonly List<string> GameObjectsToCheck = new()
@@ -113,12 +115,50 @@ namespace ChooChoo
     {
         public static MethodInfo TargetMethod()
         {
-            return AccessTools.Method(AccessTools.TypeByName("GoodCarrierFragment"), "ShowFragment", new[] {typeof(GameObject)});
+            return AccessTools.Method(AccessTools.TypeByName("GoodCarrierFragment"), "ShowFragment", new[] {typeof(BaseComponent)});
         }
         
-        static bool Prefix(GameObject entity)
+        static bool Prefix(BaseComponent entity)
         {
-            return !entity.TryGetComponent(out WagonManager _);
+            return !entity.TryGetComponentFast(out WagonManager _);
+        }
+    }
+    
+    [HarmonyPatch]
+    public class CarrierInventoryFinderPatch
+    {
+        public static MethodInfo TargetMethod()
+        {
+            return AccessTools.Method(
+                AccessTools.TypeByName("CarrierInventoryFinder"), 
+                "TryCarryFromAnyInventoryLimited",
+                new[]
+                {
+                    typeof(string),
+                    typeof(Inventory),
+                    typeof(int)
+                });
+        }
+        
+        static bool Prefix(
+            CarrierInventoryFinder __instance, 
+            string goodId,
+            Inventory receivingInventory,
+            int maxAmount,
+            ref bool __result)
+        {
+            if (!receivingInventory.TryGetComponentFast(out GoodsStation goodsStation)) 
+                return true;
+            __result =  (bool)ChooChooCore.InvokePrivateMethod(__instance, "TryCarryFromAnyInventoryInternal", new object[]
+            {
+                goodId, 
+                receivingInventory, 
+                (Predicate<Inventory>) (inventory => inventory.GetComponentFast<GoodsStation>() != goodsStation), 
+                maxAmount
+            });
+            
+            return false;
+
         }
     }
     
@@ -156,87 +196,88 @@ namespace ChooChoo
                 });
         }
 
-        static bool Prefix(
-            Accessible start,
-            string goodId,
-            Predicate<Inventory> inventoryFilter,
-            DistrictInventoryRegistry ____districtInventoryRegistry,
-            ref Inventory __result)
-        {
-            List<Inventory> inventoryList = ____districtInventoryRegistry.ActiveInventoriesWithStock(goodId).ToList();
-            
-            // Added a check so it doesn't deliver to itself
-            var goodsStation = start.GetComponent<GoodsStation>();
-            var originalInventory = goodsStation == null ? null : goodsStation.Inventory;
-            if (inventoryList.Contains(originalInventory))
-                inventoryList.Remove(originalInventory);
-            
-            Inventory inventory = null;
-            float num = float.MaxValue;
-            foreach (var component in inventoryList)
-            {
-                Accessible enabledComponent = component.GetEnabledComponent<Accessible>();
-                float distance;
-                if (inventoryFilter(component) && enabledComponent.FindRoadPath(start, out distance) && (double)distance < (double)num)
-                {
-                    inventory = component;
-                    num = distance;
-                }
-            }
+        // static bool Prefix(
+        //     Accessible start,
+        //     string goodId,
+        //     Predicate<Inventory> inventoryFilter,
+        //     DistrictInventoryRegistry ____districtInventoryRegistry,
+        //     ref Inventory __result)
+        // {
+        //     List<Inventory> inventoryList = ____districtInventoryRegistry.ActiveInventoriesWithStock(goodId).ToList();
+        //     
+        //     // Added a check so it doesn't deliver to itself
+        //     var goodsStation = start.GetComponentFast<GoodsStation>();
+        //     var originalInventory = goodsStation == null ? null : goodsStation.Inventory;
+        //     if (inventoryList.Contains(originalInventory))
+        //         inventoryList.Remove(originalInventory);
+        //     
+        //     Inventory inventory = null;
+        //     float num = float.MaxValue;
+        //     foreach (var component in inventoryList)
+        //     {
+        //         Accessible enabledComponent = component.GetEnabledComponent<Accessible>();
+        //         float distance;
+        //         if (inventoryFilter(component) && enabledComponent.FindRoadPath(start, out distance) && (double)distance < (double)num)
+        //         {
+        //             inventory = component;
+        //             num = distance;
+        //         }
+        //     }
+        //
+        //     __result = inventory;
+        //     return false;
+        // }
 
-            __result = inventory;
-            return false;
-        }
-
-        [HarmonyPatch]
-        public class ClosestInventoryWithCapacityBehaviorPatch
-        {
-            public static MethodInfo TargetMethod()
-            {
-                return AccessTools.Method(AccessTools.TypeByName("DistrictInventoryPicker"),
-                    "ClosestInventoryWithCapacity",
-                    new[]
-                    {
-                        typeof(Accessible),
-                        typeof(GoodAmount),
-                    });
-            }
-
-            static bool Prefix(
-                Accessible start,
-                GoodAmount goodAmount,
-                DistrictInventoryRegistry ____districtInventoryRegistry,
-                ref Inventory __result)
-            {
-                List<Inventory> inventoryList = ____districtInventoryRegistry.ActiveInventoriesWithCapacity(goodAmount.GoodId).ToList();
-
-                var originalIsGoodsStation = start.TryGetComponent(out GoodsStation _);
-
-                Inventory inventory1 = null;
-                float num = float.MaxValue;
-
-                foreach (var inventory2 in inventoryList)
-                {
-                    // Prevent goods stations from delivering to other goods stations inside same district
-                    if (originalIsGoodsStation && inventory2.TryGetComponent(out GoodsStation _)) 
-                        continue;
-
-                    float distance;
-                    if (inventory2.GetEnabledComponent<Accessible>().FindRoadPath(start, out distance) &&
-                        (double)distance < (double)num 
-                        && inventory2.HasUnreservedCapacity(goodAmount) 
-                        && inventory2.GetComponent<IInventoryValidator>().ValidInventory 
-                        && inventory2.GetComponent<BlockableBuilding>().IsUnblocked)
-                    {
-                        inventory1 = inventory2;
-                        num = distance;
-                    }
-                }
-
-                __result = inventory1;
-                return false;
-            }
-        }
+        // [HarmonyPatch]
+        // public class ClosestInventoryWithCapacityBehaviorPatch
+        // {
+        //     public static MethodInfo TargetMethod()
+        //     {
+        //         return AccessTools.Method(AccessTools.TypeByName("DistrictInventoryPicker"),
+        //             "ClosestInventoryWithCapacity",
+        //             new[]
+        //             {
+        //                 typeof(Accessible),
+        //                 typeof(GoodAmount),
+        //                 typeof(Predicate<Inventory>),
+        //             });
+        //     }
+        //
+        //     static bool Prefix(
+        //         Accessible start,
+        //         GoodAmount goodAmount,
+        //         DistrictInventoryRegistry ____districtInventoryRegistry,
+        //         ref Inventory __result)
+        //     {
+        //         List<Inventory> inventoryList = ____districtInventoryRegistry.ActiveInventoriesWithCapacity(goodAmount.GoodId).ToList();
+        //
+        //         var originalIsGoodsStation = start.TryGetComponentFast(out GoodsStation _);
+        //
+        //         Inventory inventory1 = null;
+        //         float num = float.MaxValue;
+        //
+        //         foreach (var inventory2 in inventoryList)
+        //         {
+        //             // Prevent goods stations from delivering to other goods stations inside same district
+        //             if (originalIsGoodsStation && inventory2.TryGetComponentFast(out GoodsStation _)) 
+        //                 continue;
+        //
+        //             float distance;
+        //             if (inventory2.GetEnabledComponent<Accessible>().FindRoadPath(start, out distance) &&
+        //                 (double)distance < (double)num 
+        //                 && inventory2.HasUnreservedCapacity(goodAmount) 
+        //                 && inventory2.GetComponentFast<IInventoryValidator>().ValidInventory 
+        //                 && inventory2.GetComponentFast<BlockableBuilding>().IsUnblocked)
+        //             {
+        //                 inventory1 = inventory2;
+        //                 num = distance;
+        //             }
+        //         }
+        //
+        //         __result = inventory1;
+        //         return false;
+        //     }
+        // }
         
         // [HarmonyPatch]
         // public class RoadNavMeshGraphPatch

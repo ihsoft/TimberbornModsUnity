@@ -1,4 +1,5 @@
 ﻿using TimberApi.UiBuilderSystem;
+using Timberborn.BaseComponentSystem;
 using Timberborn.CoreUI;
 using Timberborn.EntityPanelSystem;
 using Timberborn.Localization;
@@ -50,9 +51,9 @@ namespace ChooChoo
       return _root;
     }
 
-    public void ShowFragment(GameObject entity)
+    public void ShowFragment(BaseComponent entity)
     {
-      _distributableGoodBringerTrain = entity.GetComponent<DistributableGoodBringerTrain>();
+      _distributableGoodBringerTrain = entity.GetComponentFast<DistributableGoodBringerTrain>();
       if (!(bool)(Object)_distributableGoodBringerTrain) 
         return;
       _root.ToggleDisplayStyle(true);

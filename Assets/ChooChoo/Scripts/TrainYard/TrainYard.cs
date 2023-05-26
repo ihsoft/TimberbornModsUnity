@@ -1,14 +1,13 @@
-using System.Linq;
 using Bindito.Core;
 using Timberborn.AssetSystem;
+using Timberborn.BaseComponentSystem;
 using Timberborn.BlockSystem;
 using Timberborn.Characters;
 using Timberborn.Common;
 using Timberborn.ConstructibleSystem;
 using Timberborn.Coordinates;
 using Timberborn.EntitySystem;
-using Timberborn.FactionSystemGame;
-using Timberborn.Goods;
+using Timberborn.GameFactionSystem;
 using Timberborn.InventorySystem;
 using Timberborn.Localization;
 using Timberborn.TimeSystem;
@@ -16,7 +15,7 @@ using UnityEngine;
 
 namespace ChooChoo
 {
-    public class TrainYard : MonoBehaviour, IRegisteredComponent, IFinishedStateListener, IDeletableEntity
+    public class TrainYard : BaseComponent, IRegisteredComponent, IFinishedStateListener
     {
         private const string TrainNameLocKey = "Tobbert.Train.PrefabName";
 
@@ -28,8 +27,6 @@ namespace ChooChoo
         private EntityService _entityService;
 
         private IResourceAssetLoader _resourceAssetLoader;
-
-        private FactionService _factionService;
 
         private TrainYardService _trainYardService;
 
@@ -43,7 +40,6 @@ namespace ChooChoo
             _loc = loc;
             _entityService = entityService;
             _resourceAssetLoader = resourceAssetLoader;
-            _factionService = factionService;
             _trainYardService = trainYardService;
             _dayNightCycle = dayNightCycle;
         }
@@ -52,7 +48,7 @@ namespace ChooChoo
         {
             enabled = false;
             if (!name.ToLower().Contains("preview"))
-                _trainYardService.CurrentTrainYard = GetComponent<TrainDestination>();
+                _trainYardService.CurrentTrainYard = GetComponentFast<TrainDestination>();
         }
 
         public void OnEnterFinishedState()
@@ -75,41 +71,34 @@ namespace ChooChoo
 
         public void InitializeTrain()
         {
-            // var trainPrefab = _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/Train." + _factionService.Current.Id);
-            var trainPrefab = _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/Train");
+            var trainPrefab = _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/Train").GetComponent<BaseComponent>();
 
-            var train = _entityService.Instantiate(trainPrefab.gameObject);
+            var train = _entityService.Instantiate(trainPrefab);
             
-            foreach (var goodAmountSpecification in train.GetComponent<Train>().TrainCost)
+            foreach (var goodAmountSpecification in train.GetComponentFast<Train>().TrainCost)
                 Inventory.Take(goodAmountSpecification.ToGoodAmount());
 
-            train.GetComponent<TrainYardSubject>().HomeTrainYard = GetComponent<TrainDestination>();
+            train.GetComponentFast<TrainYardSubject>().HomeTrainYard = GetComponentFast<TrainDestination>();
 
             SetInitialTrainLocation(train);
 
             SetTrainName(train);
         }
 
-        public void DeleteEntity()
+        private void SetInitialTrainLocation(BaseComponent train)
         {
-            // Plugin.Log.LogInfo("Removing");
-            // _trainYardService.CurrentTrainYard = null;
-        }
-
-        private void SetInitialTrainLocation(GameObject train)
-        {
-            train.transform.rotation = GetComponent<BlockObject>().Orientation.ToWorldSpaceRotation();
-            var position = train.transform.position;
+            train.TransformFast.rotation = GetComponentFast<BlockObject>().Orientation.ToWorldSpaceRotation();
+            var position = train.TransformFast.position;
             position += GetSpawnOffset();
-            position += transform.position;
-            train.transform.position = position;
+            position += TransformFast.position;
+            train.TransformFast.position = position;
         }
 
-        private Vector3 GetSpawnOffset() => GetComponent<BlockObject>().Orientation.TransformInWorldSpace(new Vector3(0.5f, 0f, 2.8f));
+        private Vector3 GetSpawnOffset() => GetComponentFast<BlockObject>().Orientation.TransformInWorldSpace(new Vector3(0.5f, 0f, 2.8f));
 
-        private void SetTrainName(GameObject train)
+        private void SetTrainName(BaseComponent train)
         {
-            Character component = train.GetComponent<Character>();
+            Character component = train.GetComponentFast<Character>();
             component.FirstName = _loc.T(TrainNameLocKey);
             component.DayOfBirth = _dayNightCycle.DayNumber;
         }

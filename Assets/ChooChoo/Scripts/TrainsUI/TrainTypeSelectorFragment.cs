@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TimberApi.UiBuilderSystem;
+using Timberborn.BaseComponentSystem;
 using Timberborn.CoreUI;
+using Timberborn.DropdownSystem;
 using Timberborn.EntityPanelSystem;
 using Timberborn.Localization;
 using UnityEngine;
@@ -15,8 +17,8 @@ namespace ChooChoo
     private readonly UIBuilder _uiBuilder;
     private ILoc _loc;
     private readonly VisualElementLoader _visualElementLoader;
-    private readonly TrainTypeDropdownOptionsSetter _trainTypeDropdownOptionsSetter;
-    private TrainModelManager _trainModelManager;
+    private readonly DropdownItemsSetter _dropdownItemsSetter;
+    private TrainTypeDropdownProvider _trainTypeDropdownProvider;
     private Dropdown _dropdown;
     private VisualElement _root;
     private readonly int _numberOfWagons = 4;
@@ -25,19 +27,19 @@ namespace ChooChoo
       UIBuilder uiBuilder,
       ILoc loc,
       VisualElementLoader visualElementLoader,
-      TrainTypeDropdownOptionsSetter trainTypeDropdownOptionsSetter)
+      DropdownItemsSetter dropdownItemsSetter)
     {
       _uiBuilder = uiBuilder;
       _loc = loc;
       _visualElementLoader = visualElementLoader;
-      _trainTypeDropdownOptionsSetter = trainTypeDropdownOptionsSetter;
+      _dropdownItemsSetter = dropdownItemsSetter;
     }
 
     public VisualElement InitializeFragment()
     {
       _root = _uiBuilder.CreateFragmentBuilder().BuildAndInitialize();
       
-      var fragment = _visualElementLoader.LoadVisualElement("Master/EntityPanel/PlantablePrioritizerFragment");
+      var fragment = _visualElementLoader.LoadVisualElement("Game/EntityPanel/PlantablePrioritizerFragment");
       var container = new VisualElement();
       foreach (var element in fragment.Children().ToList())
       {
@@ -46,27 +48,26 @@ namespace ChooChoo
       }
       _root.Add(container);
       _dropdown = container.Q<Dropdown>("Priorities");
-      
 
       _root.ToggleDisplayStyle(false);
       return _root;
     }
 
-    public void ShowFragment(GameObject entity)
+    public void ShowFragment(BaseComponent entity)
     {
-      _trainModelManager = entity.GetComponent<TrainModelManager>();
-      if (!_trainModelManager)
+      _trainTypeDropdownProvider = entity.GetComponentFast<TrainTypeDropdownProvider>();
+      if (!_trainTypeDropdownProvider)
         return;
-      _trainTypeDropdownOptionsSetter.SetOptions(_trainModelManager, _dropdown);
+      _dropdownItemsSetter.SetLocalizableItems(_dropdown, _trainTypeDropdownProvider);
     }
 
     public void ClearFragment()
     {
-      _dropdown.ClearOptions();
-      _trainModelManager = null;
+      _dropdown.ClearItems();
+      _trainTypeDropdownProvider = null;
       UpdateFragment();
     }
 
-    public void UpdateFragment() => _root.ToggleDisplayStyle(_trainModelManager);
+    public void UpdateFragment() => _root.ToggleDisplayStyle(_trainTypeDropdownProvider);
   }
 }

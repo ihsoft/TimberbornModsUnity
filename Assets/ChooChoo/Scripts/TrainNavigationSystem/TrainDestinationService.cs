@@ -15,6 +15,12 @@ namespace ChooChoo
             _blockService = blockService;
         }
 
+        public List<TrainDestination> GetConnectedTrainDestinations(TrainDestination trainDestination)
+        {
+            _trainDestinationConnectedRepository.TrainDestinations.TryGetValue(trainDestination, out var connectedTrainDestinations);
+            return connectedTrainDestinations ?? new List<TrainDestination>();
+        }
+        
         public bool TrainDestinationsConnected(TrainDestination a, TrainDestination b)
         {
             return TrainDestinationsConnectedOneWay(a, b) && TrainDestinationsConnectedOneWay(b, a);
@@ -63,7 +69,7 @@ namespace ChooChoo
         {
             checkedTrackPieces.Add(checkingTrackPiece);
 
-            if (checkingTrackPiece.TryGetComponent(out TrainDestination trainDestination))
+            if (checkingTrackPiece.TryGetComponentFast(out TrainDestination trainDestination))
                 return trainDestination;
             
             foreach (var trackConnection in checkingTrackPiece.TrackRoutes)

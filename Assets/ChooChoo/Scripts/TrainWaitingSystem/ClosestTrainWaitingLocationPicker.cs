@@ -17,7 +17,7 @@ namespace ChooChoo
 
         public TrainWaitingLocation ClosestWaitingLocation(Vector3 position)
         {
-            var list = _trainWaitingLocationsRepository.WaitingLocations.Where(location => !location.Occupied && _trainDestinationService.DestinationReachableOneWay(position, location.TrainDestinationComponent)).OrderBy(location => Vector3.Distance(position, location.transform.position));
+            var list = _trainWaitingLocationsRepository.WaitingLocations.Where(location => !location.Occupied && _trainDestinationService.DestinationReachableOneWay(position, location.TrainDestinationComponent)).OrderBy(location => Vector3.Distance(position, location.TransformFast.position));
             if (!list.Any())
                 return null;
             var closestReachableTrainWaitingLocation = list.First();

@@ -9,8 +9,10 @@ namespace ChooChoo
     {
         public void Configure(IContainerDefinition containerDefinition)
         {
-            containerDefinition.Bind<ChooChooSettingsUI>().AsSingleton();
+            containerDefinition.Bind<TrainTypeSettingDropdownProvider>().AsSingleton();
+            containerDefinition.Bind<WagonTypeSettingDropdownProvider>().AsSingleton();
             containerDefinition.Bind<ChooChooSettings>().AsSingleton();
+            containerDefinition.Bind<ChooChooSettingsUI>().AsSingleton();
         }
     }
 }

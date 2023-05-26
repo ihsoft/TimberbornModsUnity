@@ -16,7 +16,7 @@ namespace ChooChoo
     {
       _goodSelectionButton = root.Q<Button>("Selection");
       _goodSelectionButton.clicked += ShowGoodSelectionBox;
-      _stockpileGoodSelectionBox.Initialize(root.Q<VisualElement>("GoodSelectionWrapper"), _goodSelectionButton);
+      _stockpileGoodSelectionBox.Initialize(root, _goodSelectionButton);
     }
 
     public void Update() => _stockpileGoodSelectionBox.Update();

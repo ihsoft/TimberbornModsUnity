@@ -8,8 +8,8 @@ namespace ChooChoo
   {
     private DistributableGoodBringerTrain _distributableGoodBringerTrain;
 
-    private void Awake() => _distributableGoodBringerTrain = GetComponent<DistributableGoodBringerTrain>();
+    private void Awake() => _distributableGoodBringerTrain = GetComponentFast<DistributableGoodBringerTrain>();
 
-    public override Decision Decide(GameObject agent) => !_distributableGoodBringerTrain.BringDistributableGoods() ? Decision.ReleaseNow() : Decision.ReleaseNextTick();
+    public override Decision Decide(BehaviorAgent agent) => !_distributableGoodBringerTrain.BringDistributableGoods() ? Decision.ReleaseNow() : Decision.ReleaseNextTick();
   }
 }

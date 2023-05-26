@@ -1,6 +1,6 @@
 ﻿using Bindito.Core;
-using ChooChoo;
 using Timberborn.AssetSystem;
+using Timberborn.BaseComponentSystem;
 using Timberborn.Characters;
 using Timberborn.EntityPanelSystem;
 using Timberborn.Localization;
@@ -19,7 +19,7 @@ namespace ChooChoo
     
     private IResourceAssetLoader _resourceAssetLoader;
     
-    private SelectionManager _selectionManager;
+    private EntitySelectionService _selectionManager;
 
     private TrainWagon _trainWagon;
     
@@ -31,7 +31,7 @@ namespace ChooChoo
     public void InjectDependencies(
       ILoc loc,
       IResourceAssetLoader resourceAssetLoader,
-      SelectionManager selectionManager)
+      EntitySelectionService selectionManager)
     {
       _loc = loc;
       _resourceAssetLoader = resourceAssetLoader;
@@ -55,7 +55,7 @@ namespace ChooChoo
 
     public ClickableSubtitle GetEntityClickableSubtitle()
     {
-      GameObject train = _trainWagon.Train;
+      BaseComponent train = _trainWagon.Train;
       return ClickableSubtitle.Create(() => _selectionManager.SelectAndFocusOn(train), _loc.T(TrainDisplayNameLocKey));
     }
 

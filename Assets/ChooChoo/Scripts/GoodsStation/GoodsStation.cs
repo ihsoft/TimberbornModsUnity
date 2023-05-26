@@ -1,9 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Bindito.Core;
+using HarmonyLib;
+using Timberborn.BaseComponentSystem;
 using Timberborn.Common;
 using Timberborn.ConstructibleSystem;
+using Timberborn.DistributionSystem;
 using Timberborn.EntitySystem;
+using Timberborn.GameDistricts;
 using Timberborn.Goods;
 using Timberborn.InventorySystem;
 using Timberborn.Persistence;
@@ -11,159 +16,113 @@ using UnityEngine;
 
 namespace ChooChoo
 {
-  public class GoodsStation : MonoBehaviour, IRegisteredComponent, IFinishedStateListener, IPersistentEntity
+  public class GoodsStation : BaseComponent, IRegisteredComponent, IFinishedStateListener
   {
-    [SerializeField]
-    private int _maxCapacity;
-    
-    private static readonly ComponentKey GoodsStationKey = new(nameof(GoodsStation));
-    private static readonly ListKey<TransferableGood> TransferableGoodsKey = new("TransferableGoods");
-    private TransferableGoodObjectSerializer _transferableGoodObjectSerializer;
+    public static readonly int Capacity = 200;
     private GoodsStationsRepository _goodsStationsRepository;
-    private LimitableGoodDisallower _limitableGoodDisallower;
-    public Inventory Inventory { get; private set; }
+    private DistrictBuilding _districtBuilding;
+    
+    private DistrictDistributableGoodProvider _districtDistributableGoodProvider;
+    
     public TrainDestination TrainDestinationComponent { get; private set; }
-    public List<TransferableGood> TransferableGoods;
-    public readonly List<GoodAmount> SortedLackingGoods = new();
+    public Inventory SendingInventory { get; private set; }
+    public Inventory ReceivingInventory { get; private set; }
     
-    public int MaxCapacity => _maxCapacity;
-
-    public IEnumerable<TransferableGood> SendingGoods => TransferableGoods.Where(good => good.Enabled && good.SendingGoods);
+    public DistrictDistributableGoodProvider DistrictDistributableGoodProvider => _districtDistributableGoodProvider;
     
-    public IEnumerable<TransferableGood> ReceivingGoods => TransferableGoods.Where(good => good.Enabled && !good.SendingGoods);
+    public int MaxCapacity => Capacity;
 
+    public readonly List<TrainDistributableGood> SendingQueue = new();
 
     [Inject]
-    public void InjectDependencies(TransferableGoodObjectSerializer transferableGoodObjectSerializer, GoodsStationsRepository goodsStationsRepository)
+    public void InjectDependencies(GoodsStationsRepository goodsStationsRepository)
     {
-      _transferableGoodObjectSerializer = transferableGoodObjectSerializer;
       _goodsStationsRepository = goodsStationsRepository;
     }
 
+    public bool CanDistribute => (bool) (UnityEngine.Object) DistrictDistributableGoodProvider;
+    
     public void Awake() 
     {
-      _limitableGoodDisallower = GetComponent<LimitableGoodDisallower>();
-      TrainDestinationComponent = GetComponent<TrainDestination>();
+      TrainDestinationComponent = GetComponentFast<TrainDestination>();
+      _districtBuilding = GetComponentFast<DistrictBuilding>();
       enabled = false;
     }
 
     public void OnEnterFinishedState()
     {
       enabled = true;
-      Inventory.Enable();
-      Inventory.InventoryChanged += InventoryChangedEvent;
+      SendingInventory.Enable();
+      ReceivingInventory.Enable();
+      _districtBuilding.ReassignedDistrict += OnReassignedDistrict;
       _goodsStationsRepository.Register(this);
-      if (TransferableGoods == null)
-        CreateTransferableGoods();
-      else
-        VerifyTransferableGoods();
-      foreach (var transferableGood in TransferableGoods)
-        _limitableGoodDisallower.SetAllowedAmount(transferableGood.GoodId, transferableGood.SendingGoods ? _maxCapacity : 0);
     }
 
     public void OnExitFinishedState()
     {
-      Inventory.Disable();
+      SendingInventory.Disable();
+      ReceivingInventory.Disable();
       enabled = false;
+      _districtBuilding.ReassignedDistrict -= OnReassignedDistrict;
       _goodsStationsRepository.UnRegister(this);
     }
-
-    public void InitializeInventory(Inventory inventory)
-    {
-      Asserts.FieldIsNull(this, Inventory, "Inventory");
-      Inventory = inventory;
-    }
-
-    public void Save(IEntitySaver entitySaver)
-    {
-      if (TransferableGoods != null)
-        entitySaver.GetComponent(GoodsStationKey).Set(TransferableGoodsKey, TransferableGoods, _transferableGoodObjectSerializer);
-    }
-
-    public void Load(IEntityLoader entityLoader)
-    {
-      if (!entityLoader.HasComponent(GoodsStationKey))
-        return;
-      if (entityLoader.GetComponent(GoodsStationKey).Has(TransferableGoodsKey))
-        TransferableGoods = entityLoader.GetComponent(GoodsStationKey).Get(TransferableGoodsKey, _transferableGoodObjectSerializer);
-    }
-
-    public bool IsSending(string goodId) => TransferableGoods.First(good => good.GoodId == goodId).SendingGoods;
     
-    public void UpdateLackingGoods(bool isSendingGood)
+    private void OnReassignedDistrict(object sender, EventArgs e)
     {
-      SortedLackingGoods.Clear();
-      var transferableGoods = isSendingGood ? SendingGoods : ReceivingGoods;
-      foreach (TransferableGood transferableGood in transferableGoods)
-      {
-        string goodId = transferableGood.GoodId;
-        // Plugin.Log.LogInfo(goodId);
-        // Plugin.Log.LogWarning("MaxAllowedAmount: " + distributionPost.MaxAllowedAmount(goodId) + " UnreservedAmountInStockAndIncoming: " + distributionPost.Inventory.UnreservedAmountInStockAndIncoming(goodId) + " UnreservedCapacity: " + distributionPost.Inventory.UnreservedCapacity(goodId));
-        // int amount = Mathf.Min(Mathf.Max(goodsStation.MaxAllowedAmount(goodId) - goodsStation.Inventory.UnreservedAmountInStockAndIncoming(goodId), 0), goodsStation.Inventory.UnreservedCapacity(goodId));
-        int amount = Mathf.Max(MaxAllowedAmount() - Inventory.UnreservedAmountInStockAndIncoming(goodId), 0);
-        // Plugin.Log.LogInfo("Found amount: " + amount);
-        if (amount > 0)
-          SortedLackingGoods.Add(new GoodAmount(goodId, amount));
-      }
-      SortedLackingGoods.Sort(CompareLackingGoods);
+      _districtDistributableGoodProvider = _districtBuilding.District ? _districtBuilding.District.GetComponentFast<DistrictDistributableGoodProvider>() : null;
     }
 
-    public int TotalLackingAmount() => SortedLackingGoods.Sum(good => good.Amount);
-
-    private void InventoryChangedEvent(object sender, InventoryChangedEventArgs e)
+    public void InitializeSendingInventory(Inventory inventory)
     {
-      ChooChooCore.InvokePrivateMethod(Inventory, "CheckIfUnwantedStockAppeared");
-    }
-
-    private void CreateTransferableGoods()
-    {
-      var list = new List<TransferableGood>();
-      foreach (var storableGoodAmount in Inventory.AllowedGoods)
-        list.Add(new TransferableGood(storableGoodAmount.StorableGood.GoodId, false, false));
-      TransferableGoods = list;
-    }
-
-    private void VerifyTransferableGoods()
-    {
-      RemoveGoods();
-      AddNewGoods();
+      Asserts.FieldIsNull(this, SendingInventory, "Inventory");
+      SendingInventory = inventory;
     }
     
-    private void RemoveGoods()
+    public void InitializeReceivingInventory(Inventory inventory)
     {
-      var allowedGoods = Inventory.AllowedGoods.ToArray();
-      
-      foreach (var transferableGood in TransferableGoods.ToList())
-      {
-        if (!allowedGoods.Any(good => good.StorableGood.GoodId == transferableGood.GoodId))
-          TransferableGoods.Remove(transferableGood);
-      }
+      Asserts.FieldIsNull(this, ReceivingInventory, "Inventory");
+      ReceivingInventory = inventory;
     }
-    
-    private void AddNewGoods()
+
+    public void AddToQueue(TrainDistributableGood newDistributableGood)
     {
-      foreach (var storableGoodAmount in Inventory.AllowedGoods)
+      SendingQueue.Add(newDistributableGood);
+    }
+
+    public void ResolveCorrespondingQueueItems(TrainWagon trainWagon)
+    {
+      foreach (var trainDistributableGood in SendingQueue.ToList())
       {
-        if (!TransferableGoods.Any(good => good.GoodId == storableGoodAmount.StorableGood.GoodId))
+        if (trainDistributableGood.ResolvingTrainWagons.Contains(trainWagon))
         {
-          TransferableGoods.Add(new TransferableGood(storableGoodAmount.StorableGood.GoodId, false, false));
+          SendingQueue.Remove(trainDistributableGood);
         }
       }
     }
-
-    private int MaxAllowedAmount() => _maxCapacity;
     
-    private int CompareLackingGoods(
-      GoodAmount x,
-      GoodAmount y)
+    public DistributableGood GetMyDistributableGood(string goodId) => DistrictDistributableGoodProvider.GetDistributableGoodForExport(goodId);
+    
+    public bool CanExport(
+      DistributableGood myDistributableGood,
+      DistributableGood linkedDistributableGood)
     {
-      float num = LackingGoodPriority(x);
-      return LackingGoodPriority(y).CompareTo(num);
+      return myDistributableGood.CanExport && (double) myDistributableGood.FillRate > (double) linkedDistributableGood.FillRate;
     }
-
-    private float LackingGoodPriority(GoodAmount goodAmount)
+    
+    public int GetAmountToExport(
+      DistributableGood myDistributableGood,
+      DistributableGood linkedDistributableGood)
     {
-      return (float) goodAmount.Amount / (float) MaxAllowedAmount();
+      return myDistributableGood.Capacity <= 0 ? Math.Max(0, linkedDistributableGood.FreeCapacity) : GetAmountToEqualizeFillRates(myDistributableGood, linkedDistributableGood);
+    }
+    private static int GetAmountToEqualizeFillRates(
+      DistributableGood myDistributableGood,
+      DistributableGood linkedDistributableGood)
+    {
+      float num = myDistributableGood.FillRate - linkedDistributableGood.FillRate;
+      int capacity1 = myDistributableGood.Capacity;
+      int capacity2 = linkedDistributableGood.Capacity;
+      return Mathf.FloorToInt(Mathf.Min((float) (capacity1 * capacity2) * num / (float) (capacity1 + capacity2), myDistributableGood.MaxExportAmount));
     }
   }
 }

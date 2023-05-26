@@ -34,12 +34,12 @@ namespace ChooChoo
             if (destination == null)
                 return false;
             var startTrackPiece = _blockService.GetFloorObjectComponentAt<TrackPiece>(transform.position.ToBlockServicePosition());
-            var endTrackPiece = destination.GetComponent<TrackPiece>();
+            var endTrackPiece = destination.GetComponentFast<TrackPiece>();
             if (startTrackPiece == null || endTrackPiece == null) 
                 return false;
             
             // Plugin.Log.LogWarning("TrackPieces valid");
-            var startTrainDestination = startTrackPiece.GetComponent<TrainDestination>();
+            var startTrainDestination = startTrackPiece.GetComponentFast<TrainDestination>();
             if (!_trainDestinationService.TrainDestinationsConnectedOneWay(startTrainDestination, destination))
             {
                 // Plugin.Log.LogError("Destinations Not Connected");
@@ -88,7 +88,7 @@ namespace ChooChoo
          {
              var directionalTrackRoutes = new List<TrackRoute>();
              var facingDirection = transform.eulerAngles.y.ToDirection2D();
-             var correctedFacingDirection = startTrackPiece.GetComponent<BlockObject>().Orientation.CorrectedTransform(facingDirection);
+             var correctedFacingDirection = startTrackPiece.GetComponentFast<BlockObject>().Orientation.CorrectedTransform(facingDirection);
              AddFacingTrackRoute(correctedFacingDirection, directionalTrackRoutes, startTrackPiece);
              var rightOfCorrectlyFacingDirection = correctedFacingDirection.Next();
              AddFacingTrackRoute(rightOfCorrectlyFacingDirection, directionalTrackRoutes, startTrackPiece);

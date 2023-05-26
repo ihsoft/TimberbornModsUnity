@@ -12,7 +12,7 @@ namespace ChooChoo
     public void Configure(IContainerDefinition containerDefinition)
     {
       containerDefinition.Bind<TrainTypeSelectorFragment>().AsSingleton();
-      containerDefinition.Bind<TrainTypeDropdownOptionsSetter>().AsSingleton();
+      containerDefinition.Bind<TrainTypeDropdownProvider>().AsSingleton();
       containerDefinition.MultiBind<TemplateModule>().ToProvider(ProvideTemplateModule).AsSingleton();
       containerDefinition.MultiBind<EntityPanelModule>().ToProvider<EntityPanelModuleProvider>().AsSingleton();
     }
@@ -21,6 +21,7 @@ namespace ChooChoo
     {
       TemplateModule.Builder builder = new TemplateModule.Builder();
       builder.AddDecorator<Train, TrainEntityBadge>();
+      builder.AddDecorator<Train, TrainTypeDropdownProvider>();
       return builder.Build();
     }
     

@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TimberApi.UiBuilderSystem;
+using Timberborn.BaseComponentSystem;
 using Timberborn.CoreUI;
+using Timberborn.DropdownSystem;
 using Timberborn.EntityPanelSystem;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ChooChoo
@@ -13,7 +14,7 @@ namespace ChooChoo
   {
     private readonly UIBuilder _uiBuilder;
     private readonly VisualElementLoader _visualElementLoader;
-    private readonly WagonTypeDropdownOptionsSetter _wagonTypeDropdownOptionsSetter;
+    private readonly DropdownItemsSetter _dropdownItemsSetter;
     private WagonManager _wagonManager;
     private readonly List<Dropdown> _dropdowns = new();
     private VisualElement _root;
@@ -23,11 +24,11 @@ namespace ChooChoo
     public WagonTypeSelectorFragment(
       UIBuilder uiBuilder,
       VisualElementLoader visualElementLoader,
-      WagonTypeDropdownOptionsSetter wagonTypeDropdownOptionsSetter)
+      DropdownItemsSetter dropdownItemsSetter)
     {
       _uiBuilder = uiBuilder;
       _visualElementLoader = visualElementLoader;
-      _wagonTypeDropdownOptionsSetter = wagonTypeDropdownOptionsSetter;
+      _dropdownItemsSetter = dropdownItemsSetter;
     }
 
     public VisualElement InitializeFragment()
@@ -35,7 +36,7 @@ namespace ChooChoo
       _root = _uiBuilder.CreateFragmentBuilder().BuildAndInitialize();
       for (int i = 0; i < _numberOfWagons; i++)
       {
-        var fragment = _visualElementLoader.LoadVisualElement("Master/EntityPanel/PlantablePrioritizerFragment");
+        var fragment = _visualElementLoader.LoadVisualElement("Game/EntityPanel/PlantablePrioritizerFragment");
         var container = new VisualElement();
         foreach (var element in fragment.Children().ToList())
         {
@@ -51,14 +52,14 @@ namespace ChooChoo
       return _root;
     }
 
-    public void ShowFragment(GameObject entity)
+    public void ShowFragment(BaseComponent entity)
     {
-      _wagonManager = entity.GetComponent<WagonManager>();
+      _wagonManager = entity.GetComponentFast<WagonManager>();
       if (!_wagonManager)
         return;
       for (int i = 0; i < _numberOfWagons; i++)
       {
-        _wagonTypeDropdownOptionsSetter.SetOptions(_wagonManager, _dropdowns[i], i);
+        _dropdownItemsSetter.SetLocalizableItems(_dropdowns[i], _wagonManager.Wagons[i].GetComponentFast<WagonTypeDropdownProvider>());
         _wagonSections[i].ToggleDisplayStyle(true);
       }
 
@@ -72,7 +73,7 @@ namespace ChooChoo
       for (int i = 0; i < _numberOfWagons; i++)
       {
         _wagonSections[i].ToggleDisplayStyle(false);
-        _dropdowns[i].ClearOptions();
+        _dropdowns[i].ClearItems();
       }
 
       _wagonManager = null;

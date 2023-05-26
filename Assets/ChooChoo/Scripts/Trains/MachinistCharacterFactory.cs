@@ -3,7 +3,7 @@ using System.Reflection;
 using Timberborn.AssetSystem;
 using Timberborn.Beavers;
 using Timberborn.Common;
-using Timberborn.FactionSystemGame;
+using Timberborn.GameFactionSystem;
 using Timberborn.SingletonSystem;
 using UnityEngine;
 
@@ -55,13 +55,14 @@ namespace ChooChoo
 
         private void InitializeMachinistCharacter()
         {
-            Beaver beaver = typeof(BeaverFactory).GetField("_adultPrefab", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(_beaverFactory) as Beaver;
-            Transform beaverModel = beaver.transform.GetChild(0).GetChild(0);
-            var skinnedMeshRenderer = beaver.GetComponentInChildren<SkinnedMeshRenderer>();
-            var current = _factionService.Current;
-            skinnedMeshRenderer.sharedMaterial = _resourceAssetLoader.Load<Material>(_randomNumberGenerator.GetEnumerableElement(current.Materials));
-            DisableBodyParts(beaverModel);
-            _machinistPrefab = beaverModel.gameObject;
+            // Beaver beaver = typeof(BeaverFactory).GetField("_adultPrefab", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(_beaverFactory) as Beaver;
+            // Transform beaverModel = beaver.TransformFast.GetChild(0).GetChild(0);
+            // var skinnedMeshRenderer = beaver.GetComponentInChildren<SkinnedMeshRenderer>();
+            // var current = _factionService.Current;
+            // skinnedMeshRenderer.sharedMaterial = _resourceAssetLoader.Load<Material>(_randomNumberGenerator.GetEnumerableElement(current.Textures));
+            // DisableBodyParts(beaverModel);
+            // _machinistPrefab = beaverModel.gameObject;
+            _machinistPrefab = new GameObject();
         }
 
         private void DisableBodyParts(Transform beaver)

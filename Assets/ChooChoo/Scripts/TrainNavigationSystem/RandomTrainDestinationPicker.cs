@@ -28,7 +28,7 @@ namespace ChooChoo
         {
             var list = _trainDestinationsRepository.TrainDestinations;
             var trainDestination = list[_randomNumberGenerator.Range(0, list.Count)];
-            var wrongCoordinate = trainDestination.GetComponent<BlockObject>().Coordinates;
+            var wrongCoordinate = trainDestination.GetComponentFast<BlockObject>().Coordinates;
             var coordinate = new Vector3(wrongCoordinate.x, wrongCoordinate.z, wrongCoordinate.y);
             
             return coordinate;

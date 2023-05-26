@@ -2,6 +2,7 @@
 using Timberborn.CoreUI;
 using Timberborn.ResourceCountingSystemUI;
 using Timberborn.StockpilesUI;
+using Timberborn.TooltipSystem;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -28,11 +29,11 @@ namespace ChooChoo
 
     public GoodSelectionBoxItem Create(string option, Action<string> itemAction)
     {
-      VisualElement visualElement = _visualElementLoader.LoadVisualElement("Master/EntityPanel/StockpileInventoryFragmentItem");
+      VisualElement visualElement = _visualElementLoader.LoadVisualElement("Game/EntityPanel/StockpileInventoryFragmentItem");
       visualElement.Q<Button>("StockpileInventoryFragmentItem").clicked += () => itemAction(option);
-      Sprite optionIcon = _stockpileOptionsService.GetOptionIcon(option);
+      Sprite optionIcon = _stockpileOptionsService.GetItemIcon(option);
       visualElement.Q<Image>("Icon").sprite = optionIcon;
-      _tooltipRegistrar.Register(visualElement, _stockpileOptionsService.GetOptionDisplayText(option));
+      _tooltipRegistrar.Register(visualElement, _stockpileOptionsService.GetItemDisplayText(option));
       return new GoodSelectionBoxItem(_contextualResourceCountingService, option, visualElement, visualElement.Q<VisualElement>("Fill"));
     }
   }

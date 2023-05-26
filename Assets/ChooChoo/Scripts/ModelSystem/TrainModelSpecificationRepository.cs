@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Timberborn.AssetSystem;
-using Timberborn.FactionSystemGame;
+using Timberborn.GameFactionSystem;
 using Timberborn.Persistence;
 using Timberborn.SingletonSystem;
 using UnityEngine;
@@ -55,7 +55,7 @@ namespace ChooChoo
         {
             var train = _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/Train");
 
-            var modelsContainer = ChooChooCore.FindBodyPart(train.transform, "HeightOffset_Animated");
+            var modelsContainer = ChooChooCore.FindBodyPart(train.transform, "#HeightOffset");
             foreach (Transform child in modelsContainer)
                 Object.Destroy(child.gameObject);
 
@@ -79,7 +79,7 @@ namespace ChooChoo
         {
             var train = _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/Wagon");
 
-            var modelsContainer = ChooChooCore.FindBodyPart(train.transform, "HeightOffset_Animated");
+            var modelsContainer = ChooChooCore.FindBodyPart(train.transform, "#HeightOffset");
             foreach (Transform child in modelsContainer)
                 Object.Destroy(child.gameObject);
 

@@ -19,7 +19,7 @@ namespace ChooChoo
     
     private IResourceAssetLoader _resourceAssetLoader;
     
-    private SelectionManager _selectionManager;
+    // private SelectionManager _selectionManager;
 
     private TrainYardService _trainYardService;
     
@@ -31,12 +31,12 @@ namespace ChooChoo
     public void InjectDependencies(
       ILoc loc,
       IResourceAssetLoader resourceAssetLoader,
-      SelectionManager selectionManager,
+      // SelectionManager selectionManager,
       TrainYardService trainYardService)
     {
       _loc = loc;
       _resourceAssetLoader = resourceAssetLoader;
-      _selectionManager = selectionManager;
+      // _selectionManager = selectionManager;
       _trainYardService = trainYardService;
     }
 

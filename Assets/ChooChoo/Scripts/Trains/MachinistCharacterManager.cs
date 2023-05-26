@@ -24,13 +24,13 @@ namespace ChooChoo
 
         public override void StartTickable()
         {
-            var trainModels = GetComponent<TrainModelManager>().TrainModels;
+            var trainModels = GetComponentFast<TrainModelManager>().TrainModels;
             foreach (var trainModel in trainModels)
             {
                 var modelSpecification = trainModel.TrainModelSpecification;
-                var machinist = _machinistCharacterFactory.CreateMachinist(ChooChooCore.FindBodyPart(trainModel.Model.transform, modelSpecification.MachinistSeatName));
-                machinist.GetComponent<Animator>().SetBool(modelSpecification.MachinistAnimationName, true);
-                machinist.transform.localScale = new Vector3(modelSpecification.MachinistScale, modelSpecification.MachinistScale, modelSpecification.MachinistScale);
+                // var machinist = _machinistCharacterFactory.CreateMachinist(ChooChooCore.FindBodyPart(trainModel.Model.transform, modelSpecification.MachinistSeatName));
+                // machinist.GetComponent<Animator>().SetBool(modelSpecification.MachinistAnimationName, true);
+                // machinist.transform.localScale = new Vector3(modelSpecification.MachinistScale, modelSpecification.MachinistScale, modelSpecification.MachinistScale);
             }
         }
     }

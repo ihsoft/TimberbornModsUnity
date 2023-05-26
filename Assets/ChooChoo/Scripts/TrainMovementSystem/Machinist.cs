@@ -45,10 +45,10 @@ namespace ChooChoo
 
     public void Awake()
     {
-      _walkerSpeedManager = GetComponent<WalkerSpeedManager>();
-      _wagonMovementController = GetComponent<WagonMovementController>();
-      _slowdownCalculator = GetComponent<SlowdownCalculator>();
-      _trackFollower = _trackFollowerFactory.Create(gameObject);
+      _walkerSpeedManager = GetComponentFast<WalkerSpeedManager>();
+      _wagonMovementController = GetComponentFast<WagonMovementController>();
+      _slowdownCalculator = GetComponentFast<SlowdownCalculator>();
+      _trackFollower = _trackFollowerFactory.Create(GameObjectFast);
       PathCorners = _pathConnections.AsReadOnly();
     }
 
@@ -110,7 +110,7 @@ namespace ChooChoo
       if (!HasSavedPathToDestination(trainDestination))
       {
         _pathConnections.Clear();
-        CurrentDestinationReachable = trainDestination.GeneratePath(GetComponent<CharacterModel>().Model, _tempPathCorners);
+        CurrentDestinationReachable = trainDestination.GeneratePath(GetComponentFast<CharacterModel>().Model, _tempPathCorners);
         if (CurrentDestinationReachable)
         {
           _pathConnections.AddRange(_tempPathCorners);

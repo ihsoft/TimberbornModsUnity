@@ -21,7 +21,7 @@ namespace ChooChoo
 
         static void Postfix(MovementAnimator __instance, AnimatedPathFollower ____animatedPathFollower)
         {
-            IsATrainOrWagon.Add(____animatedPathFollower, __instance.TryGetComponent(out Train _) || __instance.TryGetComponent(out TrainWagon _));
+            IsATrainOrWagon.Add(____animatedPathFollower, __instance.TryGetComponentFast(out Train _) || __instance.TryGetComponentFast(out TrainWagon _));
         }
     }
     

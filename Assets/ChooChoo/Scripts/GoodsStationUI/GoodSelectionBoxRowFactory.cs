@@ -20,7 +20,7 @@ namespace ChooChoo
     public GoodSelectionBoxRow Create(string goodGroupId)
     {
       GoodGroupSpecification specification = this._goodsGroupSpecificationService.GetSpecification(goodGroupId);
-      VisualElement visualElement = this._visualElementLoader.LoadVisualElement("Master/EntityPanel/GoodSelectionBoxRow");
+      VisualElement visualElement = this._visualElementLoader.LoadVisualElement("Game/EntityPanel/GoodSelectionBoxRow");
       visualElement.Q<Image>("HeaderIcon", (string) null).sprite = specification.Icon;
       return new GoodSelectionBoxRow(visualElement, specification.Order, visualElement.Q<VisualElement>("Icons", (string) null));
     }

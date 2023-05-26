@@ -24,8 +24,8 @@ namespace ChooChoo
 
         public override void StartTickable()
         {
-            _waitExecutor = GetComponent<WaitExecutor>();
-            _smokeObjects = ChooChooCore.FindAllBodyParts(transform, "Smoke").Select(transformComponent => transformComponent.gameObject);
+            _waitExecutor = GetComponentFast<WaitExecutor>();
+            _smokeObjects = ChooChooCore.FindAllBodyParts(TransformFast, "Smoke").Select(transformComponent => transformComponent.gameObject);
         }
 
         public override void Tick()

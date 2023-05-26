@@ -1,7 +1,7 @@
 using Bindito.Core;
-using Timberborn.BuildingsNavigation;
+using Timberborn.BaseComponentSystem;
 using Timberborn.ConstructibleSystem;
-using Timberborn.ConstructionMode;
+using Timberborn.Meshy;
 using Timberborn.SelectionSystem;
 using Timberborn.SingletonSystem;
 using Timberborn.ToolSystem;
@@ -9,14 +9,17 @@ using UnityEngine;
 
 namespace ChooChoo
 {
-    public class TrackSectionMeshShower : MonoBehaviour, IFinishedStateListener
+    public class TrackSectionMeshShower : BaseComponent, IFinishedStateListener
     {
+        private static string PathMarkerMaterialName = "PathMarker";
+        
         // height in object should be 0.06
         [SerializeField] private GameObject _trackSectionMesh;
         [SerializeField] private GameObject _trackEntranceSectionMesh;
         [SerializeField] private GameObject _trackExitSectionMesh;
         [SerializeField] private GameObject _trackContainedSectionMesh;
-        
+
+        private IMaterialRepository _materialRepository;
         private ToolGroupManager _toolGroupManager;
         private EventBus _eventBus;
 
@@ -30,45 +33,46 @@ namespace ChooChoo
         private GameObject _selectedGameObject;
 
         [Inject]
-        public void InjectDependencies(
-            ConstructionModeService constructionModeService, 
-            NavRangeDrawingService navRangeDrawingService, 
-            ToolGroupManager toolGroupManager, 
-            EventBus eventBus)
+        public void InjectDependencies(IMaterialRepository materialRepository, ToolGroupManager toolGroupManager, EventBus eventBus)
         {
+            _materialRepository = materialRepository;
             _toolGroupManager = toolGroupManager;
             _eventBus = eventBus;
+            _trackPiece = GetComponentFast<TrackPiece>();
+        }
 
-            var pathNavRangeDrawer = ChooChooCore.GetInaccessibleField(navRangeDrawingService, "_pathNavRangeDrawer");
-            var material = ChooChooCore.GetInaccessibleField(pathNavRangeDrawer, "_material") as Material;
-            _trackPiece = GetComponent<TrackPiece>();
-
+        private void Start()
+        {
+            // var pathMarkerMaterial = _materialRepository.GetMaterial(PathMarkerMaterialName);
             if (_trackContainedSectionMesh != null)
             {
                 _trackContainedSectionMeshRenderer = _trackContainedSectionMesh.GetComponentInChildren<MeshRenderer>();
-                _trackContainedSectionMeshRenderer.material = material;
-                _trackContainedSectionMeshRenderer.material.renderQueue = material.renderQueue;
+                _trackContainedSectionMeshRenderer.material = BoundsNavRangeServicePatch.Material;
+                _trackContainedSectionMeshRenderer.material.renderQueue = BoundsNavRangeServicePatch.Material.renderQueue;
+                
+                // _trackContainedSectionMeshRenderer.material = pathMarkerMaterial;
+                // _trackContainedSectionMeshRenderer.material.renderQueue = pathMarkerMaterial.renderQueue;
                 _trackContainedSectionMesh.SetActive(false);
             }
             if (_trackEntranceSectionMesh != null)
             {
                 _trackEntranceSectionMeshRenderer = _trackEntranceSectionMesh.GetComponentInChildren<MeshRenderer>();
-                _trackEntranceSectionMeshRenderer.material = material;
-                _trackEntranceSectionMeshRenderer.material.renderQueue = material.renderQueue;
+                _trackEntranceSectionMeshRenderer.material = BoundsNavRangeServicePatch.Material;
+                _trackEntranceSectionMeshRenderer.material.renderQueue = BoundsNavRangeServicePatch.Material.renderQueue;
                 _trackEntranceSectionMesh.SetActive(false);
             }
             if (_trackExitSectionMesh != null)
             {
                 _trackExitSectionMeshRenderer = _trackExitSectionMesh.GetComponentInChildren<MeshRenderer>();
-                _trackExitSectionMeshRenderer.material = material;
-                _trackExitSectionMeshRenderer.material.renderQueue = material.renderQueue;
+                _trackExitSectionMeshRenderer.material = BoundsNavRangeServicePatch.Material;
+                _trackExitSectionMeshRenderer.material.renderQueue = BoundsNavRangeServicePatch.Material.renderQueue;
                 _trackExitSectionMesh.SetActive(false);
             }
             if(_trackSectionMesh != null)
             {
                 _trackSectionMeshRenderer = _trackSectionMesh.GetComponentInChildren<MeshRenderer>();
-                _trackSectionMeshRenderer.material = material;
-                _trackSectionMeshRenderer.material.renderQueue = material.renderQueue;
+                _trackSectionMeshRenderer.material = BoundsNavRangeServicePatch.Material;
+                _trackSectionMeshRenderer.material.renderQueue = BoundsNavRangeServicePatch.Material.renderQueue;
                 _trackSectionMesh.SetActive(false);
             }
 
@@ -107,14 +111,14 @@ namespace ChooChoo
         }
 
         [OnEvent]
-        public void OnGameObjectSelected(GameObjectSelectedEvent gameObjectSelectedEvent)
+        public void OnSelectableObjectSelected(SelectableObjectSelectedEvent selectableObjectSelectedEvent)
         {
-            _selectedGameObject = gameObjectSelectedEvent.GameObject;
+            _selectedGameObject = selectableObjectSelectedEvent.SelectableObject.GameObjectFast;
             SetActive(ShouldBeActive());
         }
         
         [OnEvent]
-        public void OnGameObjectUnselectedEvent(GameObjectUnselectedEvent gameObjectUnselectedEvent)
+        public void OnSelectableObjectUnselected(SelectableObjectUnselectedEvent selectableObjectUnselectedEvent)
         {
             _selectedGameObject = null;
             SetActive(ShouldBeActive());

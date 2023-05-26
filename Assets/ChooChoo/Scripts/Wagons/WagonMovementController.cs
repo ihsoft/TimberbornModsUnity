@@ -35,7 +35,7 @@ namespace ChooChoo
         {
             foreach (var trainWagon in _wagonManager.Wagons)
             {
-                trainWagon.GetComponent<TrainWagon>().Stop();
+                trainWagon.GetComponentFast<TrainWagon>().Stop();
             }
         }
     }

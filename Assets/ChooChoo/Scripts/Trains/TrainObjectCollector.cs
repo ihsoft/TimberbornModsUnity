@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Timberborn.AssetSystem;
+using Timberborn.BaseComponentSystem;
 using Timberborn.PrefabSystem;
 using UnityEngine;
 

@@ -1,4 +1,5 @@
 ﻿using TimberApi.UiBuilderSystem;
+using Timberborn.BaseComponentSystem;
 using Timberborn.CoreUI;
 using Timberborn.EntityPanelSystem;
 using UnityEngine;
@@ -74,9 +75,9 @@ namespace ChooChoo
       return _root;
     }
 
-    public void ShowFragment(GameObject entity)
+    public void ShowFragment(BaseComponent entity)
     {
-      _oneWayTrack = entity.GetComponent<OneWayTrack>();
+      _oneWayTrack = entity.GetComponentFast<OneWayTrack>();
       if (!(bool)(Object)_oneWayTrack || !_oneWayTrack.enabled) 
         return;
       _root.ToggleDisplayStyle(true);

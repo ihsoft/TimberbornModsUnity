@@ -1,6 +1,6 @@
-using System.Linq;
 using TimberApi.UiBuilderSystem;
 using Timberborn.CoreUI;
+using Timberborn.DropdownSystem;
 using Timberborn.Localization;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -9,32 +9,27 @@ namespace ChooChoo
 {
     public class ChooChooSettingsUI
     {
-        private readonly DropdownOptionsSetter _dropdownOptionsSetter;
-        
+        private readonly TrainTypeSettingDropdownProvider _trainTypeSettingDropdownProvider;
+        private readonly WagonTypeSettingDropdownProvider _wagonTypeSettingDropdownProvider;
+        private readonly DropdownItemsSetter _dropdownItemsSetter;
         private readonly VisualElementLoader _visualElementLoader;
-
         private readonly DropdownListDrawer _dropdownListDrawer;
-        
-        private readonly ChooChooSettings _chooChooSettings;
-        
         private readonly UIBuilder _builder;
-        
-        private readonly ILoc _loc;
 
         ChooChooSettingsUI(
-            DropdownOptionsSetter dropdownOptionsSetter,
+            TrainTypeSettingDropdownProvider trainTypeSettingDropdownProvider,
+            WagonTypeSettingDropdownProvider wagonTypeSettingDropdownProvider,
+            DropdownItemsSetter dropdownItemsSetter,
             VisualElementLoader visualElementLoader, 
             DropdownListDrawer dropdownListDrawer,
-            ChooChooSettings chooChooSettings, 
-            UIBuilder uiBuilder,
-            ILoc loc)
+            UIBuilder uiBuilder)
         {
-            _dropdownOptionsSetter = dropdownOptionsSetter;
+            _trainTypeSettingDropdownProvider = trainTypeSettingDropdownProvider;
+            _wagonTypeSettingDropdownProvider = wagonTypeSettingDropdownProvider;
+            _dropdownItemsSetter = dropdownItemsSetter;
             _visualElementLoader = visualElementLoader;
             _dropdownListDrawer = dropdownListDrawer;
-            _chooChooSettings = chooChooSettings;
             _builder = uiBuilder;
-            _loc = loc;
         }
 
         public void InitializeSelectorSettings(ref VisualElement root)
@@ -75,11 +70,7 @@ namespace ChooChoo
                 {
                     var fragment = _visualElementLoader.LoadVisualElement("Options/SettingsBox");
                     var dropDown = fragment.Q<Dropdown>("ScreenResolution");
-                    _dropdownOptionsSetter.SetLocalizableOptions(
-                        dropDown,
-                        new[] { "Tobbert.TrainModel.BigWooden", "Tobbert.TrainModel.SmallLog" },
-                        () => _chooChooSettings.DefaultModelSettings.DefaultTrainModel,
-                        OnTrainSettingChanged);
+                    _dropdownItemsSetter.SetLocalizableItems(dropDown, _trainTypeSettingDropdownProvider);
                     dropDown.Initialize(_dropdownListDrawer);
                     dropDown.Q<Label>("Label").ToggleDisplayStyle(false);
                     return dropDown;
@@ -103,11 +94,7 @@ namespace ChooChoo
                 {
                     var fragment = _visualElementLoader.LoadVisualElement("Options/SettingsBox");
                     var dropDown = fragment.Q<Dropdown>("ScreenResolution");
-                    _dropdownOptionsSetter.SetLocalizableOptions(
-                        dropDown,
-                        new[] { "Tobbert.WagonModel.BoxWagon", "Tobbert.WagonModel.TankWagon", "Tobbert.WagonModel.FlatWagon", "Tobbert.WagonModel.FlipperWagon", "Tobbert.WagonModel.MetalCart" },
-                        () => _chooChooSettings.DefaultModelSettings.DefaultWagonModel,
-                        OnWagonSettingChanged);
+                    _dropdownItemsSetter.SetLocalizableItems(dropDown, _wagonTypeSettingDropdownProvider);
                     dropDown.Initialize(_dropdownListDrawer);
                     dropDown.Q<Label>("Label").ToggleDisplayStyle(false);
                     return dropDown;
@@ -120,16 +107,6 @@ namespace ChooChoo
 
             var toggle = root.Q<Toggle>("AutoSavingOn");
             toggle.parent.Add(container);
-        }
-
-        private void OnTrainSettingChanged(string value)
-        {
-            _chooChooSettings.ChangeTrainModelSetting(value);
-        }
-        
-        private void OnWagonSettingChanged(string value)
-        {
-            _chooChooSettings.ChangeWagonModelSetting(value);
         }
     }
 }

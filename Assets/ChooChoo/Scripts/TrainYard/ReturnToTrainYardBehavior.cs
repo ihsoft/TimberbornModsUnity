@@ -23,14 +23,14 @@ namespace ChooChoo
     
     public void Awake()
     {
-      _moveToStationExecutor = GetComponent<MoveToStationExecutor>();
-      _waitExecutor = GetComponent<WaitExecutor>();
-      _trinYardSubject = GetComponent<TrainYardSubject>();
+      _moveToStationExecutor = GetComponentFast<MoveToStationExecutor>();
+      _waitExecutor = GetComponentFast<WaitExecutor>();
+      _trinYardSubject = GetComponentFast<TrainYardSubject>();
     }
 
-    public override Decision Decide(GameObject agent)
+    public override Decision Decide(BehaviorAgent agent)
     {
-      var currentTrainDestination = _blockService.GetFloorObjectComponentAt<TrainDestination>(transform.position.ToBlockServicePosition());
+      var currentTrainDestination = _blockService.GetFloorObjectComponentAt<TrainDestination>(TransformFast.position.ToBlockServicePosition());
       if (currentTrainDestination == _trinYardSubject.HomeTrainYard)
       {
         _waitExecutor.LaunchForSpecifiedTime(1);

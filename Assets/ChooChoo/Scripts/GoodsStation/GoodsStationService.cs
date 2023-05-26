@@ -15,9 +15,9 @@ namespace ChooChoo
         {
             foreach (var goodsStation in _goodsStationsRepository.GoodsStations)
             {
-                if (goodsStation.Inventory.AmountInStock(goodId) > 0)
+                if (goodsStation.SendingInventory.AmountInStock(goodId) > 0)
                 {
-                    return goodsStation.Inventory;
+                    return goodsStation.SendingInventory;
                 }
             }
 

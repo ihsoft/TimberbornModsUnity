@@ -13,7 +13,7 @@ namespace ChooChoo
       // containerDefinition.Bind<TrainBatchControlTab>().AsSingleton();
       containerDefinition.Bind<CurrentPopulationBatchControlRowItemFactory>().AsSingleton();
       containerDefinition.Bind<TrainBatchControlRowItemFactory>().AsSingleton();
-      containerDefinition.Bind<MechanicalBatchControlRowFactory>().AsSingleton();
+      // containerDefinition.Bind<MechanicalBatchControlRowFactory>().AsSingleton();
       // containerDefinition.MultiBind<BatchControlModule>().ToProvider<BatchControlModuleProvider>().AsSingleton();
     }
 

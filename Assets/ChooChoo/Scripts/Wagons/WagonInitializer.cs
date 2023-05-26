@@ -1,4 +1,5 @@
 using Timberborn.AssetSystem;
+using Timberborn.BaseComponentSystem;
 using Timberborn.BlockSystem;
 using Timberborn.Characters;
 using Timberborn.Coordinates;
@@ -22,7 +23,7 @@ namespace ChooChoo
 
         private readonly ILoc _loc;
 
-        private GameObject _trainWagonPrefab;
+        private BaseComponent _trainWagonPrefab;
         
         WagonInitializer(IResourceAssetLoader resourceAssetLoader, TrainYardService trainYardService, IDayNightCycle dayNightCycle, EntityService entityService, ILoc loc)
         {
@@ -35,32 +36,32 @@ namespace ChooChoo
 
         public void Load()
         {
-            _trainWagonPrefab = _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/Wagon");
+            _trainWagonPrefab = _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/Wagon").GetComponent<BaseComponent>();
         }
         
-        public TrainWagon InitializeWagon(GameObject train, int cartNumber)
+        public TrainWagon InitializeWagon(BaseComponent train, int cartNumber)
         {
-            var wagon = _entityService.Instantiate(_trainWagonPrefab.gameObject);
-            var trainWagon = wagon.GetComponent<TrainWagon>();
+            var wagon = _entityService.Instantiate(_trainWagonPrefab);
+            var trainWagon = wagon.GetComponentFast<TrainWagon>();
             trainWagon.Train = train;
 
             SetInitialWagonPosition(train, wagon, cartNumber);
-            SimpleLabeledPrefab simpleLabeledPrefab = wagon.GetComponent<SimpleLabeledPrefab>();
-            Character character = wagon.GetComponent<Character>();
+            SimpleLabeledPrefab simpleLabeledPrefab = wagon.GetComponentFast<SimpleLabeledPrefab>();
+            Character character = wagon.GetComponentFast<Character>();
             character.FirstName = _loc.T(simpleLabeledPrefab.PrefabNameLocKey);
             character.DayOfBirth = _dayNightCycle.DayNumber;
 
-            return wagon.GetComponent<TrainWagon>();
+            return wagon.GetComponentFast<TrainWagon>();
         }
 
-        private void SetInitialWagonPosition(GameObject train, GameObject wagon, int cartNumber)
+        private void SetInitialWagonPosition(BaseComponent train, BaseComponent wagon, int cartNumber)
         {
-            wagon.transform.rotation = _trainYardService.CurrentTrainYard.GetComponent<BlockObject>().Orientation.ToWorldSpaceRotation();
-            var transform1 = train.transform;
+            wagon.TransformFast.rotation = _trainYardService.CurrentTrainYard.GetComponentFast<BlockObject>().Orientation.ToWorldSpaceRotation();
+            var transform1 = train.TransformFast;
             var offset = transform1.rotation * new Vector3(0, 0f, -0.6f * cartNumber - 1);
             var spawnLocation = transform1.position + offset;
             // Plugin.Log.LogInfo("Spawning wagon " + cartNumber + " at: " + spawnLocation);
-            wagon.transform.position = spawnLocation;
+            wagon.TransformFast.position = spawnLocation;
         }
     }
 }

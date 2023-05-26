@@ -1,15 +1,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using Bindito.Core;
+using Timberborn.BaseComponentSystem;
 using Timberborn.BlockSystem;
 using Timberborn.ConstructibleSystem;
 using Timberborn.Coordinates;
+using Timberborn.EntitySystem;
 using Timberborn.SingletonSystem;
 using UnityEngine;
 
 namespace ChooChoo
 {
-    public class TrackPiece : MonoBehaviour, IFinishedStateListener
+    public class TrackPiece : BaseComponent, IFinishedStateListener
     {
         [SerializeField]
         private int _trackDistance;
@@ -57,7 +59,7 @@ namespace ChooChoo
             {
                 if (_trackConnections == null || !Application.isPlaying)
                 {
-                    var trackRoutes = _trackArrayProvider.GetConnections(gameObject.name);
+                    var trackRoutes = _trackArrayProvider.GetConnections(GameObjectFast.name);
                     foreach (var trackRoute in trackRoutes)
                     {
                         _trackRouteWeightCache.Add(trackRoute);
@@ -74,15 +76,15 @@ namespace ChooChoo
         public void Awake()
         {
             TrackSection = new TrackSection(this);
-            _blockObject = GetComponent<BlockObject>();
-            _blockObjectCenter = GetComponent<BlockObjectCenter>();
-            CanPathFindOverIt = !TryGetComponent(out TrainWaitingLocation _);
+            _blockObject = GetComponentFast<BlockObject>();
+            _blockObjectCenter = GetComponentFast<BlockObjectCenter>();
+            CanPathFindOverIt = !TryGetComponentFast(out TrainWaitingLocation _);
         }
 
         public void OnEnterFinishedState()
         {
             LookForTrackSection();
-            CenterCoordinates = GetComponent<BlockObjectCenter>().WorldCenterGrounded;
+            CenterCoordinates = GetComponentFast<BlockObjectCenter>().WorldCenterGrounded;
             EventBus.Post(new OnTracksUpdatedEvent());
             
             // foreach (var track in TrackSection.TrackPieces)
@@ -146,7 +148,7 @@ namespace ChooChoo
                 // Plugin.Log.LogInfo("Final" + _blockObject.Transform(trackConnection.Coordinates - trackConnection.Direction.ToOffset()));
 
                 var obj = _blockService.GetFloorObjectAt(_blockObject.Transform(directionalTrackRoute.Exit.Coordinates - directionalTrackRoute.Exit.Direction.ToOffset()));
-                if (obj == null || !obj.TryGetComponent(out TrackPiece trackPiece)) 
+                if (obj == null || !obj.TryGetComponentFast(out TrackPiece trackPiece)) 
                     continue;
                 // Plugin.Log.LogWarning("Place to check: " + _blockObject.Transform(directionalTrackRoute.Exit.Coordinates - directionalTrackRoute.Exit.Direction.ToOffset()));
                 var myTrackRouteEntrances = CheckAndGetConnection(trackPiece).ToArray();
@@ -179,7 +181,7 @@ namespace ChooChoo
                 // Plugin.Log.LogInfo("Final" + _blockObject.Transform(trackConnection.Coordinates - trackConnection.Direction.ToOffset()));
             
                 var obj = _blockService.GetFloorObjectAt(_blockObject.Transform(directionalTrackRoute.Entrance.Coordinates - directionalTrackRoute.Entrance.Direction.ToOffset()));
-                if (obj == null || !obj.TryGetComponent(out TrackPiece trackPiece)) 
+                if (obj == null || !obj.TryGetComponentFast(out TrackPiece trackPiece)) 
                     continue;
                 // Plugin.Log.LogWarning("Place to check: " + _blockObject.Transform(directionalTrackRoute.Exit.Coordinates - directionalTrackRoute.Exit.Direction.ToOffset()));
                 var myTrackRouteEntrances = CheckAndGetConnection(trackPiece).ToArray();
@@ -207,9 +209,9 @@ namespace ChooChoo
             {
                 // Plugin.Log.LogError(_blockObject.Transform(trackRoute.Entrance.Coordinates - trackRoute.Entrance.Direction.ToOffset()) + " Entrance");
                 var obj = _blockService.GetFloorObjectAt(_blockObject.Transform(trackRoute.Entrance.Coordinates - trackRoute.Entrance.Direction.ToOffset()));
-                if (obj == null || !obj.TryGetComponent(out TrackPiece trackPiece))
+                if (obj == null || !obj.TryGetComponentFast(out TrackPiece trackPiece))
                     continue;
-                if (!obj.TryGetComponent(out BlockObject blockObject) || !blockObject.Finished)
+                if (!obj.TryGetComponentFast(out BlockObject blockObject) || !blockObject.Finished)
                     continue;
                 // Plugin.Log.LogWarning((trackPiece == previousTrackPiece) + "");
                 if (trackPiece == previousTrackPiece)
@@ -225,9 +227,9 @@ namespace ChooChoo
             {
                 // Plugin.Log.LogError(_blockObject.Transform(trackRoute.Exit.Coordinates - trackRoute.Exit.Direction.ToOffset()) + " Exit");
                 var obj = _blockService.GetFloorObjectAt(_blockObject.Transform(trackRoute.Exit.Coordinates - trackRoute.Exit.Direction.ToOffset()));
-                if (obj == null || !obj.TryGetComponent(out TrackPiece trackPiece))
+                if (obj == null || !obj.TryGetComponentFast(out TrackPiece trackPiece))
                     continue;
-                if (!obj.TryGetComponent(out BlockObject blockObject) || !blockObject.Finished)
+                if (!obj.TryGetComponentFast(out BlockObject blockObject) || !blockObject.Finished)
                     continue;
                 // Plugin.Log.LogWarning((trackPiece == previousTrackPiece) + "");
                 if (trackPiece == previousTrackPiece)
@@ -265,8 +267,8 @@ namespace ChooChoo
                 // trackRoute.Entrance.ConnectedTrackRoutes = myTrackRouteExits;
             }
 
-            var flag4 = TryGetComponent(out TrainWaitingLocation _);
-            var flag3 = trackPiece.TryGetComponent(out TrainWaitingLocation _);
+            var flag4 = TryGetComponentFast(out TrainWaitingLocation _);
+            var flag3 = trackPiece.TryGetComponentFast(out TrainWaitingLocation _);
             
             if (flag3 || flag4)
             {

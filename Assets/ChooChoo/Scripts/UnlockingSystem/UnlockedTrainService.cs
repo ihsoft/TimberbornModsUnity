@@ -51,7 +51,7 @@ namespace ChooChoo
     [OnEvent]
     public void OnBuildingUnlocked(BuildingUnlockedEvent buildingUnlockedEvent)
     {
-      TryUnlockingTrains(_prefabNameMapper.GetPrefab(_buildingService.GetPrefabName(buildingUnlockedEvent.Building)).GetComponent<TrainYard>());
+      TryUnlockingTrains(_prefabNameMapper.GetPrefab(_buildingService.GetPrefabName(buildingUnlockedEvent.Building)).GetComponentFast<TrainYard>());
       UnlockTrains();
     }
 
@@ -60,7 +60,7 @@ namespace ChooChoo
       foreach (Building building in _buildingService.Buildings)
       {
         if (_buildingUnlockingService.Unlocked(building))
-          TryUnlockingTrains(building.GetComponent<TrainYard>());
+          TryUnlockingTrains(building.GetComponentFast<TrainYard>());
       }
     }
 
@@ -77,8 +77,8 @@ namespace ChooChoo
       {
         BlockObjectTool blockObjectTool = toolButton.Tool as BlockObjectTool;
         
-        var trackPiece = blockObjectTool?.Prefab.GetComponent<TrackPiece>();
-        var trainYard = blockObjectTool?.Prefab.GetComponent<TrainYard>();
+        var trackPiece = blockObjectTool?.Prefab.GetComponentFast<TrackPiece>();
+        var trainYard = blockObjectTool?.Prefab.GetComponentFast<TrainYard>();
         if (trackPiece != null && !trainYard && TrainsAreLocked())
         {
           blockObjectTool.Locked = true;
@@ -93,8 +93,8 @@ namespace ChooChoo
       {
         BlockObjectTool blockObjectTool = toolButton.Tool as BlockObjectTool;
         
-        var trackPiece = blockObjectTool?.Prefab.GetComponent<TrackPiece>();
-        var trainYard = blockObjectTool?.Prefab.GetComponent<TrainYard>();
+        var trackPiece = blockObjectTool?.Prefab.GetComponentFast<TrackPiece>();
+        var trainYard = blockObjectTool?.Prefab.GetComponentFast<TrainYard>();
         if (trackPiece != null && !trainYard && !TrainsAreLocked())
         {
           blockObjectTool.Locked = false;
@@ -113,7 +113,7 @@ namespace ChooChoo
 
     private void ShowLockedMessage(BlockObjectTool blockObjectTool)
     {
-      string displayNameLocKey = blockObjectTool.Prefab.GetComponent<LabeledPrefab>().DisplayNameLocKey;
+      string displayNameLocKey = blockObjectTool.Prefab.GetComponentFast<LabeledPrefab>().DisplayNameLocKey;
       string text = _loc.T(UnlockPromptLocKey, _loc.T("Tobbert.TrainYard.DisplayName"), _loc.T(displayNameLocKey));
       _dialogBoxShower.Create().SetMessage(text).Show();
     }

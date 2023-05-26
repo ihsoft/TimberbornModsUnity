@@ -1,5 +1,6 @@
 ﻿using Bindito.Core;
 using System;
+using System.Linq;
 using Timberborn.BehaviorSystem;
 using Timberborn.Common;
 using Timberborn.Goods;
@@ -12,7 +13,6 @@ namespace ChooChoo
   {
     private TrainCarryAmountCalculator _trainCarryAmountCalculator;
     private WagonGoodsManager _wagonGoodsManager;
-    private GoodReserver _goodReserver;
     private MoveToStationExecutor _moveToStationExecutor;
 
     [Inject]
@@ -23,16 +23,15 @@ namespace ChooChoo
 
     public void Awake()
     {
-      _wagonGoodsManager = GetComponent<WagonGoodsManager>();
-      _goodReserver = GetComponent<GoodReserver>();
-      _moveToStationExecutor = GetComponent<MoveToStationExecutor>();
+      _wagonGoodsManager = GetComponentFast<WagonGoodsManager>();
+      _moveToStationExecutor = GetComponentFast<MoveToStationExecutor>();
     }
 
-    public override Decision Decide(GameObject agent)
+    public override Decision Decide(BehaviorAgent agent)
     {
       if (_wagonGoodsManager.IsCarrying)
       {
-        if (!_goodReserver.HasReservedCapacity 
+        if (!_wagonGoodsManager.HasReservedCapacity 
             // && !ReserveCapacityForCarriedGoods()
             )
         {
@@ -40,14 +39,15 @@ namespace ChooChoo
           return Decision.ReleaseNow();
         }
 
-        var test = _moveToStationExecutor.Launch(_goodReserver.CapacityReservation.Inventory.GetEnabledComponent<TrainDestination>());
-        // Plugin.Log.LogError("CapacityReservation " + test); 
-        switch (test)
+        var currentInventory = _wagonGoodsManager.MostRecentWagons.First(wagon => wagon.GoodReserver.HasReservedCapacity).GoodReserver.CapacityReservation.Inventory;
+        var executorStatus = _moveToStationExecutor.Launch(currentInventory.GetEnabledComponent<TrainDestination>());
+        // Plugin.Log.LogError("CapacityReservation " + executorStatus); 
+        switch (executorStatus)
         {
           case ExecutorStatus.Success:
-            return CompleteDelivery();
+            return CompleteDelivery(currentInventory);
           case ExecutorStatus.Failure:
-            _goodReserver.UnreserveCapacity();
+            _wagonGoodsManager.UnreserveCapacity();
             return Decision.ReleaseNextTick();
           case ExecutorStatus.Running:
             return Decision.ReturnWhenFinished(_moveToStationExecutor);
@@ -56,13 +56,13 @@ namespace ChooChoo
         }
       }
 
-      if (!_goodReserver.HasReservedCapacity)
+      if (!_wagonGoodsManager.HasReservedCapacity)
         return Decision.ReleaseNow();
-      if (_goodReserver.HasReservedStock)
+      if (_wagonGoodsManager.HasReservedStock)
       {
-        var test = _moveToStationExecutor.Launch(_goodReserver.StockReservation.Inventory.GetEnabledComponent<TrainDestination>());
-        // Plugin.Log.LogError("StockReservation " + test);
-        switch (test)
+        var executorStatus = _moveToStationExecutor.Launch(_wagonGoodsManager.MostRecentWagons.First(wagon => wagon.GoodReserver.HasReservedStock).GoodReserver.StockReservation.Inventory.GetEnabledComponent<TrainDestination>());
+        // Plugin.Log.LogError("StockReservation " + executorStatus);
+        switch (executorStatus)
         {
           case ExecutorStatus.Success:
             return CompleteRetrieval();
@@ -75,64 +75,35 @@ namespace ChooChoo
         }
       }
 
-      _goodReserver.UnreserveCapacity();
+      _wagonGoodsManager.UnreserveCapacity();
       return Decision.ReleaseNextTick();
     }
 
-    private Decision CompleteDelivery()
+    private Decision CompleteDelivery(Inventory currentInventory)
     {
-      GoodReservation capacityReservation = _goodReserver.CapacityReservation;
-      _goodReserver.UnreserveCapacity();
-      // if (!capacityReservation.Inventory.HasUnreservedCapacity(capacityReservation.GoodAmount))
-      //   return Decision.ReleaseNextTick();
-      // capacityReservation.Inventory.Give(capacityReservation.GoodAmount);
-      var storage = (GoodRegistry)ChooChooCore.GetInaccessibleField(capacityReservation.Inventory, "_storage");
-      storage.Add(capacityReservation.GoodAmount);
-      ChooChooCore.InvokePrivateMethod(capacityReservation.Inventory, "InvokeInventoryChangedEvent", new object[]{ capacityReservation.GoodAmount.GoodId });
-      _wagonGoodsManager.EmptyWagons();
+      _wagonGoodsManager.TryDeliveringGoods(currentInventory);
       return Decision.ReturnNextTick();
     }
 
     private Decision CompleteRetrieval()
     {
-      GoodReservation stockReservation = _goodReserver.StockReservation;
-      _goodReserver.UnreserveStock();
-      GoodAmount goodAmount = stockReservation.FixedAmount ? stockReservation.GoodAmount : RecalculateAmountToRetrieve(stockReservation);
-      stockReservation.Inventory.Take(goodAmount);
-      _wagonGoodsManager.PutInWagons(goodAmount);
+      _wagonGoodsManager.TryRetrievingGoods();
       return Decision.ReturnNextTick();
     }
 
     private Decision UnreserveGood()
     {
-      _goodReserver.UnreserveStock();
+      _wagonGoodsManager.UnreserveStock();
       return Decision.ReleaseNextTick();
     }
-
-    // private bool ReserveCapacityForCarriedGoods()
+    
+    // private GoodAmount RecalculateAmountToRetrieve(GoodReservation goodReservation)
     // {
-    //   Inventory inventoryForCarriedGoods = FindInventoryForCarriedGoods();
-    //   if (!((UnityEngine.Object) inventoryForCarriedGoods != (UnityEngine.Object) null))
-    //     return false;
-    //   _goodReserver.ReserveCapacity(inventoryForCarriedGoods, _trainWagonManager.CarriedGoods);
-    //   return true;
+    //   GoodReservation capacityReservation = _goodReserver.CapacityReservation;
+    //   _goodReserver.UnreserveCapacity();
+    //   GoodAmount carry = _trainCarryAmountCalculator.AmountToCarry(_wagonGoodsManager.LiftingCapacity, goodReservation.GoodAmount.GoodId, capacityReservation.Inventory, goodReservation.Inventory);
+    //   _goodReserver.ReserveCapacity(capacityReservation.Inventory, carry);
+    //   return carry;
     // }
-
-    // private Inventory FindInventoryForCarriedGoods()
-    // {
-    //   Vector3 start = _navigator.CurrentAccessOrPosition();
-    //   GoodAmount carriedGoods = _trainWagonManager.CarriedGoods;
-    //   return _citizen.HasAssignedDistrict ? _citizen.AssignedDistrict.GetComponent<DistrictInventoryPicker>().ClosestInventoryWithCapacity(start, carriedGoods) : (Inventory) null;
-    // }
-
-    private GoodAmount RecalculateAmountToRetrieve(GoodReservation goodReservation)
-    {
-      GoodReservation capacityReservation = _goodReserver.CapacityReservation;
-      _goodReserver.UnreserveCapacity();
-      // _chooChooCore.SetPrivateProperty(_goodReserver, "CapacityReservation", new GoodReservation());
-      GoodAmount carry = _trainCarryAmountCalculator.AmountToCarry(_wagonGoodsManager.LiftingCapacity, goodReservation.GoodAmount.GoodId, capacityReservation.Inventory, goodReservation.Inventory);
-      _goodReserver.ReserveCapacity(capacityReservation.Inventory, carry);
-      return carry;
-    }
   }
 }

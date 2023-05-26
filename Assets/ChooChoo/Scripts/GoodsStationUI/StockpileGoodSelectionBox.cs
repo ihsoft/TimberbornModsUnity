@@ -11,11 +11,11 @@ namespace ChooChoo
   public class StockpileGoodSelectionBox : IInputProcessor
   {
     private static readonly string NoMarginClass = "good-selection-box-row--no-margin";
+    private readonly GoodsStationGoodSelectionBoxItemsFactory _goodsStationGoodSelectionBoxItemsFactory;
+    private readonly VisualElementLoader _visualElementLoader;
     private readonly InputService _inputService;
     private readonly StatusListFragment _statusListFragment;
-    private readonly GoodsStationGoodSelectionBoxItemsFactory _goodsStationGoodSelectionBoxItemsFactory;
     private VisualElement _goodSelectionRoot;
-    private VisualElement _goodSelection;
     private readonly List<GoodSelectionBoxRow> _rows = new();
     private LimitableGoodDisallower _limitableGoodDisallower;
     private GoodsStation _goodsStation;
@@ -23,19 +23,21 @@ namespace ChooChoo
     private bool _isMouseOverButton;
 
     public StockpileGoodSelectionBox(
+      GoodsStationGoodSelectionBoxItemsFactory goodsStationGoodSelectionBoxItemsFactory,
+      VisualElementLoader visualElementLoader,
       InputService inputService,
-      StatusListFragment statusListFragment,
-      GoodsStationGoodSelectionBoxItemsFactory goodsStationGoodSelectionBoxItemsFactory)
+      StatusListFragment statusListFragment)
     {
+      _goodsStationGoodSelectionBoxItemsFactory = goodsStationGoodSelectionBoxItemsFactory;
+      _visualElementLoader = visualElementLoader;
       _inputService = inputService;
       _statusListFragment = statusListFragment;
-      _goodsStationGoodSelectionBoxItemsFactory = goodsStationGoodSelectionBoxItemsFactory;
     }
 
     public void Initialize(VisualElement root, VisualElement goodSelectionButton)
     {
-      _goodSelectionRoot = root;
-      _goodSelection = root.Q<VisualElement>("GoodSelection");
+      _goodSelectionRoot = _visualElementLoader.LoadVisualElement("Game/StockpileGoodSelectionBox");
+      root.Add(_goodSelectionRoot);
       _goodSelectionRoot.ToggleDisplayStyle(false);
       _goodSelectionRoot.RegisterCallback<MouseEnterEvent>(_ => _isMouseOverElement = true);
       _goodSelectionRoot.RegisterCallback<MouseLeaveEvent>(_ => _isMouseOverElement = false);
@@ -45,7 +47,7 @@ namespace ChooChoo
 
     public void SetGoodsStation(GoodsStation goodsStation)
     {
-      _limitableGoodDisallower = goodsStation.GetComponent<LimitableGoodDisallower>();
+      _limitableGoodDisallower = goodsStation.GetComponentFast<LimitableGoodDisallower>();
       _limitableGoodDisallower.DisallowedGoodsChanged += OnDisallowedGoodsChanged;
       _goodsStation = goodsStation;
       AddItems(goodsStation);
@@ -78,7 +80,7 @@ namespace ChooChoo
 
     public void Clear()
     {
-      _goodSelection.Clear();
+      _goodSelectionRoot.Clear();
       _rows.Clear();
       if ((bool) (UnityEngine.Object) _limitableGoodDisallower)
         _limitableGoodDisallower.DisallowedGoodsChanged -= OnDisallowedGoodsChanged;
@@ -90,27 +92,27 @@ namespace ChooChoo
 
     private void AddItems(GoodsStation goodsStation)
     {
-      _rows.AddRange(_goodsStationGoodSelectionBoxItemsFactory.CreateItems(goodsStation, ToggleGood, _goodSelection));
+      _rows.AddRange(_goodsStationGoodSelectionBoxItemsFactory.CreateItems(goodsStation, ToggleGood, _goodSelectionRoot));
       _rows.Last().Root.AddToClassList(NoMarginClass);
       UpdateSelection();
     }
 
     private void ToggleGood(string value)
     {
-      var transferableGood = _goodsStation.TransferableGoods.First(good => good.GoodId == value);
-      if (transferableGood.Enabled)
-      {
-        transferableGood.Enabled = false;
-        transferableGood.SendingGoods = false;
-        _limitableGoodDisallower.SetAllowedAmount(transferableGood.GoodId, 0);
-      }
-      else
-      {
-        transferableGood.Enabled = true;
-      }
-
-      UpdateSelection();
-      _statusListFragment.UpdateFragment();
+      // var transferableGood = _goodsStation.TransferableGoods.First(good => good.GoodId == value);
+      // if (transferableGood.Enabled)
+      // {
+      //   transferableGood.Enabled = false;
+      //   transferableGood.SendingGoods = false;
+      //   _limitableGoodDisallower.SetAllowedAmount(transferableGood.GoodId, 0);
+      // }
+      // else
+      // {
+      //   transferableGood.Enabled = true;
+      // }
+      //
+      // UpdateSelection();
+      // _statusListFragment.UpdateFragment();
     }
 
     private void HideGoodSelection()
@@ -130,8 +132,8 @@ namespace ChooChoo
 
     private void UpdateSelection()
     {
-      foreach (GoodSelectionBoxRow row in _rows)
-        row.UpdateSelectedState(_goodsStation.TransferableGoods.Where(good => good.Enabled).Select(good => good.GoodId).ToList());
+      // foreach (GoodSelectionBoxRow row in _rows)
+      //   row.UpdateSelectedState(_goodsStation.TransferableGoods.Where(good => good.Enabled).Select(good => good.GoodId).ToList());
     }
   }
 }

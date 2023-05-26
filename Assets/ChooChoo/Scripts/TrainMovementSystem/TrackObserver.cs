@@ -26,8 +26,8 @@ namespace ChooChoo
 
         private void Awake()
         {
-            _machinist = GetComponent<Machinist>();
-            _trackSectionOccupier = GetComponent<TrackSectionOccupier>();
+            _machinist = GetComponentFast<Machinist>();
+            _trackSectionOccupier = GetComponentFast<TrackSectionOccupier>();
         }
 
         public new void Start()

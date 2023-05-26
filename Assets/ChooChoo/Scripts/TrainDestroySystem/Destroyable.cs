@@ -1,19 +1,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using Bindito.Core;
+using HarmonyLib;
 using Timberborn.Carrying;
 using Timberborn.Characters;
 using Timberborn.Goods;
 using Timberborn.InventorySystem;
-using Timberborn.RecoveredGoodSystem;
 using UnityEngine;
 
 namespace ChooChoo
 {
   public class Destroyable : MonoBehaviour
   {
-    private RecoveredGoodStackSpawner _recoveredGoodStackSpawner;
-    private TrainYardService _trainYardService;
+    private object _recoveredGoodStackSpawner;
     private Character _character;
     private Train _train;
     private GoodReserver _goodReserver;
@@ -21,10 +20,9 @@ namespace ChooChoo
     private List<GoodCarrier> _goodCarriers;
 
     [Inject]
-    public void InjectDependencies(RecoveredGoodStackSpawner recoveredGoodStackSpawner, TrainYardService trainYardService)
+    public void InjectDependencies(TrainYardService trainYardService)
     {
-      _recoveredGoodStackSpawner = recoveredGoodStackSpawner;
-      _trainYardService = trainYardService;
+       _recoveredGoodStackSpawner = TimberApi.DependencyContainerSystem.DependencyContainer.GetInstance(AccessTools.TypeByName("RecoveredGoodStackSpawner"));
     }
 
     public void Awake()
@@ -36,19 +34,17 @@ namespace ChooChoo
 
     public void Start()
     {
-      _goodCarriers = GetComponent<WagonManager>().Wagons.Select(wagon => wagon.GetComponent<GoodCarrier>()).ToList();
+      _goodCarriers = GetComponent<WagonManager>().Wagons.Select(wagon => wagon.GetComponentFast<GoodCarrier>()).ToList();
     }
 
     public void Destroy()
     {
-      // _character.KillCharacter();
       _goodReserver.UnreserveStock();
       ChooChooCore.SetPrivateProperty(_goodReserver, "CapacityReservation", new GoodReservation());
       gameObject.SetActive(false);
       _character.DestroyCharacter();
       var position = transform.position;
       var wrongPosition = new Vector3(position.x, position.z, position.y);
-      // _recoveredGoodStackSpawner.AddAwaitingGoods(Vector3Int.RoundToInt(wrongPosition), GetCarriedGoods());
       ChooChooCore.InvokePublicMethod(_recoveredGoodStackSpawner, "AddAwaitingGoods", new object[]{ Vector3Int.RoundToInt(wrongPosition), GetAllGoods()});
     }
 

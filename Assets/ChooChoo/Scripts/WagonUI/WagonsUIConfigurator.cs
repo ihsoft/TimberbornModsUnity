@@ -12,7 +12,6 @@ namespace GlobalMarket
   {
     public void Configure(IContainerDefinition containerDefinition)
     {
-      containerDefinition.Bind<WagonTypeDropdownOptionsSetter>().AsSingleton();
       containerDefinition.Bind<WagonTypeSelectorFragment>().AsSingleton();
       containerDefinition.MultiBind<TemplateModule>().ToProvider(ProvideTemplateModule).AsSingleton();
       containerDefinition.MultiBind<EntityPanelModule>().ToProvider<EntityPanelModuleProvider>().AsSingleton();
@@ -22,6 +21,7 @@ namespace GlobalMarket
     {
       TemplateModule.Builder builder = new TemplateModule.Builder();
       builder.AddDecorator<TrainWagon, TrainEntityBadge>();
+      builder.AddDecorator<TrainWagon, WagonTypeDropdownProvider>();
       builder.AddDecorator<WagonManager, WagonGoodsManager>();
       builder.AddDecorator<WagonManager, WagonMovementController>();
       return builder.Build();

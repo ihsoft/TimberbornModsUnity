@@ -14,7 +14,7 @@ namespace ChooChoo
 
     public ImmutableArray<string> Options { get; private set; }
 
-    public void Awake() => _inventory = GetComponent<GoodsStation>().Inventory;
+    public void Awake() => _inventory = GetComponent<GoodsStation>().SendingInventory;
 
     public void InitializeEntity()
     {

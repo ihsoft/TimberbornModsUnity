@@ -1,11 +1,12 @@
 using System;
 using Bindito.Core;
+using Timberborn.BaseComponentSystem;
 using Timberborn.ConstructibleSystem;
 using UnityEngine;
 
 namespace ChooChoo
 {
-    public class TrainWaitingLocation : MonoBehaviour, IFinishedStateListener
+    public class TrainWaitingLocation : BaseComponent, IFinishedStateListener
     {
         private TrainWaitingLocationsRepository _trainWaitingLocationsRepository;
 
@@ -23,7 +24,7 @@ namespace ChooChoo
 
         void Awake()
         {
-            TrainDestinationComponent = GetComponent<TrainDestination>();
+            TrainDestinationComponent = GetComponentFast<TrainDestination>();
         }
 
         public void OnEnterFinishedState()

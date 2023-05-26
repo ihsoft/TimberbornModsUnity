@@ -1,21 +1,24 @@
 ﻿using System.Collections.Generic;
 using Bindito.Core;
+using Timberborn.BaseComponentSystem;
 using Timberborn.Carrying;
 using Timberborn.CharacterMovementSystem;
 using Timberborn.EntitySystem;
+using Timberborn.InventorySystem;
 using Timberborn.WalkingSystem;
 using UnityEngine;
 
 namespace ChooChoo
 {
-  public class TrainWagon : MonoBehaviour, IDeletableEntity
+  public class TrainWagon : BaseComponent, IDeletableEntity
   {
     private MovementAnimator _movementAnimator;
     private ObjectFollowerFactory _objectFollowerFactory;
     private WalkerSpeedManager _walkerSpeedManager;
     private WagonModelManager _wagonModelManager;
-    public GameObject Train { get; set; }
+    public BaseComponent Train { get; set; }
     public GoodCarrier GoodCarrier { get; set; }
+    public GoodReserver GoodReserver { get; set; }
     public ObjectFollower ObjectFollower;
 
     private readonly string _animationName = "Walking";
@@ -25,10 +28,11 @@ namespace ChooChoo
 
     public void Awake()
     {
-      _walkerSpeedManager = GetComponent<WalkerSpeedManager>();
-      _wagonModelManager = GetComponent<WagonModelManager>();
-      GoodCarrier = GetComponent<GoodCarrier>();
-      ObjectFollower = _objectFollowerFactory.Create(gameObject);
+      _walkerSpeedManager = GetComponentFast<WalkerSpeedManager>();
+      _wagonModelManager = GetComponentFast<WagonModelManager>();
+      GoodCarrier = GetComponentFast<GoodCarrier>();
+      GoodReserver = GetComponentFast<GoodReserver>();
+      ObjectFollower = _objectFollowerFactory.Create(GameObjectFast);
     }
     
     public void InitializeObjectFollower(Transform objectToFollow, float distanceFromObject)
@@ -40,7 +44,7 @@ namespace ChooChoo
     
     public void Move()
     {
-      var speed = _walkerSpeedManager.CalculateNormalWalkingSpeed();
+      var speed = 3.5f;
       speed *= 1.008f;
       var time = Time.fixedDeltaTime;
       ObjectFollower.MoveTowardsObject(time, _animationName, speed);

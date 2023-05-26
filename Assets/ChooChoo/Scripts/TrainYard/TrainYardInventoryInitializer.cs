@@ -1,5 +1,6 @@
 ﻿using Bindito.Unity;
 using Timberborn.AssetSystem;
+using Timberborn.BaseComponentSystem;
 using Timberborn.Goods;
 using Timberborn.InventorySystem;
 using Timberborn.TemplateSystem;
@@ -11,19 +12,19 @@ namespace ChooChoo
   {
     private static readonly string InventoryComponentName = "TrainYard";
     private readonly IGoodService _goodService;
-    private readonly IInstantiator _instantiator;
+    private readonly BaseInstantiator _baseInstantiator;
     private readonly IResourceAssetLoader _resourceAssetLoader;
     
-    public TrainYardInventoryInitializer(IGoodService goodService, IInstantiator instantiator, IResourceAssetLoader resourceAssetLoader)
+    public TrainYardInventoryInitializer(IGoodService goodService, BaseInstantiator baseInstantiator, IResourceAssetLoader resourceAssetLoader)
     {
       _goodService = goodService;
-      _instantiator = instantiator;
+      _baseInstantiator = baseInstantiator;
       _resourceAssetLoader = resourceAssetLoader;
     }
 
     public void Initialize(TrainYard subject, Inventory decorator)
     {
-      InventoryInitializer inventoryInitializer = new InventoryInitializer(_goodService, decorator, CalculateTotalCapacity(subject), InventoryComponentName);
+      InventoryInitializer inventoryInitializer = new InventoryInitializer(_goodService, _baseInstantiator, decorator, CalculateTotalCapacity(subject), InventoryComponentName);
       inventoryInitializer.HasPublicInput();
       inventoryInitializer.HasPublicOutput();
       AllowEveryGoodAsGiveAndTabeable(inventoryInitializer, _resourceAssetLoader.Load<GameObject>("tobbert.choochoo/tobbert_choochoo/Train").GetComponent<Train>().TrainCost);

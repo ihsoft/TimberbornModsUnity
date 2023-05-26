@@ -12,7 +12,7 @@ namespace ChooChoo
 
     public IBatchControlRowItem Create(string iconClass)
     {
-      VisualElement visualElement = _visualElementLoader.LoadVisualElement("Master/BatchControl/PopulationBatchControlRowItem");
+      VisualElement visualElement = _visualElementLoader.LoadVisualElement("Game/BatchControl/PopulationBatchControlRowItem");
       visualElement.Q<VisualElement>("PopulationIcon").AddToClassList(iconClass);
       return new CurrentPopulationBatchControlRowItem(visualElement, visualElement.Q<Label>("CurrentPopulation"));
     }

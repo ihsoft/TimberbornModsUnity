@@ -52,7 +52,7 @@ namespace ChooChoo
             {
                 var trainDestinationsConnected = new List<TrainDestination>();
                 var checkedTrackPieces = new List<TrackPiece>();
-                CheckNextTrackPiece(checkingDestination.GetComponent<TrackPiece>(), checkedTrackPieces, trainDestinationsConnected);
+                CheckNextTrackPiece(checkingDestination.GetComponentFast<TrackPiece>(), checkedTrackPieces, trainDestinationsConnected);
                 _trainDestinationConnections.Add(checkingDestination, trainDestinationsConnected);
             }
             // Plugin.Log.LogWarning(list.Count + "");
@@ -67,7 +67,7 @@ namespace ChooChoo
             // Plugin.Log.LogError(checkingTrackPiece.CenterCoordinates + "");
             checkedTrackPieces.Add(checkingTrackPiece);
 
-            if (checkingTrackPiece.TryGetComponent(out TrainDestination trainDestination))
+            if (checkingTrackPiece.TryGetComponentFast(out TrainDestination trainDestination))
                 trainDestinationsConnected.Add(trainDestination);
             
             foreach (var trackRoute in checkingTrackPiece.TrackRoutes)

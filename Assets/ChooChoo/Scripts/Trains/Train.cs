@@ -1,9 +1,9 @@
+using Timberborn.BaseComponentSystem;
 using Timberborn.Goods;
-using UnityEngine;
 
 namespace ChooChoo
 {
-    public class Train : MonoBehaviour
+    public class Train : BaseComponent
     {
         public GoodAmountSpecification[] TrainCost;
     }

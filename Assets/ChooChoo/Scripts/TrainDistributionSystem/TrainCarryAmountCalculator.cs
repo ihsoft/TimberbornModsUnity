@@ -35,5 +35,24 @@ namespace ChooChoo
       // Plugin.Log.LogError(amount + " " + num1 + " " + good.Amount);
       return new GoodAmount(good.GoodId, amount);
     }
+    
+    public int MaxAmountToCarry(
+      int liftingCapacity,
+      string goodId)
+    {
+      GoodSpecification good = _goodService.GetGood(goodId);
+      var maxAmount = liftingCapacity / good.Weight;
+      // Plugin.Log.LogError("Max Amount able to carry: " + maxAmount);
+      return maxAmount;
+    }
+    
+    public bool IsAtMaximumCarryCapacity(int liftingCapacity, GoodAmount currentGoodAmount)
+    {
+      GoodSpecification good = _goodService.GetGood(currentGoodAmount.GoodId);
+      var maxAmount = liftingCapacity / good.Weight;
+      var currentWeight = good.Weight * (currentGoodAmount.Amount + 1);
+      Plugin.Log.LogError("maxAmount " + maxAmount + " currentWeight " + currentWeight + " Result: " + (currentWeight > maxAmount));
+      return currentWeight > maxAmount;
+    }
   }
 }

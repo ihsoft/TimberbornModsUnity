@@ -30,7 +30,7 @@ namespace ChooChoo
       VisualElement root)
     {
       var dictionary = new Dictionary<string, GoodSelectionBoxRow>();
-      var component = stockpile.GetComponent<GoodsStationOptionsProvider>();
+      var component = stockpile.GetComponentFast<GoodsStationOptionsProvider>();
       foreach (var option in component.Options)
       {
         if (option != StockpileOptionsService.NothingSelectedLocKey)

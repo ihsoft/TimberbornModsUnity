@@ -5,6 +5,7 @@ using Timberborn.Emptying;
 using Timberborn.Hauling;
 using Timberborn.PreviewSystem;
 using Timberborn.TemplateSystem;
+using Timberborn.Workshops;
 
 namespace ChooChoo
 {
@@ -36,14 +37,15 @@ namespace ChooChoo
         builder.AddDedicatedDecorator(_trainYardInventoryInitializer);
         builder.AddDecorator<TrainYard, Emptiable>();
         builder.AddDecorator<TrainYard, HaulCandidate>();
-        builder.AddDecorator<TrainYard, FillGoodsStationHaulBehaviorProvider>();
+        // builder.AddDecorator<TrainYard, FillGoodsStationHaulBehaviorProvider>();
         InitializeBehaviors(builder);
         return builder.Build();
       }
 
       private static void InitializeBehaviors(TemplateModule.Builder builder)
       {
-        builder.AddDecorator<TrainYard, FillGoodsStationBehavior>();
+        // builder.AddDecorator<TrainYard, FillGoodsStationBehavior>();
+        builder.AddDecorator<TrainYard, FillInputWorkplaceBehavior>();
         builder.AddDecorator<TrainYard, EmptyInventoriesWorkplaceBehavior>();
         builder.AddDecorator<TrainYard, RemoveUnwantedStockWorkplaceBehavior>();
       }

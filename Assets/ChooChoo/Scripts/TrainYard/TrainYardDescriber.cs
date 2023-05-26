@@ -1,5 +1,6 @@
 ﻿using Bindito.Core;
 using System.Collections.Generic;
+using Timberborn.BaseComponentSystem;
 using Timberborn.CoreUI;
 using Timberborn.EntityPanelSystem;
 using Timberborn.Localization;
@@ -7,7 +8,7 @@ using UnityEngine;
 
 namespace ChooChoo
 {
-  public class TrainYardDescriber : MonoBehaviour, IEntityDescriber
+  public class TrainYardDescriber : BaseComponent, IEntityDescriber
   {
     private static readonly string CapacityLocKey = "Inventory.Capacity";
     private ILoc _loc;
@@ -16,7 +17,7 @@ namespace ChooChoo
     [Inject]
     public void InjectDependencies(ILoc loc) => _loc = loc;
 
-    public void Awake() => _trainYard = GetComponent<TrainYard>();
+    public void Awake() => _trainYard = GetComponentFast<TrainYard>();
 
     public IEnumerable<EntityDescription> DescribeEntity()
     {

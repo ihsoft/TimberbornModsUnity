@@ -1,10 +1,10 @@
 ID,Text,Comment
 Tobbert.TrackStraight.DisplayName,Straight Train Track,-
-Tobbert.TrackStraight.Description,A Track Piece that goes straight.,-
+Tobbert.TrackStraight.Description,A Track Piece that goes straight. Can be changed to be a one way signal using the toggle when clicking on it. Creates a track section between one ways that allow a single train to be on it (indicated by the colors).,-
 Tobbert.TrackStraight.FlavorDescription,Choo! Choo!,-
 
 Tobbert.TrackOneWay.DisplayName,One way signal Track,-
-Tobbert.TrackOneWay.Description,Wil tell trains that they can only go through the green side.,-
+Tobbert.TrackOneWay.Description,Will tell trains that they can only go through the green side. Can be changed back to a straight track by using the toggle when clicking on it. Creates a track section between one ways that allow a single train to be on it (indicated by the colors).,-
 Tobbert.TrackOneWay.FlavorDescription,You... Shall... Pass...,-
 
 Tobbert.TrackCrossing.DisplayName,Train Track Crossing,-

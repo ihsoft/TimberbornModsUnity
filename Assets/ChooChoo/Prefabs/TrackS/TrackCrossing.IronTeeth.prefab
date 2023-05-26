@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3336589163391838871}
   - component: {fileID: 2658140118515169270}
   m_Layer: 0
-  m_Name: __Finished
+  m_Name: '#Finished'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41,9 +41,17 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1135628514543214075}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Size: {x: 0.7, y: 0.04, z: 1}
   m_Center: {x: 0.5, y: 0.02, z: 0.5}
 --- !u!1 &1937769883314588243
@@ -56,7 +64,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2916081291776459117}
   m_Layer: 0
-  m_Name: __Unfinished
+  m_Name: '#UnFinished'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -119,9 +127,17 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4202982062838910847}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Size: {x: 1, y: 0.1, z: 1}
   m_Center: {x: 0.5, y: 0.05, z: 0.5}
 --- !u!1 &5195104762863976884
@@ -214,8 +230,8 @@ MonoBehaviour:
   m_Script: {fileID: -790041461, guid: 1bd6ccb667024f9c2b77daf7f62a4eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _soundBaseName: Default
-  _hasLoopingSound: 0
+  _selectionSoundName: Default
+  _loopingSoundName: 
   _buildingCost:
   - _goodId: Plank
     _amount: 4
@@ -256,6 +272,7 @@ MonoBehaviour:
   _prefabName: TrackCrossing.IronTeeth
   _backwardCompatiblePrefabNames: []
   _requiredFeatureToggle: 
+  _disablingFeatureToggle: 
 --- !u!114 &6578201091114363928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -394,7 +411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f3b6c1c127e437e8d3f5a2ed5c25f92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _trackSectionMesh: {fileID: 1883366045691238478}
+  _trackSectionMesh: {fileID: 7945632945214848144}
   _trackEntranceSectionMesh: {fileID: 0}
   _trackExitSectionMesh: {fileID: 0}
   _trackContainedSectionMesh: {fileID: 0}
@@ -586,6 +603,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 3336589163391838871}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 7a78011b12a259d43bc1a2c8c6ceb32d, type: 3}
@@ -649,14 +667,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: f0673e1fae278014881868c946434506, type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a78011b12a259d43bc1a2c8c6ceb32d, type: 3}
---- !u!1 &1883366045691238478 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4606414990535375458, guid: 7a78011b12a259d43bc1a2c8c6ceb32d, type: 3}
-  m_PrefabInstance: {fileID: 2724195602363605548}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2469362425593136583 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7a78011b12a259d43bc1a2c8c6ceb32d, type: 3}
+  m_PrefabInstance: {fileID: 2724195602363605548}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7945632945214848144 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5443381246769733308, guid: 7a78011b12a259d43bc1a2c8c6ceb32d, type: 3}
   m_PrefabInstance: {fileID: 2724195602363605548}
   m_PrefabAsset: {fileID: 0}

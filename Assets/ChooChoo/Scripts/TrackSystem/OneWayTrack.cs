@@ -3,6 +3,7 @@ using Bindito.Core;
 using Timberborn.ConstructibleSystem;
 using Timberborn.Coordinates;
 using Timberborn.EntityPanelSystem;
+using Timberborn.EntitySystem;
 using Timberborn.Persistence;
 using UnityEngine;
 
@@ -43,7 +44,7 @@ namespace ChooChoo
         new void Awake()
         {
             base.Awake();
-            _labeledPrefabSwitcher = GetComponent<LabeledPrefabSwitcher>();
+            _labeledPrefabSwitcher = GetComponentFast<LabeledPrefabSwitcher>();
             Sign.SetActive(false);
             enabled = false; 
         }
@@ -118,7 +119,7 @@ namespace ChooChoo
                 _labeledPrefabSwitcher.SetAlternative();
             else
                 _labeledPrefabSwitcher.SetOriginal();
-            _entityPanel.ReloadDescription(gameObject);
+            _entityPanel.ReloadDescription(GetComponentFast<EntityComponent>());
         }
         
         private void UpdateTracksAndSectionColors()

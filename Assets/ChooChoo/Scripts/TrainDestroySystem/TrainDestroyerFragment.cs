@@ -1,4 +1,5 @@
-﻿using Timberborn.CoreUI;
+﻿using Timberborn.BaseComponentSystem;
+using Timberborn.CoreUI;
 using Timberborn.EntityPanelSystem;
 using Timberborn.InputSystem;
 using UnityEngine;
@@ -36,9 +37,9 @@ namespace ChooChoo
       return _root;
     }
 
-    public void ShowFragment(GameObject entity)
+    public void ShowFragment(BaseComponent entity)
     {
-      _destroyable = entity.GetComponent<Destroyable>();
+      _destroyable = entity.GetComponentFast<Destroyable>();
       if (!(bool) (Object) _destroyable)
         return;
       _root.ToggleDisplayStyle(true);
