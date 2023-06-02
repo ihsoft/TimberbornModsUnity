@@ -10,14 +10,15 @@ namespace ChooChoo
 {
   public class UnconnectedTrainDestinationStatus : TickableComponent, IFinishedStateListener
   {
-    private static readonly string LackOfResourcesLocKey = "Work.LackOfResources";
-    private static readonly string LackOfResourcesShortLocKey = "Work.LackOfResourcesShort";
+    private static readonly string UnconnectedLocKey = "Tobbert.TrainDestination.UnconnectedWarning";
+    private static readonly string UnconnectedShortLocKey = "Tobbert.TrainDestination.UnconnectedWarningShort";
     private TrainDestinationService _trainDestinationService;
     private EventBus _eventBus;
     private ILoc _loc;
     private TrainDestination _trainDestination;
     private StatusToggle _unconnectedTrainDestinationStatusToggle;
     private bool _isUnconnectedToAnyTrainDestination;
+    private bool _checkForChanges;
 
     [Inject]
     public void InjectDependencies(TrainDestinationService trainDestinationService, EventBus eventBus, ILoc loc)
@@ -30,18 +31,25 @@ namespace ChooChoo
     public void Awake()
     {
       _trainDestination = GetComponentFast<TrainDestination>();
-      _unconnectedTrainDestinationStatusToggle = StatusToggle.CreateNormalStatusWithAlertAndFloatingIcon("LackOfResources", _loc.T(LackOfResourcesLocKey), _loc.T(LackOfResourcesShortLocKey));
+      _unconnectedTrainDestinationStatusToggle = StatusToggle.CreateNormalStatusWithAlertAndFloatingIcon("tobbert.choochoo/tobbert_choochoo/UnconnectedTrainDestinationStatus", _loc.T(UnconnectedLocKey), _loc.T(UnconnectedShortLocKey));
       enabled = false;
     }
 
     public override void StartTickable()
     {
       GetComponentFast<StatusSubject>().RegisterStatus(_unconnectedTrainDestinationStatusToggle);
-      CheckIfConnectedToTrainDestionation();
+      CheckIfConnectedToTrainDestination();
       UpdateStatusToggle();
     }
 
-    public override void Tick() => UpdateStatusToggle();
+    public override void Tick()
+    {
+      if (!_checkForChanges) 
+        return;
+      CheckIfConnectedToTrainDestination();
+      _checkForChanges = false;
+      UpdateStatusToggle();
+    }
 
     public void OnEnterFinishedState()
     {
@@ -58,7 +66,7 @@ namespace ChooChoo
     [OnEvent]
     public void OnTrackUpdate(OnTracksUpdatedEvent onTracksUpdatedEvent)
     {
-      CheckIfConnectedToTrainDestionation();
+      _checkForChanges = true;
     }
 
     private void UpdateStatusToggle()
@@ -69,7 +77,7 @@ namespace ChooChoo
         _unconnectedTrainDestinationStatusToggle.Deactivate();
     }
 
-    private void CheckIfConnectedToTrainDestionation()
+    private void CheckIfConnectedToTrainDestination()
     {
       var connectedTrainDestinations = _trainDestinationService.GetConnectedTrainDestinations(_trainDestination);
 

@@ -100,6 +100,8 @@ Tobbert.Trains.UnlockPrompt,"Sie müssen {0} freischalten, um {1} zu bauen.",{0}
 Tobbert.DistributionTrain.MinimumOfItemsToMove,Minimum an zu bewegenden Gütern: ,-
 
 Tobbert.TrainNavigation.Unstuck,Wenden,-
+Tobbert.TrainDestination.UnconnectedWarning,Wartestation ist nicht mit einer Strecke verbunden.,-
+Tobbert.TrainDestination.UnconnectedWarningShort,Nichtverbundene Wartestation,-
 
 Tobbert.ChooChooSettings.Header,Choo! Choo!,- 
 Tobbert.ChooChooSettings.DefaultTrainModel,Standard Zugmodell: ,-

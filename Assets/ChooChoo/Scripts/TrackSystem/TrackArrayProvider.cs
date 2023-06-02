@@ -355,6 +355,26 @@ namespace ChooChoo
                         new(0.5f, 0, 1.9f)
                      }),
                };
+            case "PassengerStation":
+               return new TrackRoute[]
+               {
+                  new(
+                     new TrackConnection(new Vector3Int(1, 3, 0), Direction2D.Down), 
+                     new TrackConnection(new Vector3Int(1, 0, 0), Direction2D.Up), 
+                     new Vector3[]
+                     {
+                        new(0.5f, 0, 1.2f),
+                        new(0.5f, 0, -1.9f)
+                     }),
+                  new(
+                     new TrackConnection(new Vector3Int(1, 0, 0), Direction2D.Up),
+                     new TrackConnection(new Vector3Int(1, 3, 0), Direction2D.Down), 
+                     new Vector3[]
+                     {
+                        new(0.5f, 0, -1.2f),
+                        new(0.5f, 0, 1.9f)
+                     }),
+               };
             case "WaitingStation":
                return new TrackRoute[]
                {

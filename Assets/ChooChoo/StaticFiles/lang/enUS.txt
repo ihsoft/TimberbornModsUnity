@@ -44,11 +44,17 @@ Tobbert.TrainStation.Description,A destination for trains.,-
 Tobbert.TrainStation.FlavorDescription,Choo! Choo!,-
 
 Tobbert.GoodsStation.DisplayName,Goods station,-
-Tobbert.GoodsStation.Description,"A building that holds items ready for pickup and deliveries from trains. Edit the allowed goods to specify what goods can be received and delivered.",-
+Tobbert.GoodsStation.Description,"A building that works like the district crossing. Instead of beavers transporting the goods between districts, trains will distribute them.",-
 Tobbert.GoodsStation.FlavorDescription,Look at all the goods It can hold.,-
 Tobbert.GoodsStation.GoodSelector,Edit allowed goods,-
 Tobbert.GoodsStation.Loading,Sending: ,-
 Tobbert.GoodsStation.Unloading,Receiving: ,-
+
+Tobbert.PassengerStation.DisplayName,Passenger station,-
+Tobbert.PassengerStation.Description,"This stations allows beavers to get on the train and travel to another station that are connected to each other.",-
+Tobbert.PassengerStation.FlavorDescription,Beaver train!,-
+Tobbert.PassengerStation.DistrictObjectToggle,Goes across districts: ,-
+Tobbert.PassengerStation.DistrictObject,When enabled will ONLY allow beavers to go passenger stations that also have this setting enabled and are in other districts. ,-
 
 Tobbert.WaitingStation.DisplayName,Waiting Station,-
 Tobbert.WaitingStation.Description,"Trains can wait here when they have nothing to do. This prevents trains from occupying the tracks. Trains cannot pathfind over this, so make sure its not in any crucial paths.",-
@@ -90,6 +96,8 @@ Tobbert.Trains.UnlockPrompt,You need to unlock {0} to build {1}.,{0} stands for 
 Tobbert.DistributionTrain.MinimumOfItemsToMove,Minimum of items to move: ,-
 
 Tobbert.TrainNavigation.Unstuck,Turn Around,-
+Tobbert.TrainDestination.UnconnectedWarning,Station is not connected to any other station.,-
+Tobbert.TrainDestination.UnconnectedWarningShort,Unconnected station,-
 
 Tobbert.ChooChooSettings.Header,Choo! Choo!,- 
 Tobbert.ChooChooSettings.DefaultTrainModel,Default Train model: ,-

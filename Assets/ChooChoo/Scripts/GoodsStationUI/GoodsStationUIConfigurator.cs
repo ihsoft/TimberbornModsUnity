@@ -1,5 +1,4 @@
 ﻿using Bindito.Core;
-using System;
 using TimberApi.ConfiguratorSystem;
 using TimberApi.SceneSystem;
 using Timberborn.EntityPanelSystem;
@@ -12,30 +11,11 @@ namespace ChooChoo
   {
     public void Configure(IContainerDefinition containerDefinition)
     {
-      // containerDefinition.Bind<GoodInputToggleFactory>().AsSingleton();
-      containerDefinition.Bind<GoodsStationIconService>().AsSingleton();
-      
       containerDefinition.Bind<GoodsStationFragment>().AsSingleton();
       
-      containerDefinition.Bind<GoodsStationRowsFactory>().AsSingleton();
       containerDefinition.Bind<GoodsStationSendingInventoryFragment>().AsSingleton();
       containerDefinition.Bind<GoodsStationReceivingInventoryFragment>().AsSingleton();
       
-      // containerDefinition.Bind<StockpileInventoryFragment>().AsSingleton();
-      // containerDefinition.Bind<StockpileBatchControlRowItemFactory>().AsSingleton();
-      
-      containerDefinition.Bind<IGoodSelectionController>().To<GoodSelectionController>().AsSingleton();
-      
-      // containerDefinition.Bind<StockpileOverlay>().AsSingleton();
-      // containerDefinition.Bind<StockpileOverlayShower>().AsSingleton();
-      containerDefinition.Bind<StockpileGoodSelectionBox>().AsSingleton();
-      // containerDefinition.Bind<StockpileOverlayTogglePanel>().AsSingleton();
-      // containerDefinition.Bind<StockpileOverlayHider>().AsSingleton();
-      containerDefinition.Bind<GoodSelectionBoxRowFactory>().AsSingleton();
-      containerDefinition.Bind<GoodSelectionBoxItemFactory>().AsSingleton();
-      // containerDefinition.Bind<StockpileOptionsService>().AsSingleton();
-      containerDefinition.Bind<GoodsStationGoodSelectionBoxItemsFactory>().AsSingleton();
-      // containerDefinition.Bind<GoodStockpilesTooltipFactory>().AsSingleton();
       containerDefinition.MultiBind<TemplateModule>().ToProvider(ProvideTemplateModule).AsSingleton();
       containerDefinition.MultiBind<EntityPanelModule>().ToProvider<EntityPanelModuleProvider>().AsSingleton();
     }
@@ -44,7 +24,6 @@ namespace ChooChoo
     {
       TemplateModule.Builder builder = new TemplateModule.Builder();
       builder.AddDecorator<GoodsStation, GoodsStationOptionsProvider>();
-      // builder.AddDecorator<GoodsStation, StockpileOverlayItemAdder>();
       return builder.Build();
     }
 

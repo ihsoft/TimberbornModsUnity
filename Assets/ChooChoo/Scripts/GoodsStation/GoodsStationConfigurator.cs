@@ -19,6 +19,7 @@ namespace ChooChoo
       containerDefinition.Bind<GoodsStationsRepository>().AsSingleton();
       containerDefinition.Bind<GoodsStationService>().AsSingleton();
       containerDefinition.Bind<TransferableGoodObjectSerializer>().AsSingleton();
+      containerDefinition.Bind<TrainDistributableGoodObjectSerializer>().AsSingleton();
       containerDefinition.MultiBind<TemplateModule>().ToProvider<TemplateModuleProvider>().AsSingleton();
     }
 

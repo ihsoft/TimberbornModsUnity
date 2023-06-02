@@ -55,8 +55,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.6, y: 0.06, z: 3}
-  m_Center: {x: 0.5, y: 0.03, z: 1.5}
+  m_Size: {x: 0.6, y: 0.06, z: 4}
+  m_Center: {x: 0.5, y: 0.03, z: 2}
 --- !u!65 &6351149636141899093
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -77,7 +77,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.27, y: 0.3, z: 0.06}
-  m_Center: {x: 0.87, y: 0.75, z: 2.81}
+  m_Center: {x: 0.87, y: 0.75, z: 3.81}
 --- !u!65 &4183511115309159103
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -98,7 +98,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.1, y: 0.57, z: 0.06}
-  m_Center: {x: 0.85, y: 0.3, z: 2.81}
+  m_Center: {x: 0.85, y: 0.3, z: 3.81}
 --- !u!65 &1028629217916336506
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -119,7 +119,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.18, y: 0.28892386, z: 0.11420441}
-  m_Center: {x: 0.875, y: 0.47, z: 2.7042046}
+  m_Center: {x: 0.875, y: 0.47, z: 3.704205}
 --- !u!1 &1937769883314588243
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,8 +172,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 0.06, z: 3}
-  m_Center: {x: 0.5, y: 0.03, z: 1.5}
+  m_Size: {x: 1, y: 0.06, z: 4}
+  m_Center: {x: 0.5, y: 0.03, z: 2}
 --- !u!1 &5338206533014369884
 GameObject:
   m_ObjectHideFlags: 0
@@ -190,8 +190,8 @@ GameObject:
   - component: {fileID: 426163337955813881}
   - component: {fileID: 5232831697191421784}
   - component: {fileID: 2204440981780356463}
-  - component: {fileID: 1682521487679208358}
-  - component: {fileID: -6569269608839947575}
+  - component: {fileID: 8023521899775805333}
+  - component: {fileID: 8090384878591098087}
   - component: {fileID: 2620474729558111792}
   m_Layer: 0
   m_Name: WaitingStation.IronTeeth
@@ -269,8 +269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _prefabName: WaitingStation.IronTeeth
-  _backwardCompatiblePrefabNames:
-  - WaitingStation.Folktails
+  _backwardCompatiblePrefabNames: []
   _requiredFeatureToggle: 
   _disablingFeatureToggle: 
 --- !u!114 &6578201091114363928
@@ -298,8 +297,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _blocksSpecification:
-    _size: {x: 1, y: 3, z: 1}
+    _size: {x: 1, y: 4, z: 1}
     _blockSpecifications:
+    - _matterBelow: 1
+      _occupation: 3
+      _stackable: 0
+      _optionallyUnderground: 0
+      _occupyAllBelow: 0
     - _matterBelow: 1
       _occupation: 3
       _stackable: 0
@@ -351,7 +355,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91f473273fcd4a6aa4b9d3072b17860b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1682521487679208358
+--- !u!114 &8023521899775805333
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -365,7 +369,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _trackDistance: 3
   DividesSection: 1
---- !u!114 &-6569269608839947575
+--- !u!114 &8090384878591098087
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -534,7 +538,7 @@ PrefabInstance:
     - target: {fileID: -7636849304918975425, guid: f66da347f43d0e140a96032df60515bf, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: f0673e1fae278014881868c946434506, type: 2}
+      objectReference: {fileID: 2100000, guid: 67994ecbb9674c54f81c354ecfdc795d, type: 2}
     - target: {fileID: -6988117175310058534, guid: f66da347f43d0e140a96032df60515bf, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -542,7 +546,7 @@ PrefabInstance:
     - target: {fileID: -6988117175310058534, guid: f66da347f43d0e140a96032df60515bf, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: f0673e1fae278014881868c946434506, type: 2}
+      objectReference: {fileID: 2100000, guid: 67994ecbb9674c54f81c354ecfdc795d, type: 2}
     - target: {fileID: -6345218096006791920, guid: f66da347f43d0e140a96032df60515bf, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -550,11 +554,11 @@ PrefabInstance:
     - target: {fileID: -6345218096006791920, guid: f66da347f43d0e140a96032df60515bf, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: f0673e1fae278014881868c946434506, type: 2}
+      objectReference: {fileID: 2100000, guid: 67994ecbb9674c54f81c354ecfdc795d, type: 2}
     - target: {fileID: -6345218096006791920, guid: f66da347f43d0e140a96032df60515bf, type: 3}
       propertyPath: m_Materials.Array.data[2]
       value: 
-      objectReference: {fileID: 2100000, guid: 648ba1e87af5b864a9c365eef8d156d1, type: 2}
+      objectReference: {fileID: 2100000, guid: 6ac96165fbdc3c340b51ca271cd0cfbc, type: 2}
     - target: {fileID: -2637066281952355912, guid: f66da347f43d0e140a96032df60515bf, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -562,7 +566,7 @@ PrefabInstance:
     - target: {fileID: -2637066281952355912, guid: f66da347f43d0e140a96032df60515bf, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: f0673e1fae278014881868c946434506, type: 2}
+      objectReference: {fileID: 2100000, guid: 67994ecbb9674c54f81c354ecfdc795d, type: 2}
     - target: {fileID: 566860969287147491, guid: f66da347f43d0e140a96032df60515bf, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -570,11 +574,11 @@ PrefabInstance:
     - target: {fileID: 566860969287147491, guid: f66da347f43d0e140a96032df60515bf, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: f0673e1fae278014881868c946434506, type: 2}
+      objectReference: {fileID: 2100000, guid: 67994ecbb9674c54f81c354ecfdc795d, type: 2}
     - target: {fileID: 566860969287147491, guid: f66da347f43d0e140a96032df60515bf, type: 3}
       propertyPath: m_Materials.Array.data[2]
       value: 
-      objectReference: {fileID: 2100000, guid: 648ba1e87af5b864a9c365eef8d156d1, type: 2}
+      objectReference: {fileID: 2100000, guid: 6ac96165fbdc3c340b51ca271cd0cfbc, type: 2}
     - target: {fileID: 919132149155446097, guid: f66da347f43d0e140a96032df60515bf, type: 3}
       propertyPath: m_Name
       value: WaitingStationModel
@@ -594,7 +598,7 @@ PrefabInstance:
     - target: {fileID: 7544023193344519832, guid: f66da347f43d0e140a96032df60515bf, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: f0673e1fae278014881868c946434506, type: 2}
+      objectReference: {fileID: 2100000, guid: 67994ecbb9674c54f81c354ecfdc795d, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

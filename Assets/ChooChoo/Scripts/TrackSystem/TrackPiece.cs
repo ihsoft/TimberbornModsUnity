@@ -5,7 +5,6 @@ using Timberborn.BaseComponentSystem;
 using Timberborn.BlockSystem;
 using Timberborn.ConstructibleSystem;
 using Timberborn.Coordinates;
-using Timberborn.EntitySystem;
 using Timberborn.SingletonSystem;
 using UnityEngine;
 
@@ -83,6 +82,7 @@ namespace ChooChoo
 
         public void OnEnterFinishedState()
         {
+            enabled = true;
             LookForTrackSection();
             CenterCoordinates = GetComponentFast<BlockObjectCenter>().WorldCenterGrounded;
             EventBus.Post(new OnTracksUpdatedEvent());
@@ -123,14 +123,22 @@ namespace ChooChoo
 
         public void OnExitFinishedState()
         {
+            enabled = false;
             TrackSection.Dissolve(this);
-            EventBus.Post(new OnTracksUpdatedEvent());
             _trackRouteWeightCache.Remove(TrackRoutes);
+            EventBus.Post(new OnTracksUpdatedEvent());
         }
 
-        public void ResetSection()
+        public void ResetTrackPiece()
         {
             TrackSection = new TrackSection(this);
+            foreach (var trackRoute in TrackRoutes)
+            {
+                trackRoute.Entrance.ConnectedTrackPiece = null;
+                trackRoute.Exit.ConnectedTrackPiece = null;
+                trackRoute.Entrance.ConnectedTrackRoutes = null;
+                trackRoute.Exit.ConnectedTrackRoutes = null;
+            }
         }
         
         public void LookForTrackSection()
@@ -167,7 +175,10 @@ namespace ChooChoo
                 // if ((myTrackRouteEntrances.Length < 1 && otherTrackRoutesExits.Length) < 1 || (otherTrackRoutesEntrances.Length < 1 && myTrackRouteExits.Length < 1))
                 //     continue;
                 if (myTrackRouteExits.Length < 1 || (otherTrackRoutesExits.Length < 1 && otherTrackRoutesEntrances.Length < 1))
+                {
+                    // ResetConnection(myTrackRouteEntrances, myTrackRouteExits, otherTrackRoutesEntrances, otherTrackRoutesExits);
                     continue;
+                }
                 MakeConnection(trackPiece, myTrackRouteEntrances, myTrackRouteExits, otherTrackRoutesEntrances, otherTrackRoutesExits);
             }
 
@@ -198,7 +209,10 @@ namespace ChooChoo
                 //     " Other Exits: " + otherTrackRoutesExits.Length);
                 // if (myTrackRouteEntrances.Length < 1 || myTrackRouteExits.Length < 1 || otherTrackRoutesEntrances.Length < 1 || otherTrackRoutesExits.Length < 1)
                 if (myTrackRouteEntrances.Length < 1 || (otherTrackRoutesEntrances.Length < 1 && otherTrackRoutesExits.Length < 1))
+                {
+                    // ResetConnection(myTrackRouteEntrances, myTrackRouteExits, otherTrackRoutesEntrances, otherTrackRoutesExits);
                     continue;
+                }
                 MakeConnection(trackPiece, myTrackRouteEntrances, myTrackRouteExits, otherTrackRoutesEntrances, otherTrackRoutesExits);
             }
         }
@@ -289,6 +303,33 @@ namespace ChooChoo
 
             if (trackPiece.TrackSection != TrackSection)
                 trackPiece.TrackSection.Merge(TrackSection);
+        }
+
+        private void ResetConnection(TrackRoute[] myTrackRouteEntrances, TrackRoute[] myTrackRouteExits, TrackRoute[] otherTrackRoutesEntrances, TrackRoute[] otherTrackRoutesExits)
+        {
+            foreach (var trackRoute in myTrackRouteExits)
+            {
+                trackRoute.Exit.ConnectedTrackPiece = null;
+                trackRoute.Exit.ConnectedTrackRoutes = null;
+            }
+            
+            foreach (var trackRoute in otherTrackRoutesExits)
+            {
+                trackRoute.Exit.ConnectedTrackPiece = null;
+                trackRoute.Exit.ConnectedTrackRoutes = null;
+            }
+            
+            foreach (var trackRoute in myTrackRouteEntrances)
+            {
+                trackRoute.Entrance.ConnectedTrackPiece = null;
+                // trackRoute.Entrance.ConnectedTrackRoutes = otherTrackRoutesExits;
+            }
+        
+            foreach (var trackRoute in otherTrackRoutesEntrances)
+            {
+                trackRoute.Entrance.ConnectedTrackPiece = null;
+                // trackRoute.Entrance.ConnectedTrackRoutes = myTrackRouteExits;
+            }
         }
     }
 }

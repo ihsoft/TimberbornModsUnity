@@ -40,7 +40,7 @@ namespace ChooChoo
         }
 
         var currentInventory = _wagonGoodsManager.MostRecentWagons.First(wagon => wagon.GoodReserver.HasReservedCapacity).GoodReserver.CapacityReservation.Inventory;
-        var executorStatus = _moveToStationExecutor.Launch(currentInventory.GetEnabledComponent<TrainDestination>());
+        var executorStatus = _moveToStationExecutor.Launch(currentInventory.GetComponentFast<TrainDestination>());
         // Plugin.Log.LogError("CapacityReservation " + executorStatus); 
         switch (executorStatus)
         {
@@ -60,8 +60,8 @@ namespace ChooChoo
         return Decision.ReleaseNow();
       if (_wagonGoodsManager.HasReservedStock)
       {
-        var executorStatus = _moveToStationExecutor.Launch(_wagonGoodsManager.MostRecentWagons.First(wagon => wagon.GoodReserver.HasReservedStock).GoodReserver.StockReservation.Inventory.GetEnabledComponent<TrainDestination>());
-        // Plugin.Log.LogError("StockReservation " + executorStatus);
+        var executorStatus = _moveToStationExecutor.Launch(_wagonGoodsManager.MostRecentWagons.First(wagon => wagon.GoodReserver.HasReservedStock).GoodReserver.StockReservation.Inventory.GetComponentFast<TrainDestination>());
+        Plugin.Log.LogError("StockReservation " + executorStatus);
         switch (executorStatus)
         {
           case ExecutorStatus.Success:

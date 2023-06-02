@@ -69,11 +69,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StagingPaths: []
   ModId: 2671489
-  Version: 0.5.10
+  Version: 0.5.11
   SetLive: 0
   Description: '[Experimental][Beta]
 
-    Testing if it works right now'
+    Testing with the new passenger system'
 --- !u!114 &2590189338767857166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,7 +93,8 @@ MonoBehaviour:
     assets:
     - {fileID: 102900000, guid: f62f0b8cdda8c3c40b14519d1b4f9859, type: 3}
     - {fileID: 2800000, guid: d90a8ee9e7dec89458ab20f40a795546, type: 3}
-    - {fileID: 102900000, guid: 2284ce156d87fc54eb85bfad8e207100, type: 3}
+    - {fileID: 2800000, guid: 9f04e01c58dbaf14dba9ed9ec3ba264d, type: 3}
+    - {fileID: 4922002810458065787, guid: 8c930cbba00b94849a58bc6730c02dec, type: 3}
 --- !u!114 &9120418034178625098
 MonoBehaviour:
   m_ObjectHideFlags: 0

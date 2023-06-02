@@ -13,7 +13,7 @@ namespace ChooChoo
         
         public bool ConnectedToTrainYard(TrainDestination trainDestination)
         {
-            return _trainDestinationService.TrainDestinationsConnected(CurrentTrainYard, trainDestination);
+            return _trainDestinationService.TrainDestinationsConnectedBothWays(CurrentTrainYard, trainDestination);
         }
     }
 }

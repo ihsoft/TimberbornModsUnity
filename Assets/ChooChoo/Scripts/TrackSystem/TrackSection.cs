@@ -37,7 +37,7 @@ public class TrackSection
     {
         TrackPieces.Remove(trackPiece);
         foreach (var track in TrackPieces)
-            track.ResetSection();
+            track.ResetTrackPiece();
         foreach (var track in TrackPieces)
             track.LookForTrackSection();
     }
@@ -45,7 +45,7 @@ public class TrackSection
     public void Refresh()
     {
         foreach (var track in TrackPieces)
-            track.ResetSection();
+            track.ResetTrackPiece();
         foreach (var track in TrackPieces)
             track.LookForTrackSection();
     }

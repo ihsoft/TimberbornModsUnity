@@ -2,23 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using Bindito.Core;
-using HarmonyLib;
 using Timberborn.BaseComponentSystem;
 using Timberborn.Common;
 using Timberborn.ConstructibleSystem;
 using Timberborn.DistributionSystem;
 using Timberborn.EntitySystem;
 using Timberborn.GameDistricts;
-using Timberborn.Goods;
 using Timberborn.InventorySystem;
 using Timberborn.Persistence;
 using UnityEngine;
 
 namespace ChooChoo
 {
-  public class GoodsStation : BaseComponent, IRegisteredComponent, IFinishedStateListener
+  public class GoodsStation : BaseComponent, IRegisteredComponent, IFinishedStateListener, IPersistentEntity
   {
+    private static readonly ComponentKey GoodsStationKey = new(nameof(GoodsStation));
+    private static readonly ListKey<TrainDistributableGood> SendingQueueKey = new("SendingQueue");
+    
     public static readonly int Capacity = 200;
+    private TrainDistributableGoodObjectSerializer _trainDistributableGoodObjectSerializer;
     private GoodsStationsRepository _goodsStationsRepository;
     private DistrictBuilding _districtBuilding;
     
@@ -35,8 +37,9 @@ namespace ChooChoo
     public readonly List<TrainDistributableGood> SendingQueue = new();
 
     [Inject]
-    public void InjectDependencies(GoodsStationsRepository goodsStationsRepository)
+    public void InjectDependencies(TrainDistributableGoodObjectSerializer trainDistributableGoodObjectSerializer, GoodsStationsRepository goodsStationsRepository)
     {
+      _trainDistributableGoodObjectSerializer = trainDistributableGoodObjectSerializer;
       _goodsStationsRepository = goodsStationsRepository;
     }
 
@@ -65,6 +68,23 @@ namespace ChooChoo
       enabled = false;
       _districtBuilding.ReassignedDistrict -= OnReassignedDistrict;
       _goodsStationsRepository.UnRegister(this);
+    }
+    
+    public void Save(IEntitySaver entitySaver)
+    {
+      entitySaver.GetComponent(GoodsStationKey).Set(SendingQueueKey, SendingQueue, _trainDistributableGoodObjectSerializer);
+    }
+
+    public void Load(IEntityLoader entityLoader)
+    {
+      if (!entityLoader.HasComponent(GoodsStationKey))
+        return;
+      if (!entityLoader.GetComponent(GoodsStationKey).Has(SendingQueueKey))
+        return;
+      foreach (var trainDistributableGood in entityLoader.GetComponent(GoodsStationKey).Get(SendingQueueKey, _trainDistributableGoodObjectSerializer))
+      {
+        AddToQueue(trainDistributableGood);
+      }
     }
     
     private void OnReassignedDistrict(object sender, EventArgs e)

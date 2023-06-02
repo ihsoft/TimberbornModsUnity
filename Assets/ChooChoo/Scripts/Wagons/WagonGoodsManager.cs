@@ -19,11 +19,14 @@ namespace ChooChoo
 
         public bool IsCarrying => _wagonManager.Wagons.Any(wagon => wagon.GoodCarrier.IsCarrying);
 
-        public bool IsFull =>
+        public bool IsFullOrReserved =>
             _wagonManager.Wagons.All(wagon => 
                 wagon.GoodCarrier.IsCarrying ||
                 (wagon.GoodReserver.HasReservedStock && 
                  _trainCarryAmountCalculator.IsAtMaximumCarryCapacity(wagon.GoodCarrier.LiftingCapacity, wagon.GoodReserver.StockReservation.GoodAmount)));
+        
+        public bool IsCarryingOrReserved => 
+            _wagonManager.Wagons.Any(wagon => wagon.GoodCarrier.IsCarrying || wagon.GoodReserver.HasReservedStock);
 
         public bool HasReservedCapacity => _wagonManager.Wagons.Any(wagon => wagon.GoodReserver.HasReservedCapacity);
         

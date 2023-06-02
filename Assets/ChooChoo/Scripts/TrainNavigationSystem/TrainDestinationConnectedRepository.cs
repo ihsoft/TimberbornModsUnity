@@ -3,7 +3,7 @@ using Timberborn.SingletonSystem;
 
 namespace ChooChoo
 {
-    public class TrainDestinationConnectedRepository : ILoadableSingleton
+    public class TrainDestinationConnectedRepository : IPostLoadableSingleton
     {
         private readonly EventBus _eventBus;
 
@@ -13,7 +13,8 @@ namespace ChooChoo
 
         private bool _tracksUpdated = true;
 
-        public Dictionary<TrainDestination, List<TrainDestination>> TrainDestinations {
+        public Dictionary<TrainDestination, List<TrainDestination>> TrainDestinations
+        {
             get
             {
                 if (_tracksUpdated)
@@ -28,9 +29,10 @@ namespace ChooChoo
             _trainDestinationsRepository = trainDestinationsRepository;
         }
 
-        public void Load()
+        public void PostLoad()
         {
             _eventBus.Register(this);
+            Update();
         }
 
         [OnEvent]

@@ -20,8 +20,8 @@ namespace ChooChoo
             _trainDestinationConnectedRepository.TrainDestinations.TryGetValue(trainDestination, out var connectedTrainDestinations);
             return connectedTrainDestinations ?? new List<TrainDestination>();
         }
-        
-        public bool TrainDestinationsConnected(TrainDestination a, TrainDestination b)
+
+        public bool TrainDestinationsConnectedBothWays(TrainDestination a, TrainDestination b)
         {
             return TrainDestinationsConnectedOneWay(a, b) && TrainDestinationsConnectedOneWay(b, a);
         }
@@ -52,7 +52,7 @@ namespace ChooChoo
                 return false;
             var checkedTrackPieces = new List<TrackPiece>();
             var connectedDestination = FindTrainDestination(startTrackPiece, checkedTrackPieces);
-            return TrainDestinationsConnected(connectedDestination, end);
+            return TrainDestinationsConnectedBothWays(connectedDestination, end);
         }
         
         public bool DestinationReachableOneWay(Vector3 startPosition, TrainDestination end)
