@@ -92,9 +92,17 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 68484224001179963}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Size: {x: 0.34698004, y: 0.3490342, z: 0.3422212}
   m_Center: {x: -0.00019727647, y: 0.17465386, z: 0.0011499897}
 --- !u!1 &919070456639780164
@@ -189,9 +197,17 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919070456639780164}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Size: {x: 0.36697084, y: 0.23643208, z: 0.008176689}
   m_Center: {x: 0.00096111745, y: 0.1106146, z: 0.00032230653}
 --- !u!1 &1424384880116067864
@@ -286,9 +302,17 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1424384880116067864}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Size: {x: 0.36697084, y: 0.23643208, z: 0.008176689}
   m_Center: {x: 0.00096111745, y: 0.1106146, z: 0.00032230653}
 --- !u!1 &2522204790440090214
@@ -349,8 +373,8 @@ MonoBehaviour:
   m_Script: {fileID: -790041461, guid: 1bd6ccb667024f9c2b77daf7f62a4eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _soundBaseName: MediumTank
-  _hasLoopingSound: 0
+  _selectionSoundName: Default
+  _loopingSoundName: 
   _buildingCost:
   - _goodId: Log
     _amount: 2
@@ -404,6 +428,7 @@ MonoBehaviour:
   _prefabName: Bucket
   _backwardCompatiblePrefabNames: []
   _requiredFeatureToggle: 
+  _disablingFeatureToggle: 
 --- !u!114 &4588847262895170964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -430,7 +455,6 @@ MonoBehaviour:
   m_Script: {fileID: -630110892, guid: 1ae21b0c7c908882e31fedf7e1f7f92c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inventoryComponentName: Stockpile
 --- !u!114 &7926603337161527529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -560,7 +584,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3220392017833923641}
   m_Layer: 0
-  m_Name: #UnFinished
+  m_Name: '#UnFinished'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -675,9 +699,17 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5021754087990301660}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Size: {x: 0.34698004, y: 0.3490342, z: 0.3422212}
   m_Center: {x: -0.00019727647, y: 0.17465386, z: 0.0011499897}
 --- !u!1 &7914684554200666278
@@ -773,7 +805,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2354831823038317382}
   m_Layer: 0
-  m_Name: #Finished
+  m_Name: '#Finished'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
