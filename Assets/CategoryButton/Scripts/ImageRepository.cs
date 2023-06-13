@@ -6,7 +6,7 @@ using TimberApi.ModSystem;
 
 namespace CategoryButton
 {
-    public class ImageRepository : ITimberApiPreLoadableSingleton
+    public class ImageRepository :IEarlyLoadableSingleton
     {
         private readonly IModRepository _modRepository;
 
@@ -17,7 +17,7 @@ namespace CategoryButton
             _modRepository = modRepository;
         }
 
-        public void PreLoad()
+        public void EarlyLoad()
         {
             foreach (var mod in _modRepository.All())
             {
