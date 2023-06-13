@@ -1,24 +1,25 @@
-﻿using Timberborn.Goods;
+﻿using ChooChoo.Scripts.GoodsStation;
+using Timberborn.Goods;
 using Timberborn.InventorySystem;
 using Timberborn.TemplateSystem;
 
 namespace ChooChoo
 {
-  internal class GoodsStationSendingInventoryInitializer : IDedicatedDecoratorInitializer<GoodsStation, Inventory>
+  internal class GoodsStationSendingInventoryInitializer : IDedicatedDecoratorInitializer<GoodsStationSendingInventory, Inventory>
   {
-    private static readonly string InventoryComponentName = "GoodsStation";
+    private static readonly string InventoryComponentName = nameof(GoodsStationSendingInventory);
     private readonly IGoodService _goodService;
     private readonly InventoryNeedBehaviorAdder _inventoryNeedBehaviorAdder;
     private readonly InventoryInitializerFactory _inventoryInitializerFactory;
 
-    public GoodsStationSendingInventoryInitializer(IGoodService goodService,InventoryNeedBehaviorAdder inventoryNeedBehaviorAdder, InventoryInitializerFactory inventoryInitializerFactory)
+    public GoodsStationSendingInventoryInitializer(IGoodService goodService, InventoryNeedBehaviorAdder inventoryNeedBehaviorAdder, InventoryInitializerFactory inventoryInitializerFactory)
     {
       _goodService = goodService;
       _inventoryNeedBehaviorAdder = inventoryNeedBehaviorAdder;
       _inventoryInitializerFactory = inventoryInitializerFactory;
     }
 
-    public void Initialize(GoodsStation subject, Inventory decorator)
+    public void Initialize(GoodsStationSendingInventory subject, Inventory decorator)
     {
       InventoryInitializer unlimitedCapacity = _inventoryInitializerFactory.CreateWithUnlimitedCapacity(decorator, InventoryComponentName);
       AllowEveryGoodAsGiveAble(unlimitedCapacity);

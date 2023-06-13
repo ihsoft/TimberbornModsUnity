@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Bindito.Core;
+using ChooChoo.Scripts.GoodsStation;
 using Timberborn.BaseComponentSystem;
 using Timberborn.Common;
 using Timberborn.ConstructibleSystem;
@@ -22,14 +23,17 @@ namespace ChooChoo
     public static readonly int Capacity = 200;
     private TrainDistributableGoodObjectSerializer _trainDistributableGoodObjectSerializer;
     private GoodsStationsRepository _goodsStationsRepository;
+
+    private GoodsStationReceivingInventory _goodsStationReceivingInventory;
+    private GoodsStationSendingInventory _goodsStationSendingInventory;
     private DistrictBuilding _districtBuilding;
-    
+
     private DistrictDistributableGoodProvider _districtDistributableGoodProvider;
     
     public TrainDestination TrainDestinationComponent { get; private set; }
-    public Inventory SendingInventory { get; private set; }
-    public Inventory ReceivingInventory { get; private set; }
-    
+
+    public Inventory SendingInventory => _goodsStationSendingInventory.Inventory;
+    public Inventory ReceivingInventory => _goodsStationReceivingInventory.Inventory;
     public DistrictDistributableGoodProvider DistrictDistributableGoodProvider => _districtDistributableGoodProvider;
     
     public int MaxCapacity => Capacity;
@@ -48,6 +52,8 @@ namespace ChooChoo
     public void Awake() 
     {
       TrainDestinationComponent = GetComponentFast<TrainDestination>();
+      _goodsStationReceivingInventory = GetComponentFast<GoodsStationReceivingInventory>();
+      _goodsStationSendingInventory = GetComponentFast<GoodsStationSendingInventory>();
       _districtBuilding = GetComponentFast<DistrictBuilding>();
       enabled = false;
     }
@@ -90,18 +96,6 @@ namespace ChooChoo
     private void OnReassignedDistrict(object sender, EventArgs e)
     {
       _districtDistributableGoodProvider = _districtBuilding.District ? _districtBuilding.District.GetComponentFast<DistrictDistributableGoodProvider>() : null;
-    }
-
-    public void InitializeSendingInventory(Inventory inventory)
-    {
-      Asserts.FieldIsNull(this, SendingInventory, "Inventory");
-      SendingInventory = inventory;
-    }
-    
-    public void InitializeReceivingInventory(Inventory inventory)
-    {
-      Asserts.FieldIsNull(this, ReceivingInventory, "Inventory");
-      ReceivingInventory = inventory;
     }
 
     public void AddToQueue(TrainDistributableGood newDistributableGood)

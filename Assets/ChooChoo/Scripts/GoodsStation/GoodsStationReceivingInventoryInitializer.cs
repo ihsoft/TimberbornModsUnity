@@ -1,12 +1,13 @@
-﻿using Timberborn.Goods;
+﻿using ChooChoo.Scripts.GoodsStation;
+using Timberborn.Goods;
 using Timberborn.InventorySystem;
 using Timberborn.TemplateSystem;
 
 namespace ChooChoo
 {
-  internal class GoodsStationReceivingInventoryInitializer : IDedicatedDecoratorInitializer<GoodsStation, Inventory>
+  internal class GoodsStationReceivingInventoryInitializer : IDedicatedDecoratorInitializer<GoodsStationReceivingInventory, Inventory>
   {
-    private static readonly string InventoryComponentName = "GoodsStation";
+    private static readonly string InventoryComponentName = nameof(GoodsStationReceivingInventory);
     private readonly IGoodService _goodService;
     private readonly InventoryNeedBehaviorAdder _inventoryNeedBehaviorAdder;
     private readonly InventoryInitializerFactory _inventoryInitializerFactory;
@@ -18,7 +19,7 @@ namespace ChooChoo
       _inventoryInitializerFactory = inventoryInitializerFactory;
     }
 
-    public void Initialize(GoodsStation subject, Inventory decorator)
+    public void Initialize(GoodsStationReceivingInventory subject, Inventory decorator)
     {
       InventoryInitializer unlimitedCapacity = _inventoryInitializerFactory.CreateWithUnlimitedCapacity(decorator, InventoryComponentName);
       AllowEveryGoodAsTakeable(unlimitedCapacity);

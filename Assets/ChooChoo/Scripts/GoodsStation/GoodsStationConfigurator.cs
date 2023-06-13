@@ -1,4 +1,5 @@
 ﻿using Bindito.Core;
+using ChooChoo.Scripts.GoodsStation;
 using TimberApi.ConfiguratorSystem;
 using TimberApi.SceneSystem;
 using Timberborn.Emptying;
@@ -41,6 +42,8 @@ namespace ChooChoo
         TemplateModule.Builder builder = new TemplateModule.Builder();
         builder.AddDecorator<GoodsStation, TrainDestination>();
         builder.AddDecorator<GoodsStation, GoodsStationDescriber>();
+        builder.AddDecorator<GoodsStation, GoodsStationSendingInventory>();
+        builder.AddDecorator<GoodsStation, GoodsStationReceivingInventory>();
         builder.AddDedicatedDecorator(_goodsStationSendingInventoryInitializer);
         builder.AddDedicatedDecorator(_goodsStationReceivingInventoryInitializer);
         builder.AddDecorator<GoodsStation, Emptiable>();
