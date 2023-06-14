@@ -29,6 +29,7 @@ namespace ChooChoo
     private void InitializeBehaviors()
     {
       BehaviorManager component = GetComponent<BehaviorManager>();
+      component.AddRootBehavior<MovePassengersBehavior>();
       component.AddRootBehavior<TrainCarryRootBehavior>();
       component.AddRootBehavior<BringDistributableGoodTrainBehavior>();
       component.AddRootBehavior<WaitingBehavior>();

@@ -96,7 +96,8 @@
         "Timberborn.FactionSystem.dll",
         "Timberborn.DistributionSystemUI.dll",
         "Timberborn.Animations.dll",
-        "Timberborn.Meshy.dll"
+        "Timberborn.Meshy.dll",
+        "Timberborn.CharactersUI.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

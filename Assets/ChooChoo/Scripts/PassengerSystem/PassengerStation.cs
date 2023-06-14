@@ -17,13 +17,9 @@ using UnityEngine;
 
 namespace ChooChoo
 {
-  public class PassengerStation : 
-    BaseComponent,
-    IFinishedStateListener,
-    IPersistentEntity,
-    IRegisteredComponent
+  public class PassengerStation : BaseComponent, IFinishedStateListener, IPersistentEntity, IRegisteredComponent
   {
-    private readonly ComponentKey PassengerStationKey = new(nameof (PassengerStation));
+    private readonly ComponentKey PassengerStationKey = new(nameof(PassengerStation));
     private readonly ListKey<PassengerStationLink> PassengerStationLinksKey = new("PassengerStationLinks");
     
     [SerializeField]
@@ -34,6 +30,8 @@ namespace ChooChoo
     private bool uiEnabled;
     [SerializeField]
     private bool connectsTwoWay;
+    [SerializeField] 
+    private int maxPassengers;
     
     private PassengerStationLinkObjectSerializer _passengerStationLinkObjectSerializer;
     private PassengerStationLinkRepository _passengerStationLinkRepository;
@@ -44,7 +42,6 @@ namespace ChooChoo
     private BlockObjectNavMeshSettings _blockObjectNavMeshSettings;
     private BlockObjectNavMesh _blockObjectNavMesh;
     private DistrictBuilding _districtBuilding;
-    private TrainDestination _trainDestination;
     private BlockObject _blockObject;
     private Prefab _prefab;
     private BlockObjectNavMeshEdgeSpecification[] _cachedSpecifications;
@@ -52,9 +49,14 @@ namespace ChooChoo
     public bool UIEnabledEnabled => uiEnabled;
     public string PrefabName => _prefab.PrefabName;
     public float MovementSpeedMultiplier => movementSpeedMultiplier;
-    public TrainDestination TrainDestination => _trainDestination;
     public PassengerStationDistrictObject PassengerStationDistrictObject => _passengerStationDistrictObject;
     public DistrictBuilding DistrictBuilding => _districtBuilding;
+    public bool ConnectsTwoWay => connectsTwoWay;
+    public List<Passenger> PassengerQueue { get; } = new();
+    public List<Passenger> ReservedPassengerQueue { get; } = new();
+
+    public List<Passenger> UnreservedPassengerQueue => PassengerQueue.Where(passenger => !ReservedPassengerQueue.Contains(passenger)).ToList();
+    public int MaxPassengers => maxPassengers;
 
     public Vector3 Location
     {
@@ -87,7 +89,7 @@ namespace ChooChoo
       _blockObjectNavMeshSettings = GetComponentFast<BlockObjectNavMeshSettings>();
       _blockObjectNavMesh = GetComponentFast<BlockObjectNavMesh>();
       _districtBuilding = GetComponentFast<DistrictBuilding>();
-      _trainDestination = GetComponentFast<TrainDestination>();
+      GetComponentFast<TrainDestination>();
       _blockObject = GetComponentFast<BlockObject>();
       _prefab = GetComponentFast<Prefab>();
       var navMeshEdgeSpecifications = (BlockObjectNavMeshEdgeSpecification[])ChooChooCore.GetInaccessibleField(_blockObjectNavMeshSettings, "_addedEdges");
@@ -138,13 +140,6 @@ namespace ChooChoo
 
     [OnEvent]
     public void OnPathLinksUpdated(OnConnectedPassengerStationsUpdated onPathLinksUpdated) => UpdateNavMesh();
-    
-    public bool AlreadyConnected(PassengerStation b)
-    {
-      if (!connectsTwoWay)
-        return _passengerStationLinkRepository.GetPathLink(this, b) != null;
-      return _passengerStationLinkRepository.GetPathLink(this, b) != null || _passengerStationLinkRepository.GetPathLink(b, this) != null;
-    }
 
     private float CalculateWaitingTimeInHours(PassengerStation endPoint) => _dayNightCycle.SecondsToHours(Vector3.Distance(Location, endPoint.Location) / (2.7f * movementSpeedMultiplier));
 

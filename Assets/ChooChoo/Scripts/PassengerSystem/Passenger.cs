@@ -15,8 +15,10 @@ namespace ChooChoo
     private IDayNightCycle _dayNightCycle;
     private CharacterModel _characterModel;
     private float _waitUntillTimestamp;
+    public PassengerStationLink PassengerStationLink { get; private set; }
 
-    private bool IsWaiting => (double) _waitUntillTimestamp > (double) _dayNightCycle.PartialDayNumber;
+    // private bool IsWaiting => (double) _waitUntillTimestamp > (double) _dayNightCycle.PartialDayNumber;
+    private bool IsWaiting => PassengerStationLink != null;
 
     [Inject]
     public void InjectDependencies(PassengerStationLinkRepository passengerStationLinkPointService, IDayNightCycle dayNightCycle) 
@@ -33,6 +35,11 @@ namespace ChooChoo
     public override void Tick()
     {
       _characterModel.Model.gameObject.SetActive(!IsWaiting);
+    }
+
+    public void ArrivedAtDestination()
+    {
+      LeaveStation();
     }
 
     public bool ShouldWait(IReadOnlyList<Vector3> pathCorners, ref int nextCornerIndex, MovementAnimator movementAnimator)
@@ -57,8 +64,21 @@ namespace ChooChoo
         TransformFast.position = pathCorners[nextCornerIndex];
         return false;
       }
+      EnterStation(passengerStationLink);
       _waitUntillTimestamp = _dayNightCycle.DayNumberHoursFromNow(passengerStationLink.WaitingTimeInHours);
       return true;
+    }
+
+    private void EnterStation(PassengerStationLink passengerStationLink)
+    {
+      PassengerStationLink = passengerStationLink;
+      passengerStationLink.StartLinkPoint.PassengerQueue.Add(this);
+    }
+
+    private void LeaveStation()
+    {
+      PassengerStationLink.StartLinkPoint.PassengerQueue.Remove(this);
+      PassengerStationLink = null;
     }
   }
 }

@@ -106,7 +106,7 @@ namespace ChooChoo
                         stockReservation.GoodAmount.GoodId == toBeReservedGoodAmount.GoodId && 
                         fillableAmount > 0)
                     {
-                        if (remainingToBeReservedAmount >= fillableAmount)
+                        if (remainingToBeReservedAmount > fillableAmount)
                         {
                             // ReserveAlreadyCarryingWagon(goodReserver, carry, maxAmountToCarry, closestInventory, destinationGoodsStation);
                             goodReserver.UnreserveStock();

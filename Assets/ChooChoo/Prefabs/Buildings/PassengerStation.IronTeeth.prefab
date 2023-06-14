@@ -470,6 +470,7 @@ MonoBehaviour:
   movementSpeedMultiplier: 1
   uiEnabled: 1
   connectsTwoWay: 1
+  maxPassengers: 20
 --- !u!114 &8489360619482367317
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -15,22 +15,25 @@ namespace ChooChoo
     private static readonly string PickPathLinkPointWarningLocKey = "Tobbert.PathLinkPoint.Warning";
     private static readonly string PickPathLinkPointAlreadyConnectedLocKey = "Tobbert.PathLinkPoint.AlreadyConnected";
     private static readonly string CreateLinkLocKey = "Tobbert.PathLinkPoint.CreateLink";
-    private readonly ILoc _loc;
-    private readonly PickObjectTool _pickObjectTool;
+    private readonly PassengerStationLinkRepository _passengerStationLinkRepository;
     private readonly EntitySelectionService _entitySelectionService;
+    private readonly PickObjectTool _pickObjectTool;
     private readonly ToolManager _toolManager;
+    private readonly ILoc _loc;
     private Button _button;
 
     public ConnectPathLinkPointButton(
-      ILoc loc,
-      PickObjectTool pickObjectTool,
+      PassengerStationLinkRepository passengerStationLinkRepository,
       EntitySelectionService entitySelectionService,
-      ToolManager toolManager)
+      PickObjectTool pickObjectTool,
+      ToolManager toolManager,
+      ILoc loc)
     {
-      _loc = loc;
-      _pickObjectTool = pickObjectTool;
+      _passengerStationLinkRepository = passengerStationLinkRepository;
       _entitySelectionService = entitySelectionService;
+      _pickObjectTool = pickObjectTool;
       _toolManager = toolManager;
+      _loc = loc;
     }
 
     public void Initialize(
@@ -65,7 +68,7 @@ namespace ChooChoo
       PassengerStation component = gameObject.GetComponent<PassengerStation>();
       if (!(bool) (UnityEngine.Object) component || component.PrefabName != passengerStation.PrefabName)
         return _loc.T(PickPathLinkPointWarningLocKey);
-      return component.AlreadyConnected(passengerStation) ? _loc.T(PickPathLinkPointAlreadyConnectedLocKey) : "";
+      return _passengerStationLinkRepository.AlreadyConnected(component, passengerStation) ? _loc.T(PickPathLinkPointAlreadyConnectedLocKey) : "";
     }
 
     private void FinishPathLinkPointSelection(

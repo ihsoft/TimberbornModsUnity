@@ -109,6 +109,13 @@ namespace ChooChoo
       _eventBus.Post(new OnConnectedPassengerStationsUpdated());
     }
 
+    public bool AlreadyConnected(PassengerStation a, PassengerStation b)
+    {
+      if (!a.ConnectsTwoWay)
+        return GetPathLink(a, b) != null;
+      return GetPathLink(a, b) != null || GetPathLink(b, a) != null;
+    }
+
     private float CalculateWaitingTimeInHours(PassengerStation startPoint, PassengerStation endPoint) => _dayNightCycle.SecondsToHours(Vector3.Distance(startPoint.Location, endPoint.Location) / (2.7f * startPoint.MovementSpeedMultiplier));
   }
 }

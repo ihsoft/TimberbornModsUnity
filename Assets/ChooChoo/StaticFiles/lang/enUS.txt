@@ -55,6 +55,7 @@ Tobbert.PassengerStation.Description,"This stations allows beavers to get on the
 Tobbert.PassengerStation.FlavorDescription,Beaver train!,-
 Tobbert.PassengerStation.DistrictObjectToggle,Goes across districts: ,-
 Tobbert.PassengerStation.DistrictObject,When enabled will ONLY allow beavers to go passenger stations that also have this setting enabled and are in other districts. ,-
+Tobbert.PassengerStation.EmptyStation,There are currently no passengers waiting.,-
 
 Tobbert.WaitingStation.DisplayName,Waiting Station,-
 Tobbert.WaitingStation.Description,"Trains can wait here when they have nothing to do. This prevents trains from occupying the tracks. Trains cannot pathfind over this, so make sure its not in any crucial paths.",-
@@ -78,6 +79,7 @@ Tobbert.WagonModel.TankWagon,Tank Wagon,-
 Tobbert.WagonModel.FlatWagon,Flat Wagon,-
 Tobbert.WagonModel.FlipperWagon,Gondola Wagon,-
 Tobbert.WagonModel.MetalCart,Metal Cart,-
+Tobbert.WagonModel.PassengerWagon,Passenger Wagon,-
 
 Tobbert.BatchControl.Trains,Trains,-
 Tobbert.Train.Length,Train Length: ,-

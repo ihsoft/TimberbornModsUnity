@@ -44,7 +44,7 @@ namespace ChooChoo
     
     public void Move()
     {
-      var speed = 3.5f;
+      var speed = 6f;
       speed *= 1.008f;
       var time = Time.fixedDeltaTime;
       ObjectFollower.MoveTowardsObject(time, _animationName, speed);
