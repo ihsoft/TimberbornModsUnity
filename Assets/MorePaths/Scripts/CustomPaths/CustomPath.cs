@@ -30,7 +30,7 @@ namespace MorePaths
         [Inject]
         public void InjectDependencies(MorePathsCore morePathsCore)
         {
-            var pathSpecification = morePathsCore.PathsSpecifications.First(spec => GetComponentFast<Prefab>().PrefabName.Contains(spec.Name) || (spec.Name == "DefaultPath" && IsDefaultPath));
+            var pathSpecification = morePathsCore.PathsSpecifications.First(spec => GetComponentFast<Prefab>().PrefabName.Equals(spec.Name) || (spec.Name == "DefaultPath" && IsDefaultPath));
             
             SetSpecification(morePathsCore, pathSpecification);
         }

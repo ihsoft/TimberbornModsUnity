@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StagingPaths: []
   ModId: 2645506
-  Version: 2.2.0
+  Version: 2.2.1
   SetLive: 1
-  Description: "[Game version 0.4.9.2]\nUpdated to now work newest game version.
-    \nNow updates corners when hovering with a preview path. \nNow updates driveways
-    when hovering with a preview path. \nFixed a issue where a driveway and a ladder
-    result in no path showing. "
+  Description: '[Game version 0.4.9.2]
+
+    Fixed an issue where plastered wood had
+    the wrong texture.'
 --- !u!114 &-3931462110823901632
 MonoBehaviour:
   m_ObjectHideFlags: 0
