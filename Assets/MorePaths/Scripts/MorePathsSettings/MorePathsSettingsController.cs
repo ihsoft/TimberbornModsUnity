@@ -46,7 +46,7 @@ namespace MorePaths
             var toolButtons = blockObjectToolButtons.Where(button =>
             {
                 BlockObjectTool blockObjectTool = button.Tool as BlockObjectTool;
-                return blockObjectTool.Prefab.TryGetComponent(out DynamicPathModel _);
+                return blockObjectTool.Prefab.TryGetComponentFast(out DynamicPathModel _);
             });
             _pathToolButtons = toolButtons.ToList();
         }
@@ -56,7 +56,7 @@ namespace MorePaths
             foreach (var toolButton in _pathToolButtons)
             {
                 var tool = toolButton.Tool as BlockObjectTool;
-                var gameObjectName = tool.Prefab.GetComponent<Prefab>().PrefabName;
+                var gameObjectName = tool.Prefab.GetComponentFast<Prefab>().PrefabName;
                 if (gameObjectName.Equals("Path.Folktails")  || gameObjectName.Equals("Path.IronTeeth"))
                     // continue;
                     gameObjectName = "DefaultPath";

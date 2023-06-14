@@ -1,107 +1,146 @@
+using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Linq;
+using Bindito.Core;
+using Timberborn.BaseComponentSystem;
 using Timberborn.BlockSystem;
-using Timberborn.EntitySystem;
-using Timberborn.PathSystem;
+using Timberborn.Buildings;
+using Timberborn.Common;
 using Timberborn.PrefabSystem;
 using UnityEngine;
 
 namespace MorePaths
 {
-    public class CustomPath
+    public class CustomPath : BaseComponent
     {
-        private readonly MorePathsCore _morePathsCore;
-        public readonly GameObject PathGameObject;
-        private readonly GameObject _pathCorner;
-        private readonly PathSpecification _pathSpecification;
+        private MorePathsCore _morePathsCore;
+        
+        private PathSpecification _pathSpecification;
+        private BuildingModel _buildingModel;
+        private GameObject _pathCorner;
 
-        private readonly Texture2D _groundTexture2D;
-        private readonly Texture2D _railingTexture2D;
-        private readonly Texture2D _spriteTexture2D;
+        private Texture2D _groundTexture2D;
+        private Texture2D _railingTexture2D;
+        private Texture2D _spriteTexture2D;
 
         private Material _groundMaterial;
 
-        public CustomPath(MorePathsCore morePathsCore, GameObject originalFakePath, GameObject pathCorner, PathSpecification pathSpecification)
-        {
-            _morePathsCore = morePathsCore;
-            PathGameObject = originalFakePath;
-            _pathCorner = pathCorner;
-            _pathSpecification = pathSpecification;
+        private bool IsDefaultPath => GetComponentFast<Prefab>().PrefabName is "Path.Folktails" or "Path.IronTeeth";
 
-            _groundTexture2D = _morePathsCore.TryLoadTexture(_pathSpecification.Name, _pathSpecification.PathTexture);
-            _railingTexture2D = _morePathsCore.TryLoadTexture(_pathSpecification.Name, _pathSpecification.RailingTexture);
-            _spriteTexture2D = _morePathsCore.TryLoadTexture(_pathSpecification.Name, _pathSpecification.PathIcon, 112, 112);
+        [Inject]
+        public void InjectDependencies(MorePathsCore morePathsCore)
+        {
+            var pathSpecification = morePathsCore.PathsSpecifications.First(spec => GetComponentFast<Prefab>().PrefabName.Contains(spec.Name) || (spec.Name == "DefaultPath" && IsDefaultPath));
+            
+            SetSpecification(morePathsCore, pathSpecification);
         }
 
-        public void Create()
+        private void Start()
+        {
+            _buildingModel = GameObjectFast.GetComponent<BuildingModel>();
+            try
+            {
+                OverwriteTextures();
+            }
+            catch (InvalidOperationException)
+            {
+                // Ignored
+            }
+        }
+
+        public void SetSpecification(MorePathsCore morePathsCore, PathSpecification pathSpecification)
+        {
+            _morePathsCore = morePathsCore;
+            
+            _pathSpecification = pathSpecification;
+            _pathCorner = Instantiate(CustomPathFactory.PathCorner);
+            _pathCorner.SetActive(false);
+
+            _groundTexture2D = _pathSpecification.GroundTexture2D(_morePathsCore);
+            _railingTexture2D = _pathSpecification.RailingTexture2D(_morePathsCore);
+            _spriteTexture2D = _pathSpecification.SpriteTexture2D(_morePathsCore, 112, 112);
+            OverwriteVariables();
+        }
+
+        private void OverwriteVariables()
         {
             SetGroundMaterial();
-            
+            AddPathCorners();
+            SetToolGroup(_pathSpecification.ToolGroup);
             if (_pathSpecification.Name == "DefaultPath")
-            {
-                AddPathCorners();
                 return;
-            }
-
             SetObjectName(_pathSpecification.Name);
             SetPrefabName(_pathSpecification.Name);
             RemoveBackwardCompatiblePrefabNames();
             SetToolOrder(_pathSpecification.ToolOrder);
             SetLocalisationAndSprite();
-            
-            AddPathCorners();
+        }
 
-            foreach (var variantString in new List<string> { "_modelPrefab0000", "_modelPrefab0010", "_modelPrefab0011", "_modelPrefab0111", "_modelPrefab1010", "_modelPrefab1111" })
+        private void OverwriteTextures()
+        {
+            if (_pathSpecification.Name == "DefaultPath")
+                return;
+
+            var directChildren = _buildingModel.FinishedModel.GetDirectChildren().ToArray();
+            
+            foreach (var variantString in new List<string> { "Path0000", "Path0010", "Path1010", "Path0011", "Path0111", "Path1111" })
             {
-                PathModelVariant pathModelVariant = (PathModelVariant)_morePathsCore.GetPrivateField(PathGameObject.GetComponent<DynamicPathModel>(), variantString);
-                var originalGroundVariant = pathModelVariant.GroundVariant;
-                originalGroundVariant.SetActive(false);
-                GameObject newGameObject = Object.Instantiate(originalGroundVariant);
-                _morePathsCore.ChangePrivateField(pathModelVariant, "_groundVariant", newGameObject);
+                var originalGroundVariant = directChildren.First(obj => obj.name.Contains("Dirt" + variantString));
                 
-                newGameObject.GetComponentInChildren<MeshRenderer>().material = _groundMaterial;
-                originalGroundVariant.SetActive(true);
+                originalGroundVariant.GetComponentInChildren<MeshRenderer>().material = _groundMaterial;
 
                 if (_pathSpecification.RailingTexture != null)
                 {
-                    var originalRoofVariant = pathModelVariant.RoofVariant;
-                    originalRoofVariant.SetActive(false);
-                    GameObject roofVariant = Object.Instantiate(originalRoofVariant);
-                    _morePathsCore.ChangePrivateField(pathModelVariant, "_roofVariant", roofVariant);
-                    roofVariant.GetComponentInChildren<MeshRenderer>().material.mainTexture = _railingTexture2D;
+                    var originalRoofVariant = directChildren.First(obj => obj.name.Contains("Roof" + variantString));
+                    originalRoofVariant.GetComponentInChildren<MeshRenderer>().material.mainTexture = _railingTexture2D;
                 }
-
-                if (!_pathSpecification.RailingEnabled)
-                {
-                    _morePathsCore.ChangePrivateField(pathModelVariant, "_roofVariant", new GameObject());
-                }
+            
+                // if (!_pathSpecification.RailingEnabled)
+                // {
+                //     _morePathsCore.ChangePrivateField(pathModelVariant, "_roofVariant", new GameObject());
+                // }
             }
         }
 
         private void SetGroundMaterial()
         {
-            PathModelVariant pathModel = (PathModelVariant)_morePathsCore.GetPrivateField(PathGameObject.GetComponent<DynamicPathModel>(), "_modelPrefab0000");
-            var originalMaterial = pathModel.GroundVariant.GetComponentInChildren<MeshRenderer>().material;
-            var newGroundMaterial = new Material(originalMaterial);
+            var newGroundMaterial = new Material(CustomPathFactory.ActivePathMaterial);
             newGroundMaterial.SetFloat("_MainTexScale", _pathSpecification.MainTextureScale);
             newGroundMaterial.SetFloat("_NoiseTexScale", _pathSpecification.NoiseTexScale);
             newGroundMaterial.SetVector("_MainColor", new Vector4(_pathSpecification.MainColorRed, _pathSpecification.MainColorGreen, _pathSpecification.MainColorBlue, 1f));
             if (_pathSpecification.PathTexture != null)
                 newGroundMaterial.mainTexture = _groundTexture2D;
-            _groundMaterial =  newGroundMaterial;
+            _groundMaterial = newGroundMaterial;
         }
         
-        private void SetObjectName(string name) => PathGameObject.name = name;
+        private void SetObjectName(string specificationName)
+        {
+            GameObjectFast.name = specificationName;
+        }
+
+        private void SetPrefabName(string specificationName)
+        {
+            _morePathsCore.ChangePrivateField(GameObjectFast.GetComponent<Prefab>(), "_prefabName", specificationName);
+        }
+
+        private void RemoveBackwardCompatiblePrefabNames()
+        {
+            _morePathsCore.ChangePrivateField(GameObjectFast.GetComponent<Prefab>(), "_backwardCompatiblePrefabNames", new string[] { });
+        }
+
+        private void SetToolGroup(string toolGroup)
+        {
+            _morePathsCore.ChangePrivateField(GameObjectFast.GetComponent<PlaceableBlockObject>(), "_toolGroupId", toolGroup);
+        }
         
-        private void SetPrefabName(string name) => _morePathsCore.ChangePrivateField(PathGameObject.GetComponent<Prefab>(), "_prefabName", name);
-        
-        private void RemoveBackwardCompatiblePrefabNames() => _morePathsCore.ChangePrivateField(PathGameObject.GetComponent<Prefab>(), "_backwardCompatiblePrefabNames", new string[] { });
-        
-        private void SetToolOrder(int toolOrder) => _morePathsCore.ChangePrivateField(PathGameObject.GetComponent<PlaceableBlockObject>(), "_toolOrder", toolOrder);
+        private void SetToolOrder(int toolOrder)
+        {
+            _morePathsCore.ChangePrivateField(GameObjectFast.GetComponent<PlaceableBlockObject>(), "_toolOrder", toolOrder);
+        }
 
         private void SetLocalisationAndSprite()
         {
-            var labeledPrefab = PathGameObject.GetComponent<LabeledPrefab>();
+            var labeledPrefab = GameObjectFast.GetComponent<LabeledPrefab>();
             _morePathsCore.ChangePrivateField(labeledPrefab, "_displayNameLocKey", _pathSpecification.DisplayNameLocKey);
             _morePathsCore.ChangePrivateField(labeledPrefab, "_descriptionLocKey", _pathSpecification.DescriptionLocKey);
             _morePathsCore.ChangePrivateField(labeledPrefab, "_flavorDescriptionLocKey", _pathSpecification.FlavorDescriptionLocKey);
@@ -122,32 +161,9 @@ namespace MorePaths
 
             _pathCorner.GetComponentInChildren<MeshRenderer>().material = material;
 
-            var transform = PathGameObject.transform;
-
-            if (!PathGameObject.TryGetComponent(out DynamicPathCorner dynamicPathCorner)) return;
+            if (!GameObjectFast.TryGetComponent(out DynamicPathCorner dynamicPathCorner)) return;
             
-            var corner1 = Object.Instantiate(_pathCorner, transform);
-            corner1.name = "corner1_Animated";
-            dynamicPathCorner.CornerDownLeft = corner1;
-            corner1.SetActive(false);
-            
-            var corner2 = Object.Instantiate(_pathCorner, transform, true);            
-            corner2.transform.position += new Vector3(0, 0, 0.75f);
-            corner2.name = "corner2_Animated";
-            dynamicPathCorner.CornerUpLeft = corner2;
-            corner2.SetActive(false);
-
-            var corner3 = Object.Instantiate(_pathCorner, transform, true);
-            corner3.transform.position += new Vector3(0.75f, 0, 0.75f);
-            corner3.name = "corner3_Animated";
-            dynamicPathCorner.CornerUpRight = corner3;
-            corner3.SetActive(false);
-
-            var corner4 = Object.Instantiate(_pathCorner, transform, true);
-            corner4.transform.position += new Vector3(0.75f, 0, 0);
-            corner4.name = "corner4_Animated";
-            dynamicPathCorner.CornerDownRight = corner4;
-            corner4.SetActive(false);
+            dynamicPathCorner.CreatePathCorners(_pathCorner);
         }
     }
 }

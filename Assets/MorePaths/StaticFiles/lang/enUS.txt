@@ -39,6 +39,6 @@ Tobbert.PlasteredWoodPath.IronTeeth.DisplayName,Plastered Wood Iron Teeth path,-
 Tobbert.PlasteredWoodPath.IronTeeth.Description,"A different looking path to diversify your city.",-
 Tobbert.PlasteredWoodPath.IronTeeth.FlavorDescription,"It's wood, but plastered! OwO",-
 
-"A.Tobbert.CategoryPaths.DisplayName",Paths,Name of the Path Category
+"Tobbert.CategoryPaths.DisplayName",Paths,Name of the Path Category
 
 Tobbert.MorePaths.SettingsHeader,Path Settings,Header of the path settings

@@ -7,6 +7,7 @@ using HarmonyLib;
 using TimberApi.ConsoleSystem;
 using TimberApi.DependencyContainerSystem;
 using TimberApi.ModSystem;
+using Timberborn.AreaSelectionSystem;
 using Timberborn.AssetSystem;
 using Timberborn.BlockObjectTools;
 using Timberborn.BlockSystem;
@@ -15,7 +16,6 @@ using Timberborn.Coordinates;
 using Timberborn.Core;
 using Timberborn.PathSystem;
 using UnityEngine;
-using Timberborn.TerrainSystem;
 using UnityEngine.UIElements;
 
 namespace MorePaths
@@ -36,27 +36,9 @@ namespace MorePaths
             new Harmony(PluginGuid).PatchAll();
         }
     }
-
-    [HarmonyPatch(typeof(DrivewayModel), "Awake", new Type[] {})]
-    public class AwakeDrivewayModelPatch
-    {
-        static void Postfix(DrivewayModel __instance)
-        {
-            DependencyContainer.GetInstance<DrivewayService>().InstantiateDriveways(__instance);
-        }
-    }
-    
-    [HarmonyPatch(typeof(DrivewayModel), "UpdateModel", new Type[] {})]
-    public class ChangeDrivewayModelPatch
-    {
-        static void Postfix(DrivewayModel __instance, ref GameObject ____model, ref ITerrainService ____terrainService)
-        {
-            DependencyContainer.GetInstance<DrivewayService>().UpdateAllDriveways(__instance, ____model, ____terrainService);
-        }
-    }
     
     [HarmonyPatch]
-    [HarmonyPriority(399)]
+    [HarmonyPriority(350)]
     public class BlockObjectToolPatch
     {
         public static MethodInfo TargetMethod()
@@ -83,25 +65,25 @@ namespace MorePaths
 
             var methodInfoList = new List<MethodInfo>();
 
-            List<string> test = new List<string>()
+            List<string> componentsWithoutAwakeFunction = new List<string>
             {
                 "Prefab",
                 "BuildingConstructionRegistrar",
                 "PlaceableBlockObject",
                 "LabeledPrefab",
+                "BuildingWithPathRange"
             };
 
             foreach (var obj in list)
             {
                 var name = obj.GetType().Name;
-                if (!test.Contains(name))
+                if (!componentsWithoutAwakeFunction.Contains(name))
                 {
                     methodInfoList.Add(AccessTools.Method(AccessTools.TypeByName(name), "Awake"));
                 }
-                
             }
             
-            methodInfoList.Add(AccessTools.Method(AccessTools.TypeByName("BuildingModel"), "Start"));
+            // methodInfoList.Add(AccessTools.Method(AccessTools.TypeByName("BuildingModel"), "Start"));
 
             return methodInfoList;
         }
@@ -110,7 +92,7 @@ namespace MorePaths
             return RunInstantiate;
         }
     }
-    
+
     [HarmonyPatch]
     public class CreateFakePathsPatch
     {
@@ -118,29 +100,72 @@ namespace MorePaths
         { 
             return AccessTools.Method(AccessTools.TypeByName("BuildingModel"), "Start");
         }
-        static bool Prefix(BuildingModel __instance)
+        static bool Prefix(BuildingModel __instance, BlockObjectVariantService ____blockObjectVariantService)
         {
-            if (!DependencyContainer.GetInstance<MapEditorMode>().IsMapEditor)
+            if (____blockObjectVariantService == null)
             {
-                return !DependencyContainer.GetInstance<MorePathsCore>().CustomPaths.Select(path => path.PathGameObject).Contains(__instance.gameObject);
+                return false;
             }
 
             return true;
         }
     }
     
+    // [HarmonyPatch]
+    // public class UpdateBuildingsModelsAroundPatch
+    // {
+    //     private static MorePathsCore _morePathsCore;
+    //
+    //     private static MorePathsCore MorePathsCore
+    //     {
+    //         get { return _morePathsCore ??= DependencyContainer.GetInstance<MorePathsCore>(); }
+    //     }
+    //
+    //     public static MethodInfo TargetMethod()
+    //     { 
+    //         return AccessTools.Method(AccessTools.TypeByName("BuildingModelUpdater"), "UpdateBuildingsModelsAround");
+    //     }
+    //     static bool Prefix(BuildingModelUpdater __instance, BlockObject blockObject)
+    //     {
+    //         Vector3Int coordinates = blockObject.Coordinates;
+    //         Vector3Int vector = blockObject.Blocks.Size;
+    //         (Vector3Int min, Vector3Int max) = Vectors.MinMax(coordinates, coordinates + blockObject.Orientation.Transform(vector));
+    //         for (int z = min.z - 1; z <= max.z + 1; ++z)
+    //         {
+    //             for (int x = min.x - 1; x <= max.x + 1; ++x)
+    //             {
+    //                 MorePathsCore.InvokeInaccesableMethod(__instance, "UpdateBuildingModelsAt", new object[]{ new Vector3Int(x, min.y - 1, z) });
+    //                 MorePathsCore.InvokeInaccesableMethod(__instance, "UpdateBuildingModelsAt", new object[]{ new Vector3Int(x, max.y + 1, z) });
+    //             }
+    //             for (int y = min.y; y <= max.y; ++y)
+    //             {                    
+    //                 MorePathsCore.InvokeInaccesableMethod(__instance, "UpdateBuildingModelsAt", new object[]{ new Vector3Int(min.x - 1, y, z) });
+    //                 MorePathsCore.InvokeInaccesableMethod(__instance, "UpdateBuildingModelsAt", new object[]{ new Vector3Int(max.x + 1, y, z) });
+    //             }
+    //         }
+    //
+    //         return false;
+    //     }
+    // }
+
     [HarmonyPatch]
     public class DeletePathCornersPatch
     {
         public static MethodInfo TargetMethod()
         { 
-            return AccessTools.Method(AccessTools.TypeByName("AreaPicker"), "GetBlocks");
-        }
-        static void Postfix(PlaceableBlockObject blockObject, ref (IEnumerable<Vector3Int>, Orientation) __result)
-        {
-            if (blockObject.TryGetComponent(out DynamicPathModel dynamicPathModel))
+            return AccessTools.Method(AccessTools.TypeByName("AreaPicker"), "PickBlockObjectArea", new[]
             {
-                __result.Item2 = Orientation.Cw0;
+                typeof(PlaceableBlockObject),
+                typeof(Orientation),
+                typeof(AreaPicker.BlockObjectAreaCallback),
+                typeof(AreaPicker.BlockObjectAreaCallback)
+            });
+        }
+        static void Prefix(PlaceableBlockObject blockObject, ref Orientation orientation)
+        {
+            if (blockObject.TryGetComponentFast(out DynamicPathModel _))
+            {
+                orientation = Orientation.Cw0;
             }
         }
     }
@@ -150,7 +175,7 @@ namespace MorePaths
     {
         static bool Prefix(BlockObjectTool __instance)
         {
-            return !__instance.Prefab.TryGetComponent(out DynamicPathModel dynamicPathModel);
+            return !__instance.Prefab.TryGetComponentFast(out DynamicPathModel dynamicPathModel);
         }
     }
     
@@ -159,7 +184,7 @@ namespace MorePaths
     {
         static bool Prefix(BlockObjectTool __instance)
         {
-            return !__instance.Prefab.TryGetComponent(out DynamicPathModel dynamicPathModel);
+            return !__instance.Prefab.TryGetComponentFast(out DynamicPathModel dynamicPathModel);
         }
     }
     
@@ -179,54 +204,4 @@ namespace MorePaths
             DependencyContainer.GetInstance<MorePathsSettingsUI>().InitializeSelectorSettings(ref root);
         }
     }
-    
-    // [HarmonyPatch]
-    // public class MasterSceneConfiguratorPatch
-    // {
-    //     static MethodInfo TargetMethod()
-    //     {
-    //         return AccessTools.Method(AccessTools.TypeByName("MasterSceneConfigurator"), "Configure", new []
-    //         {
-    //             typeof(IContainerDefinition)
-    //         });
-    //     }
-    //     
-    //     static void Postfix()
-    //     {
-    //         MorePathsSettingsController.InGame = true;
-    //     }
-    // }
-    //
-    // [HarmonyPatch]
-    // public class MainMenuSceneLoaderPatch
-    // {
-    //     static MethodInfo TargetMethod()
-    //     {
-    //         return AccessTools.Method(AccessTools.TypeByName("MainMenuSceneLoader"), "StartMainMenu");
-    //     }
-    //     
-    //     static void Prefix()
-    //     {
-    //         MorePathsSettingsController.InGame = false;
-    //     }
-    // }
-    
-    // THIS HAS ABUG WITH EDITING MAPS AND PLACING DOWN BUILDINGS IN THE EDITOR
-    // [HarmonyPatch(typeof(BlockObjectTool), "Enter", new Type[] {})]
-    // public class EnterBlockObjectToolPatch
-    // {
-    //     static void Prefix(BlockObjectTool __instance)
-    //     {
-    //         TimberAPI.DependencyContainer.GetInstance<MorePathsService>().previewPrefab = __instance.Prefab;
-    //     }
-    // }
-    //
-    // [HarmonyPatch(typeof(BlockObjectTool), "Exit", new Type[] {})]
-    // public class ExitBlockObjectToolPatch
-    // {
-    //     static void Prefix(BlockObjectTool __instance)
-    //     {
-    //         TimberAPI.DependencyContainer.GetInstance<MorePathsService>().previewPrefab = null;
-    //     }
-    // }
 }

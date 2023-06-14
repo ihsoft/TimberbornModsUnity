@@ -39,6 +39,6 @@ Tobbert.PlasteredWoodPath.IronTeeth.DisplayName,"Verputzter-Holz-Pfad Eisenzähn
 Tobbert.PlasteredWoodPath.IronTeeth.Description,"Ein anderer Pfad um deine Stadt abwechslungsreicher zu gestalten.",-
 Tobbert.PlasteredWoodPath.IronTeeth.FlavorDescription,"Es ist Holz, aber verputzt! OwO",-
 
-"A.Tobbert.CategoryPaths.DisplayName",Pfade,-
+"Tobbert.CategoryPaths.DisplayName",Pfade,-
 
 Tobbert.MorePaths.SettingsHeader,Pfade,Überschrift in Einstellungen

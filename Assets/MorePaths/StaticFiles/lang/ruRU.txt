@@ -31,4 +31,4 @@ Tobbert.WoodIronTeeth.DisplayName,Деревянная дорога Железн
 Tobbert.WoodIronTeeth.Description,"Дорога с другим покрытием, чтобы разнообразить ваш город.",-
 Tobbert.WoodIronTeeth.FlavorDescription,"",-
 
-"A.Tobbert.CategoryPaths.DisplayName",Дороги,-
+"Tobbert.CategoryPaths.DisplayName",Дороги,-

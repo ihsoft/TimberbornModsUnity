@@ -4,7 +4,7 @@ using TimberApi.SceneSystem;
 
 namespace MorePaths
 {
-    [Configurator(SceneEntrypoint.MainMenu | SceneEntrypoint.InGame)]
+    [Configurator(SceneEntrypoint.All)]
     public class MorePathsConfigurator : IConfigurator
     {
         public void Configure(IContainerDefinition containerDefinition)

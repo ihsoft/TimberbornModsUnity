@@ -1,6 +1,7 @@
 {
   "Name": "StonePath",
   "PathTexture": "GroundTexture.jpg",
+  "ToolGroup": "CategoryPaths",
   "ToolOrder": 40,
   "PathIcon": "StonePathIcon.png",
   "DisplayNameLocKey": "Tobbert.StonePath.DisplayName",

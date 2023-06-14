@@ -2,6 +2,7 @@
   "Name": "BrickPath",
   "PathTexture": "GroundTexture.jpg",
   "RailingTexture": "RailingTexture.jpg",
+  "ToolGroup": "CategoryPaths",
   "ToolOrder": 10,
   "PathIcon": "BrickIcon.png",
   "DisplayNameLocKey": "Tobbert.BrickPath.DisplayName",

@@ -16,6 +16,7 @@ namespace MorePaths
                 objectLoader.Get(new PropertyKey<string>("Name")),
                 objectLoader.GetValueOrNull(new PropertyKey<string>("PathTexture")),
                 objectLoader.GetValueOrNull(new PropertyKey<string>("RailingTexture")),
+                objectLoader.GetValueOrNull(new PropertyKey<string>("ToolGroup")),
                 objectLoader.GetValueOrDefault(new PropertyKey<int>("ToolOrder"), 0),
                 objectLoader.GetValueOrNull(new PropertyKey<string>("PathIcon")),
                 objectLoader.GetValueOrNull(new PropertyKey<string>("DisplayNameLocKey")),

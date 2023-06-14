@@ -2,6 +2,7 @@
   "Name": "WoodPath.IronTeeth",
   "PathTexture": "GroundTexture.jpg",
   "RailingTexture": "GroundTexture.jpg",
+  "ToolGroup": "CategoryPaths",
   "ToolOrder": 70,
   "PathIcon": "WoodIcon.IronTeeth.png",
   "DisplayNameLocKey": "Tobbert.WoodIronTeeth.DisplayName",

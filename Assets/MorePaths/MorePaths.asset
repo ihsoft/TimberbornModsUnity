@@ -1,5 +1,25 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-4090121468263843042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94f750c613c28a14d8d01f3d86ce4481, type: 3}
+  m_Name: ModIoData
+  m_EditorClassIdentifier: 
+  StagingPaths: []
+  ModId: 2645506
+  Version: 2.2.0
+  SetLive: 1
+  Description: "[Game version 0.4.9.2]\nUpdated to now work newest game version.
+    \nNow updates corners when hovering with a preview path. \nNow updates driveways
+    when hovering with a preview path. \nFixed a issue where a driveway and a ladder
+    result in no path showing. "
 --- !u!114 &-3931462110823901632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19,37 +39,7 @@ MonoBehaviour:
   Description: 
   Version: 
   Dependencies:
-  - {fileID: 11400000, guid: 34977de843a78df40916ae632b54af0c, type: 2}
   - {fileID: 11400000, guid: b9b73eebf85f9df488fc243573a756bb, type: 2}
---- !u!114 &-3041366049039997682
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b243ff405b33b94dbf5b6775dd9aa33, type: 3}
-  m_Name: Files
-  m_EditorClassIdentifier: 
-  StagingPaths:
-  - <ManifestStagingRoot>/Specifications
-  files:
-  - {fileID: 4900000, guid: c9c53077b9ff3fb49ad3637ad54e728d, type: 3}
-  - {fileID: 4900000, guid: 1f9cf4cb0cc9ce24d9edea75ce62c46d, type: 3}
-  - {fileID: 4900000, guid: 3b1c708e89f99924e8d644d8ec44cb8e, type: 3}
-  - {fileID: 4900000, guid: 6f9552914978b6a48b43d53f9a2ecc75, type: 3}
-  - {fileID: 4900000, guid: bcf756a1ecea98a459b2a4b67fa26a69, type: 3}
-  - {fileID: 4900000, guid: 43e0c1035ff1c684697cfb66333ad542, type: 3}
-  - {fileID: 4900000, guid: e37204ad25e5efc498c5114f94be5055, type: 3}
-  - {fileID: 4900000, guid: a2486e78dd34f6a45aa0c2c2f8273488, type: 3}
-  - {fileID: 4900000, guid: 35befdb11ba2edd429dd572e23d6a2b7, type: 3}
-  - {fileID: 4900000, guid: 35befdb11ba2edd429dd572e23d6a2b7, type: 3}
-  - {fileID: 4900000, guid: 08fb54924465f1741936268e8794cfda, type: 3}
-  - {fileID: 4900000, guid: aee31a9ee55ab9946b8a8ee86cc96729, type: 3}
-  - {fileID: 4900000, guid: 00d2a1c177650b44587b3112e1de2700, type: 3}
-  - {fileID: 4900000, guid: dfe85f30b25b1584f865a3f0236844b3, type: 3}
 --- !u!114 &-1800585617083543040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,11 +70,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data:
   - {fileID: -3931462110823901632}
+  - {fileID: -4090121468263843042}
   - {fileID: -1800585617083543040}
   - {fileID: 9120418034178625098}
   - {fileID: 4785608597383072843}
   - {fileID: 2590189338767857166}
-  - {fileID: -3041366049039997682}
   identity: {fileID: -3931462110823901632}
   QuickAccess: 1
 --- !u!114 &2590189338767857166
@@ -104,7 +94,8 @@ MonoBehaviour:
   assetBundles:
   - assetBundleName: Tobbert_MorePaths
     assets:
-    - {fileID: 6135309658857809615, guid: 9dc09a7de3a90114789c59dfc441d0f9, type: 3}
+    - {fileID: 102900000, guid: 2489ab7f8956d15468eb9342e5560c5e, type: 3}
+    - {fileID: 102900000, guid: 2231c684f36335a4787bc70ebf6428b8, type: 3}
 --- !u!114 &4785608597383072843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,6 +110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StagingPaths:
   - <ManifestStagingRoot>/assets
+  includeMetaFiles: 0
   files:
   - {fileID: 102900000, guid: 2231c684f36335a4787bc70ebf6428b8, type: 3}
 --- !u!114 &9120418034178625098
@@ -135,7 +127,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StagingPaths:
   - <ManifestStagingRoot>
+  includeMetaFiles: 0
   files:
   - {fileID: 102900000, guid: 0b336a4cec949f74593b68e5b2e763f2, type: 3}
   - {fileID: 4900000, guid: 7d1943f8e6371de48aff76b0001cb928, type: 3}
   - {fileID: 102900000, guid: a49db43b23cd9ff4eb3e9891a94fd195, type: 3}
+  - {fileID: 102900000, guid: c8875f005efe13247bd1ad88c731fef2, type: 3}

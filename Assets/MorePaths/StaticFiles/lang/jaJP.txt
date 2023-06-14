@@ -31,4 +31,4 @@ Tobbert.WoodIronTeeth.DisplayName,アイアンティースの木の道,-
 Tobbert.WoodIronTeeth.Description,街の雰囲気を変えるための見た目が違う道。,-
 Tobbert.WoodIronTeeth.FlavorDescription,"",-
 
-"A.Tobbert.CategoryPaths.DisplayName",道,-
+"Tobbert.CategoryPaths.DisplayName",道,-

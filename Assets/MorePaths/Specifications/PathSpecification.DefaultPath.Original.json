@@ -1,4 +1,5 @@
 {
   "Enabled": true,
-  "Name": "DefaultPath"
+  "Name": "DefaultPath",
+  "ToolGroup": "CategoryPaths"
 }

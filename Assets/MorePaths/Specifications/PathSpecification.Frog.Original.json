@@ -2,6 +2,7 @@
   "Enabled": true,
   "Name": "FrogPath",
   "PathTexture": "Frog1K.jpg",
+  "ToolGroup": "CategoryPaths",
   "ToolOrder": 80,
   "PathIcon": "FrogPathIcon.png",
   "DisplayNameLocKey": "Tobbert.FrogPath.DisplayName",

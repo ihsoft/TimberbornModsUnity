@@ -1,35 +1,27 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using Timberborn.AssetSystem;
+using Timberborn.Meshy;
 using Timberborn.PathSystem;
-using Timberborn.SingletonSystem;
+using Timberborn.PrefabOptimization;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace MorePaths
 {
-    public class DrivewayFactory : ILoadableSingleton
+    public class DrivewayFactory
     {
+        private readonly OptimizedPrefabInstantiator _optimizedPrefabInstantiator;
         private readonly DrivewayModelInstantiator _drivewayModelInstantiator;
-        private readonly IResourceAssetLoader _resourceAssetLoader;
         private readonly MorePathsCore _morePathsCore;
         private readonly MethodInfo _methodInfo = typeof(DrivewayModelInstantiator).GetMethod("GetModelPrefab", BindingFlags.NonPublic | BindingFlags.Instance);
-        private Material _pathMaterial;
 
-        private DrivewayFactory(DrivewayModelInstantiator drivewayModelInstantiator, IResourceAssetLoader resourceAssetLoader, MorePathsCore morePathsCore)
+        private DrivewayFactory(OptimizedPrefabInstantiator optimizedPrefabInstantiator, DrivewayModelInstantiator drivewayModelInstantiator, MorePathsCore morePathsCore)
         {
+            _optimizedPrefabInstantiator = optimizedPrefabInstantiator;
             _drivewayModelInstantiator = drivewayModelInstantiator;
-            _resourceAssetLoader = resourceAssetLoader;
             _morePathsCore = morePathsCore;
-        }
-        
-        public void Load()
-        {
-            _pathMaterial = _resourceAssetLoader.Load<Material>("Buildings/Paths/Path/Path.Folktails");
         }
 
         public Dictionary<Driveway, List<GameObject>> CreateDriveways(ImmutableArray<PathSpecification> pathSpecifications)
@@ -61,21 +53,32 @@ namespace MorePaths
 
         private GameObject CreateDriveway(GameObject originalDrivewayModel, PathSpecification pathSpecification)
         {
-            GameObject driveway = Object.Instantiate(originalDrivewayModel);
+            GameObject driveway = _optimizedPrefabInstantiator.Instantiate(originalDrivewayModel, new GameObject().transform);
 
             driveway.name = pathSpecification.Name;
 
-            var material = new Material(_pathMaterial);
-
-            material.mainTexture = _morePathsCore.TryLoadTexture(pathSpecification.Name, pathSpecification.PathTexture);
-            
-            material.SetFloat("_MainTexScale", pathSpecification.MainTextureScale);
-            material.SetFloat("_NoiseTexScale", pathSpecification.NoiseTexScale);
-            material.SetVector("_MainColor", new Vector4(pathSpecification.MainColorRed, pathSpecification.MainColorGreen, pathSpecification.MainColorBlue, 1f));
-
-            driveway.GetComponentInChildren<MeshRenderer>().material = material;
-            
             return driveway;
+        }
+
+        public void UpdateMaterials(ImmutableArray<PathSpecification> pathSpecifications)
+        {
+            foreach (var driveways in DrivewayService.DriveWays.Values)
+            {
+                foreach (var driveway in driveways)
+                {
+                    var pathSpecification = pathSpecifications.First(specification => driveway.name == specification.Name);
+                
+                    var material = new Material(CustomPathFactory.ActivePathMaterial);
+
+                    material.mainTexture = _morePathsCore.TryLoadTexture(pathSpecification.Name, pathSpecification.PathTexture);
+
+                    material.SetFloat("_MainTexScale", pathSpecification.MainTextureScale);
+                    material.SetFloat("_NoiseTexScale", pathSpecification.NoiseTexScale);
+                    material.SetVector("_MainColor", new Vector4(pathSpecification.MainColorRed, pathSpecification.MainColorGreen, pathSpecification.MainColorBlue, 1f));
+
+                    driveway.GetComponentInChildren<MeshRenderer>().sharedMaterial = material;
+                }
+            }
         }
     }
 }

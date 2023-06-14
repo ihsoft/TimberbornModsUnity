@@ -15,8 +15,7 @@ namespace MorePaths
             containerDefinition.Bind<DrivewayService>().AsSingleton();
             
             containerDefinition.Bind<CustomPathFactory>().AsSingleton();
-            
-            containerDefinition.Bind<PathCornerService>().AsSingleton();
+
             containerDefinition.MultiBind<TemplateModule>().ToProvider(ProvideTemplateModule).AsSingleton();
         }
 
@@ -24,8 +23,6 @@ namespace MorePaths
         {
             TemplateModule.Builder builder = new TemplateModule.Builder();
             builder.AddDecorator<DrivewayModel, CustomDrivewayModel>();
-            // builder.AddDecorator<DynamicPathModel, DynamicPathCorner>();
-            // builder.AddDecorator<Beaver, PathListener>();
             return builder.Build();
         }
     }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
@@ -14,16 +15,34 @@ namespace MorePaths
 {
     public class MorePathsCore : ITimberApiLoadableSingleton
     {
-        public IEnumerable<Object> PathObjects;
-
         private readonly ISpecificationService _specificationService;
         private readonly PathSpecificationObjectDeserializer _pathSpecificationObjectDeserializer;
 
         private MethodInfo _methodInfo;
         public ImmutableArray<PathSpecification> PathsSpecifications;
-        public List<CustomPath> CustomPaths;
-        private readonly Dictionary<string, FieldInfo> _fieldInfos = new();
-        private readonly Dictionary<string, MethodInfo> _methodInfos = new();
+        private List<CustomPath> _customPaths;
+        public List<CustomPath> CustomPaths
+        {
+            get
+            {
+                if (_customPaths != null) 
+                    return _customPaths;
+                try
+                {
+                    _customPaths = TimberApi.DependencyContainerSystem.DependencyContainer.GetInstance<CustomPathFactory>().CreatePathsFromSpecification();
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+                return _customPaths;
+            }
+        }
+
+        private static readonly Dictionary<string, FieldInfo> FieldInfos = new();
+        private static readonly Dictionary<string, MethodInfo> MethodInfos = new();
+
+        private static readonly BindingFlags PredefinedBindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
 
         public MorePathsCore(ISpecificationService specificationService, PathSpecificationObjectDeserializer pathSpecificationObjectDeserializer)
         {
@@ -38,32 +57,22 @@ namespace MorePaths
 
         private void LoadPathSpecifications()
         {
+            if (PathsSpecifications != null)
+                return;
             var list = _specificationService.GetSpecifications(_pathSpecificationObjectDeserializer).Where(specification => specification.Enabled).ToList();
             var orderedList = list.OrderBy(specification => specification.ToolOrder);
             PathsSpecifications = orderedList.ToImmutableArray();
         }
 
-        private void LoadAllPathObjects()
-        {
-            var timberbornPathObjects = Resources.LoadAll("", typeof(DynamicPathModel));
-            PathObjects = timberbornPathObjects.Concat(CustomPaths.Select(path => path.PathGameObject));
-        }
-
         public void AddFakePathsToObjectsPatch(ref IEnumerable<Object> result)
         {
-            if (CustomPaths == null)
-            {
-                TimberApi.DependencyContainerSystem.DependencyContainer.GetInstance<CustomPathFactory>().CreatePathsFromSpecification();
-                LoadAllPathObjects();
-            }
-            
             var pathGameObject = result.First(o => o.name.Split(".")[0] == "Path");
             if (pathGameObject == null) return;
 
             var resultList = result.ToList();
             resultList.Remove(pathGameObject);
 
-            var newObjectsList = resultList.Concat(CustomPaths.Select(path => path.PathGameObject));
+            var newObjectsList = resultList.Concat(CustomPaths.Select(path => path.GameObjectFast));
 
             result = newObjectsList;
         }
@@ -79,34 +88,64 @@ namespace MorePaths
             return texture2D;
         }
 
-        public object InvokePrivateMethod(object instance, string methodName)
+        public object InvokeInaccesableMethod(object instance, string methodName, object[] args)
         {
-            if (!_methodInfos.ContainsKey(methodName))
+            if (!MethodInfos.ContainsKey(methodName))
             {
-                _methodInfos.Add(methodName, AccessTools.TypeByName(instance.GetType().Name).GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance));
+                MethodInfos.Add(methodName, AccessTools.TypeByName(instance.GetType().Name).GetMethod(methodName, PredefinedBindingFlags));
             }
             
-            return _methodInfos[methodName].Invoke(instance, new object[]{});
+            return MethodInfos[methodName].Invoke(instance, args);
+        }
+        
+        public object InvokeInaccesableMethod(object instance, string methodName)
+        {
+            if (!MethodInfos.ContainsKey(methodName))
+            {
+                MethodInfos.Add(methodName, AccessTools.TypeByName(instance.GetType().Name).GetMethod(methodName, PredefinedBindingFlags));
+            }
+            
+            return MethodInfos[methodName].Invoke(instance, new object[]{});
+        }
+        
+        public static object StaticInvokeInaccesableMethod(object instance, string methodName)
+        {
+            if (!MethodInfos.ContainsKey(methodName))
+            {
+                MethodInfos.Add(methodName, AccessTools.TypeByName(instance.GetType().Name).GetMethod(methodName, PredefinedBindingFlags));
+            }
+            
+            return MethodInfos[methodName].Invoke(instance, new object[]{});
         }
 
         public void ChangePrivateField(object instance, string fieldName, object newValue)
         {
-            if (!_fieldInfos.ContainsKey(fieldName))
+            if (!FieldInfos.ContainsKey(fieldName))
             {
-                _fieldInfos.Add(fieldName, AccessTools.TypeByName(instance.GetType().Name).GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance));
+                FieldInfos.Add(fieldName, AccessTools.TypeByName(instance.GetType().Name).GetField(fieldName, PredefinedBindingFlags));
             }
             
-            _fieldInfos[fieldName].SetValue(instance, newValue);
+            FieldInfos[fieldName].SetValue(instance, newValue);
         }
 
         public object GetPrivateField(object instance, string fieldName)
         {
-            if (!_fieldInfos.ContainsKey(fieldName))
+            if (!FieldInfos.ContainsKey(fieldName))
             {
-                _fieldInfos.Add(fieldName, AccessTools.TypeByName(instance.GetType().Name).GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance));
+                FieldInfos.Add(fieldName, AccessTools.TypeByName(instance.GetType().Name).GetField(fieldName, PredefinedBindingFlags));
             }
             
-            return _fieldInfos[fieldName].GetValue(instance);
+            return FieldInfos[fieldName].GetValue(instance);
+        }
+        
+        public static object StaticGetPrivateField(object instance, string fieldName)
+        {
+            if (!FieldInfos.ContainsKey(fieldName))
+            {
+                FieldInfos.Add(fieldName, AccessTools.TypeByName(instance.GetType().Name).GetField(fieldName, PredefinedBindingFlags));
+            }
+            
+            return FieldInfos[fieldName].GetValue(instance);
         }
     }
 }

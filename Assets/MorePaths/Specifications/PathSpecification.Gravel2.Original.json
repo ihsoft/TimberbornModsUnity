@@ -2,6 +2,7 @@
   "Name": "Gravel2Path",
   "PathTexture": "GroundTexture.jpg",
   "RailingTexture": "GroundTexture.jpg",
+  "ToolGroup": "CategoryPaths",
   "ToolOrder": 30,
   "PathIcon": "DarkPathIcon.png",
   "DisplayNameLocKey": "Tobbert.Gravel2Path.DisplayName",
