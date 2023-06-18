@@ -13,6 +13,7 @@ namespace ChooChoo
     {
       containerDefinition.Bind<PassengerStationLinkObjectSerializer>().AsSingleton();
       containerDefinition.Bind<PassengerStationLinkRepository>().AsSingleton();
+      containerDefinition.Bind<PathCornerBlockObjectRepository>().AsSingleton();
       containerDefinition.MultiBind<TemplateModule>().ToProvider<TemplateModuleProvider>().AsSingleton();
     }
 
@@ -22,6 +23,7 @@ namespace ChooChoo
       {
         TemplateModule.Builder builder = new TemplateModule.Builder();
         builder.AddDecorator<Walker, Passenger>();
+        builder.AddDecorator<Walker, PathFollowerUtilities>();
         builder.AddDecorator<PassengerStation, TrainDestination>();
         return builder.Build();
       }

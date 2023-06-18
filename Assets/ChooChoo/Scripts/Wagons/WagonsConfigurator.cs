@@ -18,7 +18,7 @@ namespace ChooChoo
     private static TemplateModule ProvideTemplateModule()
     {
       TemplateModule.Builder builder = new TemplateModule.Builder();
-      // builder.AddDecorator<TrainWagon, SlowdownCalculator>();
+      builder.AddDecorator<TrainWagon, TrainWagonGoodsManager>();
       return builder.Build();
     }
   }

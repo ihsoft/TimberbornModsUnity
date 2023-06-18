@@ -13,7 +13,10 @@ namespace ChooChoo
   {
     private PassengerStationLinkRepository _passengerStationLinkRepository;
     private IDayNightCycle _dayNightCycle;
+    
+    private PathFollowerUtilities _pathFollowerUtilities;
     private CharacterModel _characterModel;
+    
     private float _waitUntillTimestamp;
     public PassengerStationLink PassengerStationLink { get; private set; }
 
@@ -29,6 +32,7 @@ namespace ChooChoo
 
     private void Awake()
     {
+      _pathFollowerUtilities = GetComponentFast<PathFollowerUtilities>();
       _characterModel = GetComponentFast<CharacterModel>();
     }
 
@@ -50,7 +54,18 @@ namespace ChooChoo
     private bool CheckForPathLink(ref IReadOnlyList<Vector3> pathCorners, ref int nextCornerIndex, MovementAnimator movementAnimator)
     {
       // Plugin.Log.LogInfo("index: " + nextCornerIndex + "  Count: " + pathCorners.Count);
-      PassengerStationLink passengerStationLink = _passengerStationLinkRepository.GetPathLink(pathCorners[nextCornerIndex - 1], pathCorners[nextCornerIndex]);
+      var startBlockObject   = _pathFollowerUtilities.GetBlockObjectAtIndex(nextCornerIndex - 1);
+      var endBlockObject = _pathFollowerUtilities.GetBlockObjectAtIndex(nextCornerIndex);
+      
+      if (
+        startBlockObject == null || 
+        endBlockObject == null ||
+        !startBlockObject.TryGetComponentFast(out PassengerStation startPassengerStation) ||
+        !endBlockObject.TryGetComponentFast(out PassengerStation endPassengerStation))
+      {
+        return false; 
+      }
+      PassengerStationLink passengerStationLink = _passengerStationLinkRepository.GetPathLink(startPassengerStation, endPassengerStation);
       if (passengerStationLink == null)
         return false;
       movementAnimator.StopAnimatingMovement();

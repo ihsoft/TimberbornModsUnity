@@ -6,15 +6,18 @@ using Timberborn.BaseComponentSystem;
 using Timberborn.CoreUI;
 using Timberborn.DropdownSystem;
 using Timberborn.EntityPanelSystem;
+using Timberborn.Localization;
 using UnityEngine.UIElements;
 
 namespace ChooChoo
 {
   internal class WagonTypeSelectorFragment : IEntityPanelFragment
   {
+    private static readonly string WagonTypeLocKey = "Tobbert.WagonModel.WagonModel";
     private readonly UIBuilder _uiBuilder;
     private readonly VisualElementLoader _visualElementLoader;
     private readonly DropdownItemsSetter _dropdownItemsSetter;
+    private readonly ILoc _loc;
     private WagonManager _wagonManager;
     private readonly List<Dropdown> _dropdowns = new();
     private VisualElement _root;
@@ -24,11 +27,13 @@ namespace ChooChoo
     public WagonTypeSelectorFragment(
       UIBuilder uiBuilder,
       VisualElementLoader visualElementLoader,
-      DropdownItemsSetter dropdownItemsSetter)
+      DropdownItemsSetter dropdownItemsSetter,
+      ILoc loc)
     {
       _uiBuilder = uiBuilder;
       _visualElementLoader = visualElementLoader;
       _dropdownItemsSetter = dropdownItemsSetter;
+      _loc = loc;
     }
 
     public VisualElement InitializeFragment()
@@ -41,7 +46,7 @@ namespace ChooChoo
         foreach (var element in fragment.Children().ToList())
         {
           container.Add(element);
-          container.Q<Label>().text = "Wagon Type";
+          container.Q<Label>().text = _loc.T(WagonTypeLocKey);
         }
         _root.Add(container);
         _wagonSections.Add(fragment);

@@ -18,7 +18,7 @@ namespace ChooChoo
   public class GoodsStation : BaseComponent, IRegisteredComponent, IFinishedStateListener, IPersistentEntity
   {
     private static readonly ComponentKey GoodsStationKey = new(nameof(GoodsStation));
-    private static readonly ListKey<TrainDistributableGood> SendingQueueKey = new("SendingQueue");
+    private static readonly ListKey<TrainDistributableGoodAmount> SendingQueueKey = new("SendingQueue");
     
     public static readonly int Capacity = 200;
     private TrainDistributableGoodObjectSerializer _trainDistributableGoodObjectSerializer;
@@ -26,19 +26,18 @@ namespace ChooChoo
 
     private GoodsStationReceivingInventory _goodsStationReceivingInventory;
     private GoodsStationSendingInventory _goodsStationSendingInventory;
-    private DistrictBuilding _districtBuilding;
 
-    private DistrictDistributableGoodProvider _districtDistributableGoodProvider;
+    private GoodsStationDistributableGoodProvider _goodsStationDistributableGoodProvider;
     
     public TrainDestination TrainDestinationComponent { get; private set; }
 
     public Inventory SendingInventory => _goodsStationSendingInventory.Inventory;
     public Inventory ReceivingInventory => _goodsStationReceivingInventory.Inventory;
-    public DistrictDistributableGoodProvider DistrictDistributableGoodProvider => _districtDistributableGoodProvider;
+    public GoodsStationDistributableGoodProvider GoodsStationDistributableGoodProvider => _goodsStationDistributableGoodProvider;
     
     public int MaxCapacity => Capacity;
 
-    public readonly List<TrainDistributableGood> SendingQueue = new();
+    public readonly List<TrainDistributableGoodAmount> SendingQueue = new();
 
     [Inject]
     public void InjectDependencies(TrainDistributableGoodObjectSerializer trainDistributableGoodObjectSerializer, GoodsStationsRepository goodsStationsRepository)
@@ -47,14 +46,14 @@ namespace ChooChoo
       _goodsStationsRepository = goodsStationsRepository;
     }
 
-    public bool CanDistribute => (bool) (UnityEngine.Object) DistrictDistributableGoodProvider;
+    public bool CanDistribute => (bool) (UnityEngine.Object) GoodsStationDistributableGoodProvider;
     
-    public void Awake() 
+    public void Awake()
     {
+      _goodsStationDistributableGoodProvider = GetComponentFast<GoodsStationDistributableGoodProvider>();
       TrainDestinationComponent = GetComponentFast<TrainDestination>();
       _goodsStationReceivingInventory = GetComponentFast<GoodsStationReceivingInventory>();
       _goodsStationSendingInventory = GetComponentFast<GoodsStationSendingInventory>();
-      _districtBuilding = GetComponentFast<DistrictBuilding>();
       enabled = false;
     }
 
@@ -63,7 +62,6 @@ namespace ChooChoo
       enabled = true;
       SendingInventory.Enable();
       ReceivingInventory.Enable();
-      _districtBuilding.ReassignedDistrict += OnReassignedDistrict;
       _goodsStationsRepository.Register(this);
     }
 
@@ -72,7 +70,6 @@ namespace ChooChoo
       SendingInventory.Disable();
       ReceivingInventory.Disable();
       enabled = false;
-      _districtBuilding.ReassignedDistrict -= OnReassignedDistrict;
       _goodsStationsRepository.UnRegister(this);
     }
     
@@ -92,51 +89,37 @@ namespace ChooChoo
         AddToQueue(trainDistributableGood);
       }
     }
-    
-    private void OnReassignedDistrict(object sender, EventArgs e)
+
+    public void AddToQueue(TrainDistributableGoodAmount newDistributableGoodAmount)
     {
-      _districtDistributableGoodProvider = _districtBuilding.District ? _districtBuilding.District.GetComponentFast<DistrictDistributableGoodProvider>() : null;
+      SendingQueue.Add(newDistributableGoodAmount);
+      Plugin.Log.LogError("Please report if number keeps increasing: " + SendingQueue.Count);
     }
 
-    public void AddToQueue(TrainDistributableGood newDistributableGood)
+    public void ResolveRetrieval(TrainDistributableGoodAmount trainDistributableGoodAmount)
     {
-      SendingQueue.Add(newDistributableGood);
-    }
-
-    public void ResolveCorrespondingQueueItems(TrainWagon trainWagon)
-    {
-      foreach (var trainDistributableGood in SendingQueue.ToList())
-      {
-        if (trainDistributableGood.ResolvingTrainWagons.Contains(trainWagon))
-        {
-          SendingQueue.Remove(trainDistributableGood);
-        }
-      }
+      SendingQueue.Remove(trainDistributableGoodAmount);
     }
     
-    public DistributableGood GetMyDistributableGood(string goodId) => DistrictDistributableGoodProvider.GetDistributableGoodForExport(goodId);
+    public TrainDistributableGood GetMyDistributableGood(string goodId) => GoodsStationDistributableGoodProvider.GetDistributableGoodForExport(goodId);
     
-    public bool CanExport(
-      DistributableGood myDistributableGood,
-      DistributableGood linkedDistributableGood)
+    public bool CanExport(TrainDistributableGood myTrainDistributableGood)
     {
-      return myDistributableGood.CanExport && (double) myDistributableGood.FillRate > (double) linkedDistributableGood.FillRate;
+      return myTrainDistributableGood.CanExport;
     }
     
-    public int GetAmountToExport(
-      DistributableGood myDistributableGood,
-      DistributableGood linkedDistributableGood)
+    public int GetAmountToExport(TrainDistributableGood myTrainDistributableGood, TrainDistributableGood linkedTrainDistributableGood)
     {
-      return myDistributableGood.Capacity <= 0 ? Math.Max(0, linkedDistributableGood.FreeCapacity) : GetAmountToEqualizeFillRates(myDistributableGood, linkedDistributableGood);
+      return myTrainDistributableGood.Capacity <= 0 ? Math.Max(0, linkedTrainDistributableGood.FreeCapacity) : GetAmountToEqualizeFillRates(myTrainDistributableGood, linkedTrainDistributableGood);
     }
     private static int GetAmountToEqualizeFillRates(
-      DistributableGood myDistributableGood,
-      DistributableGood linkedDistributableGood)
+      TrainDistributableGood myTrainDistributableGood,
+      TrainDistributableGood linkedTrainDistributableGood)
     {
-      float num = myDistributableGood.FillRate - linkedDistributableGood.FillRate;
-      int capacity1 = myDistributableGood.Capacity;
-      int capacity2 = linkedDistributableGood.Capacity;
-      return Mathf.FloorToInt(Mathf.Min((float) (capacity1 * capacity2) * num / (float) (capacity1 + capacity2), myDistributableGood.MaxExportAmount));
+      float num = myTrainDistributableGood.FillRate - linkedTrainDistributableGood.FillRate;
+      int capacity1 = myTrainDistributableGood.Capacity;
+      int capacity2 = linkedTrainDistributableGood.Capacity;
+      return Mathf.FloorToInt(Mathf.Min((float) (capacity1 * capacity2) * num / (float) (capacity1 + capacity2), myTrainDistributableGood.MaxExportAmount));
     }
   }
 }

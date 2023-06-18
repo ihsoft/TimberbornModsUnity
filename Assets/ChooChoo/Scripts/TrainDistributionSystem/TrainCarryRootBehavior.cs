@@ -11,14 +11,14 @@ namespace ChooChoo
 {
   public class TrainCarryRootBehavior : RootBehavior
   {
-    private TrainCarryAmountCalculator _trainCarryAmountCalculator;
+    private ChooChooCarryAmountCalculator _chooChooCarryAmountCalculator;
     private WagonGoodsManager _wagonGoodsManager;
     private MoveToStationExecutor _moveToStationExecutor;
 
     [Inject]
-    public void InjectDependencies(TrainCarryAmountCalculator trainCarryAmountCalculator) 
+    public void InjectDependencies(ChooChooCarryAmountCalculator chooChooCarryAmountCalculator) 
     {
-      _trainCarryAmountCalculator = trainCarryAmountCalculator;
+      _chooChooCarryAmountCalculator = chooChooCarryAmountCalculator;
     }
 
     public void Awake()

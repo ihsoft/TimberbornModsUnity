@@ -74,6 +74,7 @@ Tobbert.TrainModel.TrainModel,Train Model:,-
 Tobbert.TrainModel.SmallLog,Small Log,-
 Tobbert.TrainModel.BigWooden,Big Wooden,-
 
+Tobbert.WagonModel.WagonModel,Wagon Model:,-
 Tobbert.WagonModel.BoxWagon,Box Wagon,-
 Tobbert.WagonModel.TankWagon,Tank Wagon,-
 Tobbert.WagonModel.FlatWagon,Flat Wagon,-
@@ -84,6 +85,8 @@ Tobbert.WagonModel.PassengerWagon,Passenger Wagon,-
 Tobbert.BatchControl.Trains,Trains,-
 Tobbert.Train.Length,Train Length: ,-
 Tobbert.Train.Destroy,Are you sure you want to destroy this train?,-
+
+Tobbert.BatchControl.GoodsStation,Goods stations,-
 
 Tobbert.TrackSystem.ToggleSectionDivider,Divides sections: ,-
 Tobbert.TrackSystem.ButtonChangeDirection,Change direction,-

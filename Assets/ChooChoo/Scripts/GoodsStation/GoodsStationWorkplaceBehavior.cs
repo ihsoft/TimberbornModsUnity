@@ -21,7 +21,7 @@ namespace ChooChoo
     private IDayNightCycle _dayNightCycle;
     private TrainDestination _trainDestination;
     private GoodsStation _goodsStation;
-    private readonly List<DistributableGood> _otherGoodsStationDistributableGoods = new();
+    private readonly List<TrainDistributableGood> _otherGoodsStationDistributableGoods = new();
 
     [Inject]
     public void InjectDependencies(TrainDestinationService trainDestinationService, IDayNightCycle dayNightCycle)
@@ -71,7 +71,8 @@ namespace ChooChoo
           continue;
         if (!goodsStation.CanDistribute)
           continue;
-        goodsStation.DistrictDistributableGoodProvider.GetDistributableGoodsForImport(_otherGoodsStationDistributableGoods);
+        // Plugin.Log.LogInfo("Can distribute");
+        goodsStation.GoodsStationDistributableGoodProvider.GetDistributableGoodsForImport(_otherGoodsStationDistributableGoods);
         var canExport = TryExportDistributableGoods(agent, goodsStation);
         _otherGoodsStationDistributableGoods.Clear();
         if (canExport)
@@ -86,16 +87,20 @@ namespace ChooChoo
       return _otherGoodsStationDistributableGoods.Any(good => TryExportGood(agent, good, destination));
     }
 
-    private bool TryExportGood(BehaviorAgent agent, DistributableGood linkedDistributableGood, GoodsStation destination)
+    private bool TryExportGood(BehaviorAgent agent, TrainDistributableGood linkedTrainDistributableGood, GoodsStation destination)
     {
-      string goodId = linkedDistributableGood.GoodId;
-      DistributableGood distributableGood = _goodsStation.GetMyDistributableGood(goodId);
-      if (_goodsStation.CanExport(distributableGood, linkedDistributableGood))
+      // Plugin.Log.LogInfo("Trying to export");
+      string goodId = linkedTrainDistributableGood.GoodId;
+      TrainDistributableGood trainDistributableGood = _goodsStation.GetMyDistributableGood(goodId);
+      if (_goodsStation.CanExport(trainDistributableGood))
       {
-        int amountToExport = _goodsStation.GetAmountToExport(distributableGood, linkedDistributableGood);
-        if (TryStartCarrying(agent, goodId, amountToExport, linkedDistributableGood, destination))
+        // Plugin.Log.LogInfo("CAN Export");
+        int amountToExport = _goodsStation.GetAmountToExport(trainDistributableGood, linkedTrainDistributableGood);
+        // Plugin.Log.LogInfo("amountToExport: " + amountToExport);
+        if (TryStartCarrying(agent, goodId, amountToExport, linkedTrainDistributableGood, destination))
           return true;
       }
+      // Plugin.Log.LogInfo("CANNOT Export");
       return false;
     }
 
@@ -103,15 +108,15 @@ namespace ChooChoo
       BehaviorAgent agent,
       string goodId,
       int amountToBring,
-      DistributableGood linkedDistributableGood,
+      TrainDistributableGood linkedTrainDistributableGood,
       GoodsStation destination)
     {
       int val2 = _goodsStation.SendingInventory.UnreservedCapacity(goodId);
       int maxAmount = Math.Min(amountToBring, val2);
       if (maxAmount <= 0 || !agent.GetComponentFast<CarrierInventoryFinder>().TryCarryFromAnyInventoryLimited(goodId, _goodsStation.SendingInventory, maxAmount))
         return false;
-      _goodsStation.AddToQueue(new TrainDistributableGood(new GoodAmount(goodId, agent.GetComponentFast<GoodReserver>().CapacityReservation.GoodAmount.Amount), destination));
-      linkedDistributableGood.UpdateLastImportTimestamp(_dayNightCycle.PartialDayNumber);
+      _goodsStation.AddToQueue(new TrainDistributableGoodAmount(new GoodAmount(goodId, agent.GetComponentFast<GoodReserver>().CapacityReservation.GoodAmount.Amount), destination));
+      linkedTrainDistributableGood.UpdateLastImportTimestamp(_dayNightCycle.PartialDayNumber);
       return true;
     }
   }

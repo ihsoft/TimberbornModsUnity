@@ -3,9 +3,8 @@ using Timberborn.Persistence;
 
 namespace ChooChoo
 {
-  public class TrainDistributableGoodObjectSerializer : IObjectSerializer<TrainDistributableGood>
+  public class TrainDistributableGoodObjectSerializer : IObjectSerializer<TrainDistributableGoodAmount>
   {
-    private static readonly ListKey<TrainWagon> ResolvingTrainWagonsKey = new("ResolvingTrainWagons");
     private static readonly PropertyKey<GoodAmount> GoodAmountKey = new("GoodAmount");
     private static readonly PropertyKey<GoodsStation> DestinationGoodsStationKey = new("DestinationGoodsStation");
 
@@ -16,21 +15,15 @@ namespace ChooChoo
       _goodAmountSerializer = goodAmountSerializer;
     }
 
-    public void Serialize(TrainDistributableGood value, IObjectSaver objectSaver)
+    public void Serialize(TrainDistributableGoodAmount value, IObjectSaver objectSaver)
     {
-      objectSaver.Set(ResolvingTrainWagonsKey, value.ResolvingTrainWagons);
       objectSaver.Set(GoodAmountKey, value.GoodAmount, _goodAmountSerializer);
       objectSaver.Set(DestinationGoodsStationKey, value.DestinationGoodsStation);
     }
 
-    public Obsoletable<TrainDistributableGood> Deserialize(IObjectLoader objectLoader)
+    public Obsoletable<TrainDistributableGoodAmount> Deserialize(IObjectLoader objectLoader)
     {
-      var trainDistributableGood = new TrainDistributableGood(objectLoader.Get(GoodAmountKey, _goodAmountSerializer), objectLoader.Get(DestinationGoodsStationKey));
-      foreach (var trainWagon in objectLoader.Get(ResolvingTrainWagonsKey))
-      {
-        trainDistributableGood.AddResolvingTrainWagon(trainWagon);
-      }
-      return trainDistributableGood;
+      return new TrainDistributableGoodAmount(objectLoader.Get(GoodAmountKey, _goodAmountSerializer), objectLoader.Get(DestinationGoodsStationKey));
       
     }
   }

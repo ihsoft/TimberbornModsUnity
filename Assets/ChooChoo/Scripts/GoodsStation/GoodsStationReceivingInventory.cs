@@ -2,7 +2,7 @@
 using Timberborn.Common;
 using Timberborn.InventorySystem;
 
-namespace ChooChoo.Scripts.GoodsStation
+namespace ChooChoo
 {
     public class GoodsStationReceivingInventory : BaseComponent
     {

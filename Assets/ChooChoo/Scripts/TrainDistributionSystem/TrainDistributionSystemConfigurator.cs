@@ -12,7 +12,7 @@ namespace ChooChoo
   {
     public void Configure(IContainerDefinition containerDefinition)
     {
-      containerDefinition.Bind<TrainCarryAmountCalculator>().AsSingleton();
+      containerDefinition.Bind<ChooChooCarryAmountCalculator>().AsSingleton();
     }
   }
 }

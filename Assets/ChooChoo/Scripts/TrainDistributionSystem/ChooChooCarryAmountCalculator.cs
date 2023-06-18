@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace ChooChoo
 {
-  public class TrainCarryAmountCalculator
+  public class ChooChooCarryAmountCalculator
   {
     private readonly IGoodService _goodService;
 
-    public TrainCarryAmountCalculator(IGoodService goodService) => _goodService = goodService;
+    public ChooChooCarryAmountCalculator(IGoodService goodService) => _goodService = goodService;
 
     public GoodAmount AmountToCarry(
       int liftingCapacity,
@@ -51,7 +51,7 @@ namespace ChooChoo
       GoodSpecification good = _goodService.GetGood(currentGoodAmount.GoodId);
       var maxAmount = liftingCapacity / good.Weight;
       var currentWeight = good.Weight * (currentGoodAmount.Amount + 1);
-      Plugin.Log.LogError("maxAmount " + maxAmount + " currentWeight " + currentWeight + " Result: " + (currentWeight > maxAmount));
+      // Plugin.Log.LogError("maxAmount " + maxAmount + " currentWeight " + currentWeight + " Result: " + (currentWeight > maxAmount));
       return currentWeight > maxAmount;
     }
   }

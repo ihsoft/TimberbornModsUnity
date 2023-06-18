@@ -1,4 +1,5 @@
 ﻿using ChooChoo.Scripts.GoodsStation;
+using Timberborn.BaseComponentSystem;
 using Timberborn.Goods;
 using Timberborn.InventorySystem;
 using Timberborn.TemplateSystem;
@@ -11,12 +12,18 @@ namespace ChooChoo
     private readonly IGoodService _goodService;
     private readonly InventoryNeedBehaviorAdder _inventoryNeedBehaviorAdder;
     private readonly InventoryInitializerFactory _inventoryInitializerFactory;
+    private readonly BaseInstantiator _baseInstantiator;
 
-    public GoodsStationReceivingInventoryInitializer(IGoodService goodService,InventoryNeedBehaviorAdder inventoryNeedBehaviorAdder, InventoryInitializerFactory inventoryInitializerFactory)
+    public GoodsStationReceivingInventoryInitializer(
+      IGoodService goodService,
+      InventoryNeedBehaviorAdder inventoryNeedBehaviorAdder, 
+      InventoryInitializerFactory inventoryInitializerFactory, 
+      BaseInstantiator baseInstantiator)
     {
       _goodService = goodService;
       _inventoryNeedBehaviorAdder = inventoryNeedBehaviorAdder;
       _inventoryInitializerFactory = inventoryInitializerFactory;
+      _baseInstantiator = baseInstantiator;
     }
 
     public void Initialize(GoodsStationReceivingInventory subject, Inventory decorator)
@@ -25,6 +32,8 @@ namespace ChooChoo
       AllowEveryGoodAsTakeable(unlimitedCapacity);
       unlimitedCapacity.HasPublicOutput();
       unlimitedCapacity.SetIgnorableCapacity();
+      LimitableGoodDisallower singleGoodAllower = _baseInstantiator.AddComponent<LimitableGoodDisallower>(subject.GameObjectFast);
+      unlimitedCapacity.AddGoodDisallower(singleGoodAllower);
       unlimitedCapacity.Initialize();
       subject.InitializeReceivingInventory(decorator);
       _inventoryNeedBehaviorAdder.AddNeedBehavior(decorator);

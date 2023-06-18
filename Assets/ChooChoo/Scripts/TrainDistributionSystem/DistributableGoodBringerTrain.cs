@@ -18,7 +18,7 @@ namespace ChooChoo
     // public int MinimumOfItemsToMove { get; set; } = 19;
 
     [Inject]
-    public void InjectDependencies(TrainDestinationService trainDestinationService, GoodsStationsRepository goodsStationsRepository, TrainCarryAmountCalculator trainCarryAmountCalculator)
+    public void InjectDependencies(TrainDestinationService trainDestinationService, GoodsStationsRepository goodsStationsRepository, ChooChooCarryAmountCalculator chooChooCarryAmountCalculator)
     {
       _trainDestinationService = trainDestinationService;
       _goodsStationsRepository = goodsStationsRepository;

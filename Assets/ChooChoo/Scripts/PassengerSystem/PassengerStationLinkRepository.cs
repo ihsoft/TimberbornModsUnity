@@ -75,28 +75,22 @@ namespace ChooChoo
 
     public void AddNew(PassengerStationLink passengerStationLink) => _pathLinks.Add(passengerStationLink);
 
-    public PassengerStationLink GetPathLink(Vector3 startBeaverPosition, Vector3 endBeaverPosition)
-    {
-      foreach (PassengerStationLink pathLink in _pathLinks)
-      {
-        Vector3 location1 = pathLink.StartLinkPoint.Location;
-        Vector3 location2 = pathLink.EndLinkPoint.Location;
-        if (Vector3Int.CeilToInt(location1) == Vector3Int.CeilToInt(startBeaverPosition) && Vector3Int.FloorToInt(location2) == Vector3Int.FloorToInt(endBeaverPosition) || Vector3Int.FloorToInt(location1) == Vector3Int.FloorToInt(startBeaverPosition) && Vector3Int.CeilToInt(location2) == Vector3Int.CeilToInt(endBeaverPosition))
-          return pathLink;
-      }
-      return null;
-    }
+    // Bad because using the vector3s might result in mismatch
+    // public PassengerStationLink GetPathLink(Vector3 startBeaverPosition, Vector3 endBeaverPosition)
+    // {
+    //   foreach (PassengerStationLink pathLink in _pathLinks)
+    //   {
+    //     Vector3 location1 = pathLink.StartLinkPoint.Location;
+    //     Vector3 location2 = pathLink.EndLinkPoint.Location;
+    //     if (Vector3Int.CeilToInt(location1) == Vector3Int.CeilToInt(startBeaverPosition) && Vector3Int.FloorToInt(location2) == Vector3Int.FloorToInt(endBeaverPosition) || Vector3Int.FloorToInt(location1) == Vector3Int.FloorToInt(startBeaverPosition) && Vector3Int.CeilToInt(location2) == Vector3Int.CeilToInt(endBeaverPosition))
+    //       return pathLink;
+    //   }
+    //   return null;
+    // }
 
-    public PassengerStationLink GetPathLink(
-      PassengerStation startPassengerStation,
-      PassengerStation endPassengerStation)
+    public PassengerStationLink GetPathLink(PassengerStation startPassengerStation, PassengerStation endPassengerStation)
     {
-      foreach (PassengerStationLink pathLink in _pathLinks)
-      {
-        if (startPassengerStation == pathLink.StartLinkPoint && endPassengerStation == pathLink.EndLinkPoint)
-          return pathLink;
-      }
-      return null;
+      return _pathLinks.FirstOrDefault(pathLink => startPassengerStation == pathLink.StartLinkPoint && endPassengerStation == pathLink.EndLinkPoint);
     }
 
     public void RemoveInvalidLinks() => _pathLinks.RemoveWhere(link => !link.ValidLink());

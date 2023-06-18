@@ -17,9 +17,11 @@ namespace ChooChoo
     {
       containerDefinition.Bind<GoodsStationSendingInventoryInitializer>().AsSingleton();
       containerDefinition.Bind<GoodsStationReceivingInventoryInitializer>().AsSingleton();
+      containerDefinition.Bind<GoodsStationRegistry>().AsSingleton();
       containerDefinition.Bind<GoodsStationsRepository>().AsSingleton();
       containerDefinition.Bind<GoodsStationService>().AsSingleton();
       containerDefinition.Bind<TransferableGoodObjectSerializer>().AsSingleton();
+      containerDefinition.Bind<GoodsStationDistributionSettingSerializer>().AsSingleton();
       containerDefinition.Bind<TrainDistributableGoodObjectSerializer>().AsSingleton();
       containerDefinition.MultiBind<TemplateModule>().ToProvider<TemplateModuleProvider>().AsSingleton();
     }
@@ -41,6 +43,8 @@ namespace ChooChoo
       {
         TemplateModule.Builder builder = new TemplateModule.Builder();
         builder.AddDecorator<GoodsStation, TrainDestination>();
+        builder.AddDecorator<GoodsStation, GoodsStationDistributionSetting>();
+        builder.AddDecorator<GoodsStation, GoodsStationDistributableGoodProvider>();
         builder.AddDecorator<GoodsStation, GoodsStationDescriber>();
         builder.AddDecorator<GoodsStation, GoodsStationSendingInventory>();
         builder.AddDecorator<GoodsStation, GoodsStationReceivingInventory>();

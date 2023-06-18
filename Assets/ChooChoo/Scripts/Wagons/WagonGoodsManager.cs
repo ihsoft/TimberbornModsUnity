@@ -8,148 +8,59 @@ using UnityEngine;
 
 namespace ChooChoo
 {
+    // TODO rename to: TrainWagonsGoodsManager+
     public class WagonGoodsManager : MonoBehaviour
     {
-        private TrainCarryAmountCalculator _trainCarryAmountCalculator;
+        private ChooChooCarryAmountCalculator _chooChooCarryAmountCalculator;
+        private List<TrainWagonGoodsManager> Wagons { get; } = new();
+        public List<TrainWagonGoodsManager> MostRecentWagons { get; } = new();
+
+        public bool IsCarrying => Wagons.Any(wagon => wagon.IsCarrying);
+
+        public bool IsFullOrReserved => MostRecentWagons.All(wagon => wagon.IsFullOrReserved);
         
-        private WagonManager _wagonManager;
+        public bool IsCarryingOrReserved => MostRecentWagons.Any(wagon => wagon.IsCarryingOrReserved);
 
-        [NonSerialized]
-        public List<TrainWagon> MostRecentWagons;
-
-        public bool IsCarrying => _wagonManager.Wagons.Any(wagon => wagon.GoodCarrier.IsCarrying);
-
-        public bool IsFullOrReserved =>
-            _wagonManager.Wagons.All(wagon => 
-                wagon.GoodCarrier.IsCarrying ||
-                (wagon.GoodReserver.HasReservedStock && 
-                 _trainCarryAmountCalculator.IsAtMaximumCarryCapacity(wagon.GoodCarrier.LiftingCapacity, wagon.GoodReserver.StockReservation.GoodAmount)));
+        public bool HasReservedCapacity => MostRecentWagons.Any(wagon => wagon.HasReservedCapacity);
         
-        public bool IsCarryingOrReserved => 
-            _wagonManager.Wagons.Any(wagon => wagon.GoodCarrier.IsCarrying || wagon.GoodReserver.HasReservedStock);
-
-        public bool HasReservedCapacity => _wagonManager.Wagons.Any(wagon => wagon.GoodReserver.HasReservedCapacity);
-        
-        public bool HasReservedStock => _wagonManager.Wagons.Any(wagon => wagon.GoodReserver.HasReservedStock);
+        public bool HasReservedStock => MostRecentWagons.Any(wagon => wagon.HasReservedStock);
 
         [Inject]
-        public void InjectDependencies(TrainCarryAmountCalculator trainCarryAmountCalculator)
+        public void InjectDependencies(ChooChooCarryAmountCalculator chooChooCarryAmountCalculator)
         {
-            _trainCarryAmountCalculator = trainCarryAmountCalculator;
-        }
-        
-        private void Awake()
-        {
-            _wagonManager = GetComponent<WagonManager>();
+            _chooChooCarryAmountCalculator = chooChooCarryAmountCalculator;
         }
 
         private void Start()
         {
-            MostRecentWagons = _wagonManager.Wagons.ToList();
+            foreach (var trainWagon in GetComponent<WagonManager>().Wagons)
+            {
+                var trainWagonGoodsManager = trainWagon.GetComponentFast<TrainWagonGoodsManager>();
+                Wagons.Add(trainWagonGoodsManager);
+                MostRecentWagons.Add(trainWagonGoodsManager);
+            }
         }
 
-        public void TryReservingGood(TrainDistributableGood trainDistributableGood, Inventory sendingInventory)
+        // Important to remember that reserving can be from a different inventory every time. So the stock reservation might be from a different inventory.
+        public void TryReservingGood(TrainDistributableGoodAmount trainDistributableGoodAmount, Inventory sendingInventory)
         {
-            var toBeReservedGoodAmount = trainDistributableGood.GoodAmount;
-            int remainingToBeReservedAmount = toBeReservedGoodAmount.Amount;
+            int remainingToBeReservedAmount = trainDistributableGoodAmount.GoodAmount.Amount;
             
-            foreach (var currentWagon in _wagonManager.Wagons)
+            foreach (var currentWagon in Wagons)
             {
-                Plugin.Log.LogWarning("Looking to reserve: " + remainingToBeReservedAmount);
-                var destinationGoodsStation = trainDistributableGood.DestinationGoodsStation;
-                var goodReserver = currentWagon.GoodReserver;
-                var goodCarrier = currentWagon.GoodCarrier;
-                
-                GoodAmount carry = _trainCarryAmountCalculator.AmountToCarry(goodCarrier.LiftingCapacity, MaxTakeableAmount(sendingInventory, trainDistributableGood.GoodAmount));
-                Plugin.Log.LogError("Carry Amount: " + carry.Amount);
-                if (carry.Amount <= 0) 
-                    continue;
-                
-                var maxAmountToCarry = _trainCarryAmountCalculator.MaxAmountToCarry(goodCarrier.LiftingCapacity, toBeReservedGoodAmount.GoodId);
-                Plugin.Log.LogError("Max Amount able to carry: " + maxAmountToCarry);
-                
-                MostRecentWagons.MoveItemToFront(currentWagon);
-                
-                if (goodCarrier.IsCarrying)
+                if (currentWagon.TryReservingGood(trainDistributableGoodAmount, sendingInventory, ref remainingToBeReservedAmount))
                 {
-                    var currentlyCarriedGoods = goodCarrier.CarriedGoods;
-                    // 30 = 50 - 20
-                    var fillableAmount = maxAmountToCarry - currentlyCarriedGoods.Amount;
-                    if (
-                        // 50 > 20
-                        maxAmountToCarry > currentlyCarriedGoods.Amount &&
-                        goodReserver.CapacityReservation.Inventory == destinationGoodsStation.ReceivingInventory &&
-                        currentlyCarriedGoods.GoodId == toBeReservedGoodAmount.GoodId && 
-                        remainingToBeReservedAmount > fillableAmount)
-                    {
-                        // ReserveAlreadyCarryingWagon(goodReserver, carry, maxAmountToCarry, closestInventory, destinationGoodsStation);
-                        goodReserver.UnreserveCapacity();
-                        goodReserver.ReserveExactStockAmount(sendingInventory, new GoodAmount(toBeReservedGoodAmount.GoodId, fillableAmount));
-                        goodReserver.ReserveCapacity(destinationGoodsStation.ReceivingInventory, new GoodAmount(toBeReservedGoodAmount.GoodId, maxAmountToCarry));
-                        remainingToBeReservedAmount -= fillableAmount;
-                        trainDistributableGood.AddResolvingTrainWagon(currentWagon);
-                    }
-                    continue;
+                    MostRecentWagons.MoveItemToFront(currentWagon);
                 }
 
-                if (goodReserver.HasReservedStock)
-                {
-                    var stockReservation = goodReserver.StockReservation;
-                    var currentAmount = stockReservation.GoodAmount.Amount;
-                    // 30 = 50 - 20
-                    var fillableAmount = maxAmountToCarry - currentAmount;
-                    Plugin.Log.LogError("StockReservation fillableAmount: " + fillableAmount);
-                    if (
-                        // 50 > 20
-                        maxAmountToCarry > currentAmount &&
-                        goodReserver.CapacityReservation.Inventory == destinationGoodsStation.ReceivingInventory &&
-                        stockReservation.GoodAmount.GoodId == toBeReservedGoodAmount.GoodId && 
-                        fillableAmount > 0)
-                    {
-                        if (remainingToBeReservedAmount > fillableAmount)
-                        {
-                            // ReserveAlreadyCarryingWagon(goodReserver, carry, maxAmountToCarry, closestInventory, destinationGoodsStation);
-                            goodReserver.UnreserveStock();
-                            goodReserver.UnreserveCapacity();
-                            goodReserver.ReserveExactStockAmount(sendingInventory, new GoodAmount(toBeReservedGoodAmount.GoodId, maxAmountToCarry));
-                            goodReserver.ReserveCapacity(destinationGoodsStation.ReceivingInventory, new GoodAmount(toBeReservedGoodAmount.GoodId, maxAmountToCarry));
-                            remainingToBeReservedAmount -= fillableAmount;
-                            trainDistributableGood.AddResolvingTrainWagon(currentWagon);
-                            continue;
-                        }
-
-                        var combinedAmount = remainingToBeReservedAmount + currentAmount;
-                        goodReserver.UnreserveStock();
-                        goodReserver.UnreserveCapacity();
-                        goodReserver.ReserveExactStockAmount(sendingInventory, new GoodAmount(toBeReservedGoodAmount.GoodId, combinedAmount));
-                        goodReserver.ReserveCapacity(destinationGoodsStation.ReceivingInventory, new GoodAmount(toBeReservedGoodAmount.GoodId, combinedAmount));
-                        trainDistributableGood.AddResolvingTrainWagon(currentWagon);
-                        break;
-                    }
-                    continue;
-                }
-
-                // 60 > 50 
-                if (remainingToBeReservedAmount > carry.Amount)
-                {
-                    goodReserver.ReserveExactStockAmount(sendingInventory, new GoodAmount(toBeReservedGoodAmount.GoodId, carry.Amount));
-                    goodReserver.ReserveCapacity(destinationGoodsStation.ReceivingInventory, new GoodAmount(toBeReservedGoodAmount.GoodId, carry.Amount));
-                    remainingToBeReservedAmount -= carry.Amount;
-                    trainDistributableGood.AddResolvingTrainWagon(currentWagon);
-                    continue;
-                }
-                
-                // 10 > 50
-                goodReserver.ReserveExactStockAmount(sendingInventory, new GoodAmount(toBeReservedGoodAmount.GoodId, remainingToBeReservedAmount));
-                goodReserver.ReserveCapacity(destinationGoodsStation.ReceivingInventory, new GoodAmount(toBeReservedGoodAmount.GoodId, remainingToBeReservedAmount));
-                trainDistributableGood.AddResolvingTrainWagon(currentWagon);
-                break;
+                if (remainingToBeReservedAmount == 0)
+                    break;
             }
         }
 
         public void TryDeliveringGoods(Inventory currentInvetory)
         {
-            foreach (var trainWagon in _wagonManager.Wagons)
+            foreach (var trainWagon in Wagons)
             {
                 var goodReserver = trainWagon.GoodReserver;
                 
@@ -165,54 +76,28 @@ namespace ChooChoo
 
         public void EmptyWagons()
         {
-            foreach (var trainWagon in _wagonManager.Wagons)
+            foreach (var trainWagon in Wagons)
                 trainWagon.GoodCarrier.EmptyHands();
         }
 
         public void UnreserveCapacity()
         {
-            foreach (var trainWagon in _wagonManager.Wagons)
+            foreach (var trainWagon in Wagons)
                 trainWagon.GoodReserver.UnreserveCapacity();
         }
         
         public void UnreserveStock()
         {
-            foreach (var trainWagon in _wagonManager.Wagons)
+            foreach (var trainWagon in Wagons)
                 trainWagon.GoodReserver.UnreserveStock();
         }
 
         public void TryRetrievingGoods()
         {
-            foreach (var trainWagon in _wagonManager.Wagons)
-            {
-                var goodReserver = trainWagon.GoodReserver;
-                if (!goodReserver.HasReservedStock)
-                    continue;
-                GoodReservation stockReservation = goodReserver.StockReservation;
-                goodReserver.UnreserveStock();
-                stockReservation.Inventory.Take(stockReservation.GoodAmount);
-                var goodCarrier = trainWagon.GoodCarrier;
-                if (goodCarrier.IsCarrying)
-                {
-                    goodCarrier.PutGoodsInHands(new GoodAmount(stockReservation.GoodAmount.GoodId, goodCarrier.CarriedGoods.Amount + stockReservation.GoodAmount.Amount));
-                }
-                else
-                {
-                    goodCarrier.PutGoodsInHands(stockReservation.GoodAmount);
-                }
-                stockReservation.Inventory.GetComponentFast<GoodsStation>().ResolveCorrespondingQueueItems(trainWagon);
-            }
+            foreach (var trainWagon in Wagons) 
+                trainWagon.TryRetrievingGoods();
         }
 
-        private void OverwriteCurrentReservations(GoodReserver goodReserver, GoodAmount carry, int liftingCapacity, Inventory closestInventory, GoodsStation destinationGoodsStation)
-        {
-            // goodReserver.UnreserveCapacity();
-            // goodReserver.UnreserveStock();
-            // var capacity = new GoodAmount(carry.GoodId, liftingCapacity);
-            // goodReserver.ReserveExactStockAmount(closestInventory, capacity);
-            // goodReserver.ReserveCapacity(destinationGoodsStation.ReceivingInventory, capacity);
-        }
-        
         private GoodAmount MaxTakeableAmount(
             Inventory inventory,
             GoodAmount lackingGood)
