@@ -13,7 +13,6 @@ namespace ChooChoo
   {
     private TrainDestinationsRepository _trainDestinationsRepository;
     private BlockService _blockService;
-    private ClosestTrainWaitingLocationPicker _closestTrainWaitingLocationPicker;
     private MoveToStationExecutor _moveToStationExecutor;
     private TrainWaitingLocation _currentWaitingLocation;
 
@@ -23,11 +22,10 @@ namespace ChooChoo
     public List<Passenger> Passengers => _passengers;
 
     [Inject]
-    public void InjectDependencies(TrainDestinationsRepository trainDestinationsRepository, BlockService blockService, ClosestTrainWaitingLocationPicker closestTrainWaitingLocationPicker)
+    public void InjectDependencies(TrainDestinationsRepository trainDestinationsRepository, BlockService blockService)
     {
       _trainDestinationsRepository = trainDestinationsRepository;
       _blockService = blockService;
-      _closestTrainWaitingLocationPicker = closestTrainWaitingLocationPicker;
     }
     
     public void Awake()
@@ -39,7 +37,6 @@ namespace ChooChoo
     {
       var passengerStations = _trainDestinationsRepository.TrainDestinations.Where(destionation => destionation.TryGetComponentFast(out PassengerStation _));
 
-      
       var currentPassengerStation = _blockService.GetFloorObjectComponentAt<PassengerStation>(TransformFast.position.ToBlockServicePosition());
 
       if (_passengers.Any())
@@ -51,7 +48,18 @@ namespace ChooChoo
           return Decision.ReleaseNow();
         }
 
-        return GoToPassengerStation(destination.GetComponentFast<TrainDestination>());
+        switch (_moveToStationExecutor.Launch(destination.GetComponentFast<TrainDestination>()))
+        {
+          case ExecutorStatus.Success:
+            return Decision.ReleaseNow();
+          case ExecutorStatus.Failure:
+            ForcedPassengerDropOff();
+            return Decision.ReleaseNow();
+          case ExecutorStatus.Running:
+            return Decision.ReturnWhenFinished(_moveToStationExecutor);
+          default:
+            throw new ArgumentOutOfRangeException();
+        }
       }
       
       if (_reservedPassengers.Any() && _reservedPassengers.First().PassengerStationLink.StartLinkPoint == currentPassengerStation)
@@ -67,18 +75,27 @@ namespace ChooChoo
         if (passengerStation.UnreservedPassengerQueue.Any())
         {
           ReservePassengers(passengerStation);
-          return GoToPassengerStation(trainDestination);
+          switch (_moveToStationExecutor.Launch(trainDestination))
+          {
+            case ExecutorStatus.Success:
+              return Decision.ReleaseNow();
+            case ExecutorStatus.Failure:
+              return Decision.ReleaseNow();
+            case ExecutorStatus.Running:
+              return Decision.ReturnWhenFinished(_moveToStationExecutor);
+            default:
+              throw new ArgumentOutOfRangeException();
+          }
         }
       }
       
       return Decision.ReleaseNow();
     }
     
-    
     public void DeleteEntity()
     {
-      foreach (var passenger in _passengers)
-        passenger.ArrivedAtDestination();
+      UnreservePassenger();
+      ForcedPassengerDropOff();
     }
     
     private void DropPassengersOff(PassengerStation passengerStation)
@@ -94,12 +111,33 @@ namespace ChooChoo
       }
     }
     
+    private void ForcedPassengerDropOff()
+    {
+      // Plugin.Log.LogInfo("Dropping off passengers");
+      foreach (var passenger in _passengers.ToList())
+      {
+        passenger.ArrivedAtDestination();
+        _passengers.Remove(passenger);
+      }
+    }
+    
     private void ReservePassengers(PassengerStation passengerStation)
     {      
       // Plugin.Log.LogInfo("Reserving Up passengers");
       var unreservedPassengers = passengerStation.UnreservedPassengerQueue;
       passengerStation.ReservedPassengerQueue.AddRange(unreservedPassengers);
       _reservedPassengers.AddRange(unreservedPassengers);
+    }
+    
+    private void UnreservePassenger()
+    {      
+      // Plugin.Log.LogInfo("Unreserving passengers");
+      foreach (var passenger in _reservedPassengers)
+      {
+        var passengerStation = passenger.PassengerStationLink.StartLinkPoint;
+        passengerStation.ReservedPassengerQueue.Remove(passenger);
+      }
+      _reservedPassengers.Clear();
     }
 
     private void LoadPassengers(PassengerStation passengerStation)
@@ -117,38 +155,6 @@ namespace ChooChoo
         passengerStation.PassengerQueue.Remove(passenger);
         _passengers.Add(passenger);
       }
-    }
-
-    private Decision OccupyWaitingLocation(TrainWaitingLocation trainWaitingLocation)
-    {
-      if (_currentWaitingLocation != null)
-        _currentWaitingLocation.UnOccupy();
-      _currentWaitingLocation = trainWaitingLocation;
-      if (_currentWaitingLocation == null)
-        return Decision.ReleaseNow();
-      _currentWaitingLocation.Occupy(GameObjectFast);
-      return GoToPassengerStation(_currentWaitingLocation.TrainDestinationComponent);
-    }
-    
-    private Decision GoToPassengerStation(TrainDestination trainDestination)
-    {
-      switch (_moveToStationExecutor.Launch(trainDestination))
-      {
-        case ExecutorStatus.Success:
-          return Decision.ReleaseNow();
-        case ExecutorStatus.Failure:
-          return Decision.ReleaseNow();
-        case ExecutorStatus.Running:
-          return Decision.ReturnWhenFinished(_moveToStationExecutor);
-        default:
-          throw new ArgumentOutOfRangeException();
-      }
-    }
-
-    private Decision GoToClosestWaitingLocation()
-    {
-      var closestWaitingLocation = _closestTrainWaitingLocationPicker.ClosestWaitingLocation(TransformFast.position);
-      return OccupyWaitingLocation(closestWaitingLocation);
     }
   }
 }

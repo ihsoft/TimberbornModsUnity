@@ -87,6 +87,14 @@ Tobbert.Train.Length,Train Length: ,-
 Tobbert.Train.Destroy,Are you sure you want to destroy this train?,-
 
 Tobbert.BatchControl.GoodsStation,Goods stations,-
+Tobbert.BatchControl.ImportDisabled,Do not import,-
+Tobbert.BatchControl.ImportDisabled.Description,Completely disable import of the good to this goods stations.,-
+Tobbert.BatchControl.ImportForced,Import Always,-
+Tobbert.BatchControl.ImportForced.Description,Always import the good to this goods station. The amount that can be imported is determined by the amount to the right.,-
+Tobbert.BatchControl.DecreaseMaximum,Decrease max amount of goods,-
+Tobbert.BatchControl.DecreaseMaximum.Description,Increase the maximum amount of items that the goods station can hold. Click is -1 and holding shift is -10.,-
+Tobbert.BatchControl.IncreaseMaximum,Increase max amount of goods,-
+Tobbert.BatchControl.IncreaseMaximum.Description,Increase the maximum amount of items that the goods station can hold. Click is +1 and holding shift is +10.,-
 
 Tobbert.TrackSystem.ToggleSectionDivider,Divides sections: ,-
 Tobbert.TrackSystem.ButtonChangeDirection,Change direction,-

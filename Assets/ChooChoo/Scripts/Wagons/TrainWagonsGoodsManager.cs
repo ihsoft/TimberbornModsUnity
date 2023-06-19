@@ -1,17 +1,13 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using Bindito.Core;
 using Timberborn.Goods;
 using Timberborn.InventorySystem;
 using UnityEngine;
 
 namespace ChooChoo
 {
-    // TODO rename to: TrainWagonsGoodsManager+
-    public class WagonGoodsManager : MonoBehaviour
+    public class TrainWagonsGoodsManager : MonoBehaviour
     {
-        private ChooChooCarryAmountCalculator _chooChooCarryAmountCalculator;
         private List<TrainWagonGoodsManager> Wagons { get; } = new();
         public List<TrainWagonGoodsManager> MostRecentWagons { get; } = new();
 
@@ -25,12 +21,6 @@ namespace ChooChoo
         
         public bool HasReservedStock => MostRecentWagons.Any(wagon => wagon.HasReservedStock);
 
-        [Inject]
-        public void InjectDependencies(ChooChooCarryAmountCalculator chooChooCarryAmountCalculator)
-        {
-            _chooChooCarryAmountCalculator = chooChooCarryAmountCalculator;
-        }
-
         private void Start()
         {
             foreach (var trainWagon in GetComponent<WagonManager>().Wagons)
@@ -42,20 +32,25 @@ namespace ChooChoo
         }
 
         // Important to remember that reserving can be from a different inventory every time. So the stock reservation might be from a different inventory.
-        public void TryReservingGood(TrainDistributableGoodAmount trainDistributableGoodAmount, Inventory sendingInventory)
+        public void TryReservingGood(TrainDistributableGoodAmount trainDistributableGoodAmount, GoodsStation goodsStation)
         {
             int remainingToBeReservedAmount = trainDistributableGoodAmount.GoodAmount.Amount;
             
             foreach (var currentWagon in Wagons)
             {
-                if (currentWagon.TryReservingGood(trainDistributableGoodAmount, sendingInventory, ref remainingToBeReservedAmount))
+                if (currentWagon.TryReservingGood(trainDistributableGoodAmount, goodsStation.SendingInventory, ref remainingToBeReservedAmount))
                 {
                     MostRecentWagons.MoveItemToFront(currentWagon);
                 }
 
-                if (remainingToBeReservedAmount == 0)
+                if (remainingToBeReservedAmount <= 0)
                     break;
             }
+            Plugin.Log.LogInfo("remainingToBeReservedAmount: " + remainingToBeReservedAmount);
+            if (remainingToBeReservedAmount <= 0 || remainingToBeReservedAmount == trainDistributableGoodAmount.GoodAmount.Amount)
+                return;
+            trainDistributableGoodAmount.LowerAmount(remainingToBeReservedAmount);
+            goodsStation.AddToQueue(TrainDistributableGoodAmount.CreateWithoutAgent(new GoodAmount(trainDistributableGoodAmount.GoodAmount.GoodId, remainingToBeReservedAmount), goodsStation));
         }
 
         public void TryDeliveringGoods(Inventory currentInvetory)
@@ -92,18 +87,10 @@ namespace ChooChoo
                 trainWagon.GoodReserver.UnreserveStock();
         }
 
-        public void TryRetrievingGoods()
+        public void TryRetrievingGoods(TrainDestination destination)
         {
             foreach (var trainWagon in Wagons) 
-                trainWagon.TryRetrievingGoods();
-        }
-
-        private GoodAmount MaxTakeableAmount(
-            Inventory inventory,
-            GoodAmount lackingGood)
-        {
-            int amount = Mathf.Min(inventory.UnreservedAmountInStock(lackingGood.GoodId), lackingGood.Amount);
-            return new GoodAmount(lackingGood.GoodId, amount);
+                trainWagon.TryRetrievingGoods(destination);
         }
     }
 }

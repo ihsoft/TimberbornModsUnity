@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Bindito.Core;
 using Timberborn.BaseComponentSystem;
 using Timberborn.Common;
 using Timberborn.DistributionSystem;
 using Timberborn.EntitySystem;
 using Timberborn.Goods;
+using Timberborn.InventorySystem;
 using Timberborn.Persistence;
 
 namespace ChooChoo
@@ -43,8 +45,12 @@ namespace ChooChoo
     {
       if (!entityLoader.HasComponent(DistrictDistributionSettingKey))
         return;
-      foreach (GoodsStationGoodDistributionSetting goodDistributionSetting in entityLoader.GetComponent(DistrictDistributionSettingKey).Get(GoodDistributionSettingsKey, _goodsStationDistributionSettingSerializer)) 
+      var limitableGoodDisallowers = new List<LimitableGoodDisallower>();
+      GetComponentsFast(limitableGoodDisallowers);
+      foreach (GoodsStationGoodDistributionSetting goodDistributionSetting in entityLoader.GetComponent(DistrictDistributionSettingKey).Get(GoodDistributionSettingsKey, _goodsStationDistributionSettingSerializer))
+      {
         AddGoodDistributionSetting(goodDistributionSetting);
+      }
     }
 
     public GoodsStationGoodDistributionSetting GetGoodDistributionSetting(string goodId)

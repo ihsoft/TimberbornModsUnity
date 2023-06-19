@@ -1,4 +1,5 @@
-﻿using Timberborn.Goods;
+﻿using Timberborn.Carrying;
+using Timberborn.Goods;
 using Timberborn.Persistence;
 
 namespace ChooChoo
@@ -7,6 +8,7 @@ namespace ChooChoo
   {
     private static readonly PropertyKey<GoodAmount> GoodAmountKey = new("GoodAmount");
     private static readonly PropertyKey<GoodsStation> DestinationGoodsStationKey = new("DestinationGoodsStation");
+    private static readonly PropertyKey<CarryRootBehavior> AgentKey = new("Agent");
 
     private readonly GoodAmountSerializer _goodAmountSerializer;
 
@@ -19,12 +21,20 @@ namespace ChooChoo
     {
       objectSaver.Set(GoodAmountKey, value.GoodAmount, _goodAmountSerializer);
       objectSaver.Set(DestinationGoodsStationKey, value.DestinationGoodsStation);
+      if (value.Agent != null) 
+        objectSaver.Set(AgentKey, value.Agent);
     }
 
     public Obsoletable<TrainDistributableGoodAmount> Deserialize(IObjectLoader objectLoader)
     {
-      return new TrainDistributableGoodAmount(objectLoader.Get(GoodAmountKey, _goodAmountSerializer), objectLoader.Get(DestinationGoodsStationKey));
-      
+      if (objectLoader.Has(AgentKey))
+      {
+        return TrainDistributableGoodAmount.CreateWithAgent(objectLoader.Get(GoodAmountKey, _goodAmountSerializer),
+          objectLoader.Get(DestinationGoodsStationKey), objectLoader.Get(AgentKey));
+      }
+
+      return TrainDistributableGoodAmount.CreateWithoutAgent(objectLoader.Get(GoodAmountKey, _goodAmountSerializer),
+        objectLoader.Get(DestinationGoodsStationKey));
     }
   }
 }

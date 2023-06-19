@@ -41,7 +41,7 @@ namespace ChooChoo
             foreach (var pathCorner in pathCorners)
             {
                 var blockObject = _pathCornerBlockObjectRepository.Get(pathCorner);
-                // Plugin.Log.LogInfo(blockObject + "");
+                // Plugin.Log.LogInfo(pathCorner + "   " + blockObject);
                 list.Add(blockObject);
             }
 

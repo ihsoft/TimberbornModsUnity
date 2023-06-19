@@ -5,7 +5,6 @@ using System.Linq;
 using Timberborn.BehaviorSystem;
 using Timberborn.Carrying;
 using Timberborn.Common;
-using Timberborn.DistributionSystem;
 using Timberborn.Emptying;
 using Timberborn.Goods;
 using Timberborn.InventorySystem;
@@ -73,7 +72,9 @@ namespace ChooChoo
           continue;
         // Plugin.Log.LogInfo("Can distribute");
         goodsStation.GoodsStationDistributableGoodProvider.GetDistributableGoodsForImport(_otherGoodsStationDistributableGoods);
+        // Plugin.Log.LogInfo("_otherGoodsStationDistributableGoods Count: " + _otherGoodsStationDistributableGoods.Count);
         var canExport = TryExportDistributableGoods(agent, goodsStation);
+        // Plugin.Log.LogInfo("Can Export: " + canExport);
         _otherGoodsStationDistributableGoods.Clear();
         if (canExport)
           return true;
@@ -96,7 +97,6 @@ namespace ChooChoo
       {
         // Plugin.Log.LogInfo("CAN Export");
         int amountToExport = _goodsStation.GetAmountToExport(trainDistributableGood, linkedTrainDistributableGood);
-        // Plugin.Log.LogInfo("amountToExport: " + amountToExport);
         if (TryStartCarrying(agent, goodId, amountToExport, linkedTrainDistributableGood, destination))
           return true;
       }
@@ -115,7 +115,8 @@ namespace ChooChoo
       int maxAmount = Math.Min(amountToBring, val2);
       if (maxAmount <= 0 || !agent.GetComponentFast<CarrierInventoryFinder>().TryCarryFromAnyInventoryLimited(goodId, _goodsStation.SendingInventory, maxAmount))
         return false;
-      _goodsStation.AddToQueue(new TrainDistributableGoodAmount(new GoodAmount(goodId, agent.GetComponentFast<GoodReserver>().CapacityReservation.GoodAmount.Amount), destination));
+      var trainDistributableGoodAmount = TrainDistributableGoodAmount.CreateWithAgent(new GoodAmount(goodId, agent.GetComponentFast<GoodReserver>().CapacityReservation.GoodAmount.Amount), destination, agent.GetComponentFast<CarryRootBehavior>());
+      _goodsStation.AddToQueue(trainDistributableGoodAmount);
       linkedTrainDistributableGood.UpdateLastImportTimestamp(_dayNightCycle.PartialDayNumber);
       return true;
     }

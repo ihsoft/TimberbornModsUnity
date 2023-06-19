@@ -40,7 +40,7 @@ namespace ChooChoo
     public void Destroy()
     {
       _goodReserver.UnreserveStock();
-      ChooChooCore.SetPrivateProperty(_goodReserver, "CapacityReservation", new GoodReservation());
+      ChooChooCore.SetInaccesibleProperty(_goodReserver, "CapacityReservation", new GoodReservation());
       gameObject.SetActive(false);
       _character.DestroyCharacter();
       var position = transform.position;

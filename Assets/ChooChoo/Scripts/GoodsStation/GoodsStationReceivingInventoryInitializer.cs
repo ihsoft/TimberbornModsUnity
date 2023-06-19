@@ -43,7 +43,7 @@ namespace ChooChoo
     {
       foreach (string good1 in _goodService.Goods)
       {
-        StorableGoodAmount good2 = new StorableGoodAmount(StorableGood.CreateAsTakeable(good1), GoodsStation.Capacity);
+        StorableGoodAmount good2 = new StorableGoodAmount(StorableGood.CreateAsTakeable(good1), GoodsStation.Capacity * 10);
         inventoryInitializer.AddAllowedGood(good2);
       }
     }

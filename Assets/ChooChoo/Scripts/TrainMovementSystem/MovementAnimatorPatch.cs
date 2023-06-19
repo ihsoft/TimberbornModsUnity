@@ -43,13 +43,13 @@ namespace ChooChoo
 
             if (Math.Abs(verticalDistanceBetweenCorners) > 0.005)
             {
-                ChooChooCore.SetPrivateProperty(__instance, "MovedUp", (double) verticalDistanceBetweenCorners > 0.0);
-                ChooChooCore.SetPrivateProperty(__instance, "MovedDown", (double) verticalDistanceBetweenCorners < 0.0);
+                ChooChooCore.SetInaccesibleProperty(__instance, "MovedUp", (double) verticalDistanceBetweenCorners > 0.0);
+                ChooChooCore.SetInaccesibleProperty(__instance, "MovedDown", (double) verticalDistanceBetweenCorners < 0.0);
             }
             else
             {
-                ChooChooCore.SetPrivateProperty(__instance, "MovedUp", false);
-                ChooChooCore.SetPrivateProperty(__instance, "MovedDown", false);
+                ChooChooCore.SetInaccesibleProperty(__instance, "MovedUp", false);
+                ChooChooCore.SetInaccesibleProperty(__instance, "MovedDown", false);
             }
 
             return false;

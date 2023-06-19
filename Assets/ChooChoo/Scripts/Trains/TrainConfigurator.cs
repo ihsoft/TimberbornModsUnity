@@ -1,7 +1,9 @@
 ﻿using Bindito.Core;
 using TimberApi.ConfiguratorSystem;
 using TimberApi.SceneSystem;
+using Timberborn.BehaviorSystem;
 using Timberborn.PrefabSystem;
+using Timberborn.TemplateSystem;
 
 namespace ChooChoo
 {
@@ -11,7 +13,17 @@ namespace ChooChoo
     public void Configure(IContainerDefinition containerDefinition)
     {
       containerDefinition.MultiBind<IObjectCollection>().To<TrainObjectCollector>().AsSingleton();
-      containerDefinition.Bind<MachinistCharacterFactory>().AsSingleton();
+      // containerDefinition.MultiBind<TemplateModule>().ToProvider<TemplateModuleProvider>().AsSingleton();
+    }
+
+    private class TemplateModuleProvider : IProvider<TemplateModule>
+    {
+      public TemplateModule Get()
+      {
+        TemplateModule.Builder builder = new TemplateModule.Builder();
+        builder.AddDecorator<WaitExecutor, TrainSmokeController>();
+        return builder.Build();
+      }
     }
   }
 }

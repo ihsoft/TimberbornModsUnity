@@ -28,7 +28,7 @@ namespace ChooChoo
     {
       _root = _visualElementLoader.LoadVisualElement("Game/EntityPanel/DistrictCrossingInventoryFragment");
       _root.ToggleDisplayStyle(false);
-      _inventoryFragment = _inventoryFragmentBuilderFactory.CreateBuilder(_root).ShowRowLimit().ShowNoGoodInStockMessage().Build();
+      _inventoryFragment = _inventoryFragmentBuilderFactory.CreateBuilder(_root).ShowNoGoodInStockMessage().Build();
       return _root;
     }
 

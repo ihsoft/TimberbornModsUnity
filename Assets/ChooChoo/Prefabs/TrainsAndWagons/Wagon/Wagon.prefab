@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7148265542174197100}
   - component: {fileID: 5636916874809978349}
   - component: {fileID: 5915806572384148654}
+  - component: {fileID: 4414318310606539258}
   - component: {fileID: 198264892705508533}
   - component: {fileID: 1607243471021243703}
   - component: {fileID: 4124541311747334948}
@@ -108,7 +109,20 @@ MonoBehaviour:
   m_Script: {fileID: 992741808, guid: 948419c1896aad842bc2afb1c6b071d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animationSpeedScale: 1
+  _animationSpeedScale: 2
+--- !u!114 &4414318310606539258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3207032685556258263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ef10f4e7844418a9f033661e66404aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  YRotationSpeedMultiplier: 2
 --- !u!114 &198264892705508533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,7 +192,7 @@ MonoBehaviour:
   m_Script: {fileID: 444642958, guid: b6cb9fb40e6a9dd39b069e7f18c050b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseWalkingSpeed: 6.5
+  _baseWalkingSpeed: 7
   _baseSlowedSpeed: 1
 --- !u!114 &6479493708352514342
 MonoBehaviour:

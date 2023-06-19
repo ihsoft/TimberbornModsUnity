@@ -22,7 +22,7 @@ namespace GlobalMarket
       TemplateModule.Builder builder = new TemplateModule.Builder();
       builder.AddDecorator<TrainWagon, TrainEntityBadge>();
       builder.AddDecorator<TrainWagon, WagonTypeDropdownProvider>();
-      builder.AddDecorator<WagonManager, WagonGoodsManager>();
+      builder.AddDecorator<WagonManager, TrainWagonsGoodsManager>();
       builder.AddDecorator<WagonManager, WagonMovementController>();
       return builder.Build();
     }

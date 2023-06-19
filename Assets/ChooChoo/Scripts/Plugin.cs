@@ -199,7 +199,7 @@ namespace ChooChoo
             {
                 __result = ____resourceAssetLoader.Load<Sprite>(Path.Combine("Sprites/StatusIcons", spriteName));
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 __result = ____resourceAssetLoader.Load<Sprite>(spriteName);
             }

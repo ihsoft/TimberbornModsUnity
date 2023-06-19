@@ -76,7 +76,7 @@ namespace Timberborn.InventorySystem
           EventHandler<DisallowedGoodsChangedEventArgs> disallowedGoodsChanged = DisallowedGoodsChanged;
           if (disallowedGoodsChanged == null)
             return;
-          disallowedGoodsChanged((object) this, new DisallowedGoodsChangedEventArgs(goodId));
+          disallowedGoodsChanged(this, new DisallowedGoodsChangedEventArgs(goodId));
         }
     }
 }

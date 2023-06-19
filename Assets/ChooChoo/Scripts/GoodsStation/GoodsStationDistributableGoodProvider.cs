@@ -5,10 +5,9 @@ using HarmonyLib;
 using Timberborn.BaseComponentSystem;
 using Timberborn.Common;
 using Timberborn.DistributionSystem;
-using Timberborn.Emptying;
 using Timberborn.GameDistricts;
 using Timberborn.InventorySystem;
-using Timberborn.StockpilePrioritySystem;
+using Timberborn.SingletonSystem;
 
 namespace ChooChoo
 {
@@ -28,7 +27,6 @@ namespace ChooChoo
       _goodsStationSendingInventory = GetComponentFast<GoodsStationSendingInventory>();
       _goodsStationDistributionSetting = GetComponentFast<GoodsStationDistributionSetting>();
       _goodsStationDistributionSetting.SettingChanged += (_, setting) => ClearCache(setting.GoodId);
-      GetComponentFast<GoodsStationReceivingInventory>().Inventory.InventoryChanged += (_, setting) => ClearCache(setting.GoodId);
     }
     
     public void GetDistributableGoodsForImport(List<TrainDistributableGood> distributableGoods)
@@ -61,6 +59,12 @@ namespace ChooChoo
 
     public ImportOption GetGoodImportOption(string goodId) => _goodsStationDistributionSetting.GetGoodDistributionSetting(goodId).ImportOption;
 
+    [OnEvent]
+    private void OnGoodStorageChangedEvent(GoodStorageChangedEvent goodStorageChangedEvent)
+    {
+      ClearCache(goodStorageChangedEvent.GoodId);
+    }
+
     private void ClearCache(string goodId)
     {
       _exportCache.Remove(goodId);
@@ -72,7 +76,15 @@ namespace ChooChoo
       if (_importCache.TryGetValue(goodId, out var importableGood1))
         return importableGood1;
       GoodsStationGoodDistributionSetting distributionSetting = _goodsStationDistributionSetting.GetGoodDistributionSetting(goodId);
-      ImportableGood importableGood2 = !CanBeImported(distributionSetting, out var hasCapacity) ? (!hasCapacity ? ImportableGood.CreateNonImportable() : ImportableGood.CreateNonImportableWithCapacity()) : ImportableGood.CreateImportableWithCapacity(GetDistributableGood(distributionSetting, true));
+      ImportableGood importableGood2;
+      var canBeImported = CanBeImported(distributionSetting, out var hasCapacity);
+      // Plugin.Log.LogInfo("canBeImported: " + canBeImported);
+      if (canBeImported)
+        importableGood2 = ImportableGood.CreateImportableWithCapacity(GetDistributableGood(distributionSetting, true));
+      else if (!hasCapacity)
+        importableGood2 = ImportableGood.CreateNonImportable();
+      else
+        importableGood2 = ImportableGood.CreateNonImportableWithCapacity();
       _importCache.Add(goodId, importableGood2);
       return importableGood2;
     }
@@ -80,16 +92,21 @@ namespace ChooChoo
     private bool CanBeImported(GoodsStationGoodDistributionSetting goodDistributionSetting, out bool hasCapacity)
     {
       hasCapacity = goodDistributionSetting.ImportOption == ImportOption.Forced;
-      if (goodDistributionSetting.ImportOption == ImportOption.Forced)
-        return true;
-      return false;
+      return goodDistributionSetting.ImportOption == ImportOption.Forced && HasUnreservedCapacity(goodDistributionSetting, out hasCapacity);
     }
 
     private bool HasUnreservedCapacity(GoodsStationGoodDistributionSetting goodDistributionSetting, out bool hasCapacity)
     {
-      
-      hasCapacity = _goodsStationReceivingInventory.Inventory.HasUnreservedCapacity(goodDistributionSetting.GoodId);
-      return hasCapacity;
+      var capacity = GetCapacity(goodDistributionSetting);
+      // Plugin.Log.LogInfo("Capacity: " + capacity);
+      hasCapacity = capacity > 0;
+      // hasCapacity = _goodsStationReceivingInventory.Inventory.UnreservedCapacity(goodDistributionSetting.GoodId) > 0;
+      var unreservedAmount =
+        _goodsStationReceivingInventory.Inventory.UnreservedCapacity(goodDistributionSetting.GoodId);
+      // Plugin.Log.LogInfo("Unreserved capacity: " + unreservedAmount);
+      var flag = _goodsStationReceivingInventory.Inventory.HasUnreservedCapacity(goodDistributionSetting.GoodId);
+      // Plugin.Log.LogInfo("HasUnreservedCapacity: " + flag);
+      return unreservedAmount > 0;
       
       // hasCapacity = false;
       // foreach (Inventory capacityInventory in this._distributionInventoryRegistry.CapacityInventories(goodDistributionSetting.GoodId))
@@ -143,17 +160,17 @@ namespace ChooChoo
       // return capacity;
     }
 
-    private static int GetInventoryCapacity(Inventory inventory, string goodId)
-    {
-      Emptiable componentFast1 = inventory.GetComponentFast<Emptiable>();
-      if (componentFast1 == null || !componentFast1.IsMarkedForEmptying)
-      {
-        GoodSupplier componentFast2 = inventory.GetComponentFast<GoodSupplier>();
-        if (componentFast2 == null || !componentFast2.IsSupplying)
-          return inventory.LimitedAmount(goodId);
-      }
-      return 0;
-    }
+    // private static int GetInventoryCapacity(Inventory inventory, string goodId)
+    // {
+    //   Emptiable componentFast1 = inventory.GetComponentFast<Emptiable>();
+    //   if (componentFast1 == null || !componentFast1.IsMarkedForEmptying)
+    //   {
+    //     GoodSupplier componentFast2 = inventory.GetComponentFast<GoodSupplier>();
+    //     if (componentFast2 == null || !componentFast2.IsSupplying)
+    //       return inventory.LimitedAmount(goodId);
+    //   }
+    //   return 0;
+    // }
 
     // private bool HasTakingInventory(string goodId)
     // {
@@ -178,7 +195,7 @@ namespace ChooChoo
     {
       int stock = 0;
       var district = GetComponentFast<DistrictBuilding>().District;
-      if ( district == null)
+      if (district == null)
         return stock;
       var distributionInventoryRegistry = district.GameObjectFast.GetComponent(_distributionInventoryRegistryType);
       var stockInventories = (ReadOnlyHashSet<Inventory>)ChooChooCore.InvokePrivateMethod(distributionInventoryRegistry, "StockInventories", new object[] { goodId });
@@ -194,6 +211,6 @@ namespace ChooChoo
       return inventoryStock;
     }
 
-    private static bool IsDistrictCrossingInventory(Inventory inventory) => inventory.ComponentName == "DistrictCrossing";
+    // private static bool IsDistrictCrossingInventory(Inventory inventory) => inventory.ComponentName == "DistrictCrossing";
   }
 }

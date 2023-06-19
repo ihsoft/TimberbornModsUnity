@@ -1,36 +1,21 @@
-using Bindito.Core;
-using Timberborn.TickSystem;
+using Timberborn.BaseComponentSystem;
 using UnityEngine;
 
 namespace ChooChoo
 {
-    public class MachinistCharacterManager : TickableComponent
+    public class MachinistCharacterManager : BaseComponent
     {
-        private MachinistCharacterFactory _machinistCharacterFactory;
-
         private bool _previousState;
 
-        [Inject]
-        public void InjectDependencies(MachinistCharacterFactory machinistCharacterFactory)
-        {
-            _machinistCharacterFactory = machinistCharacterFactory;
-        }
-
-        public override void Tick()
-        {
-            foreach (var variable in GetComponentsInChildren<Animator>())
-                variable.SetBool("Sitting", true);
-        }
-
-        public override void StartTickable()
+        public void Start()
         {
             var trainModels = GetComponentFast<TrainModelManager>().TrainModels;
             foreach (var trainModel in trainModels)
             {
                 var modelSpecification = trainModel.TrainModelSpecification;
-                // var machinist = _machinistCharacterFactory.CreateMachinist(ChooChooCore.FindBodyPart(trainModel.Model.transform, modelSpecification.MachinistSeatName));
-                // machinist.GetComponent<Animator>().SetBool(modelSpecification.MachinistAnimationName, true);
-                // machinist.transform.localScale = new Vector3(modelSpecification.MachinistScale, modelSpecification.MachinistScale, modelSpecification.MachinistScale);
+                var machinist = ChooChooCore.FindBodyPart(trainModel.Model.transform, modelSpecification.MachinistSeatName);
+
+                machinist.transform.localScale = new Vector3(modelSpecification.MachinistScale, modelSpecification.MachinistScale, modelSpecification.MachinistScale);
             }
         }
     }

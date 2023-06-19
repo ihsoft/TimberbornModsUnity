@@ -14,6 +14,7 @@ namespace ChooChoo
       containerDefinition.Bind<PassengerStationLinkObjectSerializer>().AsSingleton();
       containerDefinition.Bind<PassengerStationLinkRepository>().AsSingleton();
       containerDefinition.Bind<PathCornerBlockObjectRepository>().AsSingleton();
+      containerDefinition.Bind<PathCorrector>().AsSingleton();
       containerDefinition.MultiBind<TemplateModule>().ToProvider<TemplateModuleProvider>().AsSingleton();
     }
 

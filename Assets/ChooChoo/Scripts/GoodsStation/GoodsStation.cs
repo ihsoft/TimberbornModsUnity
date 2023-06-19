@@ -4,6 +4,7 @@ using System.Linq;
 using Bindito.Core;
 using ChooChoo.Scripts.GoodsStation;
 using Timberborn.BaseComponentSystem;
+using Timberborn.Carrying;
 using Timberborn.Common;
 using Timberborn.ConstructibleSystem;
 using Timberborn.DistributionSystem;
@@ -93,7 +94,27 @@ namespace ChooChoo
     public void AddToQueue(TrainDistributableGoodAmount newDistributableGoodAmount)
     {
       SendingQueue.Add(newDistributableGoodAmount);
+      // Plugin.Log.LogError("Agent: " + (newDistributableGoodAmount.Agent == null) + " "  + (newDistributableGoodAmount.Agent != null ? newDistributableGoodAmount.Agent.name : ""));
+      Plugin.Log.LogError("Good id: " + newDistributableGoodAmount.GoodAmount.GoodId + " Amount: " + newDistributableGoodAmount.GoodAmount.Amount);
       Plugin.Log.LogError("Please report if number keeps increasing: " + SendingQueue.Count);
+    }
+
+    public void OnDeliveryCompletedEvent(CarryRootBehavior agent)
+    {
+      foreach (var trainDistributableGoodAmount in SendingQueue.ToList())
+      {
+        if (trainDistributableGoodAmount.TryDelivering(agent))
+          break;
+      }
+    }
+    
+    public void OnEmptyingHandsEvent(CarryRootBehavior agent)
+    {
+      foreach (var trainDistributableGoodAmount in SendingQueue.ToList())
+      {
+        if (trainDistributableGoodAmount.TryDeliveryFailed(agent)) 
+          SendingQueue.Remove(trainDistributableGoodAmount);
+      }
     }
 
     public void ResolveRetrieval(TrainDistributableGoodAmount trainDistributableGoodAmount)

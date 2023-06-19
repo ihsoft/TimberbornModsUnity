@@ -12,11 +12,10 @@ namespace ChooChoo
     private static readonly string ImportForcedIconClass = "import-icon--forced";
     private static readonly string ImportDisabledBackgroundClass = "import-background--disabled";
     private static readonly string ImportForcedBackgroundClass = "import-background--forced";
-    private static readonly string ImportDisabledLocKey = "Distribution.ImportDisabled";
-    private static readonly string ImportDisabledDescriptionLocKey = "Distribution.ImportDisabled.Description";
-    private static readonly string ImportForcedLocKey = "Distribution.ImportForced";
-    private static readonly string ImportForcedDescriptionLocKey = "Distribution.ImportForced.Description";
-    private static readonly string BalanceInfoLocKey = "Distribution.BalanceInfo";
+    private static readonly string ImportDisabledLocKey = "Tobbert.BatchControl.ImportDisabled";
+    private static readonly string ImportDisabledDescriptionLocKey = "Tobbert.BatchControl.ImportDisabled.Description";
+    private static readonly string ImportForcedLocKey = "Tobbert.BatchControl.ImportForced";
+    private static readonly string ImportForcedDescriptionLocKey = "Tobbert.BatchControl.ImportForced.Description";
     private readonly ILoc _loc;
     private readonly SliderToggleFactory _sliderToggleFactory;
     private readonly VisualElementLoader _visualElementLoader;
@@ -46,15 +45,15 @@ namespace ChooChoo
       return _sliderToggleFactory.Create(parent, sliderToggleItem1, sliderToggleItem2);
     }
 
-    private VisualElement GetImportDisabledTooltip() => GetTooltip(ImportDisabledLocKey, ImportDisabledDescriptionLocKey, false);
+    private VisualElement GetImportDisabledTooltip() => GetTooltip(ImportDisabledLocKey, ImportDisabledDescriptionLocKey);
 
-    private VisualElement GetImportForcedTooltip() => GetTooltip(ImportForcedLocKey, ImportForcedDescriptionLocKey, true);
+    private VisualElement GetImportForcedTooltip() => GetTooltip(ImportForcedLocKey, ImportForcedDescriptionLocKey);
 
-    private VisualElement GetTooltip(string title, string description, bool withBalanceInfo)
+    private VisualElement GetTooltip(string title, string description)
     {
       VisualElement e = _visualElementLoader.LoadVisualElement("Game/ImportToggleTooltip");
       e.Q<Label>("Title").text = _loc.T(title);
-      e.Q<Label>("Description").text = withBalanceInfo ? _loc.T(description) + "\n" + _loc.T(BalanceInfoLocKey) : _loc.T(description);
+      e.Q<Label>("Description").text = _loc.T(description);
       return e;
     }
   }

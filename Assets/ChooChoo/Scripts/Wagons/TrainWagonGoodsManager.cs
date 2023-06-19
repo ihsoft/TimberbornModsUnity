@@ -28,9 +28,10 @@ namespace ChooChoo
         public bool IsCarrying => GoodCarrier.IsCarrying;
         
         public bool IsFullOrReserved =>
-            GoodCarrier.IsCarrying ||
-                (GoodReserver.HasReservedStock && 
-                 _chooChooCarryAmountCalculator.IsAtMaximumCarryCapacity(GoodCarrier.LiftingCapacity, GoodReserver.StockReservation.GoodAmount));
+            GoodCarrier.IsCarrying && 
+            _chooChooCarryAmountCalculator.IsAtMaximumCarryCapacity(GoodCarrier.LiftingCapacity, GoodCarrier.CarriedGoods) ||
+            (GoodReserver.HasReservedStock && 
+             _chooChooCarryAmountCalculator.IsAtMaximumCarryCapacity(GoodCarrier.LiftingCapacity, GoodReserver.StockReservation.GoodAmount));
         
         public bool IsCarryingOrReserved => GoodCarrier.IsCarrying || GoodReserver.HasReservedStock;
         
@@ -49,7 +50,7 @@ namespace ChooChoo
             var toBeReservedGoodId = trainDistributableGoodAmount.GoodAmount.GoodId;
             if (_shouldLog) Plugin.Log.LogInfo("Looking to reserve: " + remainingToBeReservedAmount + " " + toBeReservedGoodId);
             
-            GoodAmount carry = _chooChooCarryAmountCalculator.AmountToCarry(GoodCarrier.LiftingCapacity, MaxTakeableAmount(sendingInventory, trainDistributableGoodAmount.GoodAmount));
+            GoodAmount carry = _chooChooCarryAmountCalculator.AmountToCarry(GoodCarrier.LiftingCapacity, MaxTakeableAmount(sendingInventory, trainDistributableGoodAmount.GoodAmount.GoodId, remainingToBeReservedAmount));
             if (_shouldLog) Plugin.Log.LogInfo("Carry Amount: " + carry.Amount);
             if (carry.Amount <= 0)
                 return false;
@@ -58,11 +59,22 @@ namespace ChooChoo
             if (_shouldLog) Plugin.Log.LogInfo("Max Amount able to carry: " + maxAmountToCarry);
             
             var receivingInventory = trainDistributableGoodAmount.DestinationGoodsStation.ReceivingInventory;
-            
+
+            var maxGiveableAmount = receivingInventory.UnreservedCapacity(toBeReservedGoodId);
+            if (_shouldLog) Plugin.Log.LogInfo("Max giveable amount: " + maxGiveableAmount);
+
+            if (maxGiveableAmount == 0)
+                return false;
+
+            if (carry.Amount > maxGiveableAmount) 
+                carry = new GoodAmount(carry.GoodId, maxGiveableAmount);
+
             // there are 2 cases: toBeReservedAmount is 60 or 10 and carrying capacity is to be expected 50
 
             if (IsCarrying && HasReservedStock)
             {
+                // Currently not implemented as they are currently limited to using the same sending point. 
+                // Implementation requires being able to use different stations as sending. 
                 if (_shouldLog) Plugin.Log.LogError("Both Carrying AND already has Reserved Stock.");
                 return false;
             }
@@ -78,7 +90,7 @@ namespace ChooChoo
                 if (SameOriginAndDestinationAndGood(sendingInventory, receivingInventory, toBeReservedGoodId) && fillableAmount > 0)
                 {
                     if (_shouldLog) Plugin.Log.LogInfo("Fillable");
-                    if (remainingToBeReservedAmount > fillableAmount)
+                    if (carry.Amount > fillableAmount)
                     {
                         // 60 > 30 which means that there is more to reserve than the amount that can be filled. It will try to top up the wagon and there will be a remainder that has to be reserved. 
                         Reserve(sendingInventory, receivingInventory, toBeReservedGoodId, maxAmountToCarry);
@@ -87,7 +99,7 @@ namespace ChooChoo
                         return true;
                     }
                     // 10 > 30 which means that there is less to reserve than the amount that can be filled. Means it can still be filled, but the current queue item is completed. 
-                    var combinedAmount = remainingToBeReservedAmount + currentAmount;
+                    var combinedAmount = carry.Amount + currentAmount;
                     Reserve(sendingInventory, receivingInventory, toBeReservedGoodId, combinedAmount);
                     remainingToBeReservedAmount -= remainingToBeReservedAmount;
                     _currentTrainDistributableGoods.Add(trainDistributableGoodAmount);
@@ -115,21 +127,21 @@ namespace ChooChoo
             return true;
         }
 
-        public void TryRetrievingGoods()
+        public void TryRetrievingGoods(TrainDestination trainDestination)
         {
             if (!HasReservedStock)
                 return;
             GoodReservation stockReservation = GoodReserver.StockReservation;
             GoodReserver.UnreserveStock();
             stockReservation.Inventory.Take(stockReservation.GoodAmount);
-            if (IsCarrying)
-            {
-                GoodCarrier.PutGoodsInHands(new GoodAmount(stockReservation.GoodAmount.GoodId, GoodCarrier.CarriedGoods.Amount + stockReservation.GoodAmount.Amount));
-            }
-            else
-            {
+            // if (IsCarrying)
+            // {
+            //     GoodCarrier.PutGoodsInHands(new GoodAmount(stockReservation.GoodAmount.GoodId, GoodCarrier.CarriedGoods.Amount + stockReservation.GoodAmount.Amount));
+            // }
+            // else
+            // {
                 GoodCarrier.PutGoodsInHands(stockReservation.GoodAmount);
-            }
+            // }
             var goodsStation = stockReservation.Inventory.GetComponentFast<GoodsStation>();
             foreach (var trainDistributableGoodAmount in _currentTrainDistributableGoods)
                 goodsStation.ResolveRetrieval(trainDistributableGoodAmount);
@@ -155,10 +167,11 @@ namespace ChooChoo
 
         private GoodAmount MaxTakeableAmount(
             Inventory inventory,
-            GoodAmount lackingGood)
+            string goodId,
+            int goodAmount)
         {
-            int amount = Mathf.Min(inventory.UnreservedAmountInStock(lackingGood.GoodId), lackingGood.Amount);
-            return new GoodAmount(lackingGood.GoodId, amount);
+            int amount = Mathf.Min(inventory.UnreservedAmountInStock(goodId), goodAmount);
+            return new GoodAmount(goodId, amount);
         }
     }
 }
