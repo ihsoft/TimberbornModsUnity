@@ -33,6 +33,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StagingPaths:
   - <ManifestStagingRoot>/Specifications
+  includeMetaFiles: 0
   files:
   - {fileID: 4900000, guid: eb5f31e4459bc1e449470f519ce6cef3, type: 3}
   - {fileID: 4900000, guid: 426f65a9d43388044865d01f70642b2d, type: 3}
@@ -92,6 +93,7 @@ MonoBehaviour:
     assets:
     - {fileID: 2522204790440090214, guid: adc8cf5a39ca66249a3c4b161d0930dc, type: 3}
     - {fileID: 919132149155446097, guid: 66dbfcd3a5130ef41bc4fe59e57d9077, type: 3}
+    - {fileID: 102900000, guid: be82a24a070416149ba7c56305422d5e, type: 3}
 --- !u!114 &5729492037857871639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,6 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StagingPaths:
   - <ManifestStagingRoot>
+  includeMetaFiles: 0
   files:
   - {fileID: 102900000, guid: f0901d16f103afb469fd46d7c8698c90, type: 3}
   - {fileID: 4900000, guid: e831a38155b1bf74185519fddf7b7c51, type: 3}
