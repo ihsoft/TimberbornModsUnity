@@ -92,7 +92,7 @@ Tobbert.BatchControl.ImportDisabled.Description,Completely disable import of the
 Tobbert.BatchControl.ImportForced,Import Always,-
 Tobbert.BatchControl.ImportForced.Description,Always import the good to this goods station. The amount that can be imported is determined by the amount to the right.,-
 Tobbert.BatchControl.DecreaseMaximum,Decrease max amount of goods,-
-Tobbert.BatchControl.DecreaseMaximum.Description,Increase the maximum amount of items that the goods station can hold. Click is -1 and holding shift is -10.,-
+Tobbert.BatchControl.DecreaseMaximum.Description,Decrease the maximum amount of items that the goods station can hold. Click is -1 and holding shift is -10.,-
 Tobbert.BatchControl.IncreaseMaximum,Increase max amount of goods,-
 Tobbert.BatchControl.IncreaseMaximum.Description,Increase the maximum amount of items that the goods station can hold. Click is +1 and holding shift is +10.,-
 

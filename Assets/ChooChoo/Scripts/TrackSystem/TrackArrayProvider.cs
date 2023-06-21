@@ -397,7 +397,8 @@ namespace ChooChoo
          return prefabName
             .Replace("(Clone)", "")
             .Replace(".Folktails", "")
-            .Replace(".IronTeeth", "");
+            .Replace(".IronTeeth", "")
+            .Replace("Preview", "");
       }
    }
 }

@@ -28,6 +28,8 @@ namespace ChooChoo
         private BlockObjectCenter _blockObjectCenter;
 
         private TrackRoute[] _trackConnections;
+        
+        private PositionedTrackConnection[] _positionedTrackConnections;
 
         public TrackSection TrackSection;
 
@@ -56,20 +58,36 @@ namespace ChooChoo
         {
             get
             {
-                if (_trackConnections == null || !Application.isPlaying)
+                if (_trackConnections != null && Application.isPlaying) 
+                    return _trackConnections;
+                var trackRoutes = _trackArrayProvider.GetConnections(GameObjectFast.name);
+                foreach (var trackRoute in trackRoutes)
                 {
-                    var trackRoutes = _trackArrayProvider.GetConnections(GameObjectFast.name);
-                    foreach (var trackRoute in trackRoutes)
-                    {
-                        _trackRouteWeightCache.Add(trackRoute);
-                        var position = _blockObjectCenter.WorldCenterGrounded;
-                        trackRoute.RouteCorners = trackRoute.RouteCorners.Select(vector3 => _blockObject.Orientation.TransformInWorldSpace(vector3) + position).ToArray();
-                    }
-                    _trackConnections = trackRoutes;
+                    _trackRouteWeightCache.Add(trackRoute);
+                    var position = _blockObjectCenter.WorldCenterGrounded;
+                    trackRoute.RouteCorners = trackRoute.RouteCorners.Select(vector3 => _blockObject.Orientation.TransformInWorldSpace(vector3) + position).ToArray();
                 }
+                _trackConnections = trackRoutes;
                 return _trackConnections;
             }
-            // protected set => _trackConnections = value;
+        }
+
+        public PositionedTrackConnection[] PositionedTrackConnections
+        {
+            get
+            {
+                if (_positionedTrackConnections != null) 
+                    return _positionedTrackConnections;
+                var entrances = TrackRoutes.Select(route => route.Entrance);
+                var exits = TrackRoutes.Select(route => route.Exit);
+                var trackConnections = entrances.Concat(exits);
+                var uniqueTrackConnections = trackConnections.GroupBy(connection => connection.Direction).SelectMany(directionGroup => directionGroup.GroupBy(connection => connection.Coordinates).Select(group => group.First())).ToArray();
+                // foreach (var trackConnection in uniqueTrackConnections)
+                //     Plugin.Log.LogInfo(trackConnection.Coordinates + "   " + trackConnection.Direction);
+                _positionedTrackConnections = uniqueTrackConnections.Select(trackConnection => PositionedTrackConnection.From(trackConnection, _blockObject.Coordinates, _blockObject.Orientation)).ToArray();
+
+                return _positionedTrackConnections;
+            }
         }
 
         public void Awake()
@@ -78,6 +96,11 @@ namespace ChooChoo
             _blockObject = GetComponentFast<BlockObject>();
             _blockObjectCenter = GetComponentFast<BlockObjectCenter>();
             CanPathFindOverIt = !TryGetComponentFast(out TrainWaitingLocation _);
+        }
+
+        public void UpdateValues()
+        {
+            _positionedTrackConnections = null;
         }
 
         public void OnEnterFinishedState()

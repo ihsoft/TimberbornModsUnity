@@ -39,6 +39,9 @@ namespace ChooChoo
 
       var currentPassengerStation = _blockService.GetFloorObjectComponentAt<PassengerStation>(TransformFast.position.ToBlockServicePosition());
 
+      if (currentPassengerStation == null)
+        return Decision.ReleaseNow();
+
       if (_passengers.Any())
       {
         var destination = _passengers.First().PassengerStationLink.EndLinkPoint;
@@ -145,6 +148,10 @@ namespace ChooChoo
       // Plugin.Log.LogInfo("Picking Up passengers");
       foreach (var passenger in _reservedPassengers)
       {
+        if (passenger )
+        {
+          
+        }
         passengerStation.PassengerQueue.Remove(passenger);
         passengerStation.ReservedPassengerQueue.Remove(passenger);
         _passengers.Add(passenger);

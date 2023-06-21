@@ -16,15 +16,12 @@ namespace ChooChoo
     public CurrentPopulationBatchControlRowItem(
       VisualElement root,
       Label currentPopulationLabel
-      // PopulationDistributor populationDistributor
       )
     {
       Root = root;
       _currentPopulationLabel = currentPopulationLabel;
-      // _populationDistributor = populationDistributor;
     }
 
-    // public void UpdateRowItem() => _currentPopulationLabel.text = _populationDistributor.Current.ToString();
     public void UpdateRowItem() => _currentPopulationLabel.text = "";
   }
 }

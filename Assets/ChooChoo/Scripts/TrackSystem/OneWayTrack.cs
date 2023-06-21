@@ -12,21 +12,16 @@ namespace ChooChoo
     public class OneWayTrack : TrackPiece, IPersistentEntity, IFinishedStateListener
     {
         private static readonly ComponentKey OneWayTrackKey = new(nameof(OneWayTrack));
-        
         private static readonly PropertyKey<bool> DividesSectionKey = new("DividesSection");
-        
         private static readonly PropertyKey<Direction2D> CurrentOneWayDirectionKey = new("CurrentOneWayDirection");
 
         [SerializeField] private GameObject Building;
-        
         [SerializeField] private GameObject Sign;
 
         private EnumObjectSerializer<Direction2D> _direction2dObjectSerializer;
-
         private IEntityPanel _entityPanel;
 
         private Direction2D _currentOneWayDirection = Direction2D.Down;
-
         private LabeledPrefabSwitcher _labeledPrefabSwitcher;
         
         public bool IsOriginalDirection => _currentOneWayDirection == Direction2D.Down;

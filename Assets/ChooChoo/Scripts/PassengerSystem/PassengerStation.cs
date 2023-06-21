@@ -109,6 +109,8 @@ namespace ChooChoo
       _passengerStationLinkRepository.RemoveInvalidLinks();
       _eventBus.Post(new OnConnectedPassengerStationsUpdated());
       _eventBus.Unregister(this);
+      foreach (var passenger in PassengerQueue.ToList()) 
+        passenger.ArrivedAtDestination();
     }
 
     public void Save(IEntitySaver entitySaver) => entitySaver.GetComponent(PassengerStationKey).Set(PassengerStationLinksKey, _passengerStationLinkRepository.PathLinks(this).ToList(), _passengerStationLinkObjectSerializer);
