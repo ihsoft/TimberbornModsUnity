@@ -188,6 +188,8 @@ namespace ChooChoo
     [HarmonyPatch]
     public class StatusSpriteLoaderPatch
     {
+        const string ChooChooPrefix = "tobbert.choochoo";
+
         public static MethodInfo TargetMethod()
         {
             return AccessTools.Method(AccessTools.TypeByName("StatusSpriteLoader"), "LoadSprite", new[] {typeof(string)});
@@ -195,15 +197,11 @@ namespace ChooChoo
         
         static bool Prefix(string spriteName, IResourceAssetLoader ____resourceAssetLoader, ref Sprite __result)
         {
-            try
-            {
-                __result = ____resourceAssetLoader.Load<Sprite>(Path.Combine("Sprites/StatusIcons", spriteName));
-            }
-            catch (Exception)
-            {
-                __result = ____resourceAssetLoader.Load<Sprite>(spriteName);
+            if (!spriteName.startsWith(ChooChooPrefix)) {
+              return true;
             }
 
+            __result = ____resourceAssetLoader.Load<Sprite>(spriteName);
             return false;
         }
     }
